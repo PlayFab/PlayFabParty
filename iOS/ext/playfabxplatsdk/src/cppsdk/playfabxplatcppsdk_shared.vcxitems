@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{03D83849-9DF5-4EE9-99D1-0EE2447D805A}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\jsoncpp\json\json-forwards.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\jsoncpp\json\json.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\playfab\PlayFabIXHR2HttpPlugin.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\playfab\PlayFabIXHR2HttpRequest.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabPlatformMacros.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabBaseModel.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabApiSettings.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabClientApi.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabClientDataModels.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabAuthenticationApi.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabAuthenticationContext.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabAuthenticationDataModels.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabEventsApi.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabEventsDataModels.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabMultiplayerApi.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabMultiplayerDataModels.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabEvent.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabEventApi.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabEventBuffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabEventPipeline.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabEventRouter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabError.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabWinHttpPlugin.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabSettings.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabCallRequestContainer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabCallRequestContainerBase.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabPluginManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabSpinLock.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabTransportHeaders.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabJsonHeaders.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)source\jsoncpp\jsoncpp.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)source\playfab\PlayFabIXHR2HttpPlugin.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)source\playfab\PlayFabIXHR2HttpRequest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabApiSettings.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabClientApi.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabAuthenticationApi.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabAuthenticationContext.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabEventsApi.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabMultiplayerApi.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabEvent.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabEventApi.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabEventBuffer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabEventPipeline.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabEventRouter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabError.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabWinHttpPlugin.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabSettings.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabCallRequestContainerBase.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabCallRequestContainer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabPluginManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabSpinLock.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)stdafx.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="languages">
+        <item>Arabic (Egypt)</item>
+        <item>Catalan (Spain)</item>
+        <item>Chinese (Mandarin, Simplified)</item>
+        <item>Chinese (Cantonese, Traditional)</item>
+        <item>Chinese (Taiwanese Mandarin)</item>
+        <item>Danish (Denmark)</item>
+        <item>Dutch (Netherlands)</item>
+        <item>English (Australia)</item>
+        <item>English (Canada)</item>
+        <item>English (India)</item>
+        <item>English (New Zealand)</item>
+        <item>English (United Kingdom)</item>
+        <item>English (United States)</item>
+        <item>Finnish (Finland)</item>
+        <item>French (Canada)</item>
+        <item>French (France)</item>
+        <item>German (Germany)</item>
+        <item>Hindi (India)</item>
+        <item>Italian (Italy)</item>
+        <item>Japanese (Japan)</item>
+        <item>Korean (Korea)</item>
+        <item>Norwegian (Norway)</item>
+        <item>Polish (Poland)</item>
+        <item>Portuguese (Brazil)</item>
+        <item>Portuguese (Portugal)</item>
+        <item>Russian (Russia)</item>
+        <item>Spanish (Mexico)</item>
+        <item>Spanish (Spain)</item>
+        <item>Swedish (Sweden)</item>
+        <item>Thai (Thailand)</item>
+    </string-array>
+</resources>
