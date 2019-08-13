@@ -57,6 +57,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.playfab:client-sdk:0.82.181218'
     implementation 'com.squareup.okhttp3:okhttp:4.0.0-alpha02'
-    releaseImplementation fileTree(include: ['*.aar'], dir: '../../../../output/android/release')
-    debugImplementation fileTree(include: ['*.aar'], dir: '../../../../output/android/debug')
+    releaseImplementation fileTree(include: ['*.aar'], dir: '../../bin/libparty/android/release')
+    debugImplementation fileTree(include: ['*.aar'], dir: '../../bin/libparty/android/release')
 }
