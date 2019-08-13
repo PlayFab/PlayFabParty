@@ -373,11 +373,11 @@
 					/inc,
 					../PartySampleNetworkCommon/inc,
 					../PartySampleNetworkCommon/lib,
-					../../../src/cofa/client/pub,
-					../../../external/playfabxplatsdk/src/cppsdk/include,
+					../../../include,
+					../../ext/playfabxplatsdk/src/cppsdk/include,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LIBRARY_SEARCH_PATHS = ../../../external/openssl/bin/iOS;
+				LIBRARY_SEARCH_PATHS = ../../ext/openssl/bin/iOS;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -440,11 +440,11 @@
 					/inc,
 					../PartySampleNetworkCommon/inc,
 					../PartySampleNetworkCommon/lib,
-					../../../src/cofa/client/pub,
-					../../../external/playfabxplatsdk/src/cppsdk/include,
+					../../../include,
+					../../ext/playfabxplatsdk/src/cppsdk/include,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LIBRARY_SEARCH_PATHS = ../../../external/openssl/bin/iOS;
+				LIBRARY_SEARCH_PATHS = ../../ext/openssl/bin/iOS;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -464,8 +464,8 @@
 					/inc,
 					../PartySampleNetworkCommon/inc,
 					../PartySampleNetworkCommon/lib,
-					../../../src/cofa/client/pub,
-					../../../external/playfabxplatsdk/src/cppsdk/include,
+					../../../include,
+					../../ext/playfabxplatsdk/src/cppsdk/include,
 				);
 				INFOPLIST_FILE = src/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -473,7 +473,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = ../../../external/openssl/bin/iOS;
+				LIBRARY_SEARCH_PATHS = ../../ext/openssl/bin/iOS;
 				PRODUCT_BUNDLE_IDENTIFIER = com.augmentum.playfab;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Play Fab Development";
@@ -493,8 +493,8 @@
 					/inc,
 					../PartySampleNetworkCommon/inc,
 					../PartySampleNetworkCommon/lib,
-					../../../src/cofa/client/pub,
-					../../../external/playfabxplatsdk/src/cppsdk/include,
+					../../../include,
+					../../ext/playfabxplatsdk/src/cppsdk/include,
 				);
 				INFOPLIST_FILE = src/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -502,7 +502,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = ../../../external/openssl/bin/iOS;
+				LIBRARY_SEARCH_PATHS = ../../ext/openssl/bin/iOS;
 				PRODUCT_BUNDLE_IDENTIFIER = com.augmentum.playfab;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Play Fab Development";
