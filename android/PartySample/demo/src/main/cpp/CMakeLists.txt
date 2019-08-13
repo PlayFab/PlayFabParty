@@ -54,26 +54,26 @@ find_library(
 
 find_library(openssl_lib
         ssl
-        ${CODE_REPOSIORY_ROOT}/android/external/openssl/bin/android/${ANDROID_ABI}/
+        ${CODE_REPOSIORY_ROOT}/android/ext/openssl/bin/android/${ANDROID_ABI}/
         NO_DEFAULT_PATH
         CMAKE_FIND_ROOT_PATH_BOTH)
 
 find_library(crypto_lib
         crypto
-        ${CODE_REPOSIORY_ROOT}/android/external/openssl/bin/android/${ANDROID_ABI}/
+        ${CODE_REPOSIORY_ROOT}/android/ext/openssl/bin/android/${ANDROID_ABI}/
         NO_DEFAULT_PATH
         CMAKE_FIND_ROOT_PATH_BOTH)
 
 if(CMAKE_BUILD_TYPE STREQUAL Debug)
     find_library(party_lib
             party
-            ${CODE_REPOSIORY_ROOT}/bin/libparty/android/debug/${ANDROID_ABI}/lib
+            ${CODE_REPOSIORY_ROOT}/android/bin/libparty/android/debug/${ANDROID_ABI}/lib
             NO_DEFAULT_PATH
             CMAKE_FIND_ROOT_PATH_BOTH)
 else()
     find_library(party_lib
             party
-            ${CODE_REPOSIORY_ROOT}/bin/libparty/android/release/${ANDROID_ABI}/lib
+            ${CODE_REPOSIORY_ROOT}/android/bin/libparty/android/release/${ANDROID_ABI}/lib
             NO_DEFAULT_PATH
             CMAKE_FIND_ROOT_PATH_BOTH)
 endif()
