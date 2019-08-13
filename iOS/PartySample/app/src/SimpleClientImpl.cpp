@@ -20,11 +20,11 @@
 #include <iostream>
 #include <string>
 
-extern const char* c_pfTitleId;
 
 bool g_isRunning = false;
 bool g_initializeCompleted = false;
 bool g_shouldShutdown = false;
+std::string g_pfTitle;
 
 const char *
 GetErrorMessage(
@@ -45,10 +45,10 @@ struct ChatControlCustomContext
 };
 
 void
-SimpleClientImpl::Initialize()
+SimpleClientImpl::Initialize(const char* pfTitle)
 {
     g_isRunning = true;
-    
+    g_pfTitle = pfTitle;
     Managers::Initialize<NetworkStateChangeManager>();
 }
 
@@ -64,12 +64,13 @@ SimpleClientImpl::SetNetworkMessageHandler(
 void
 SimpleClientImpl::SignInLocalUser()
 {
-    Managers::Get<PlayFabManager>()->Initialize(c_pfTitleId);
+    SendSysLogToUI(FormatMessage("SignInLocalUser g_pfTitle: %s", g_pfTitle.c_str()));
+    Managers::Get<PlayFabManager>()->Initialize(g_pfTitle.c_str());
     m_messageHandler->OnStartLoading();
     Managers::Get<PlayFabManager>()->SignIn(
         [this](bool isSucceeded, std::string message)
         {
-            this->SendSysLogToUI("SignIn: %s", isSucceeded ? "OK" : message.c_str());
+            this->SendSysLogToUI(this->FormatMessage("SignIn: %s", isSucceeded ? "OK" : message.c_str()));
             m_messageHandler->OnEndLoading();
             if (isSucceeded)
             {
@@ -90,20 +91,21 @@ SimpleClientImpl::CreateNetwork(
 {
     if (g_isRunning && g_initializeCompleted)
     {
-        Managers::Get<NetworkManager>()->Initialize(c_pfTitleId);
+        SendSysLogToUI(FormatMessage("CreateNetwork g_pfTitle: %s", g_pfTitle.c_str()));
+        Managers::Get<NetworkManager>()->Initialize(g_pfTitle.c_str());
         m_messageHandler->OnStartLoading();
         Managers::Get<NetworkManager>()->CreateAndConnectToNetwork(
             networkId.c_str(),
             [this, networkId](std::string message)
             {
-                this->SendSysLogToUI("create network: %s", message.c_str());
+                this->SendSysLogToUI(this->FormatMessage("create network: %s", message.c_str()));
                 Managers::Get<PlayFabManager>()->SetDescriptor(
                     networkId,
                     message, 
                     [this, message](void)
                     {
                         m_messageHandler->OnEndLoading();
-                        this->SendSysLogToUI("set network descriptor %s", "successed");
+                        this->SendSysLogToUI(this->FormatMessage("set network descriptor succeeded"));
                         std::string l_message = message;
                         m_messageHandler->OnNetworkCreated(l_message);
                     });
@@ -111,7 +113,7 @@ SimpleClientImpl::CreateNetwork(
             [this](PartyError error)
             {
                 m_messageHandler->OnEndLoading();
-                this->SendSysLogToUI("create network failed: %s", GetErrorMessage(error));
+                this->SendSysLogToUI(this->FormatMessage("create network failed: %s", GetErrorMessage(error)));
             });
     }
 }
@@ -123,29 +125,39 @@ SimpleClientImpl::JoinNetwork(
 {
     if (g_isRunning && g_initializeCompleted)
     {
-        Managers::Get<NetworkManager>()->Initialize(c_pfTitleId);
+        SendSysLogToUI(FormatMessage("JoinNetwork g_pfTitle: %s", g_pfTitle.c_str()));
+        Managers::Get<NetworkManager>()->Initialize(g_pfTitle.c_str());
         m_messageHandler->OnStartLoading();
         Managers::Get<PlayFabManager>()->GetDescriptor(
             networkId.c_str(),
             [this, networkId](std::string message)
             {
-                this->SendSysLogToUI("OnGetDescriptorForConnectTo : %s", message.c_str());
-                Managers::Get<NetworkManager>()->ConnectToNetwork(
-                    networkId.c_str(),
-                    message.c_str(), 
-                    [this](void)
-                    {
-                        m_messageHandler->OnEndLoading();
-                        this->SendSysLogToUI("OnConnectToNetwork %s","successed");
-                        m_messageHandler->OnJoinedNetwork();
-                    }, 
-                    [this](PartyError error)
-                    {
-                        m_messageHandler->OnEndLoading();
-                        this->SendSysLogToUI("OnConnectToNetworkFailed: %s", GetErrorMessage(error));
-                    });
+                this->SendSysLogToUI(this->FormatMessage("OnGetDescriptorForConnectTo : %s", message.c_str()));
+                m_messageHandler->OnGetDescriptorCompleted(networkId, message);
             });
     }
+}
+
+void
+SimpleClientImpl::ConnectToNetwork(
+    std::string networkId,
+    std::string message
+    )
+{
+    Managers::Get<NetworkManager>()->ConnectToNetwork(
+        networkId.c_str(),
+        message.c_str(),
+        [this](void)
+        {
+            m_messageHandler->OnEndLoading();
+            this->SendSysLogToUI(this->FormatMessage("OnConnectToNetwork succeeded"));
+            m_messageHandler->OnJoinedNetwork();
+        },
+        [this](PartyError error)
+        {
+            m_messageHandler->OnEndLoading();
+            this->SendSysLogToUI(this->FormatMessage("OnConnectToNetworkFailed: %s", GetErrorMessage(error)));
+        });
 }
 
 void
@@ -154,7 +166,7 @@ SimpleClientImpl::LeaveNetwork()
     Managers::Get<NetworkManager>()->LeaveNetwork(
         [this](void)
         {
-            this->SendSysLogToUI("OnLeave : %s", "success");
+            this->SendSysLogToUI(this->FormatMessage("OnLeave: succeeded"));
             g_shouldShutdown = true;
         }
     );
@@ -162,18 +174,51 @@ SimpleClientImpl::LeaveNetwork()
 
 void
 SimpleClientImpl::SendSysLogToUI(
-    const char *format,
-    const char *message
+    std::string message
     )
 {
     std::string senderId = "System";
-    
-    const size_t len = strlen(format) + strlen(message);
-    char messageString[len];
-    sprintf(messageString, format, message);
-    std::string sendMessage = messageString;
-    
-    m_messageHandler->OnTextMessageReceived(senderId, sendMessage, false);
+    m_messageHandler->OnTextMessageReceived(senderId, message, false);
+}
+
+std::string
+SimpleClientImpl::FormatMessage(const char* fmt, ...)
+{
+    int len;
+    std::string str;
+    va_list args;
+    char buffer[4 * 1024];
+
+    va_start(args, fmt);
+
+    if ((len = vsnprintf(buffer, sizeof(buffer), fmt, args)) > 0)
+    {
+        if (len < sizeof(buffer))
+        {
+            str = buffer;
+        }
+        else
+        {
+            int maxsz = len + 1;
+            char* buffer = (char*)malloc(maxsz);
+            
+            if (buffer)
+            {
+                len = vsnprintf(buffer, maxsz, fmt, args);
+
+                if (len > 0 && len < maxsz)
+                {
+                    str = buffer;
+                }
+
+                free(buffer);
+            }
+        }
+    }
+
+    va_end(args);
+
+    return str;
 }
 
 void

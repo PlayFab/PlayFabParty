@@ -18,8 +18,10 @@ class SimpleClientImpl
 {
 public:
     void
-    Initialize();
-    
+    Initialize(
+        const char* pfTitle
+        );
+
     void
     SetNetworkMessageHandler(
         INetworkMessageHandler* handler
@@ -37,7 +39,13 @@ public:
     JoinNetwork(
         std::string& networkId
         );
-    
+
+    void
+    ConnectToNetwork(
+        std::string networkId,
+        std::string message
+        );
+
     void
     LeaveNetwork();
 
@@ -84,9 +92,11 @@ private:
     
     void
     SendSysLogToUI(
-        const char *format,
-        const char *message
+        std::string message
         );
+
+    std::string
+    FormatMessage(const char* fmt, ...);
 
     INetworkMessageHandler* m_messageHandler;
 };

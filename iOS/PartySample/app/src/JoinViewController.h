@@ -2,7 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface JoinViewController : UIViewController
+@interface JoinViewController : UIViewController<UITextFieldDelegate>
 
 @end
 

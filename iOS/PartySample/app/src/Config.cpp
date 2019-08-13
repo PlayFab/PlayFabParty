@@ -7,7 +7,7 @@
 
 #include "Config.h"
 
-const char* c_pfTitleId = "99DA";
+const char* c_pfTitleId = "";
 extern const int c_selectListCount = 4;
 
 static int c_selectedIndex = 0;

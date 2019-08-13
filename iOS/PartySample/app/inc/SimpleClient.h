@@ -15,7 +15,7 @@
 
 @property (nonatomic) id<ChatEventHandler> chatEventHandler;
 
--(void) initialize;
+-(void) initialize:(NSString*)pfTitle;
 -(void) setHandler:(id<ChatEventHandler>) messageHandler;
 -(void) signInLocalUser;
 

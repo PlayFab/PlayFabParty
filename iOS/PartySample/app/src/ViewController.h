@@ -10,5 +10,7 @@
 
 @interface ViewController : UIViewController <ChatEventHandler, UITableViewDelegate, UITableViewDataSource>
 
+@property (strong, nonatomic) NSString *pfTitle;
+
 @end
 

@@ -63,7 +63,7 @@ SimpleClient* m_client;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     m_client = [[SimpleClient alloc] init];
-    [m_client initialize];
+    [m_client initialize: _pfTitle];
     [m_client setHandler:self];
 
     m_isRunning = false;    

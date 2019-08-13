@@ -65,7 +65,14 @@ public:
         std::string &message,
         bool isTranscript
         ) = 0;
-    
+
+    virtual
+    void
+    OnGetDescriptorCompleted(
+        std::string networkId,
+        std::string message
+        ) = 0;
+
     virtual
     void OnStartLoading(void) = 0;
 

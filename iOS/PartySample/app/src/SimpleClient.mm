@@ -19,9 +19,10 @@ NSString* StringToNSString (const std::string& str);
 class SimpleClientEventHandler : public INetworkMessageHandler
 {
 public:
-    SimpleClientEventHandler(id<ChatEventHandler> eventHandler)
+    SimpleClientEventHandler(id<ChatEventHandler> eventHandler, SimpleClientImpl* impl)
     {
         m_eventHandler = eventHandler;
+        m_impl = impl;
     }
     
     void OnNetworkCreated(std::string &networkDescriptor) override
@@ -91,7 +92,14 @@ public:
             [m_eventHandler onTextMessageReceived:StringToNSString(l_senderId) withText:StringToNSString(l_message) isTranscription:isTranscript];
         });
     }
-    
+
+    void OnGetDescriptorCompleted(std::string networkId, std::string message) override
+    {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            m_impl->ConnectToNetwork(networkId, message);
+        });
+    }
+
     void OnStartLoading(void) override
     {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -108,6 +116,7 @@ public:
 
 private:
     id<ChatEventHandler> m_eventHandler;
+    SimpleClientImpl* m_impl;
 };
 
 
@@ -147,14 +156,14 @@ SimpleClientEventHandler* clientEventHandler;
     }
 }
 
--(void)initialize
+-(void)initialize:(NSString *)pfTitle
 {
     if (nullptr == m_impl)
     {
         return;
     }
-    
-    m_impl->Initialize();
+
+    m_impl->Initialize([pfTitle UTF8String]);
 }
 
 -(void)setHandler:(id<ChatEventHandler>) handler
@@ -163,7 +172,7 @@ SimpleClientEventHandler* clientEventHandler;
     
     if (nullptr != m_impl)
     {
-        clientEventHandler = new SimpleClientEventHandler(_chatEventHandler);
+        clientEventHandler = new SimpleClientEventHandler(_chatEventHandler, m_impl);
         m_impl->SetNetworkMessageHandler(clientEventHandler);
     }
 }
