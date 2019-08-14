@@ -37,8 +37,7 @@ file(GLOB NETWORKSOURCES ${CODE_REPOSIORY_ROOT}/android/PartySampleNetworkCommon
 add_library(partysample SHARED ${SOURCES} ${NETWORKSOURCES})
 
 SET_TARGET_PROPERTIES(partysample
-        PROPERTIES COMPILE_FLAGS "-DENABLE_PLAYFABADMIN_API \
-                                  -Wno-unused-variable \
+        PROPERTIES COMPILE_FLAGS "-Wno-unused-variable \
                                   -Wno-unknown-pragmas \
                                   -Wno-unused-parameter \
                                   -Wno-unused-private-field \
