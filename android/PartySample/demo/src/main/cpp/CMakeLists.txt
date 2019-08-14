@@ -64,19 +64,11 @@ find_library(crypto_lib
         NO_DEFAULT_PATH
         CMAKE_FIND_ROOT_PATH_BOTH)
 
-if(CMAKE_BUILD_TYPE STREQUAL Debug)
-    find_library(party_lib
-            party
-            ${CODE_REPOSIORY_ROOT}/android/bin/libparty/android/debug/${ANDROID_ABI}/lib
-            NO_DEFAULT_PATH
-            CMAKE_FIND_ROOT_PATH_BOTH)
-else()
-    find_library(party_lib
-            party
-            ${CODE_REPOSIORY_ROOT}/android/bin/libparty/android/release/${ANDROID_ABI}/lib
-            NO_DEFAULT_PATH
-            CMAKE_FIND_ROOT_PATH_BOTH)
-endif()
+find_library(party_lib
+        party
+        ${CODE_REPOSIORY_ROOT}/android/bin/libparty/release/${ANDROID_ABI}/lib
+        NO_DEFAULT_PATH
+        CMAKE_FIND_ROOT_PATH_BOTH)
 
 find_library(OpenSLES_lib
         OpenSLES)
