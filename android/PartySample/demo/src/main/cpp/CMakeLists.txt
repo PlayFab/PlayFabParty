@@ -66,7 +66,7 @@ find_library(crypto_lib
 
 find_library(party_lib
         party
-        ${CODE_REPOSIORY_ROOT}/android/bin/libparty/release/${ANDROID_ABI}/lib
+        ${CODE_REPOSIORY_ROOT}/android/bin/release/${ANDROID_ABI}/lib
         NO_DEFAULT_PATH
         CMAKE_FIND_ROOT_PATH_BOTH)
 
