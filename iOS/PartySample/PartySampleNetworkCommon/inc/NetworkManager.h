@@ -75,9 +75,15 @@ namespace PartySample
         // Convert a party error to a human readable message.
         PartyString GetErrorMessage(PartyError error);
 
-        // Set callback to handle local user removed
-        // Local user removed means current user dropped from party
-        void SetOnLocalUserRemoved(std::function<void(void)> callback);
+        // Set callback to handle if the network gets destroyed for any reason
+        // The callback takes a bool param for if we expected the destruction
+        // such as if the user initiated leaving the network.
+        // In the event of an unanticipated disconnect, we apply reconnect logic
+        // at the app layer.
+        void SetOnNetworkDestroyed(std::function<void(bool)> callback);
+
+        // Check if network is currently trying to connect.
+        bool IsConnecting() const;
 
     private:
         bool InternalConnectToNetwork(const Party::PartyNetworkDescriptor& descriptor, const char *networkId, std::function<void(PartyError)> errorCallback);
@@ -89,8 +95,8 @@ namespace PartySample
         std::function<void(PartyError)> m_onNetworkCreatedError;
         std::function<void(PartyError)> m_onNetworkConnectedError;
         std::function<void(void)> m_onNetworkConnected;
-        std::function<void(void)> m_onNetworkDestroyed;
-        std::function<void(void)> m_onLocalUserRemoved;
+        std::function<void(void)> m_onNetworkLeft;
+        std::function<void(bool)> m_onNetworkDestroyed;
         NetworkManagerState m_state;
         std::map<std::string, Party::PartyChatControl*> m_chatControls;
         Party::PartyLocalUser* m_localUser;

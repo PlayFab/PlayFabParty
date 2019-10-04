@@ -34,6 +34,11 @@ typedef _Return_type_success_(return == c_partyErrorSuccess) uint32_t PartyError
 static const PartyError c_partyErrorSuccess = 0;
 
 /// <summary>
+/// An error code that represents a failure to load the party module.
+/// </summary>
+static const PartyError c_partyErrorFailedLoadingPartyModule = 0x10D0;
+
+/// <summary>
 /// Macro to help with determining whether a Party function call succeeded or not.
 /// </summary>
 #define PARTY_SUCCEEDED(partyError) ((partyError) == c_partyErrorSuccess)
