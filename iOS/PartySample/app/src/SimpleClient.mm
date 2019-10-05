@@ -96,7 +96,7 @@ public:
     void OnGetDescriptorCompleted(std::string networkId, std::string message) override
     {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            m_impl->ConnectToNetwork(networkId, message);
+            m_impl->ConnectToNetwork(networkId, message, false);
         });
     }
 

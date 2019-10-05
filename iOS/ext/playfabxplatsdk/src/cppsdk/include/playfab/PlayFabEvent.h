@@ -47,8 +47,10 @@ namespace PlayFabInternal
     {
     public:
         PlayFabEvent();
+        void SetNamespace(const std::string& eventName); // Sets the event namespace
         void SetName(const std::string& eventName); // Sets the event name
         const std::string& GetName() const; // Gets the event name
+        void SetEntity(const PlayFabInternal::EventsModels::EntityKey& entity); // Sets which Entity the event is about
         void SetProperty(const std::string& name, const std::string& value); // Sets a value of a string property by name
         void SetProperty(const std::string& name, const bool value); // Sets a value of a bool property by name
         void SetProperty(const std::string& name, const int8_t value); // Sets a value of a int8_t property by name

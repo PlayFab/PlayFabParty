@@ -722,6 +722,7 @@ typedef struct PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE
     PARTY_CHAT_CONTROL_HANDLE senderChatControl;
     uint32_t receiverChatControlCount;
     _Field_size_(receiverChatControlCount) PARTY_CHAT_CONTROL_HANDLE* receiverChatControls;
+    PartyString languageCode;
     PartyString chatText;
     uint32_t dataSize;
     _Field_size_bytes_(dataSize) const void* data;
@@ -737,6 +738,7 @@ typedef struct PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE
     PARTY_CHAT_CONTROL_HANDLE senderChatControl;
     uint32_t receiverChatControlCount;
     _Field_size_(receiverChatControlCount) PARTY_CHAT_CONTROL_HANDLE* receiverChatControls;
+    PartyString languageCode;
     PartyString transcription;
     PARTY_VOICE_CHAT_TRANSCRIPTION_PHRASE_TYPE type;
     uint32_t translationCount;
@@ -895,6 +897,13 @@ PARTY_API
 PartyLocalUserGetEntityId(
     PARTY_LOCAL_USER_HANDLE localUser,
     _Outptr_ PartyString* entityId
+    );
+
+PartyError
+PARTY_API
+PartyLocalUserUpdateEntityToken(
+    PARTY_LOCAL_USER_HANDLE localUser,
+    PartyString titlePlayerEntityToken
     );
 
 PartyError
@@ -1456,7 +1465,7 @@ PartyError
 PARTY_API
 PartyChatControlSetLanguage(
     PARTY_CHAT_CONTROL_HANDLE chatControl,
-    PartyString languageCode,
+    _In_opt_ PartyString languageCode,
     _In_opt_ void* asyncIdentifier
     );
 
@@ -1868,4 +1877,8 @@ PartyGetChatControls(
 
 #ifdef __cplusplus
 }
+#endif
+
+#if defined(PARTY_WINDOWS) && !defined(PARTY_DISABLE_WINDOWS_OS_VERSION_DLL_DETECTION)
+#include <Party_WinOsVersionDetection.h>
 #endif
