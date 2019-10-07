@@ -10,66 +10,6 @@ namespace PlayFabInternal
     namespace MultiplayerModels
     {
         // Multiplayer Enums
-        enum AttributeMergeFunction
-        {
-            AttributeMergeFunctionMin,
-            AttributeMergeFunctionMax,
-            AttributeMergeFunctionAverage
-        };
-
-        inline void ToJsonEnum(const AttributeMergeFunction input, Json::Value& output)
-        {
-            if (input == AttributeMergeFunctionMin) output = Json::Value("Min");
-            if (input == AttributeMergeFunctionMax) output = Json::Value("Max");
-            if (input == AttributeMergeFunctionAverage) output = Json::Value("Average");
-        }
-        inline void FromJsonEnum(const Json::Value& input, AttributeMergeFunction& output)
-        {
-            if (!input.isString()) return;
-            const std::string& inputStr = input.asString();
-            if (inputStr == "Min") output = AttributeMergeFunctionMin;
-            if (inputStr == "Max") output = AttributeMergeFunctionMax;
-            if (inputStr == "Average") output = AttributeMergeFunctionAverage;
-        }
-
-        enum AttributeNotSpecifiedBehavior
-        {
-            AttributeNotSpecifiedBehaviorUseDefault,
-            AttributeNotSpecifiedBehaviorMatchAny
-        };
-
-        inline void ToJsonEnum(const AttributeNotSpecifiedBehavior input, Json::Value& output)
-        {
-            if (input == AttributeNotSpecifiedBehaviorUseDefault) output = Json::Value("UseDefault");
-            if (input == AttributeNotSpecifiedBehaviorMatchAny) output = Json::Value("MatchAny");
-        }
-        inline void FromJsonEnum(const Json::Value& input, AttributeNotSpecifiedBehavior& output)
-        {
-            if (!input.isString()) return;
-            const std::string& inputStr = input.asString();
-            if (inputStr == "UseDefault") output = AttributeNotSpecifiedBehaviorUseDefault;
-            if (inputStr == "MatchAny") output = AttributeNotSpecifiedBehaviorMatchAny;
-        }
-
-        enum AttributeSource
-        {
-            AttributeSourceUser,
-            AttributeSourcePlayerEntity
-        };
-
-        inline void ToJsonEnum(const AttributeSource input, Json::Value& output)
-        {
-            if (input == AttributeSourceUser) output = Json::Value("User");
-            if (input == AttributeSourcePlayerEntity) output = Json::Value("PlayerEntity");
-        }
-        inline void FromJsonEnum(const Json::Value& input, AttributeSource& output)
-        {
-            if (!input.isString()) return;
-            const std::string& inputStr = input.asString();
-            if (inputStr == "User") output = AttributeSourceUser;
-            if (inputStr == "PlayerEntity") output = AttributeSourcePlayerEntity;
-        }
-
         enum AzureRegion
         {
             AzureRegionAustraliaEast,
@@ -248,8 +188,7 @@ namespace PlayFabInternal
         {
             CancellationReasonRequested,
             CancellationReasonInternal,
-            CancellationReasonTimeout,
-            CancellationReasonServerAllocationFailed
+            CancellationReasonTimeout
         };
 
         inline void ToJsonEnum(const CancellationReason input, Json::Value& output)
@@ -257,7 +196,6 @@ namespace PlayFabInternal
             if (input == CancellationReasonRequested) output = Json::Value("Requested");
             if (input == CancellationReasonInternal) output = Json::Value("Internal");
             if (input == CancellationReasonTimeout) output = Json::Value("Timeout");
-            if (input == CancellationReasonServerAllocationFailed) output = Json::Value("ServerAllocationFailed");
         }
         inline void FromJsonEnum(const Json::Value& input, CancellationReason& output)
         {
@@ -266,19 +204,20 @@ namespace PlayFabInternal
             if (inputStr == "Requested") output = CancellationReasonRequested;
             if (inputStr == "Internal") output = CancellationReasonInternal;
             if (inputStr == "Timeout") output = CancellationReasonTimeout;
-            if (inputStr == "ServerAllocationFailed") output = CancellationReasonServerAllocationFailed;
         }
 
         enum CognitiveServicesType
         {
             CognitiveServicesTypeSpeechToText,
-            CognitiveServicesTypeTextToSpeech
+            CognitiveServicesTypeTextToSpeech,
+            CognitiveServicesTypeTextToText
         };
 
         inline void ToJsonEnum(const CognitiveServicesType input, Json::Value& output)
         {
             if (input == CognitiveServicesTypeSpeechToText) output = Json::Value("SpeechToText");
             if (input == CognitiveServicesTypeTextToSpeech) output = Json::Value("TextToSpeech");
+            if (input == CognitiveServicesTypeTextToText) output = Json::Value("TextToText");
         }
         inline void FromJsonEnum(const Json::Value& input, CognitiveServicesType& output)
         {
@@ -286,6 +225,7 @@ namespace PlayFabInternal
             const std::string& inputStr = input.asString();
             if (inputStr == "SpeechToText") output = CognitiveServicesTypeSpeechToText;
             if (inputStr == "TextToSpeech") output = CognitiveServicesTypeTextToSpeech;
+            if (inputStr == "TextToText") output = CognitiveServicesTypeTextToText;
         }
 
         enum ContainerFlavor
@@ -502,7 +442,7 @@ namespace PlayFabInternal
         {
             Boxed<CurrentServerStats> pfCurrentServerStats;
             Int32 MaxServers;
-            Boxed<AzureRegion> Region;
+            std::string Region;
             Int32 StandbyServers;
             std::string Status;
 
@@ -528,9 +468,9 @@ namespace PlayFabInternal
 
             void FromJson(Json::Value& input) override
             {
-                FromJsonUtilO(input["pfCurrentServerStats"], pfCurrentServerStats);
+                FromJsonUtilO(input["CurrentServerStats"], pfCurrentServerStats);
                 FromJsonUtilP(input["MaxServers"], MaxServers);
-                FromJsonUtilE(input["Region"], Region);
+                FromJsonUtilS(input["Region"], Region);
                 FromJsonUtilP(input["StandbyServers"], StandbyServers);
                 FromJsonUtilS(input["Status"], Status);
             }
@@ -540,7 +480,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_pfCurrentServerStats; ToJsonUtilO(pfCurrentServerStats, each_pfCurrentServerStats); output["CurrentServerStats"] = each_pfCurrentServerStats;
                 Json::Value each_MaxServers; ToJsonUtilP(MaxServers, each_MaxServers); output["MaxServers"] = each_MaxServers;
-                Json::Value each_Region; ToJsonUtilE(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 Json::Value each_StandbyServers; ToJsonUtilP(StandbyServers, each_StandbyServers); output["StandbyServers"] = each_StandbyServers;
                 Json::Value each_Status; ToJsonUtilS(Status, each_Status); output["Status"] = each_Status;
                 return output;
@@ -550,7 +490,7 @@ namespace PlayFabInternal
         struct BuildRegionParams : public PlayFabBaseModel
         {
             Int32 MaxServers;
-            AzureRegion Region;
+            std::string Region;
             Int32 StandbyServers;
 
             BuildRegionParams() :
@@ -572,7 +512,7 @@ namespace PlayFabInternal
             void FromJson(Json::Value& input) override
             {
                 FromJsonUtilP(input["MaxServers"], MaxServers);
-                FromJsonEnum(input["Region"], Region);
+                FromJsonUtilS(input["Region"], Region);
                 FromJsonUtilP(input["StandbyServers"], StandbyServers);
             }
 
@@ -580,7 +520,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_MaxServers; ToJsonUtilP(MaxServers, each_MaxServers); output["MaxServers"] = each_MaxServers;
-                Json::Value each_Region; ToJsonEnum(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 Json::Value each_StandbyServers; ToJsonUtilP(StandbyServers, each_StandbyServers); output["StandbyServers"] = each_StandbyServers;
                 return output;
             }
@@ -1040,7 +980,7 @@ namespace PlayFabInternal
         struct CoreCapacity : public PlayFabBaseModel
         {
             Int32 Available;
-            Boxed<AzureRegion> Region;
+            std::string Region;
             Int32 Total;
             Boxed<AzureVmFamily> VmFamily;
 
@@ -1065,7 +1005,7 @@ namespace PlayFabInternal
             void FromJson(Json::Value& input) override
             {
                 FromJsonUtilP(input["Available"], Available);
-                FromJsonUtilE(input["Region"], Region);
+                FromJsonUtilS(input["Region"], Region);
                 FromJsonUtilP(input["Total"], Total);
                 FromJsonUtilE(input["VmFamily"], VmFamily);
             }
@@ -1074,7 +1014,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_Available; ToJsonUtilP(Available, each_Available); output["Available"] = each_Available;
-                Json::Value each_Region; ToJsonUtilE(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 Json::Value each_Total; ToJsonUtilP(Total, each_Total); output["Total"] = each_Total;
                 Json::Value each_VmFamily; ToJsonUtilE(VmFamily, each_VmFamily); output["VmFamily"] = each_VmFamily;
                 return output;
@@ -1159,9 +1099,7 @@ namespace PlayFabInternal
             std::string BuildName;
             Boxed<ContainerFlavor> pfContainerFlavor;
             Boxed<ContainerImageReference> pfContainerImageReference;
-            std::string ContainerRepositoryName;
             std::string ContainerRunCommand;
-            std::string ContainerTag;
             std::list<AssetReferenceParams> GameAssetReferences;
             std::list<GameCertificateReferenceParams> GameCertificateReferences;
             std::map<std::string, std::string> Metadata;
@@ -1175,9 +1113,7 @@ namespace PlayFabInternal
                 BuildName(),
                 pfContainerFlavor(),
                 pfContainerImageReference(),
-                ContainerRepositoryName(),
                 ContainerRunCommand(),
-                ContainerTag(),
                 GameAssetReferences(),
                 GameCertificateReferences(),
                 Metadata(),
@@ -1192,9 +1128,7 @@ namespace PlayFabInternal
                 BuildName(src.BuildName),
                 pfContainerFlavor(src.pfContainerFlavor),
                 pfContainerImageReference(src.pfContainerImageReference),
-                ContainerRepositoryName(src.ContainerRepositoryName),
                 ContainerRunCommand(src.ContainerRunCommand),
-                ContainerTag(src.ContainerTag),
                 GameAssetReferences(src.GameAssetReferences),
                 GameCertificateReferences(src.GameCertificateReferences),
                 Metadata(src.Metadata),
@@ -1209,11 +1143,9 @@ namespace PlayFabInternal
             void FromJson(Json::Value& input) override
             {
                 FromJsonUtilS(input["BuildName"], BuildName);
-                FromJsonUtilE(input["pfContainerFlavor"], pfContainerFlavor);
-                FromJsonUtilO(input["pfContainerImageReference"], pfContainerImageReference);
-                FromJsonUtilS(input["ContainerRepositoryName"], ContainerRepositoryName);
+                FromJsonUtilE(input["ContainerFlavor"], pfContainerFlavor);
+                FromJsonUtilO(input["ContainerImageReference"], pfContainerImageReference);
                 FromJsonUtilS(input["ContainerRunCommand"], ContainerRunCommand);
-                FromJsonUtilS(input["ContainerTag"], ContainerTag);
                 FromJsonUtilO(input["GameAssetReferences"], GameAssetReferences);
                 FromJsonUtilO(input["GameCertificateReferences"], GameCertificateReferences);
                 FromJsonUtilS(input["Metadata"], Metadata);
@@ -1229,9 +1161,7 @@ namespace PlayFabInternal
                 Json::Value each_BuildName; ToJsonUtilS(BuildName, each_BuildName); output["BuildName"] = each_BuildName;
                 Json::Value each_pfContainerFlavor; ToJsonUtilE(pfContainerFlavor, each_pfContainerFlavor); output["ContainerFlavor"] = each_pfContainerFlavor;
                 Json::Value each_pfContainerImageReference; ToJsonUtilO(pfContainerImageReference, each_pfContainerImageReference); output["ContainerImageReference"] = each_pfContainerImageReference;
-                Json::Value each_ContainerRepositoryName; ToJsonUtilS(ContainerRepositoryName, each_ContainerRepositoryName); output["ContainerRepositoryName"] = each_ContainerRepositoryName;
                 Json::Value each_ContainerRunCommand; ToJsonUtilS(ContainerRunCommand, each_ContainerRunCommand); output["ContainerRunCommand"] = each_ContainerRunCommand;
-                Json::Value each_ContainerTag; ToJsonUtilS(ContainerTag, each_ContainerTag); output["ContainerTag"] = each_ContainerTag;
                 Json::Value each_GameAssetReferences; ToJsonUtilO(GameAssetReferences, each_GameAssetReferences); output["GameAssetReferences"] = each_GameAssetReferences;
                 Json::Value each_GameCertificateReferences; ToJsonUtilO(GameCertificateReferences, each_GameCertificateReferences); output["GameCertificateReferences"] = each_GameCertificateReferences;
                 Json::Value each_Metadata; ToJsonUtilS(Metadata, each_Metadata); output["Metadata"] = each_Metadata;
@@ -1333,7 +1263,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["BuildId"], BuildId);
                 FromJsonUtilS(input["BuildName"], BuildName);
-                FromJsonUtilE(input["pfContainerFlavor"], pfContainerFlavor);
+                FromJsonUtilE(input["ContainerFlavor"], pfContainerFlavor);
                 FromJsonUtilS(input["ContainerRunCommand"], ContainerRunCommand);
                 FromJsonUtilT(input["CreationTime"], CreationTime);
                 FromJsonUtilO(input["CustomGameContainerImage"], CustomGameContainerImage);
@@ -1366,12 +1296,42 @@ namespace PlayFabInternal
             }
         };
 
+        struct InstrumentationConfiguration : public PlayFabBaseModel
+        {
+            std::list<std::string> ProcessesToMonitor;
+
+            InstrumentationConfiguration() :
+                PlayFabBaseModel(),
+                ProcessesToMonitor()
+            {}
+
+            InstrumentationConfiguration(const InstrumentationConfiguration& src) :
+                PlayFabBaseModel(),
+                ProcessesToMonitor(src.ProcessesToMonitor)
+            {}
+
+            ~InstrumentationConfiguration() = default;
+
+            void FromJson(Json::Value& input) override
+            {
+                FromJsonUtilS(input["ProcessesToMonitor"], ProcessesToMonitor);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_ProcessesToMonitor; ToJsonUtilS(ProcessesToMonitor, each_ProcessesToMonitor); output["ProcessesToMonitor"] = each_ProcessesToMonitor;
+                return output;
+            }
+        };
+
         struct CreateBuildWithManagedContainerRequest : public PlayFabRequestCommon
         {
             std::string BuildName;
             Boxed<ContainerFlavor> pfContainerFlavor;
             std::list<AssetReferenceParams> GameAssetReferences;
             std::list<GameCertificateReferenceParams> GameCertificateReferences;
+            Boxed<InstrumentationConfiguration> pfInstrumentationConfiguration;
             std::map<std::string, std::string> Metadata;
             Int32 MultiplayerServerCountPerVm;
             std::list<Port> Ports;
@@ -1385,6 +1345,7 @@ namespace PlayFabInternal
                 pfContainerFlavor(),
                 GameAssetReferences(),
                 GameCertificateReferences(),
+                pfInstrumentationConfiguration(),
                 Metadata(),
                 MultiplayerServerCountPerVm(),
                 Ports(),
@@ -1399,6 +1360,7 @@ namespace PlayFabInternal
                 pfContainerFlavor(src.pfContainerFlavor),
                 GameAssetReferences(src.GameAssetReferences),
                 GameCertificateReferences(src.GameCertificateReferences),
+                pfInstrumentationConfiguration(src.pfInstrumentationConfiguration),
                 Metadata(src.Metadata),
                 MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
                 Ports(src.Ports),
@@ -1412,9 +1374,10 @@ namespace PlayFabInternal
             void FromJson(Json::Value& input) override
             {
                 FromJsonUtilS(input["BuildName"], BuildName);
-                FromJsonUtilE(input["pfContainerFlavor"], pfContainerFlavor);
+                FromJsonUtilE(input["ContainerFlavor"], pfContainerFlavor);
                 FromJsonUtilO(input["GameAssetReferences"], GameAssetReferences);
                 FromJsonUtilO(input["GameCertificateReferences"], GameCertificateReferences);
+                FromJsonUtilO(input["InstrumentationConfiguration"], pfInstrumentationConfiguration);
                 FromJsonUtilS(input["Metadata"], Metadata);
                 FromJsonUtilP(input["MultiplayerServerCountPerVm"], MultiplayerServerCountPerVm);
                 FromJsonUtilO(input["Ports"], Ports);
@@ -1430,6 +1393,7 @@ namespace PlayFabInternal
                 Json::Value each_pfContainerFlavor; ToJsonUtilE(pfContainerFlavor, each_pfContainerFlavor); output["ContainerFlavor"] = each_pfContainerFlavor;
                 Json::Value each_GameAssetReferences; ToJsonUtilO(GameAssetReferences, each_GameAssetReferences); output["GameAssetReferences"] = each_GameAssetReferences;
                 Json::Value each_GameCertificateReferences; ToJsonUtilO(GameCertificateReferences, each_GameCertificateReferences); output["GameCertificateReferences"] = each_GameCertificateReferences;
+                Json::Value each_pfInstrumentationConfiguration; ToJsonUtilO(pfInstrumentationConfiguration, each_pfInstrumentationConfiguration); output["InstrumentationConfiguration"] = each_pfInstrumentationConfiguration;
                 Json::Value each_Metadata; ToJsonUtilS(Metadata, each_Metadata); output["Metadata"] = each_Metadata;
                 Json::Value each_MultiplayerServerCountPerVm; ToJsonUtilP(MultiplayerServerCountPerVm, each_MultiplayerServerCountPerVm); output["MultiplayerServerCountPerVm"] = each_MultiplayerServerCountPerVm;
                 Json::Value each_Ports; ToJsonUtilO(Ports, each_Ports); output["Ports"] = each_Ports;
@@ -1448,6 +1412,7 @@ namespace PlayFabInternal
             Boxed<time_t> CreationTime;
             std::list<AssetReference> GameAssetReferences;
             std::list<GameCertificateReference> GameCertificateReferences;
+            Boxed<InstrumentationConfiguration> pfInstrumentationConfiguration;
             std::map<std::string, std::string> Metadata;
             Int32 MultiplayerServerCountPerVm;
             std::list<Port> Ports;
@@ -1463,6 +1428,7 @@ namespace PlayFabInternal
                 CreationTime(),
                 GameAssetReferences(),
                 GameCertificateReferences(),
+                pfInstrumentationConfiguration(),
                 Metadata(),
                 MultiplayerServerCountPerVm(),
                 Ports(),
@@ -1479,6 +1445,7 @@ namespace PlayFabInternal
                 CreationTime(src.CreationTime),
                 GameAssetReferences(src.GameAssetReferences),
                 GameCertificateReferences(src.GameCertificateReferences),
+                pfInstrumentationConfiguration(src.pfInstrumentationConfiguration),
                 Metadata(src.Metadata),
                 MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
                 Ports(src.Ports),
@@ -1493,10 +1460,11 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["BuildId"], BuildId);
                 FromJsonUtilS(input["BuildName"], BuildName);
-                FromJsonUtilE(input["pfContainerFlavor"], pfContainerFlavor);
+                FromJsonUtilE(input["ContainerFlavor"], pfContainerFlavor);
                 FromJsonUtilT(input["CreationTime"], CreationTime);
                 FromJsonUtilO(input["GameAssetReferences"], GameAssetReferences);
                 FromJsonUtilO(input["GameCertificateReferences"], GameCertificateReferences);
+                FromJsonUtilO(input["InstrumentationConfiguration"], pfInstrumentationConfiguration);
                 FromJsonUtilS(input["Metadata"], Metadata);
                 FromJsonUtilP(input["MultiplayerServerCountPerVm"], MultiplayerServerCountPerVm);
                 FromJsonUtilO(input["Ports"], Ports);
@@ -1514,6 +1482,7 @@ namespace PlayFabInternal
                 Json::Value each_CreationTime; ToJsonUtilT(CreationTime, each_CreationTime); output["CreationTime"] = each_CreationTime;
                 Json::Value each_GameAssetReferences; ToJsonUtilO(GameAssetReferences, each_GameAssetReferences); output["GameAssetReferences"] = each_GameAssetReferences;
                 Json::Value each_GameCertificateReferences; ToJsonUtilO(GameCertificateReferences, each_GameCertificateReferences); output["GameCertificateReferences"] = each_GameCertificateReferences;
+                Json::Value each_pfInstrumentationConfiguration; ToJsonUtilO(pfInstrumentationConfiguration, each_pfInstrumentationConfiguration); output["InstrumentationConfiguration"] = each_pfInstrumentationConfiguration;
                 Json::Value each_Metadata; ToJsonUtilS(Metadata, each_Metadata); output["Metadata"] = each_Metadata;
                 Json::Value each_MultiplayerServerCountPerVm; ToJsonUtilP(MultiplayerServerCountPerVm, each_MultiplayerServerCountPerVm); output["MultiplayerServerCountPerVm"] = each_MultiplayerServerCountPerVm;
                 Json::Value each_Ports; ToJsonUtilO(Ports, each_Ports); output["Ports"] = each_Ports;
@@ -1669,7 +1638,7 @@ namespace PlayFabInternal
         {
             std::string BuildId;
             Boxed<time_t> ExpirationTime;
-            AzureRegion Region;
+            std::string Region;
             std::string Username;
             std::string VmId;
 
@@ -1697,7 +1666,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["BuildId"], BuildId);
                 FromJsonUtilT(input["ExpirationTime"], ExpirationTime);
-                FromJsonEnum(input["Region"], Region);
+                FromJsonUtilS(input["Region"], Region);
                 FromJsonUtilS(input["Username"], Username);
                 FromJsonUtilS(input["VmId"], VmId);
             }
@@ -1707,7 +1676,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_BuildId; ToJsonUtilS(BuildId, each_BuildId); output["BuildId"] = each_BuildId;
                 Json::Value each_ExpirationTime; ToJsonUtilT(ExpirationTime, each_ExpirationTime); output["ExpirationTime"] = each_ExpirationTime;
-                Json::Value each_Region; ToJsonEnum(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 Json::Value each_Username; ToJsonUtilS(Username, each_Username); output["Username"] = each_Username;
                 Json::Value each_VmId; ToJsonUtilS(VmId, each_VmId); output["VmId"] = each_VmId;
                 return output;
@@ -1861,7 +1830,7 @@ namespace PlayFabInternal
                 FromJsonUtilP(input["GiveUpAfterSeconds"], GiveUpAfterSeconds);
                 FromJsonUtilO(input["Members"], Members);
                 FromJsonUtilS(input["QueueName"], QueueName);
-                FromJsonUtilO(input["pfServerDetails"], pfServerDetails);
+                FromJsonUtilO(input["ServerDetails"], pfServerDetails);
             }
 
             Json::Value ToJson() const override
@@ -1939,234 +1908,6 @@ namespace PlayFabInternal
                 Json::Value each_GiveUpAfterSeconds; ToJsonUtilP(GiveUpAfterSeconds, each_GiveUpAfterSeconds); output["GiveUpAfterSeconds"] = each_GiveUpAfterSeconds;
                 Json::Value each_Members; ToJsonUtilO(Members, each_Members); output["Members"] = each_Members;
                 Json::Value each_QueueName; ToJsonUtilS(QueueName, each_QueueName); output["QueueName"] = each_QueueName;
-                return output;
-            }
-        };
-
-        struct OverrideDouble : public PlayFabBaseModel
-        {
-            double Value;
-
-            OverrideDouble() :
-                PlayFabBaseModel(),
-                Value()
-            {}
-
-            OverrideDouble(const OverrideDouble& src) :
-                PlayFabBaseModel(),
-                Value(src.Value)
-            {}
-
-            ~OverrideDouble() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilP(input["Value"], Value);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Value; ToJsonUtilP(Value, each_Value); output["Value"] = each_Value;
-                return output;
-            }
-        };
-
-        struct CustomDifferenceRuleExpansion : public PlayFabBaseModel
-        {
-            std::list<OverrideDouble> DifferenceOverrides;
-            Uint32 SecondsBetweenExpansions;
-
-            CustomDifferenceRuleExpansion() :
-                PlayFabBaseModel(),
-                DifferenceOverrides(),
-                SecondsBetweenExpansions()
-            {}
-
-            CustomDifferenceRuleExpansion(const CustomDifferenceRuleExpansion& src) :
-                PlayFabBaseModel(),
-                DifferenceOverrides(src.DifferenceOverrides),
-                SecondsBetweenExpansions(src.SecondsBetweenExpansions)
-            {}
-
-            ~CustomDifferenceRuleExpansion() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["DifferenceOverrides"], DifferenceOverrides);
-                FromJsonUtilP(input["SecondsBetweenExpansions"], SecondsBetweenExpansions);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_DifferenceOverrides; ToJsonUtilO(DifferenceOverrides, each_DifferenceOverrides); output["DifferenceOverrides"] = each_DifferenceOverrides;
-                Json::Value each_SecondsBetweenExpansions; ToJsonUtilP(SecondsBetweenExpansions, each_SecondsBetweenExpansions); output["SecondsBetweenExpansions"] = each_SecondsBetweenExpansions;
-                return output;
-            }
-        };
-
-        struct OverrideUnsignedInt : public PlayFabBaseModel
-        {
-            Uint32 Value;
-
-            OverrideUnsignedInt() :
-                PlayFabBaseModel(),
-                Value()
-            {}
-
-            OverrideUnsignedInt(const OverrideUnsignedInt& src) :
-                PlayFabBaseModel(),
-                Value(src.Value)
-            {}
-
-            ~OverrideUnsignedInt() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilP(input["Value"], Value);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Value; ToJsonUtilP(Value, each_Value); output["Value"] = each_Value;
-                return output;
-            }
-        };
-
-        struct CustomRegionSelectionRuleExpansion : public PlayFabBaseModel
-        {
-            std::list<OverrideUnsignedInt> MaxLatencyOverrides;
-            Uint32 SecondsBetweenExpansions;
-
-            CustomRegionSelectionRuleExpansion() :
-                PlayFabBaseModel(),
-                MaxLatencyOverrides(),
-                SecondsBetweenExpansions()
-            {}
-
-            CustomRegionSelectionRuleExpansion(const CustomRegionSelectionRuleExpansion& src) :
-                PlayFabBaseModel(),
-                MaxLatencyOverrides(src.MaxLatencyOverrides),
-                SecondsBetweenExpansions(src.SecondsBetweenExpansions)
-            {}
-
-            ~CustomRegionSelectionRuleExpansion() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["MaxLatencyOverrides"], MaxLatencyOverrides);
-                FromJsonUtilP(input["SecondsBetweenExpansions"], SecondsBetweenExpansions);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_MaxLatencyOverrides; ToJsonUtilO(MaxLatencyOverrides, each_MaxLatencyOverrides); output["MaxLatencyOverrides"] = each_MaxLatencyOverrides;
-                Json::Value each_SecondsBetweenExpansions; ToJsonUtilP(SecondsBetweenExpansions, each_SecondsBetweenExpansions); output["SecondsBetweenExpansions"] = each_SecondsBetweenExpansions;
-                return output;
-            }
-        };
-
-        struct CustomSetIntersectionRuleExpansion : public PlayFabBaseModel
-        {
-            std::list<OverrideUnsignedInt> MinIntersectionSizeOverrides;
-            Uint32 SecondsBetweenExpansions;
-
-            CustomSetIntersectionRuleExpansion() :
-                PlayFabBaseModel(),
-                MinIntersectionSizeOverrides(),
-                SecondsBetweenExpansions()
-            {}
-
-            CustomSetIntersectionRuleExpansion(const CustomSetIntersectionRuleExpansion& src) :
-                PlayFabBaseModel(),
-                MinIntersectionSizeOverrides(src.MinIntersectionSizeOverrides),
-                SecondsBetweenExpansions(src.SecondsBetweenExpansions)
-            {}
-
-            ~CustomSetIntersectionRuleExpansion() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["MinIntersectionSizeOverrides"], MinIntersectionSizeOverrides);
-                FromJsonUtilP(input["SecondsBetweenExpansions"], SecondsBetweenExpansions);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_MinIntersectionSizeOverrides; ToJsonUtilO(MinIntersectionSizeOverrides, each_MinIntersectionSizeOverrides); output["MinIntersectionSizeOverrides"] = each_MinIntersectionSizeOverrides;
-                Json::Value each_SecondsBetweenExpansions; ToJsonUtilP(SecondsBetweenExpansions, each_SecondsBetweenExpansions); output["SecondsBetweenExpansions"] = each_SecondsBetweenExpansions;
-                return output;
-            }
-        };
-
-        struct CustomTeamDifferenceRuleExpansion : public PlayFabBaseModel
-        {
-            std::list<OverrideDouble> DifferenceOverrides;
-            Uint32 SecondsBetweenExpansions;
-
-            CustomTeamDifferenceRuleExpansion() :
-                PlayFabBaseModel(),
-                DifferenceOverrides(),
-                SecondsBetweenExpansions()
-            {}
-
-            CustomTeamDifferenceRuleExpansion(const CustomTeamDifferenceRuleExpansion& src) :
-                PlayFabBaseModel(),
-                DifferenceOverrides(src.DifferenceOverrides),
-                SecondsBetweenExpansions(src.SecondsBetweenExpansions)
-            {}
-
-            ~CustomTeamDifferenceRuleExpansion() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["DifferenceOverrides"], DifferenceOverrides);
-                FromJsonUtilP(input["SecondsBetweenExpansions"], SecondsBetweenExpansions);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_DifferenceOverrides; ToJsonUtilO(DifferenceOverrides, each_DifferenceOverrides); output["DifferenceOverrides"] = each_DifferenceOverrides;
-                Json::Value each_SecondsBetweenExpansions; ToJsonUtilP(SecondsBetweenExpansions, each_SecondsBetweenExpansions); output["SecondsBetweenExpansions"] = each_SecondsBetweenExpansions;
-                return output;
-            }
-        };
-
-        struct CustomTeamSizeBalanceRuleExpansion : public PlayFabBaseModel
-        {
-            std::list<OverrideUnsignedInt> DifferenceOverrides;
-            Uint32 SecondsBetweenExpansions;
-
-            CustomTeamSizeBalanceRuleExpansion() :
-                PlayFabBaseModel(),
-                DifferenceOverrides(),
-                SecondsBetweenExpansions()
-            {}
-
-            CustomTeamSizeBalanceRuleExpansion(const CustomTeamSizeBalanceRuleExpansion& src) :
-                PlayFabBaseModel(),
-                DifferenceOverrides(src.DifferenceOverrides),
-                SecondsBetweenExpansions(src.SecondsBetweenExpansions)
-            {}
-
-            ~CustomTeamSizeBalanceRuleExpansion() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["DifferenceOverrides"], DifferenceOverrides);
-                FromJsonUtilP(input["SecondsBetweenExpansions"], SecondsBetweenExpansions);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_DifferenceOverrides; ToJsonUtilO(DifferenceOverrides, each_DifferenceOverrides); output["DifferenceOverrides"] = each_DifferenceOverrides;
-                Json::Value each_SecondsBetweenExpansions; ToJsonUtilP(SecondsBetweenExpansions, each_SecondsBetweenExpansions); output["SecondsBetweenExpansions"] = each_SecondsBetweenExpansions;
                 return output;
             }
         };
@@ -2261,7 +2002,7 @@ namespace PlayFabInternal
         struct DeleteRemoteUserRequest : public PlayFabRequestCommon
         {
             std::string BuildId;
-            AzureRegion Region;
+            std::string Region;
             std::string Username;
             std::string VmId;
 
@@ -2286,7 +2027,7 @@ namespace PlayFabInternal
             void FromJson(Json::Value& input) override
             {
                 FromJsonUtilS(input["BuildId"], BuildId);
-                FromJsonEnum(input["Region"], Region);
+                FromJsonUtilS(input["Region"], Region);
                 FromJsonUtilS(input["Username"], Username);
                 FromJsonUtilS(input["VmId"], VmId);
             }
@@ -2295,156 +2036,9 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_BuildId; ToJsonUtilS(BuildId, each_BuildId); output["BuildId"] = each_BuildId;
-                Json::Value each_Region; ToJsonEnum(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 Json::Value each_Username; ToJsonUtilS(Username, each_Username); output["Username"] = each_Username;
                 Json::Value each_VmId; ToJsonUtilS(VmId, each_VmId); output["VmId"] = each_VmId;
-                return output;
-            }
-        };
-
-        struct QueueRuleAttribute : public PlayFabBaseModel
-        {
-            std::string Path;
-            AttributeSource Source;
-
-            QueueRuleAttribute() :
-                PlayFabBaseModel(),
-                Path(),
-                Source()
-            {}
-
-            QueueRuleAttribute(const QueueRuleAttribute& src) :
-                PlayFabBaseModel(),
-                Path(src.Path),
-                Source(src.Source)
-            {}
-
-            ~QueueRuleAttribute() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilS(input["Path"], Path);
-                FromJsonEnum(input["Source"], Source);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Path; ToJsonUtilS(Path, each_Path); output["Path"] = each_Path;
-                Json::Value each_Source; ToJsonEnum(Source, each_Source); output["Source"] = each_Source;
-                return output;
-            }
-        };
-
-        struct LinearDifferenceRuleExpansion : public PlayFabBaseModel
-        {
-            double Delta;
-            Boxed<double> Limit;
-            Uint32 SecondsBetweenExpansions;
-
-            LinearDifferenceRuleExpansion() :
-                PlayFabBaseModel(),
-                Delta(),
-                Limit(),
-                SecondsBetweenExpansions()
-            {}
-
-            LinearDifferenceRuleExpansion(const LinearDifferenceRuleExpansion& src) :
-                PlayFabBaseModel(),
-                Delta(src.Delta),
-                Limit(src.Limit),
-                SecondsBetweenExpansions(src.SecondsBetweenExpansions)
-            {}
-
-            ~LinearDifferenceRuleExpansion() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilP(input["Delta"], Delta);
-                FromJsonUtilP(input["Limit"], Limit);
-                FromJsonUtilP(input["SecondsBetweenExpansions"], SecondsBetweenExpansions);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Delta; ToJsonUtilP(Delta, each_Delta); output["Delta"] = each_Delta;
-                Json::Value each_Limit; ToJsonUtilP(Limit, each_Limit); output["Limit"] = each_Limit;
-                Json::Value each_SecondsBetweenExpansions; ToJsonUtilP(SecondsBetweenExpansions, each_SecondsBetweenExpansions); output["SecondsBetweenExpansions"] = each_SecondsBetweenExpansions;
-                return output;
-            }
-        };
-
-        struct DifferenceRule : public PlayFabBaseModel
-        {
-            QueueRuleAttribute Attribute;
-            AttributeNotSpecifiedBehavior pfAttributeNotSpecifiedBehavior;
-            Boxed<CustomDifferenceRuleExpansion> CustomExpansion;
-            Boxed<double> DefaultAttributeValue;
-            double Difference;
-            Boxed<LinearDifferenceRuleExpansion> LinearExpansion;
-            AttributeMergeFunction MergeFunction;
-            std::string Name;
-            Boxed<Uint32> SecondsUntilOptional;
-            double Weight;
-
-            DifferenceRule() :
-                PlayFabBaseModel(),
-                Attribute(),
-                pfAttributeNotSpecifiedBehavior(),
-                CustomExpansion(),
-                DefaultAttributeValue(),
-                Difference(),
-                LinearExpansion(),
-                MergeFunction(),
-                Name(),
-                SecondsUntilOptional(),
-                Weight()
-            {}
-
-            DifferenceRule(const DifferenceRule& src) :
-                PlayFabBaseModel(),
-                Attribute(src.Attribute),
-                pfAttributeNotSpecifiedBehavior(src.pfAttributeNotSpecifiedBehavior),
-                CustomExpansion(src.CustomExpansion),
-                DefaultAttributeValue(src.DefaultAttributeValue),
-                Difference(src.Difference),
-                LinearExpansion(src.LinearExpansion),
-                MergeFunction(src.MergeFunction),
-                Name(src.Name),
-                SecondsUntilOptional(src.SecondsUntilOptional),
-                Weight(src.Weight)
-            {}
-
-            ~DifferenceRule() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["Attribute"], Attribute);
-                FromJsonEnum(input["pfAttributeNotSpecifiedBehavior"], pfAttributeNotSpecifiedBehavior);
-                FromJsonUtilO(input["CustomExpansion"], CustomExpansion);
-                FromJsonUtilP(input["DefaultAttributeValue"], DefaultAttributeValue);
-                FromJsonUtilP(input["Difference"], Difference);
-                FromJsonUtilO(input["LinearExpansion"], LinearExpansion);
-                FromJsonEnum(input["MergeFunction"], MergeFunction);
-                FromJsonUtilS(input["Name"], Name);
-                FromJsonUtilP(input["SecondsUntilOptional"], SecondsUntilOptional);
-                FromJsonUtilP(input["Weight"], Weight);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Attribute; ToJsonUtilO(Attribute, each_Attribute); output["Attribute"] = each_Attribute;
-                Json::Value each_pfAttributeNotSpecifiedBehavior; ToJsonEnum(pfAttributeNotSpecifiedBehavior, each_pfAttributeNotSpecifiedBehavior); output["AttributeNotSpecifiedBehavior"] = each_pfAttributeNotSpecifiedBehavior;
-                Json::Value each_CustomExpansion; ToJsonUtilO(CustomExpansion, each_CustomExpansion); output["CustomExpansion"] = each_CustomExpansion;
-                Json::Value each_DefaultAttributeValue; ToJsonUtilP(DefaultAttributeValue, each_DefaultAttributeValue); output["DefaultAttributeValue"] = each_DefaultAttributeValue;
-                Json::Value each_Difference; ToJsonUtilP(Difference, each_Difference); output["Difference"] = each_Difference;
-                Json::Value each_LinearExpansion; ToJsonUtilO(LinearExpansion, each_LinearExpansion); output["LinearExpansion"] = each_LinearExpansion;
-                Json::Value each_MergeFunction; ToJsonEnum(MergeFunction, each_MergeFunction); output["MergeFunction"] = each_MergeFunction;
-                Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
-                Json::Value each_SecondsUntilOptional; ToJsonUtilP(SecondsUntilOptional, each_SecondsUntilOptional); output["SecondsUntilOptional"] = each_SecondsUntilOptional;
-                Json::Value each_Weight; ToJsonUtilP(Weight, each_Weight); output["Weight"] = each_Weight;
                 return output;
             }
         };
@@ -2653,6 +2247,7 @@ namespace PlayFabInternal
             Boxed<ContainerImageReference> CustomGameContainerImage;
             std::list<AssetReference> GameAssetReferences;
             std::list<GameCertificateReference> GameCertificateReferences;
+            Boxed<InstrumentationConfiguration> pfInstrumentationConfiguration;
             std::map<std::string, std::string> Metadata;
             Int32 MultiplayerServerCountPerVm;
             std::list<Port> Ports;
@@ -2671,6 +2266,7 @@ namespace PlayFabInternal
                 CustomGameContainerImage(),
                 GameAssetReferences(),
                 GameCertificateReferences(),
+                pfInstrumentationConfiguration(),
                 Metadata(),
                 MultiplayerServerCountPerVm(),
                 Ports(),
@@ -2690,6 +2286,7 @@ namespace PlayFabInternal
                 CustomGameContainerImage(src.CustomGameContainerImage),
                 GameAssetReferences(src.GameAssetReferences),
                 GameCertificateReferences(src.GameCertificateReferences),
+                pfInstrumentationConfiguration(src.pfInstrumentationConfiguration),
                 Metadata(src.Metadata),
                 MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
                 Ports(src.Ports),
@@ -2705,12 +2302,13 @@ namespace PlayFabInternal
                 FromJsonUtilS(input["BuildId"], BuildId);
                 FromJsonUtilS(input["BuildName"], BuildName);
                 FromJsonUtilS(input["BuildStatus"], BuildStatus);
-                FromJsonUtilE(input["pfContainerFlavor"], pfContainerFlavor);
+                FromJsonUtilE(input["ContainerFlavor"], pfContainerFlavor);
                 FromJsonUtilS(input["ContainerRunCommand"], ContainerRunCommand);
                 FromJsonUtilT(input["CreationTime"], CreationTime);
                 FromJsonUtilO(input["CustomGameContainerImage"], CustomGameContainerImage);
                 FromJsonUtilO(input["GameAssetReferences"], GameAssetReferences);
                 FromJsonUtilO(input["GameCertificateReferences"], GameCertificateReferences);
+                FromJsonUtilO(input["InstrumentationConfiguration"], pfInstrumentationConfiguration);
                 FromJsonUtilS(input["Metadata"], Metadata);
                 FromJsonUtilP(input["MultiplayerServerCountPerVm"], MultiplayerServerCountPerVm);
                 FromJsonUtilO(input["Ports"], Ports);
@@ -2731,6 +2329,7 @@ namespace PlayFabInternal
                 Json::Value each_CustomGameContainerImage; ToJsonUtilO(CustomGameContainerImage, each_CustomGameContainerImage); output["CustomGameContainerImage"] = each_CustomGameContainerImage;
                 Json::Value each_GameAssetReferences; ToJsonUtilO(GameAssetReferences, each_GameAssetReferences); output["GameAssetReferences"] = each_GameAssetReferences;
                 Json::Value each_GameCertificateReferences; ToJsonUtilO(GameCertificateReferences, each_GameCertificateReferences); output["GameCertificateReferences"] = each_GameCertificateReferences;
+                Json::Value each_pfInstrumentationConfiguration; ToJsonUtilO(pfInstrumentationConfiguration, each_pfInstrumentationConfiguration); output["InstrumentationConfiguration"] = each_pfInstrumentationConfiguration;
                 Json::Value each_Metadata; ToJsonUtilS(Metadata, each_Metadata); output["Metadata"] = each_Metadata;
                 Json::Value each_MultiplayerServerCountPerVm; ToJsonUtilP(MultiplayerServerCountPerVm, each_MultiplayerServerCountPerVm); output["MultiplayerServerCountPerVm"] = each_MultiplayerServerCountPerVm;
                 Json::Value each_Ports; ToJsonUtilO(Ports, each_Ports); output["Ports"] = each_Ports;
@@ -2744,7 +2343,7 @@ namespace PlayFabInternal
         struct GetCognitiveServicesTokenRequest : public PlayFabRequestCommon
         {
             CognitiveServicesType pfCognitiveServicesType;
-            AzureRegion Region;
+            std::string Region;
 
             GetCognitiveServicesTokenRequest() :
                 PlayFabRequestCommon(),
@@ -2762,15 +2361,15 @@ namespace PlayFabInternal
 
             void FromJson(Json::Value& input) override
             {
-                FromJsonEnum(input["pfCognitiveServicesType"], pfCognitiveServicesType);
-                FromJsonEnum(input["Region"], Region);
+                FromJsonEnum(input["CognitiveServicesType"], pfCognitiveServicesType);
+                FromJsonUtilS(input["Region"], Region);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
                 Json::Value each_pfCognitiveServicesType; ToJsonEnum(pfCognitiveServicesType, each_pfCognitiveServicesType); output["CognitiveServicesType"] = each_pfCognitiveServicesType;
-                Json::Value each_Region; ToJsonEnum(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 return output;
             }
         };
@@ -2872,853 +2471,6 @@ namespace PlayFabInternal
             }
         };
 
-        struct GetMatchmakingQueueRequest : public PlayFabRequestCommon
-        {
-            std::string QueueName;
-
-            GetMatchmakingQueueRequest() :
-                PlayFabRequestCommon(),
-                QueueName()
-            {}
-
-            GetMatchmakingQueueRequest(const GetMatchmakingQueueRequest& src) :
-                PlayFabRequestCommon(),
-                QueueName(src.QueueName)
-            {}
-
-            ~GetMatchmakingQueueRequest() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilS(input["QueueName"], QueueName);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_QueueName; ToJsonUtilS(QueueName, each_QueueName); output["QueueName"] = each_QueueName;
-                return output;
-            }
-        };
-
-        struct MatchTotalRuleExpansion : public PlayFabBaseModel
-        {
-            std::list<OverrideDouble> MaxOverrides;
-            std::list<OverrideDouble> MinOverrides;
-            Uint32 SecondsBetweenExpansions;
-
-            MatchTotalRuleExpansion() :
-                PlayFabBaseModel(),
-                MaxOverrides(),
-                MinOverrides(),
-                SecondsBetweenExpansions()
-            {}
-
-            MatchTotalRuleExpansion(const MatchTotalRuleExpansion& src) :
-                PlayFabBaseModel(),
-                MaxOverrides(src.MaxOverrides),
-                MinOverrides(src.MinOverrides),
-                SecondsBetweenExpansions(src.SecondsBetweenExpansions)
-            {}
-
-            ~MatchTotalRuleExpansion() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["MaxOverrides"], MaxOverrides);
-                FromJsonUtilO(input["MinOverrides"], MinOverrides);
-                FromJsonUtilP(input["SecondsBetweenExpansions"], SecondsBetweenExpansions);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_MaxOverrides; ToJsonUtilO(MaxOverrides, each_MaxOverrides); output["MaxOverrides"] = each_MaxOverrides;
-                Json::Value each_MinOverrides; ToJsonUtilO(MinOverrides, each_MinOverrides); output["MinOverrides"] = each_MinOverrides;
-                Json::Value each_SecondsBetweenExpansions; ToJsonUtilP(SecondsBetweenExpansions, each_SecondsBetweenExpansions); output["SecondsBetweenExpansions"] = each_SecondsBetweenExpansions;
-                return output;
-            }
-        };
-
-        struct MatchTotalRule : public PlayFabBaseModel
-        {
-            QueueRuleAttribute Attribute;
-            Boxed<MatchTotalRuleExpansion> Expansion;
-            double Max;
-            double Min;
-            std::string Name;
-            Boxed<Uint32> SecondsUntilOptional;
-            double Weight;
-
-            MatchTotalRule() :
-                PlayFabBaseModel(),
-                Attribute(),
-                Expansion(),
-                Max(),
-                Min(),
-                Name(),
-                SecondsUntilOptional(),
-                Weight()
-            {}
-
-            MatchTotalRule(const MatchTotalRule& src) :
-                PlayFabBaseModel(),
-                Attribute(src.Attribute),
-                Expansion(src.Expansion),
-                Max(src.Max),
-                Min(src.Min),
-                Name(src.Name),
-                SecondsUntilOptional(src.SecondsUntilOptional),
-                Weight(src.Weight)
-            {}
-
-            ~MatchTotalRule() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["Attribute"], Attribute);
-                FromJsonUtilO(input["Expansion"], Expansion);
-                FromJsonUtilP(input["Max"], Max);
-                FromJsonUtilP(input["Min"], Min);
-                FromJsonUtilS(input["Name"], Name);
-                FromJsonUtilP(input["SecondsUntilOptional"], SecondsUntilOptional);
-                FromJsonUtilP(input["Weight"], Weight);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Attribute; ToJsonUtilO(Attribute, each_Attribute); output["Attribute"] = each_Attribute;
-                Json::Value each_Expansion; ToJsonUtilO(Expansion, each_Expansion); output["Expansion"] = each_Expansion;
-                Json::Value each_Max; ToJsonUtilP(Max, each_Max); output["Max"] = each_Max;
-                Json::Value each_Min; ToJsonUtilP(Min, each_Min); output["Min"] = each_Min;
-                Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
-                Json::Value each_SecondsUntilOptional; ToJsonUtilP(SecondsUntilOptional, each_SecondsUntilOptional); output["SecondsUntilOptional"] = each_SecondsUntilOptional;
-                Json::Value each_Weight; ToJsonUtilP(Weight, each_Weight); output["Weight"] = each_Weight;
-                return output;
-            }
-        };
-
-        struct LinearRegionSelectionRuleExpansion : public PlayFabBaseModel
-        {
-            Uint32 Delta;
-            Uint32 Limit;
-            Uint32 SecondsBetweenExpansions;
-
-            LinearRegionSelectionRuleExpansion() :
-                PlayFabBaseModel(),
-                Delta(),
-                Limit(),
-                SecondsBetweenExpansions()
-            {}
-
-            LinearRegionSelectionRuleExpansion(const LinearRegionSelectionRuleExpansion& src) :
-                PlayFabBaseModel(),
-                Delta(src.Delta),
-                Limit(src.Limit),
-                SecondsBetweenExpansions(src.SecondsBetweenExpansions)
-            {}
-
-            ~LinearRegionSelectionRuleExpansion() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilP(input["Delta"], Delta);
-                FromJsonUtilP(input["Limit"], Limit);
-                FromJsonUtilP(input["SecondsBetweenExpansions"], SecondsBetweenExpansions);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Delta; ToJsonUtilP(Delta, each_Delta); output["Delta"] = each_Delta;
-                Json::Value each_Limit; ToJsonUtilP(Limit, each_Limit); output["Limit"] = each_Limit;
-                Json::Value each_SecondsBetweenExpansions; ToJsonUtilP(SecondsBetweenExpansions, each_SecondsBetweenExpansions); output["SecondsBetweenExpansions"] = each_SecondsBetweenExpansions;
-                return output;
-            }
-        };
-
-        struct RegionSelectionRule : public PlayFabBaseModel
-        {
-            Boxed<CustomRegionSelectionRuleExpansion> CustomExpansion;
-            Boxed<LinearRegionSelectionRuleExpansion> LinearExpansion;
-            Uint32 MaxLatency;
-            std::string Name;
-            std::string Path;
-            Boxed<Uint32> SecondsUntilOptional;
-            double Weight;
-
-            RegionSelectionRule() :
-                PlayFabBaseModel(),
-                CustomExpansion(),
-                LinearExpansion(),
-                MaxLatency(),
-                Name(),
-                Path(),
-                SecondsUntilOptional(),
-                Weight()
-            {}
-
-            RegionSelectionRule(const RegionSelectionRule& src) :
-                PlayFabBaseModel(),
-                CustomExpansion(src.CustomExpansion),
-                LinearExpansion(src.LinearExpansion),
-                MaxLatency(src.MaxLatency),
-                Name(src.Name),
-                Path(src.Path),
-                SecondsUntilOptional(src.SecondsUntilOptional),
-                Weight(src.Weight)
-            {}
-
-            ~RegionSelectionRule() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["CustomExpansion"], CustomExpansion);
-                FromJsonUtilO(input["LinearExpansion"], LinearExpansion);
-                FromJsonUtilP(input["MaxLatency"], MaxLatency);
-                FromJsonUtilS(input["Name"], Name);
-                FromJsonUtilS(input["Path"], Path);
-                FromJsonUtilP(input["SecondsUntilOptional"], SecondsUntilOptional);
-                FromJsonUtilP(input["Weight"], Weight);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_CustomExpansion; ToJsonUtilO(CustomExpansion, each_CustomExpansion); output["CustomExpansion"] = each_CustomExpansion;
-                Json::Value each_LinearExpansion; ToJsonUtilO(LinearExpansion, each_LinearExpansion); output["LinearExpansion"] = each_LinearExpansion;
-                Json::Value each_MaxLatency; ToJsonUtilP(MaxLatency, each_MaxLatency); output["MaxLatency"] = each_MaxLatency;
-                Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
-                Json::Value each_Path; ToJsonUtilS(Path, each_Path); output["Path"] = each_Path;
-                Json::Value each_SecondsUntilOptional; ToJsonUtilP(SecondsUntilOptional, each_SecondsUntilOptional); output["SecondsUntilOptional"] = each_SecondsUntilOptional;
-                Json::Value each_Weight; ToJsonUtilP(Weight, each_Weight); output["Weight"] = each_Weight;
-                return output;
-            }
-        };
-
-        struct LinearSetIntersectionRuleExpansion : public PlayFabBaseModel
-        {
-            Uint32 Delta;
-            Uint32 SecondsBetweenExpansions;
-
-            LinearSetIntersectionRuleExpansion() :
-                PlayFabBaseModel(),
-                Delta(),
-                SecondsBetweenExpansions()
-            {}
-
-            LinearSetIntersectionRuleExpansion(const LinearSetIntersectionRuleExpansion& src) :
-                PlayFabBaseModel(),
-                Delta(src.Delta),
-                SecondsBetweenExpansions(src.SecondsBetweenExpansions)
-            {}
-
-            ~LinearSetIntersectionRuleExpansion() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilP(input["Delta"], Delta);
-                FromJsonUtilP(input["SecondsBetweenExpansions"], SecondsBetweenExpansions);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Delta; ToJsonUtilP(Delta, each_Delta); output["Delta"] = each_Delta;
-                Json::Value each_SecondsBetweenExpansions; ToJsonUtilP(SecondsBetweenExpansions, each_SecondsBetweenExpansions); output["SecondsBetweenExpansions"] = each_SecondsBetweenExpansions;
-                return output;
-            }
-        };
-
-        struct SetIntersectionRule : public PlayFabBaseModel
-        {
-            QueueRuleAttribute Attribute;
-            AttributeNotSpecifiedBehavior pfAttributeNotSpecifiedBehavior;
-            Boxed<CustomSetIntersectionRuleExpansion> CustomExpansion;
-            std::list<std::string> DefaultAttributeValue;
-            Boxed<LinearSetIntersectionRuleExpansion> LinearExpansion;
-            Uint32 MinIntersectionSize;
-            std::string Name;
-            Boxed<Uint32> SecondsUntilOptional;
-            double Weight;
-
-            SetIntersectionRule() :
-                PlayFabBaseModel(),
-                Attribute(),
-                pfAttributeNotSpecifiedBehavior(),
-                CustomExpansion(),
-                DefaultAttributeValue(),
-                LinearExpansion(),
-                MinIntersectionSize(),
-                Name(),
-                SecondsUntilOptional(),
-                Weight()
-            {}
-
-            SetIntersectionRule(const SetIntersectionRule& src) :
-                PlayFabBaseModel(),
-                Attribute(src.Attribute),
-                pfAttributeNotSpecifiedBehavior(src.pfAttributeNotSpecifiedBehavior),
-                CustomExpansion(src.CustomExpansion),
-                DefaultAttributeValue(src.DefaultAttributeValue),
-                LinearExpansion(src.LinearExpansion),
-                MinIntersectionSize(src.MinIntersectionSize),
-                Name(src.Name),
-                SecondsUntilOptional(src.SecondsUntilOptional),
-                Weight(src.Weight)
-            {}
-
-            ~SetIntersectionRule() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["Attribute"], Attribute);
-                FromJsonEnum(input["pfAttributeNotSpecifiedBehavior"], pfAttributeNotSpecifiedBehavior);
-                FromJsonUtilO(input["CustomExpansion"], CustomExpansion);
-                FromJsonUtilS(input["DefaultAttributeValue"], DefaultAttributeValue);
-                FromJsonUtilO(input["LinearExpansion"], LinearExpansion);
-                FromJsonUtilP(input["MinIntersectionSize"], MinIntersectionSize);
-                FromJsonUtilS(input["Name"], Name);
-                FromJsonUtilP(input["SecondsUntilOptional"], SecondsUntilOptional);
-                FromJsonUtilP(input["Weight"], Weight);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Attribute; ToJsonUtilO(Attribute, each_Attribute); output["Attribute"] = each_Attribute;
-                Json::Value each_pfAttributeNotSpecifiedBehavior; ToJsonEnum(pfAttributeNotSpecifiedBehavior, each_pfAttributeNotSpecifiedBehavior); output["AttributeNotSpecifiedBehavior"] = each_pfAttributeNotSpecifiedBehavior;
-                Json::Value each_CustomExpansion; ToJsonUtilO(CustomExpansion, each_CustomExpansion); output["CustomExpansion"] = each_CustomExpansion;
-                Json::Value each_DefaultAttributeValue; ToJsonUtilS(DefaultAttributeValue, each_DefaultAttributeValue); output["DefaultAttributeValue"] = each_DefaultAttributeValue;
-                Json::Value each_LinearExpansion; ToJsonUtilO(LinearExpansion, each_LinearExpansion); output["LinearExpansion"] = each_LinearExpansion;
-                Json::Value each_MinIntersectionSize; ToJsonUtilP(MinIntersectionSize, each_MinIntersectionSize); output["MinIntersectionSize"] = each_MinIntersectionSize;
-                Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
-                Json::Value each_SecondsUntilOptional; ToJsonUtilP(SecondsUntilOptional, each_SecondsUntilOptional); output["SecondsUntilOptional"] = each_SecondsUntilOptional;
-                Json::Value each_Weight; ToJsonUtilP(Weight, each_Weight); output["Weight"] = each_Weight;
-                return output;
-            }
-        };
-
-        struct StatisticsVisibilityToPlayers : public PlayFabBaseModel
-        {
-            bool ShowNumberOfPlayersMatching;
-            bool ShowTimeToMatch;
-
-            StatisticsVisibilityToPlayers() :
-                PlayFabBaseModel(),
-                ShowNumberOfPlayersMatching(),
-                ShowTimeToMatch()
-            {}
-
-            StatisticsVisibilityToPlayers(const StatisticsVisibilityToPlayers& src) :
-                PlayFabBaseModel(),
-                ShowNumberOfPlayersMatching(src.ShowNumberOfPlayersMatching),
-                ShowTimeToMatch(src.ShowTimeToMatch)
-            {}
-
-            ~StatisticsVisibilityToPlayers() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilP(input["ShowNumberOfPlayersMatching"], ShowNumberOfPlayersMatching);
-                FromJsonUtilP(input["ShowTimeToMatch"], ShowTimeToMatch);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_ShowNumberOfPlayersMatching; ToJsonUtilP(ShowNumberOfPlayersMatching, each_ShowNumberOfPlayersMatching); output["ShowNumberOfPlayersMatching"] = each_ShowNumberOfPlayersMatching;
-                Json::Value each_ShowTimeToMatch; ToJsonUtilP(ShowTimeToMatch, each_ShowTimeToMatch); output["ShowTimeToMatch"] = each_ShowTimeToMatch;
-                return output;
-            }
-        };
-
-        struct StringEqualityRuleExpansion : public PlayFabBaseModel
-        {
-            std::list<bool> EnabledOverrides;
-            Uint32 SecondsBetweenExpansions;
-
-            StringEqualityRuleExpansion() :
-                PlayFabBaseModel(),
-                EnabledOverrides(),
-                SecondsBetweenExpansions()
-            {}
-
-            StringEqualityRuleExpansion(const StringEqualityRuleExpansion& src) :
-                PlayFabBaseModel(),
-                EnabledOverrides(src.EnabledOverrides),
-                SecondsBetweenExpansions(src.SecondsBetweenExpansions)
-            {}
-
-            ~StringEqualityRuleExpansion() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilP(input["EnabledOverrides"], EnabledOverrides);
-                FromJsonUtilP(input["SecondsBetweenExpansions"], SecondsBetweenExpansions);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_EnabledOverrides; ToJsonUtilP(EnabledOverrides, each_EnabledOverrides); output["EnabledOverrides"] = each_EnabledOverrides;
-                Json::Value each_SecondsBetweenExpansions; ToJsonUtilP(SecondsBetweenExpansions, each_SecondsBetweenExpansions); output["SecondsBetweenExpansions"] = each_SecondsBetweenExpansions;
-                return output;
-            }
-        };
-
-        struct StringEqualityRule : public PlayFabBaseModel
-        {
-            QueueRuleAttribute Attribute;
-            AttributeNotSpecifiedBehavior pfAttributeNotSpecifiedBehavior;
-            std::string DefaultAttributeValue;
-            Boxed<StringEqualityRuleExpansion> Expansion;
-            std::string Name;
-            Boxed<Uint32> SecondsUntilOptional;
-            double Weight;
-
-            StringEqualityRule() :
-                PlayFabBaseModel(),
-                Attribute(),
-                pfAttributeNotSpecifiedBehavior(),
-                DefaultAttributeValue(),
-                Expansion(),
-                Name(),
-                SecondsUntilOptional(),
-                Weight()
-            {}
-
-            StringEqualityRule(const StringEqualityRule& src) :
-                PlayFabBaseModel(),
-                Attribute(src.Attribute),
-                pfAttributeNotSpecifiedBehavior(src.pfAttributeNotSpecifiedBehavior),
-                DefaultAttributeValue(src.DefaultAttributeValue),
-                Expansion(src.Expansion),
-                Name(src.Name),
-                SecondsUntilOptional(src.SecondsUntilOptional),
-                Weight(src.Weight)
-            {}
-
-            ~StringEqualityRule() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["Attribute"], Attribute);
-                FromJsonEnum(input["pfAttributeNotSpecifiedBehavior"], pfAttributeNotSpecifiedBehavior);
-                FromJsonUtilS(input["DefaultAttributeValue"], DefaultAttributeValue);
-                FromJsonUtilO(input["Expansion"], Expansion);
-                FromJsonUtilS(input["Name"], Name);
-                FromJsonUtilP(input["SecondsUntilOptional"], SecondsUntilOptional);
-                FromJsonUtilP(input["Weight"], Weight);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Attribute; ToJsonUtilO(Attribute, each_Attribute); output["Attribute"] = each_Attribute;
-                Json::Value each_pfAttributeNotSpecifiedBehavior; ToJsonEnum(pfAttributeNotSpecifiedBehavior, each_pfAttributeNotSpecifiedBehavior); output["AttributeNotSpecifiedBehavior"] = each_pfAttributeNotSpecifiedBehavior;
-                Json::Value each_DefaultAttributeValue; ToJsonUtilS(DefaultAttributeValue, each_DefaultAttributeValue); output["DefaultAttributeValue"] = each_DefaultAttributeValue;
-                Json::Value each_Expansion; ToJsonUtilO(Expansion, each_Expansion); output["Expansion"] = each_Expansion;
-                Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
-                Json::Value each_SecondsUntilOptional; ToJsonUtilP(SecondsUntilOptional, each_SecondsUntilOptional); output["SecondsUntilOptional"] = each_SecondsUntilOptional;
-                Json::Value each_Weight; ToJsonUtilP(Weight, each_Weight); output["Weight"] = each_Weight;
-                return output;
-            }
-        };
-
-        struct LinearTeamDifferenceRuleExpansion : public PlayFabBaseModel
-        {
-            double Delta;
-            Boxed<double> Limit;
-            Uint32 SecondsBetweenExpansions;
-
-            LinearTeamDifferenceRuleExpansion() :
-                PlayFabBaseModel(),
-                Delta(),
-                Limit(),
-                SecondsBetweenExpansions()
-            {}
-
-            LinearTeamDifferenceRuleExpansion(const LinearTeamDifferenceRuleExpansion& src) :
-                PlayFabBaseModel(),
-                Delta(src.Delta),
-                Limit(src.Limit),
-                SecondsBetweenExpansions(src.SecondsBetweenExpansions)
-            {}
-
-            ~LinearTeamDifferenceRuleExpansion() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilP(input["Delta"], Delta);
-                FromJsonUtilP(input["Limit"], Limit);
-                FromJsonUtilP(input["SecondsBetweenExpansions"], SecondsBetweenExpansions);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Delta; ToJsonUtilP(Delta, each_Delta); output["Delta"] = each_Delta;
-                Json::Value each_Limit; ToJsonUtilP(Limit, each_Limit); output["Limit"] = each_Limit;
-                Json::Value each_SecondsBetweenExpansions; ToJsonUtilP(SecondsBetweenExpansions, each_SecondsBetweenExpansions); output["SecondsBetweenExpansions"] = each_SecondsBetweenExpansions;
-                return output;
-            }
-        };
-
-        struct TeamDifferenceRule : public PlayFabBaseModel
-        {
-            QueueRuleAttribute Attribute;
-            Boxed<CustomTeamDifferenceRuleExpansion> CustomExpansion;
-            double DefaultAttributeValue;
-            double Difference;
-            Boxed<LinearTeamDifferenceRuleExpansion> LinearExpansion;
-            std::string Name;
-            Boxed<Uint32> SecondsUntilOptional;
-
-            TeamDifferenceRule() :
-                PlayFabBaseModel(),
-                Attribute(),
-                CustomExpansion(),
-                DefaultAttributeValue(),
-                Difference(),
-                LinearExpansion(),
-                Name(),
-                SecondsUntilOptional()
-            {}
-
-            TeamDifferenceRule(const TeamDifferenceRule& src) :
-                PlayFabBaseModel(),
-                Attribute(src.Attribute),
-                CustomExpansion(src.CustomExpansion),
-                DefaultAttributeValue(src.DefaultAttributeValue),
-                Difference(src.Difference),
-                LinearExpansion(src.LinearExpansion),
-                Name(src.Name),
-                SecondsUntilOptional(src.SecondsUntilOptional)
-            {}
-
-            ~TeamDifferenceRule() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["Attribute"], Attribute);
-                FromJsonUtilO(input["CustomExpansion"], CustomExpansion);
-                FromJsonUtilP(input["DefaultAttributeValue"], DefaultAttributeValue);
-                FromJsonUtilP(input["Difference"], Difference);
-                FromJsonUtilO(input["LinearExpansion"], LinearExpansion);
-                FromJsonUtilS(input["Name"], Name);
-                FromJsonUtilP(input["SecondsUntilOptional"], SecondsUntilOptional);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Attribute; ToJsonUtilO(Attribute, each_Attribute); output["Attribute"] = each_Attribute;
-                Json::Value each_CustomExpansion; ToJsonUtilO(CustomExpansion, each_CustomExpansion); output["CustomExpansion"] = each_CustomExpansion;
-                Json::Value each_DefaultAttributeValue; ToJsonUtilP(DefaultAttributeValue, each_DefaultAttributeValue); output["DefaultAttributeValue"] = each_DefaultAttributeValue;
-                Json::Value each_Difference; ToJsonUtilP(Difference, each_Difference); output["Difference"] = each_Difference;
-                Json::Value each_LinearExpansion; ToJsonUtilO(LinearExpansion, each_LinearExpansion); output["LinearExpansion"] = each_LinearExpansion;
-                Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
-                Json::Value each_SecondsUntilOptional; ToJsonUtilP(SecondsUntilOptional, each_SecondsUntilOptional); output["SecondsUntilOptional"] = each_SecondsUntilOptional;
-                return output;
-            }
-        };
-
-        struct MatchmakingQueueTeam : public PlayFabBaseModel
-        {
-            Uint32 MaxTeamSize;
-            Uint32 MinTeamSize;
-            std::string Name;
-
-            MatchmakingQueueTeam() :
-                PlayFabBaseModel(),
-                MaxTeamSize(),
-                MinTeamSize(),
-                Name()
-            {}
-
-            MatchmakingQueueTeam(const MatchmakingQueueTeam& src) :
-                PlayFabBaseModel(),
-                MaxTeamSize(src.MaxTeamSize),
-                MinTeamSize(src.MinTeamSize),
-                Name(src.Name)
-            {}
-
-            ~MatchmakingQueueTeam() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilP(input["MaxTeamSize"], MaxTeamSize);
-                FromJsonUtilP(input["MinTeamSize"], MinTeamSize);
-                FromJsonUtilS(input["Name"], Name);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_MaxTeamSize; ToJsonUtilP(MaxTeamSize, each_MaxTeamSize); output["MaxTeamSize"] = each_MaxTeamSize;
-                Json::Value each_MinTeamSize; ToJsonUtilP(MinTeamSize, each_MinTeamSize); output["MinTeamSize"] = each_MinTeamSize;
-                Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
-                return output;
-            }
-        };
-
-        struct LinearTeamSizeBalanceRuleExpansion : public PlayFabBaseModel
-        {
-            Uint32 Delta;
-            Boxed<Uint32> Limit;
-            Uint32 SecondsBetweenExpansions;
-
-            LinearTeamSizeBalanceRuleExpansion() :
-                PlayFabBaseModel(),
-                Delta(),
-                Limit(),
-                SecondsBetweenExpansions()
-            {}
-
-            LinearTeamSizeBalanceRuleExpansion(const LinearTeamSizeBalanceRuleExpansion& src) :
-                PlayFabBaseModel(),
-                Delta(src.Delta),
-                Limit(src.Limit),
-                SecondsBetweenExpansions(src.SecondsBetweenExpansions)
-            {}
-
-            ~LinearTeamSizeBalanceRuleExpansion() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilP(input["Delta"], Delta);
-                FromJsonUtilP(input["Limit"], Limit);
-                FromJsonUtilP(input["SecondsBetweenExpansions"], SecondsBetweenExpansions);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Delta; ToJsonUtilP(Delta, each_Delta); output["Delta"] = each_Delta;
-                Json::Value each_Limit; ToJsonUtilP(Limit, each_Limit); output["Limit"] = each_Limit;
-                Json::Value each_SecondsBetweenExpansions; ToJsonUtilP(SecondsBetweenExpansions, each_SecondsBetweenExpansions); output["SecondsBetweenExpansions"] = each_SecondsBetweenExpansions;
-                return output;
-            }
-        };
-
-        struct TeamSizeBalanceRule : public PlayFabBaseModel
-        {
-            Boxed<CustomTeamSizeBalanceRuleExpansion> CustomExpansion;
-            Uint32 Difference;
-            Boxed<LinearTeamSizeBalanceRuleExpansion> LinearExpansion;
-            std::string Name;
-            Boxed<Uint32> SecondsUntilOptional;
-
-            TeamSizeBalanceRule() :
-                PlayFabBaseModel(),
-                CustomExpansion(),
-                Difference(),
-                LinearExpansion(),
-                Name(),
-                SecondsUntilOptional()
-            {}
-
-            TeamSizeBalanceRule(const TeamSizeBalanceRule& src) :
-                PlayFabBaseModel(),
-                CustomExpansion(src.CustomExpansion),
-                Difference(src.Difference),
-                LinearExpansion(src.LinearExpansion),
-                Name(src.Name),
-                SecondsUntilOptional(src.SecondsUntilOptional)
-            {}
-
-            ~TeamSizeBalanceRule() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["CustomExpansion"], CustomExpansion);
-                FromJsonUtilP(input["Difference"], Difference);
-                FromJsonUtilO(input["LinearExpansion"], LinearExpansion);
-                FromJsonUtilS(input["Name"], Name);
-                FromJsonUtilP(input["SecondsUntilOptional"], SecondsUntilOptional);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_CustomExpansion; ToJsonUtilO(CustomExpansion, each_CustomExpansion); output["CustomExpansion"] = each_CustomExpansion;
-                Json::Value each_Difference; ToJsonUtilP(Difference, each_Difference); output["Difference"] = each_Difference;
-                Json::Value each_LinearExpansion; ToJsonUtilO(LinearExpansion, each_LinearExpansion); output["LinearExpansion"] = each_LinearExpansion;
-                Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
-                Json::Value each_SecondsUntilOptional; ToJsonUtilP(SecondsUntilOptional, each_SecondsUntilOptional); output["SecondsUntilOptional"] = each_SecondsUntilOptional;
-                return output;
-            }
-        };
-
-        struct TeamTicketSizeSimilarityRule : public PlayFabBaseModel
-        {
-            std::string Name;
-            Boxed<Uint32> SecondsUntilOptional;
-
-            TeamTicketSizeSimilarityRule() :
-                PlayFabBaseModel(),
-                Name(),
-                SecondsUntilOptional()
-            {}
-
-            TeamTicketSizeSimilarityRule(const TeamTicketSizeSimilarityRule& src) :
-                PlayFabBaseModel(),
-                Name(src.Name),
-                SecondsUntilOptional(src.SecondsUntilOptional)
-            {}
-
-            ~TeamTicketSizeSimilarityRule() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilS(input["Name"], Name);
-                FromJsonUtilP(input["SecondsUntilOptional"], SecondsUntilOptional);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
-                Json::Value each_SecondsUntilOptional; ToJsonUtilP(SecondsUntilOptional, each_SecondsUntilOptional); output["SecondsUntilOptional"] = each_SecondsUntilOptional;
-                return output;
-            }
-        };
-
-        struct MatchmakingQueueConfig : public PlayFabBaseModel
-        {
-            std::string BuildId;
-            std::list<DifferenceRule> DifferenceRules;
-            std::list<MatchTotalRule> MatchTotalRules;
-            Uint32 MaxMatchSize;
-            Boxed<Uint32> MaxTicketSize;
-            Uint32 MinMatchSize;
-            std::string Name;
-            Boxed<RegionSelectionRule> pfRegionSelectionRule;
-            bool ServerAllocationEnabled;
-            std::list<SetIntersectionRule> SetIntersectionRules;
-            Boxed<StatisticsVisibilityToPlayers> pfStatisticsVisibilityToPlayers;
-            std::list<StringEqualityRule> StringEqualityRules;
-            std::list<TeamDifferenceRule> TeamDifferenceRules;
-            std::list<MatchmakingQueueTeam> Teams;
-            Boxed<TeamSizeBalanceRule> pfTeamSizeBalanceRule;
-            Boxed<TeamTicketSizeSimilarityRule> pfTeamTicketSizeSimilarityRule;
-
-            MatchmakingQueueConfig() :
-                PlayFabBaseModel(),
-                BuildId(),
-                DifferenceRules(),
-                MatchTotalRules(),
-                MaxMatchSize(),
-                MaxTicketSize(),
-                MinMatchSize(),
-                Name(),
-                pfRegionSelectionRule(),
-                ServerAllocationEnabled(),
-                SetIntersectionRules(),
-                pfStatisticsVisibilityToPlayers(),
-                StringEqualityRules(),
-                TeamDifferenceRules(),
-                Teams(),
-                pfTeamSizeBalanceRule(),
-                pfTeamTicketSizeSimilarityRule()
-            {}
-
-            MatchmakingQueueConfig(const MatchmakingQueueConfig& src) :
-                PlayFabBaseModel(),
-                BuildId(src.BuildId),
-                DifferenceRules(src.DifferenceRules),
-                MatchTotalRules(src.MatchTotalRules),
-                MaxMatchSize(src.MaxMatchSize),
-                MaxTicketSize(src.MaxTicketSize),
-                MinMatchSize(src.MinMatchSize),
-                Name(src.Name),
-                pfRegionSelectionRule(src.pfRegionSelectionRule),
-                ServerAllocationEnabled(src.ServerAllocationEnabled),
-                SetIntersectionRules(src.SetIntersectionRules),
-                pfStatisticsVisibilityToPlayers(src.pfStatisticsVisibilityToPlayers),
-                StringEqualityRules(src.StringEqualityRules),
-                TeamDifferenceRules(src.TeamDifferenceRules),
-                Teams(src.Teams),
-                pfTeamSizeBalanceRule(src.pfTeamSizeBalanceRule),
-                pfTeamTicketSizeSimilarityRule(src.pfTeamTicketSizeSimilarityRule)
-            {}
-
-            ~MatchmakingQueueConfig() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilS(input["BuildId"], BuildId);
-                FromJsonUtilO(input["DifferenceRules"], DifferenceRules);
-                FromJsonUtilO(input["MatchTotalRules"], MatchTotalRules);
-                FromJsonUtilP(input["MaxMatchSize"], MaxMatchSize);
-                FromJsonUtilP(input["MaxTicketSize"], MaxTicketSize);
-                FromJsonUtilP(input["MinMatchSize"], MinMatchSize);
-                FromJsonUtilS(input["Name"], Name);
-                FromJsonUtilO(input["pfRegionSelectionRule"], pfRegionSelectionRule);
-                FromJsonUtilP(input["ServerAllocationEnabled"], ServerAllocationEnabled);
-                FromJsonUtilO(input["SetIntersectionRules"], SetIntersectionRules);
-                FromJsonUtilO(input["pfStatisticsVisibilityToPlayers"], pfStatisticsVisibilityToPlayers);
-                FromJsonUtilO(input["StringEqualityRules"], StringEqualityRules);
-                FromJsonUtilO(input["TeamDifferenceRules"], TeamDifferenceRules);
-                FromJsonUtilO(input["Teams"], Teams);
-                FromJsonUtilO(input["pfTeamSizeBalanceRule"], pfTeamSizeBalanceRule);
-                FromJsonUtilO(input["pfTeamTicketSizeSimilarityRule"], pfTeamTicketSizeSimilarityRule);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_BuildId; ToJsonUtilS(BuildId, each_BuildId); output["BuildId"] = each_BuildId;
-                Json::Value each_DifferenceRules; ToJsonUtilO(DifferenceRules, each_DifferenceRules); output["DifferenceRules"] = each_DifferenceRules;
-                Json::Value each_MatchTotalRules; ToJsonUtilO(MatchTotalRules, each_MatchTotalRules); output["MatchTotalRules"] = each_MatchTotalRules;
-                Json::Value each_MaxMatchSize; ToJsonUtilP(MaxMatchSize, each_MaxMatchSize); output["MaxMatchSize"] = each_MaxMatchSize;
-                Json::Value each_MaxTicketSize; ToJsonUtilP(MaxTicketSize, each_MaxTicketSize); output["MaxTicketSize"] = each_MaxTicketSize;
-                Json::Value each_MinMatchSize; ToJsonUtilP(MinMatchSize, each_MinMatchSize); output["MinMatchSize"] = each_MinMatchSize;
-                Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
-                Json::Value each_pfRegionSelectionRule; ToJsonUtilO(pfRegionSelectionRule, each_pfRegionSelectionRule); output["RegionSelectionRule"] = each_pfRegionSelectionRule;
-                Json::Value each_ServerAllocationEnabled; ToJsonUtilP(ServerAllocationEnabled, each_ServerAllocationEnabled); output["ServerAllocationEnabled"] = each_ServerAllocationEnabled;
-                Json::Value each_SetIntersectionRules; ToJsonUtilO(SetIntersectionRules, each_SetIntersectionRules); output["SetIntersectionRules"] = each_SetIntersectionRules;
-                Json::Value each_pfStatisticsVisibilityToPlayers; ToJsonUtilO(pfStatisticsVisibilityToPlayers, each_pfStatisticsVisibilityToPlayers); output["StatisticsVisibilityToPlayers"] = each_pfStatisticsVisibilityToPlayers;
-                Json::Value each_StringEqualityRules; ToJsonUtilO(StringEqualityRules, each_StringEqualityRules); output["StringEqualityRules"] = each_StringEqualityRules;
-                Json::Value each_TeamDifferenceRules; ToJsonUtilO(TeamDifferenceRules, each_TeamDifferenceRules); output["TeamDifferenceRules"] = each_TeamDifferenceRules;
-                Json::Value each_Teams; ToJsonUtilO(Teams, each_Teams); output["Teams"] = each_Teams;
-                Json::Value each_pfTeamSizeBalanceRule; ToJsonUtilO(pfTeamSizeBalanceRule, each_pfTeamSizeBalanceRule); output["TeamSizeBalanceRule"] = each_pfTeamSizeBalanceRule;
-                Json::Value each_pfTeamTicketSizeSimilarityRule; ToJsonUtilO(pfTeamTicketSizeSimilarityRule, each_pfTeamTicketSizeSimilarityRule); output["TeamTicketSizeSimilarityRule"] = each_pfTeamTicketSizeSimilarityRule;
-                return output;
-            }
-        };
-
-        struct GetMatchmakingQueueResult : public PlayFabResultCommon
-        {
-            Boxed<MatchmakingQueueConfig> MatchmakingQueue;
-
-            GetMatchmakingQueueResult() :
-                PlayFabResultCommon(),
-                MatchmakingQueue()
-            {}
-
-            GetMatchmakingQueueResult(const GetMatchmakingQueueResult& src) :
-                PlayFabResultCommon(),
-                MatchmakingQueue(src.MatchmakingQueue)
-            {}
-
-            ~GetMatchmakingQueueResult() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["MatchmakingQueue"], MatchmakingQueue);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_MatchmakingQueue; ToJsonUtilO(MatchmakingQueue, each_MatchmakingQueue); output["MatchmakingQueue"] = each_MatchmakingQueue;
-                return output;
-            }
-        };
-
         struct GetMatchmakingTicketRequest : public PlayFabRequestCommon
         {
             bool EscapeObject;
@@ -3761,6 +2513,7 @@ namespace PlayFabInternal
         struct GetMatchmakingTicketResult : public PlayFabResultCommon
         {
             Boxed<CancellationReason> pfCancellationReason;
+            std::string CancellationReasonString;
             time_t Created;
             EntityKey Creator;
             Int32 GiveUpAfterSeconds;
@@ -3774,6 +2527,7 @@ namespace PlayFabInternal
             GetMatchmakingTicketResult() :
                 PlayFabResultCommon(),
                 pfCancellationReason(),
+                CancellationReasonString(),
                 Created(),
                 Creator(),
                 GiveUpAfterSeconds(),
@@ -3788,6 +2542,7 @@ namespace PlayFabInternal
             GetMatchmakingTicketResult(const GetMatchmakingTicketResult& src) :
                 PlayFabResultCommon(),
                 pfCancellationReason(src.pfCancellationReason),
+                CancellationReasonString(src.CancellationReasonString),
                 Created(src.Created),
                 Creator(src.Creator),
                 GiveUpAfterSeconds(src.GiveUpAfterSeconds),
@@ -3803,7 +2558,8 @@ namespace PlayFabInternal
 
             void FromJson(Json::Value& input) override
             {
-                FromJsonUtilE(input["pfCancellationReason"], pfCancellationReason);
+                FromJsonUtilE(input["CancellationReason"], pfCancellationReason);
+                FromJsonUtilS(input["CancellationReasonString"], CancellationReasonString);
                 FromJsonUtilT(input["Created"], Created);
                 FromJsonUtilO(input["Creator"], Creator);
                 FromJsonUtilP(input["GiveUpAfterSeconds"], GiveUpAfterSeconds);
@@ -3819,6 +2575,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_pfCancellationReason; ToJsonUtilE(pfCancellationReason, each_pfCancellationReason); output["CancellationReason"] = each_pfCancellationReason;
+                Json::Value each_CancellationReasonString; ToJsonUtilS(CancellationReasonString, each_CancellationReasonString); output["CancellationReasonString"] = each_CancellationReasonString;
                 Json::Value each_Created; ToJsonUtilT(Created, each_Created); output["Created"] = each_Created;
                 Json::Value each_Creator; ToJsonUtilO(Creator, each_Creator); output["Creator"] = each_Creator;
                 Json::Value each_GiveUpAfterSeconds; ToJsonUtilP(GiveUpAfterSeconds, each_GiveUpAfterSeconds); output["GiveUpAfterSeconds"] = each_GiveUpAfterSeconds;
@@ -3906,7 +2663,7 @@ namespace PlayFabInternal
                 FromJsonUtilS(input["MatchId"], MatchId);
                 FromJsonUtilO(input["Members"], Members);
                 FromJsonUtilS(input["RegionPreferences"], RegionPreferences);
-                FromJsonUtilO(input["pfServerDetails"], pfServerDetails);
+                FromJsonUtilO(input["ServerDetails"], pfServerDetails);
             }
 
             Json::Value ToJson() const override
@@ -3923,7 +2680,7 @@ namespace PlayFabInternal
         struct GetMultiplayerServerDetailsRequest : public PlayFabRequestCommon
         {
             std::string BuildId;
-            AzureRegion Region;
+            std::string Region;
             std::string SessionId;
 
             GetMultiplayerServerDetailsRequest() :
@@ -3945,7 +2702,7 @@ namespace PlayFabInternal
             void FromJson(Json::Value& input) override
             {
                 FromJsonUtilS(input["BuildId"], BuildId);
-                FromJsonEnum(input["Region"], Region);
+                FromJsonUtilS(input["Region"], Region);
                 FromJsonUtilS(input["SessionId"], SessionId);
             }
 
@@ -3953,7 +2710,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_BuildId; ToJsonUtilS(BuildId, each_BuildId); output["BuildId"] = each_BuildId;
-                Json::Value each_Region; ToJsonEnum(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 Json::Value each_SessionId; ToJsonUtilS(SessionId, each_SessionId); output["SessionId"] = each_SessionId;
                 return output;
             }
@@ -3966,7 +2723,7 @@ namespace PlayFabInternal
             std::string IPV4Address;
             Boxed<time_t> LastStateTransitionTime;
             std::list<Port> Ports;
-            Boxed<AzureRegion> Region;
+            std::string Region;
             std::string ServerId;
             std::string SessionId;
             std::string State;
@@ -4009,7 +2766,7 @@ namespace PlayFabInternal
                 FromJsonUtilS(input["IPV4Address"], IPV4Address);
                 FromJsonUtilT(input["LastStateTransitionTime"], LastStateTransitionTime);
                 FromJsonUtilO(input["Ports"], Ports);
-                FromJsonUtilE(input["Region"], Region);
+                FromJsonUtilS(input["Region"], Region);
                 FromJsonUtilS(input["ServerId"], ServerId);
                 FromJsonUtilS(input["SessionId"], SessionId);
                 FromJsonUtilS(input["State"], State);
@@ -4024,7 +2781,7 @@ namespace PlayFabInternal
                 Json::Value each_IPV4Address; ToJsonUtilS(IPV4Address, each_IPV4Address); output["IPV4Address"] = each_IPV4Address;
                 Json::Value each_LastStateTransitionTime; ToJsonUtilT(LastStateTransitionTime, each_LastStateTransitionTime); output["LastStateTransitionTime"] = each_LastStateTransitionTime;
                 Json::Value each_Ports; ToJsonUtilO(Ports, each_Ports); output["Ports"] = each_Ports;
-                Json::Value each_Region; ToJsonUtilE(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 Json::Value each_ServerId; ToJsonUtilS(ServerId, each_ServerId); output["ServerId"] = each_ServerId;
                 Json::Value each_SessionId; ToJsonUtilS(SessionId, each_SessionId); output["SessionId"] = each_SessionId;
                 Json::Value each_State; ToJsonUtilS(State, each_State); output["State"] = each_State;
@@ -4035,7 +2792,7 @@ namespace PlayFabInternal
 
         struct GetMultiplayerServerLogsRequest : public PlayFabRequestCommon
         {
-            AzureRegion Region;
+            std::string Region;
             std::string ServerId;
 
             GetMultiplayerServerLogsRequest() :
@@ -4054,14 +2811,14 @@ namespace PlayFabInternal
 
             void FromJson(Json::Value& input) override
             {
-                FromJsonEnum(input["Region"], Region);
+                FromJsonUtilS(input["Region"], Region);
                 FromJsonUtilS(input["ServerId"], ServerId);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
-                Json::Value each_Region; ToJsonEnum(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 Json::Value each_ServerId; ToJsonUtilS(ServerId, each_ServerId); output["ServerId"] = each_ServerId;
                 return output;
             }
@@ -4206,7 +2963,7 @@ namespace PlayFabInternal
         struct GetRemoteLoginEndpointRequest : public PlayFabRequestCommon
         {
             std::string BuildId;
-            AzureRegion Region;
+            std::string Region;
             std::string VmId;
 
             GetRemoteLoginEndpointRequest() :
@@ -4228,7 +2985,7 @@ namespace PlayFabInternal
             void FromJson(Json::Value& input) override
             {
                 FromJsonUtilS(input["BuildId"], BuildId);
-                FromJsonEnum(input["Region"], Region);
+                FromJsonUtilS(input["Region"], Region);
                 FromJsonUtilS(input["VmId"], VmId);
             }
 
@@ -4236,7 +2993,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_BuildId; ToJsonUtilS(BuildId, each_BuildId); output["BuildId"] = each_BuildId;
-                Json::Value each_Region; ToJsonEnum(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 Json::Value each_VmId; ToJsonUtilS(VmId, each_VmId); output["VmId"] = each_VmId;
                 return output;
             }
@@ -4318,6 +3075,7 @@ namespace PlayFabInternal
         struct GetServerBackfillTicketResult : public PlayFabResultCommon
         {
             Boxed<CancellationReason> pfCancellationReason;
+            std::string CancellationReasonString;
             time_t Created;
             Int32 GiveUpAfterSeconds;
             std::string MatchId;
@@ -4330,6 +3088,7 @@ namespace PlayFabInternal
             GetServerBackfillTicketResult() :
                 PlayFabResultCommon(),
                 pfCancellationReason(),
+                CancellationReasonString(),
                 Created(),
                 GiveUpAfterSeconds(),
                 MatchId(),
@@ -4343,6 +3102,7 @@ namespace PlayFabInternal
             GetServerBackfillTicketResult(const GetServerBackfillTicketResult& src) :
                 PlayFabResultCommon(),
                 pfCancellationReason(src.pfCancellationReason),
+                CancellationReasonString(src.CancellationReasonString),
                 Created(src.Created),
                 GiveUpAfterSeconds(src.GiveUpAfterSeconds),
                 MatchId(src.MatchId),
@@ -4357,13 +3117,14 @@ namespace PlayFabInternal
 
             void FromJson(Json::Value& input) override
             {
-                FromJsonUtilE(input["pfCancellationReason"], pfCancellationReason);
+                FromJsonUtilE(input["CancellationReason"], pfCancellationReason);
+                FromJsonUtilS(input["CancellationReasonString"], CancellationReasonString);
                 FromJsonUtilT(input["Created"], Created);
                 FromJsonUtilP(input["GiveUpAfterSeconds"], GiveUpAfterSeconds);
                 FromJsonUtilS(input["MatchId"], MatchId);
                 FromJsonUtilO(input["Members"], Members);
                 FromJsonUtilS(input["QueueName"], QueueName);
-                FromJsonUtilO(input["pfServerDetails"], pfServerDetails);
+                FromJsonUtilO(input["ServerDetails"], pfServerDetails);
                 FromJsonUtilS(input["Status"], Status);
                 FromJsonUtilS(input["TicketId"], TicketId);
             }
@@ -4372,6 +3133,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_pfCancellationReason; ToJsonUtilE(pfCancellationReason, each_pfCancellationReason); output["CancellationReason"] = each_pfCancellationReason;
+                Json::Value each_CancellationReasonString; ToJsonUtilS(CancellationReasonString, each_CancellationReasonString); output["CancellationReasonString"] = each_CancellationReasonString;
                 Json::Value each_Created; ToJsonUtilT(Created, each_Created); output["Created"] = each_Created;
                 Json::Value each_GiveUpAfterSeconds; ToJsonUtilP(GiveUpAfterSeconds, each_GiveUpAfterSeconds); output["GiveUpAfterSeconds"] = each_GiveUpAfterSeconds;
                 Json::Value each_MatchId; ToJsonUtilS(MatchId, each_MatchId); output["MatchId"] = each_MatchId;
@@ -4932,59 +3694,6 @@ namespace PlayFabInternal
             }
         };
 
-        struct ListMatchmakingQueuesRequest : public PlayFabRequestCommon
-        {
-
-            ListMatchmakingQueuesRequest() :
-                PlayFabRequestCommon()
-            {}
-
-            ListMatchmakingQueuesRequest(const ListMatchmakingQueuesRequest&) :
-                PlayFabRequestCommon()
-            {}
-
-            ~ListMatchmakingQueuesRequest() = default;
-
-            void FromJson(Json::Value&) override
-            {
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                return output;
-            }
-        };
-
-        struct ListMatchmakingQueuesResult : public PlayFabResultCommon
-        {
-            std::list<MatchmakingQueueConfig> MatchMakingQueues;
-
-            ListMatchmakingQueuesResult() :
-                PlayFabResultCommon(),
-                MatchMakingQueues()
-            {}
-
-            ListMatchmakingQueuesResult(const ListMatchmakingQueuesResult& src) :
-                PlayFabResultCommon(),
-                MatchMakingQueues(src.MatchMakingQueues)
-            {}
-
-            ~ListMatchmakingQueuesResult() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["MatchMakingQueues"], MatchMakingQueues);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_MatchMakingQueues; ToJsonUtilO(MatchMakingQueues, each_MatchMakingQueues); output["MatchMakingQueues"] = each_MatchMakingQueues;
-                return output;
-            }
-        };
-
         struct ListMatchmakingTicketsForPlayerRequest : public PlayFabRequestCommon
         {
             Boxed<EntityKey> Entity;
@@ -5052,7 +3761,7 @@ namespace PlayFabInternal
         {
             std::string BuildId;
             Boxed<Int32> PageSize;
-            AzureRegion Region;
+            std::string Region;
             std::string SkipToken;
 
             ListMultiplayerServersRequest() :
@@ -5077,7 +3786,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["BuildId"], BuildId);
                 FromJsonUtilP(input["PageSize"], PageSize);
-                FromJsonEnum(input["Region"], Region);
+                FromJsonUtilS(input["Region"], Region);
                 FromJsonUtilS(input["SkipToken"], SkipToken);
             }
 
@@ -5086,7 +3795,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_BuildId; ToJsonUtilS(BuildId, each_BuildId); output["BuildId"] = each_BuildId;
                 Json::Value each_PageSize; ToJsonUtilP(PageSize, each_PageSize); output["PageSize"] = each_PageSize;
-                Json::Value each_Region; ToJsonEnum(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 Json::Value each_SkipToken; ToJsonUtilS(SkipToken, each_SkipToken); output["SkipToken"] = each_SkipToken;
                 return output;
             }
@@ -5096,7 +3805,7 @@ namespace PlayFabInternal
         {
             std::list<ConnectedPlayer> ConnectedPlayers;
             Boxed<time_t> LastStateTransitionTime;
-            Boxed<AzureRegion> Region;
+            std::string Region;
             std::string ServerId;
             std::string SessionId;
             std::string State;
@@ -5130,7 +3839,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilO(input["ConnectedPlayers"], ConnectedPlayers);
                 FromJsonUtilT(input["LastStateTransitionTime"], LastStateTransitionTime);
-                FromJsonUtilE(input["Region"], Region);
+                FromJsonUtilS(input["Region"], Region);
                 FromJsonUtilS(input["ServerId"], ServerId);
                 FromJsonUtilS(input["SessionId"], SessionId);
                 FromJsonUtilS(input["State"], State);
@@ -5142,7 +3851,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_ConnectedPlayers; ToJsonUtilO(ConnectedPlayers, each_ConnectedPlayers); output["ConnectedPlayers"] = each_ConnectedPlayers;
                 Json::Value each_LastStateTransitionTime; ToJsonUtilT(LastStateTransitionTime, each_LastStateTransitionTime); output["LastStateTransitionTime"] = each_LastStateTransitionTime;
-                Json::Value each_Region; ToJsonUtilE(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 Json::Value each_ServerId; ToJsonUtilS(ServerId, each_ServerId); output["ServerId"] = each_ServerId;
                 Json::Value each_SessionId; ToJsonUtilS(SessionId, each_SessionId); output["SessionId"] = each_SessionId;
                 Json::Value each_State; ToJsonUtilS(State, each_State); output["State"] = each_State;
@@ -5190,6 +3899,108 @@ namespace PlayFabInternal
             }
         };
 
+        struct ListPartyQosServersRequest : public PlayFabRequestCommon
+        {
+            std::string Version;
+
+            ListPartyQosServersRequest() :
+                PlayFabRequestCommon(),
+                Version()
+            {}
+
+            ListPartyQosServersRequest(const ListPartyQosServersRequest& src) :
+                PlayFabRequestCommon(),
+                Version(src.Version)
+            {}
+
+            ~ListPartyQosServersRequest() = default;
+
+            void FromJson(Json::Value& input) override
+            {
+                FromJsonUtilS(input["Version"], Version);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_Version; ToJsonUtilS(Version, each_Version); output["Version"] = each_Version;
+                return output;
+            }
+        };
+
+        struct QosServer : public PlayFabBaseModel
+        {
+            std::string Region;
+            std::string ServerUrl;
+
+            QosServer() :
+                PlayFabBaseModel(),
+                Region(),
+                ServerUrl()
+            {}
+
+            QosServer(const QosServer& src) :
+                PlayFabBaseModel(),
+                Region(src.Region),
+                ServerUrl(src.ServerUrl)
+            {}
+
+            ~QosServer() = default;
+
+            void FromJson(Json::Value& input) override
+            {
+                FromJsonUtilS(input["Region"], Region);
+                FromJsonUtilS(input["ServerUrl"], ServerUrl);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_ServerUrl; ToJsonUtilS(ServerUrl, each_ServerUrl); output["ServerUrl"] = each_ServerUrl;
+                return output;
+            }
+        };
+
+        struct ListPartyQosServersResponse : public PlayFabResultCommon
+        {
+            Int32 PageSize;
+            std::list<QosServer> QosServers;
+            std::string SkipToken;
+
+            ListPartyQosServersResponse() :
+                PlayFabResultCommon(),
+                PageSize(),
+                QosServers(),
+                SkipToken()
+            {}
+
+            ListPartyQosServersResponse(const ListPartyQosServersResponse& src) :
+                PlayFabResultCommon(),
+                PageSize(src.PageSize),
+                QosServers(src.QosServers),
+                SkipToken(src.SkipToken)
+            {}
+
+            ~ListPartyQosServersResponse() = default;
+
+            void FromJson(Json::Value& input) override
+            {
+                FromJsonUtilP(input["PageSize"], PageSize);
+                FromJsonUtilO(input["QosServers"], QosServers);
+                FromJsonUtilS(input["SkipToken"], SkipToken);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_PageSize; ToJsonUtilP(PageSize, each_PageSize); output["PageSize"] = each_PageSize;
+                Json::Value each_QosServers; ToJsonUtilO(QosServers, each_QosServers); output["QosServers"] = each_QosServers;
+                Json::Value each_SkipToken; ToJsonUtilS(SkipToken, each_SkipToken); output["SkipToken"] = each_SkipToken;
+                return output;
+            }
+        };
+
         struct ListQosServersForTitleRequest : public PlayFabRequestCommon
         {
 
@@ -5210,40 +4021,6 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
-                return output;
-            }
-        };
-
-        struct QosServer : public PlayFabBaseModel
-        {
-            Boxed<AzureRegion> Region;
-            std::string ServerUrl;
-
-            QosServer() :
-                PlayFabBaseModel(),
-                Region(),
-                ServerUrl()
-            {}
-
-            QosServer(const QosServer& src) :
-                PlayFabBaseModel(),
-                Region(src.Region),
-                ServerUrl(src.ServerUrl)
-            {}
-
-            ~QosServer() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilE(input["Region"], Region);
-                FromJsonUtilS(input["ServerUrl"], ServerUrl);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Region; ToJsonUtilE(Region, each_Region); output["Region"] = each_Region;
-                Json::Value each_ServerUrl; ToJsonUtilS(ServerUrl, each_ServerUrl); output["ServerUrl"] = each_ServerUrl;
                 return output;
             }
         };
@@ -5417,7 +4194,7 @@ namespace PlayFabInternal
         {
             std::string BuildId;
             Boxed<Int32> PageSize;
-            AzureRegion Region;
+            std::string Region;
             std::string SkipToken;
 
             ListVirtualMachineSummariesRequest() :
@@ -5442,7 +4219,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["BuildId"], BuildId);
                 FromJsonUtilP(input["PageSize"], PageSize);
-                FromJsonEnum(input["Region"], Region);
+                FromJsonUtilS(input["Region"], Region);
                 FromJsonUtilS(input["SkipToken"], SkipToken);
             }
 
@@ -5451,7 +4228,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_BuildId; ToJsonUtilS(BuildId, each_BuildId); output["BuildId"] = each_BuildId;
                 Json::Value each_PageSize; ToJsonUtilP(PageSize, each_PageSize); output["PageSize"] = each_PageSize;
-                Json::Value each_Region; ToJsonEnum(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 Json::Value each_SkipToken; ToJsonUtilS(SkipToken, each_SkipToken); output["SkipToken"] = each_SkipToken;
                 return output;
             }
@@ -5535,64 +4312,11 @@ namespace PlayFabInternal
             }
         };
 
-        struct RemoveMatchmakingQueueRequest : public PlayFabRequestCommon
-        {
-            std::string QueueName;
-
-            RemoveMatchmakingQueueRequest() :
-                PlayFabRequestCommon(),
-                QueueName()
-            {}
-
-            RemoveMatchmakingQueueRequest(const RemoveMatchmakingQueueRequest& src) :
-                PlayFabRequestCommon(),
-                QueueName(src.QueueName)
-            {}
-
-            ~RemoveMatchmakingQueueRequest() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilS(input["QueueName"], QueueName);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_QueueName; ToJsonUtilS(QueueName, each_QueueName); output["QueueName"] = each_QueueName;
-                return output;
-            }
-        };
-
-        struct RemoveMatchmakingQueueResult : public PlayFabResultCommon
-        {
-
-            RemoveMatchmakingQueueResult() :
-                PlayFabResultCommon()
-            {}
-
-            RemoveMatchmakingQueueResult(const RemoveMatchmakingQueueResult&) :
-                PlayFabResultCommon()
-            {}
-
-            ~RemoveMatchmakingQueueResult() = default;
-
-            void FromJson(Json::Value&) override
-            {
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                return output;
-            }
-        };
-
         struct RequestMultiplayerServerRequest : public PlayFabRequestCommon
         {
             std::string BuildId;
             std::list<std::string> InitialPlayers;
-            std::list<AzureRegion> PreferredRegions;
+            std::list<std::string> PreferredRegions;
             std::string SessionCookie;
             std::string SessionId;
 
@@ -5620,7 +4344,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["BuildId"], BuildId);
                 FromJsonUtilS(input["InitialPlayers"], InitialPlayers);
-                FromJsonUtilE(input["PreferredRegions"], PreferredRegions);
+                FromJsonUtilS(input["PreferredRegions"], PreferredRegions);
                 FromJsonUtilS(input["SessionCookie"], SessionCookie);
                 FromJsonUtilS(input["SessionId"], SessionId);
             }
@@ -5630,7 +4354,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_BuildId; ToJsonUtilS(BuildId, each_BuildId); output["BuildId"] = each_BuildId;
                 Json::Value each_InitialPlayers; ToJsonUtilS(InitialPlayers, each_InitialPlayers); output["InitialPlayers"] = each_InitialPlayers;
-                Json::Value each_PreferredRegions; ToJsonUtilE(PreferredRegions, each_PreferredRegions); output["PreferredRegions"] = each_PreferredRegions;
+                Json::Value each_PreferredRegions; ToJsonUtilS(PreferredRegions, each_PreferredRegions); output["PreferredRegions"] = each_PreferredRegions;
                 Json::Value each_SessionCookie; ToJsonUtilS(SessionCookie, each_SessionCookie); output["SessionCookie"] = each_SessionCookie;
                 Json::Value each_SessionId; ToJsonUtilS(SessionId, each_SessionId); output["SessionId"] = each_SessionId;
                 return output;
@@ -5644,7 +4368,7 @@ namespace PlayFabInternal
             std::string IPV4Address;
             Boxed<time_t> LastStateTransitionTime;
             std::list<Port> Ports;
-            Boxed<AzureRegion> Region;
+            std::string Region;
             std::string ServerId;
             std::string SessionId;
             std::string State;
@@ -5687,7 +4411,7 @@ namespace PlayFabInternal
                 FromJsonUtilS(input["IPV4Address"], IPV4Address);
                 FromJsonUtilT(input["LastStateTransitionTime"], LastStateTransitionTime);
                 FromJsonUtilO(input["Ports"], Ports);
-                FromJsonUtilE(input["Region"], Region);
+                FromJsonUtilS(input["Region"], Region);
                 FromJsonUtilS(input["ServerId"], ServerId);
                 FromJsonUtilS(input["SessionId"], SessionId);
                 FromJsonUtilS(input["State"], State);
@@ -5702,7 +4426,7 @@ namespace PlayFabInternal
                 Json::Value each_IPV4Address; ToJsonUtilS(IPV4Address, each_IPV4Address); output["IPV4Address"] = each_IPV4Address;
                 Json::Value each_LastStateTransitionTime; ToJsonUtilT(LastStateTransitionTime, each_LastStateTransitionTime); output["LastStateTransitionTime"] = each_LastStateTransitionTime;
                 Json::Value each_Ports; ToJsonUtilO(Ports, each_Ports); output["Ports"] = each_Ports;
-                Json::Value each_Region; ToJsonUtilE(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 Json::Value each_ServerId; ToJsonUtilS(ServerId, each_ServerId); output["ServerId"] = each_ServerId;
                 Json::Value each_SessionId; ToJsonUtilS(SessionId, each_SessionId); output["SessionId"] = each_SessionId;
                 Json::Value each_State; ToJsonUtilS(State, each_State); output["State"] = each_State;
@@ -5714,7 +4438,7 @@ namespace PlayFabInternal
         struct RequestPartyRequest : public PlayFabRequestCommon
         {
             std::string PartyId;
-            std::list<AzureRegion> PreferredRegions;
+            std::list<std::string> PreferredRegions;
             std::string SessionCookie;
             std::string Version;
 
@@ -5739,7 +4463,7 @@ namespace PlayFabInternal
             void FromJson(Json::Value& input) override
             {
                 FromJsonUtilS(input["PartyId"], PartyId);
-                FromJsonUtilE(input["PreferredRegions"], PreferredRegions);
+                FromJsonUtilS(input["PreferredRegions"], PreferredRegions);
                 FromJsonUtilS(input["SessionCookie"], SessionCookie);
                 FromJsonUtilS(input["Version"], Version);
             }
@@ -5748,7 +4472,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_PartyId; ToJsonUtilS(PartyId, each_PartyId); output["PartyId"] = each_PartyId;
-                Json::Value each_PreferredRegions; ToJsonUtilE(PreferredRegions, each_PreferredRegions); output["PreferredRegions"] = each_PreferredRegions;
+                Json::Value each_PreferredRegions; ToJsonUtilS(PreferredRegions, each_PreferredRegions); output["PreferredRegions"] = each_PreferredRegions;
                 Json::Value each_SessionCookie; ToJsonUtilS(SessionCookie, each_SessionCookie); output["SessionCookie"] = each_SessionCookie;
                 Json::Value each_Version; ToJsonUtilS(Version, each_Version); output["Version"] = each_Version;
                 return output;
@@ -5764,7 +4488,7 @@ namespace PlayFabInternal
             Boxed<time_t> LastStateTransitionTime;
             std::string PartyId;
             std::list<Port> Ports;
-            Boxed<AzureRegion> Region;
+            std::string Region;
             std::string ServerId;
             std::string State;
             std::string VmId;
@@ -5810,7 +4534,7 @@ namespace PlayFabInternal
                 FromJsonUtilT(input["LastStateTransitionTime"], LastStateTransitionTime);
                 FromJsonUtilS(input["PartyId"], PartyId);
                 FromJsonUtilO(input["Ports"], Ports);
-                FromJsonUtilE(input["Region"], Region);
+                FromJsonUtilS(input["Region"], Region);
                 FromJsonUtilS(input["ServerId"], ServerId);
                 FromJsonUtilS(input["State"], State);
                 FromJsonUtilS(input["VmId"], VmId);
@@ -5826,7 +4550,7 @@ namespace PlayFabInternal
                 Json::Value each_LastStateTransitionTime; ToJsonUtilT(LastStateTransitionTime, each_LastStateTransitionTime); output["LastStateTransitionTime"] = each_LastStateTransitionTime;
                 Json::Value each_PartyId; ToJsonUtilS(PartyId, each_PartyId); output["PartyId"] = each_PartyId;
                 Json::Value each_Ports; ToJsonUtilO(Ports, each_Ports); output["Ports"] = each_Ports;
-                Json::Value each_Region; ToJsonUtilE(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 Json::Value each_ServerId; ToJsonUtilS(ServerId, each_ServerId); output["ServerId"] = each_ServerId;
                 Json::Value each_State; ToJsonUtilS(State, each_State); output["State"] = each_State;
                 Json::Value each_VmId; ToJsonUtilS(VmId, each_VmId); output["VmId"] = each_VmId;
@@ -5897,63 +4621,10 @@ namespace PlayFabInternal
             }
         };
 
-        struct SetMatchmakingQueueRequest : public PlayFabRequestCommon
-        {
-            Boxed<MatchmakingQueueConfig> MatchmakingQueue;
-
-            SetMatchmakingQueueRequest() :
-                PlayFabRequestCommon(),
-                MatchmakingQueue()
-            {}
-
-            SetMatchmakingQueueRequest(const SetMatchmakingQueueRequest& src) :
-                PlayFabRequestCommon(),
-                MatchmakingQueue(src.MatchmakingQueue)
-            {}
-
-            ~SetMatchmakingQueueRequest() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilO(input["MatchmakingQueue"], MatchmakingQueue);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_MatchmakingQueue; ToJsonUtilO(MatchmakingQueue, each_MatchmakingQueue); output["MatchmakingQueue"] = each_MatchmakingQueue;
-                return output;
-            }
-        };
-
-        struct SetMatchmakingQueueResult : public PlayFabResultCommon
-        {
-
-            SetMatchmakingQueueResult() :
-                PlayFabResultCommon()
-            {}
-
-            SetMatchmakingQueueResult(const SetMatchmakingQueueResult&) :
-                PlayFabResultCommon()
-            {}
-
-            ~SetMatchmakingQueueResult() = default;
-
-            void FromJson(Json::Value&) override
-            {
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                return output;
-            }
-        };
-
         struct ShutdownMultiplayerServerRequest : public PlayFabRequestCommon
         {
             std::string BuildId;
-            AzureRegion Region;
+            std::string Region;
             std::string SessionId;
 
             ShutdownMultiplayerServerRequest() :
@@ -5975,7 +4646,7 @@ namespace PlayFabInternal
             void FromJson(Json::Value& input) override
             {
                 FromJsonUtilS(input["BuildId"], BuildId);
-                FromJsonEnum(input["Region"], Region);
+                FromJsonUtilS(input["Region"], Region);
                 FromJsonUtilS(input["SessionId"], SessionId);
             }
 
@@ -5983,7 +4654,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_BuildId; ToJsonUtilS(BuildId, each_BuildId); output["BuildId"] = each_BuildId;
-                Json::Value each_Region; ToJsonEnum(Region, each_Region); output["Region"] = each_Region;
+                Json::Value each_Region; ToJsonUtilS(Region, each_Region); output["Region"] = each_Region;
                 Json::Value each_SessionId; ToJsonUtilS(SessionId, each_SessionId); output["SessionId"] = each_SessionId;
                 return output;
             }

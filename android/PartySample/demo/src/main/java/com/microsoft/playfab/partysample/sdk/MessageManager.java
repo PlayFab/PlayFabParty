@@ -1,4 +1,4 @@
-package com.microsoft.playfab.party.sdk;
+package com.microsoft.playfab.partysample.sdk;
 
 import android.os.Bundle;
 import android.os.Handler;

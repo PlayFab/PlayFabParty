@@ -520,7 +520,7 @@ NetworkManager::LeaveNetwork(
     {
         //Change our local state and save the callback for once the leave operation completes.
         m_state = NetworkManagerState::Leaving;
-        m_onNetworkDestroyed = callback;
+        m_onNetworkLeft = callback;
 
         // Disconnect local chat control before leave network.
         if (m_localChatControl != nullptr)
@@ -543,11 +543,18 @@ NetworkManager::LeaveNetwork(
 }
 
 void
-NetworkManager::SetOnLocalUserRemoved(
-    std::function<void(void)> callback
-    )
+NetworkManager::SetOnNetworkDestroyed(
+        std::function<void(bool)> callback
+)
 {
-    m_onLocalUserRemoved = callback;
+    m_onNetworkDestroyed = callback;
+}
+
+bool
+NetworkManager::IsConnecting() const
+{
+    return m_state == NetworkManagerState::WaitingForConnect ||
+            m_state == NetworkManagerState::WaitingForNetwork;
 }
 
 // Convertss a State Change Result to a user friendly string message.
@@ -641,7 +648,7 @@ NetworkManager::GetErrorMessage(
     PartyError err = PartyManager::GetErrorMessage(error, &errString);
     if (PARTY_FAILED(err))
     {
-        DEBUGLOG("Failed to get error message %lu.\n", error);
+        DEBUGLOG("Failed to get error message %u.\n", error);
         return "[ERROR]";
     }
 
@@ -783,6 +790,9 @@ NetworkManager::DoWork()
                 // Log out the error.
                 DEBUGLOG("ConnectToNetworkCompleted:  FAIL:  %s\n", PartyStateChangeResultToReasonString(result->result).c_str());
                 DEBUGLOG("ErrorDetail: %s\n", GetErrorMessage(result->errorDetail));
+
+                // Change our state back to Initialize
+                m_state = NetworkManagerState::Initialize;
 
                 // Send the callback for a network connection error.
                 if (m_onNetworkConnectedError)
@@ -948,10 +958,6 @@ NetworkManager::DoWork()
             if (m_state != NetworkManagerState::Leaving)
             {
                 DEBUGLOG("Unexpected local user removal!\n");
-                if(m_onLocalUserRemoved)
-                {
-                    m_onLocalUserRemoved();
-                }
             }
             break;
         }
@@ -960,9 +966,9 @@ NetworkManager::DoWork()
             DEBUGLOG("PartyStateChange: PartyStateChangeType::LeaveNetworkCompleted\n");
             m_state = NetworkManagerState::Initialize;
             // If a callback exists for leaving the network, call it.
-            if (m_onNetworkDestroyed)
+            if (m_onNetworkLeft)
             {
-                m_onNetworkDestroyed();
+                m_onNetworkLeft();
             }
             break;
         }
@@ -971,9 +977,15 @@ NetworkManager::DoWork()
             DEBUGLOG("PartyStateChange: PartyStateChangeType::NetworkDestroyed\n");
             // Clean up the network.
             m_network = nullptr;
-            if (m_state != NetworkManagerState::Leaving)
+            const bool destructionWasExpected = m_state == NetworkManagerState::Leaving;
+            if (!destructionWasExpected)
             {
                 DEBUGLOG("Unexpected network destruction!\n");
+            }
+            m_state = NetworkManagerState::Initialize;
+            if (m_onNetworkDestroyed)
+            {
+                m_onNetworkDestroyed(destructionWasExpected);
             }
             break;
         }

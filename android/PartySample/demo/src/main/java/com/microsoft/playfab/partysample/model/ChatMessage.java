@@ -1,4 +1,4 @@
-package com.microsoft.playfab.party.model;
+package com.microsoft.playfab.partysample.model;
 
 public class ChatMessage {
 
