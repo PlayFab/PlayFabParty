@@ -1,4 +1,4 @@
-package com.microsoft.playfab.party.adapter;
+package com.microsoft.playfab.partysample.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.microsoft.playfab.party.demo.R;
-import com.microsoft.playfab.party.model.ChatMessage;
+import com.microsoft.playfab.partysample.demo.R;
+import com.microsoft.playfab.partysample.model.ChatMessage;
 
 import java.util.List;
 

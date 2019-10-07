@@ -1,4 +1,4 @@
-package com.microsoft.playfab.party.demo;
+package com.microsoft.playfab.partysample.demo;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -24,12 +24,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.microsoft.playfab.party.adapter.MemberAdapter;
-import com.microsoft.playfab.party.adapter.MessageAdapter;
-import com.microsoft.playfab.party.model.ChatMember;
-import com.microsoft.playfab.party.model.ChatMessage;
-import com.microsoft.playfab.party.sdk.MessageManager;
-import com.microsoft.playfab.party.sdk.NetworkManager;
+import com.microsoft.playfab.partysample.adapter.MemberAdapter;
+import com.microsoft.playfab.partysample.adapter.MessageAdapter;
+import com.microsoft.playfab.partysample.model.ChatMember;
+import com.microsoft.playfab.partysample.model.ChatMessage;
+import com.microsoft.playfab.partysample.sdk.MessageManager;
+import com.microsoft.playfab.partysample.sdk.NetworkManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,7 +122,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        setChat(false);
+        setChatConnected(false);
 
         View.OnTouchListener onTouchListener = new View.OnTouchListener() {
             @Override
@@ -286,7 +286,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void resetChat() {
-        setChat(false);
+        setChatConnected(false);
 
         networkType = null;
 
@@ -298,11 +298,7 @@ public class ChatActivity extends AppCompatActivity {
         memberAdapter.clear();
     }
 
-    public void setChatConnected() {
-        setChat(true);
-    }
-
-    public void setChat(boolean isConnected) {
+    public void setChatConnected(boolean isConnected) {
         btnCreate.setEnabled(!isConnected);
         btnJoin.setEnabled(!isConnected);
         btnLeave.setEnabled(isConnected);
@@ -445,7 +441,7 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer integer) {
             if(integer == 1) {
-                setChatConnected();
+                setChatConnected(true);
             }
             dialog.cancel();
         }
@@ -475,7 +471,7 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer integer) {
             if(integer == 1) {
-                setChatConnected();
+                setChatConnected(true);
             }
             dialog.cancel();
         }
@@ -492,7 +488,7 @@ public class ChatActivity extends AppCompatActivity {
                     String networkID = data.getString("network");
 
                     updatePlayerState();
-
+                    setChatConnected(true);
                     break;
                 }
                 case MessageManager.MSG_TEXT_RECEIVED: {

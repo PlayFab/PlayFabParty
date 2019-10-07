@@ -1,4 +1,4 @@
-package com.microsoft.playfab.party.sdk;
+package com.microsoft.playfab.partysample.sdk;
 
 import android.util.Log;
 import android.widget.Toast;

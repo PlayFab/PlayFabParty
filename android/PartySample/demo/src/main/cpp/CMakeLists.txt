@@ -46,26 +46,27 @@ SET_TARGET_PROPERTIES(partysample
                                   -Wno-infinite-recursion"
         )
 
+set(libpath release)
+
 find_library(
         log_lib
         log
 )
 
-find_library(openssl_lib
-        ssl
-        ${CODE_REPOSIORY_ROOT}/android/ext/openssl/bin/android/${ANDROID_ABI}/
-        NO_DEFAULT_PATH
-        CMAKE_FIND_ROOT_PATH_BOTH)
+# Use shared library for party in demo apps
+add_library(party SHARED IMPORTED)
+set_target_properties(party PROPERTIES IMPORTED_LOCATION
+        ${CODE_REPOSIORY_ROOT}/android/bin/${libpath}/${ANDROID_ABI}/libparty.so)
 
-find_library(crypto_lib
-        crypto
-        ${CODE_REPOSIORY_ROOT}/android/ext/openssl/bin/android/${ANDROID_ABI}/
-        NO_DEFAULT_PATH
-        CMAKE_FIND_ROOT_PATH_BOTH)
-
-find_library(party_lib
+find_library(party
         party
-        ${CODE_REPOSIORY_ROOT}/android/bin/release/${ANDROID_ABI}/lib
+        ${CODE_REPOSIORY_ROOT}/android/bin/${libpath}/${ANDROID_ABI}
+        NO_DEFAULT_PATH
+        CMAKE_FIND_ROOT_PATH_BOTH)
+
+find_library(cppsdk_lib
+        cppsdk
+        ${CODE_REPOSIORY_ROOT}/android/bin/${libpath}/${ANDROID_ABI}/lib
         NO_DEFAULT_PATH
         CMAKE_FIND_ROOT_PATH_BOTH)
 
@@ -74,10 +75,9 @@ find_library(OpenSLES_lib
 
 target_link_libraries(
         partysample
-        ${party_lib}
+        ${cppsdk_lib}
         ${OpenSLES_lib}
         ${log_lib}
-        ${openssl_lib}
-        ${crypto_lib}
+        ${party}
         libz.a
 )

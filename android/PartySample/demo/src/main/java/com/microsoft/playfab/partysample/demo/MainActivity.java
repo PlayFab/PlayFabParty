@@ -1,4 +1,4 @@
-package com.microsoft.playfab.party.demo;
+package com.microsoft.playfab.partysample.demo;
 
 import android.Manifest;
 import android.content.Intent;
@@ -17,8 +17,6 @@ import android.widget.Toast;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.content.SharedPreferences;
-
-import com.microsoft.playfab.party.demo.R;
 
 import java.util.ArrayList;
 
