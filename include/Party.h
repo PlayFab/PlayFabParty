@@ -74,7 +74,7 @@ typedef class PartyChatControl * const * PartyChatControlArray;
 /// <summary>
 /// Convenience type for a constant array of PartyChatControl pointers.
 /// </summary>
-/// <seealso cref="PartyChatControl" />
+/// <seealso cref="PartyLocalChatControl" />
 typedef class PartyLocalChatControl * const * PartyLocalChatControlArray;
 
 /// <summary>
@@ -86,30 +86,29 @@ typedef class PartyTextToSpeechProfile * const * PartyTextToSpeechProfileArray;
 /// <summary>
 /// Convenience type for a constant array of constant PartyStateChange pointers.
 /// </summary>
-/// <seealso cref="PartyNetwork" />
+/// <seealso cref="PartyStateChange" />
 typedef const struct PartyStateChange * const * PartyStateChangeArray;
 
 /// <summary>
 /// Convenience type for a constant array of PartyLocalUser pointers.
 /// </summary>
-/// <seealso cref="PartyNetwork" />
+/// <seealso cref="PartyLocalUser" />
 typedef class PartyLocalUser * const * PartyLocalUserArray;
 
 /// <summary>
-/// The maximum allowed value for the <em>maxDeviceCount</em> field in the PartyNetworkConfiguration structure.
+/// The maximum allowed value for <see cref="PartyNetworkConfiguration::maxDeviceCount" />.
 /// </summary>
 /// <seealso cref="PartyNetworkConfiguration" />
 constexpr uint32_t c_maxNetworkConfigurationMaxDeviceCount = 32;
 
 /// <summary>
-/// The maximum allowed value for the <em>maxEndpointsPerDeviceCount</em> field in the PartyNetworkConfiguration
-/// structure.
+/// The maximum allowed value for <see cref="PartyNetworkConfiguration::maxEndpointsPerDeviceCount" />.
 /// </summary>
 /// <seealso cref="PartyNetworkConfiguration" />
 constexpr uint32_t c_maxNetworkConfigurationMaxEndpointsPerDeviceCount = 32;
 
 /// <summary>
-/// The maximum number of local users that can be created with PartyManager::CreateLocalUser().
+/// The maximum number of local users that can be created with <see cref="PartyManager::CreateLocalUser()" />.
 /// </summary>
 /// <seealso cref="PartyManager::CreateLocalUser" />
 constexpr uint32_t c_maxLocalUsersPerDeviceCount = 8;
@@ -122,13 +121,13 @@ constexpr uint32_t c_opaqueConnectionInformationByteCount = 300;
 /// <summary>
 /// Maximum length in characters of a PartyInvitation identifier, not including the null terminator.
 /// </summary>
-/// <seealso cerf="PartyInvitationConfiguration" />
+/// <seealso cref="PartyInvitationConfiguration" />
 constexpr uint32_t c_maxInvitationIdentifierStringLength = 127;
 
 /// <summary>
 /// Maximum number of PlayFab Entity IDs on a single invitation.
 /// </summary>
-/// <seealso cerf="PartyInvitationConfiguration" />
+/// <seealso cref="PartyInvitationConfiguration" />
 constexpr uint32_t c_maxInvitationEntityIdCount = 1024;
 
 /// <summary>
@@ -192,8 +191,7 @@ constexpr uint32_t c_maxTextToSpeechInputStringLength = 1023;
 constexpr uint64_t c_anyProcessor = 0xffffffffffffffff;
 
 /// <summary>
-/// The lowest allowed priority value for the <em>priority</em> field in the PartySendMessageQueuingConfiguration
-/// structure.
+/// The lowest allowed priority value for <see cref="PartySendMessageQueuingConfiguration::priority" />.
 /// </summary>
 constexpr int8_t c_minSendMessageQueuingPriority = -5;
 
@@ -212,8 +210,7 @@ constexpr int8_t c_chatSendMessageQueuingPriority = -3;
 constexpr int8_t c_defaultSendMessageQueuingPriority = 0;
 
 /// <summary>
-/// The highest allowed priority value for the <em>priority</em> field in the PartySendMessageQueuingConfiguration
-/// structure.
+/// The highest allowed priority value for <see cref="PartySendMessageQueuingConfiguration::priority" />.
 /// </summary>
 constexpr int8_t c_maxSendMessageQueuingPriority = 5;
 
@@ -228,43 +225,44 @@ enum class PartyStateChangeType : uint32_t
     /// The list of regions in which the title may create networks has changed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyRegionsChangedStateChange object for more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyRegionsChangedStateChange" /> object for more
+    /// information.
     /// </remarks>
     RegionsChanged,
 
     /// <summary>
-    /// The operation started by a previous call to PartyManager::DestroyLocalUser() completed.
+    /// The operation started by a previous call to <see cref="PartyManager::DestroyLocalUser()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyDestroyLocalUserCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyDestroyLocalUserCompletedStateChange" /> object
+    /// for more information.
     /// </remarks>
     DestroyLocalUserCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyManager::CreateNewNetwork() completed.
+    /// The operation started by a previous call to <see cref="PartyManager::CreateNewNetwork()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyCreateNewNetworkCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyCreateNewNetworkCompletedStateChange" /> object
+    /// for more information.
     /// </remarks>
     CreateNewNetworkCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyManager::ConnectToNetwork() completed.
+    /// The operation started by a previous call to <see cref="PartyManager::ConnectToNetwork()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyConnectToNetworkCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyConnectToNetworkCompletedStateChange" /> object
+    /// for more information.
     /// </remarks>
     ConnectToNetworkCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyNetwork::AuthenticateLocalUser() completed.
+    /// The operation started by a previous call to <see cref="PartyNetwork::AuthenticateLocalUser()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyAuthenticateLocalUserCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyAuthenticateLocalUserCompletedStateChange" />
+    /// object for more information.
     /// </remarks>
     AuthenticateLocalUserCompleted,
 
@@ -272,8 +270,8 @@ enum class PartyStateChangeType : uint32_t
     /// The network configuration associated with the PartyNetwork is now available.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyNetworkConfigurationMadeAvailableStateChange object for
-    /// more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyNetworkConfigurationMadeAvailableStateChange" />
+    /// object for more information.
     /// </remarks>
     NetworkConfigurationMadeAvailable,
 
@@ -281,53 +279,56 @@ enum class PartyStateChangeType : uint32_t
     /// The network descriptor associated with the PartyNetwork changed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyNetworkDescriptorChangedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyNetworkDescriptorChangedStateChange" /> object
+    /// for more information.
     /// </remarks>
     NetworkDescriptorChanged,
 
     /// <summary>
-    /// A local user has been removed from the network by a previous call to PartyNetwork::RemoveLocalUser() or
-    /// PartyManager::DestroyLocalUser().
+    /// A local user has been removed from the network by a previous call to
+    /// <see cref="PartyNetwork::RemoveLocalUser()" /> or <see cref="PartyManager::DestroyLocalUser()" />.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyLocalUserRemovedStateChange object for more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyLocalUserRemovedStateChange" /> object for more
+    /// information.
     /// </remarks>
     LocalUserRemoved,
 
     /// <summary>
-    /// The operation to remove a local user started by a previous call to PartyNetwork::RemoveLocalUser() or
-    /// PartyManager::DestroyLocalUser() completed.
+    /// The operation to remove a local user started by a previous call to
+    /// <see cref="PartyNetwork::RemoveLocalUser()" /> or <see cref="PartyManager::DestroyLocalUser()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyRemoveLocalUserCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyRemoveLocalUserCompletedStateChange" /> object
+    /// for more information.
     /// </remarks>
     RemoveLocalUserCompleted,
 
     /// <summary>
-    /// A local user was kicked via PartyNetwork::KickUser().
+    /// A local user was kicked via <see cref="PartyNetwork::KickUser()" />.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyLocalUserKickedStateChange object for more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyLocalUserKickedStateChange" /> object for more
+    /// information.
     /// </remarks>
+    /// <nyi />
     LocalUserKicked,
 
     /// <summary>
-    /// The operation started by a previous call to PartyNetwork::CreateEndpoint() completed.
+    /// The operation started by a previous call to <see cref="PartyNetwork::CreateEndpoint()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyCreateEndpointCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyCreateEndpointCompletedStateChange" /> object
+    /// for more information.
     /// </remarks>
     CreateEndpointCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyNetwork::DestroyEndpoint() completed.
+    /// The operation started by a previous call to <see cref="PartyNetwork::DestroyEndpoint()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyDestroyEndpointCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyDestroyEndpointCompletedStateChange" /> object
+    /// for more information.
     /// </remarks>
     DestroyEndpointCompleted,
 
@@ -335,7 +336,8 @@ enum class PartyStateChangeType : uint32_t
     /// A new endpoint was created.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyEndpointCreatedStateChange object for more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyEndpointCreatedStateChange" /> object for more
+    /// information.
     /// </remarks>
     EndpointCreated,
 
@@ -343,7 +345,8 @@ enum class PartyStateChangeType : uint32_t
     /// An endpoint was destroyed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyEndpointDestroyedStateChange object for more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyEndpointDestroyedStateChange" /> object for more
+    /// information.
     /// </remarks>
     EndpointDestroyed,
 
@@ -351,7 +354,8 @@ enum class PartyStateChangeType : uint32_t
     /// A new remote device was created.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyRemoteDeviceCreatedStateChange object for more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyRemoteDeviceCreatedStateChange" /> object for
+    /// more information.
     /// </remarks>
     RemoteDeviceCreated,
 
@@ -359,8 +363,8 @@ enum class PartyStateChangeType : uint32_t
     /// A remote device was destroyed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyRemoteDeviceDestroyedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyRemoteDeviceDestroyedStateChange" /> object for
+    /// more information.
     /// </remarks>
     RemoteDeviceDestroyed,
 
@@ -368,8 +372,8 @@ enum class PartyStateChangeType : uint32_t
     /// A remote device joined a network.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyRemoteDeviceJoinedNetworkStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyRemoteDeviceJoinedNetworkStateChange" /> object
+    /// for more information.
     /// </remarks>
     RemoteDeviceJoinedNetwork,
 
@@ -377,8 +381,8 @@ enum class PartyStateChangeType : uint32_t
     /// A remote device left a network.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyRemoteDeviceLeftNetworkStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyRemoteDeviceLeftNetworkStateChange" /> object
+    /// for more information.
     /// </remarks>
     RemoteDeviceLeftNetwork,
 
@@ -386,17 +390,18 @@ enum class PartyStateChangeType : uint32_t
     /// The properties associated with the device changed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyDevicePropertiesChangedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyDevicePropertiesChangedStateChange" /> object
+    /// for more information.
     /// </remarks>
+    /// <nyi />
     DevicePropertiesChanged,
 
     /// <summary>
-    /// The operation started by a previous call to PartyNetwork::LeaveNetwork() completed.
+    /// The operation started by a previous call to <see cref="PartyNetwork::LeaveNetwork()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyLeaveNetworkCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyLeaveNetworkCompletedStateChange" /> object for
+    /// more information.
     /// </remarks>
     LeaveNetworkCompleted,
 
@@ -404,7 +409,8 @@ enum class PartyStateChangeType : uint32_t
     /// A network was destroyed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyNetworkDestroyedStateChange object for more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyNetworkDestroyedStateChange" /> object for more
+    /// information.
     /// </remarks>
     NetworkDestroyed,
 
@@ -412,8 +418,8 @@ enum class PartyStateChangeType : uint32_t
     /// A data send was received from an endpoint.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyEndpointMessageReceivedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyEndpointMessageReceivedStateChange" /> object
+    /// for more information.
     /// </remarks>
     EndpointMessageReceived,
 
@@ -421,7 +427,8 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyDataBuffer set provided to SendMessage has been returned.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyDataBuffersReturnedStateChange object for more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyDataBuffersReturnedStateChange" /> object for
+    /// more information.
     /// </remarks>
     DataBuffersReturned,
 
@@ -429,35 +436,37 @@ enum class PartyStateChangeType : uint32_t
     /// The properties associated with an endpoint changed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyEndpointPropertiesChangedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyEndpointPropertiesChangedStateChange" /> object
+    /// for more information.
     /// </remarks>
+    /// <nyi />
     EndpointPropertiesChanged,
 
     /// <summary>
     /// An operation started by a call to PartyManager::SynchronizeMessagesBetweenEndpoints has completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartySynchronizeMessagesBetweenEndpointsCompletedStateChange
-    /// object for more information.
+    /// The PartyStateChange object should be cast to a
+    /// <see cref="PartySynchronizeMessagesBetweenEndpointsCompletedStateChange" /> object for more information.
     /// </remarks>
+    /// <nyi />
     SynchronizeMessagesBetweenEndpointsCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyNetwork::CreateInvitation() completed.
+    /// The operation started by a previous call to <see cref="PartyNetwork::CreateInvitation()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyCreateInvitationCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyCreateInvitationCompletedStateChange" /> object
+    /// for more information.
     /// </remarks>
     CreateInvitationCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyNetwork::RevokeInvitation() completed.
+    /// The operation started by a previous call to <see cref="PartyNetwork::RevokeInvitation()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyRevokeInvitationCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyRevokeInvitationCompletedStateChange" /> object
+    /// for more information.
     /// </remarks>
     RevokeInvitationCompleted,
 
@@ -465,7 +474,8 @@ enum class PartyStateChangeType : uint32_t
     /// A new invitation was created.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyInvitationCreatedStateChange object for more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyInvitationCreatedStateChange" /> object for more
+    /// information.
     /// </remarks>
     InvitationCreated,
 
@@ -473,7 +483,8 @@ enum class PartyStateChangeType : uint32_t
     /// An invitation was destroyed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyInvitationDestroyedStateChange object for more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyInvitationDestroyedStateChange" /> object for
+    /// more information.
     /// </remarks>
     InvitationDestroyed,
 
@@ -481,42 +492,47 @@ enum class PartyStateChangeType : uint32_t
     /// The properties associated with the PartyNetwork changed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyNetworkPropertiesChangedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyNetworkPropertiesChangedStateChange" /> object
+    /// for more information.
     /// </remarks>
+    /// <nyi />
     NetworkPropertiesChanged,
 
     /// <summary>
-    /// The operation started by a previous call to PartyNetwork::KickDevice() completed.
+    /// The operation started by a previous call to <see cref="PartyNetwork::KickDevice()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyKickDeviceCompletedStateChange object for more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyKickDeviceCompletedStateChange" /> object for
+    /// more information.
     /// </remarks>
+    /// <nyi />
     KickDeviceCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyNetwork::KickUser() completed.
+    /// The operation started by a previous call to <see cref="PartyNetwork::KickUser()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyKickUserCompletedStateChange object for more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyKickUserCompletedStateChange" /> object for more
+    /// information.
     /// </remarks>
+    /// <nyi />
     KickUserCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyLocalDevice::CreateChatControl() completed.
+    /// The operation started by a previous call to <see cref="PartyLocalDevice::CreateChatControl()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyCreateChatControlCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyCreateChatControlCompletedStateChange" /> object
+    /// for more information.
     /// </remarks>
     CreateChatControlCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyLocalDevice::DestroyChatControl() completed.
+    /// The operation started by a previous call to <see cref="PartyLocalDevice::DestroyChatControl()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyDestroyChatControlCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyDestroyChatControlCompletedStateChange" />
+    /// object for more information.
     /// </remarks>
     DestroyChatControlCompleted,
 
@@ -524,7 +540,8 @@ enum class PartyStateChangeType : uint32_t
     /// A new PartyChatControl was created.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyChatControlCreatedStateChange object for more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyChatControlCreatedStateChange" /> object for
+    /// more information.
     /// </remarks>
     ChatControlCreated,
 
@@ -532,25 +549,28 @@ enum class PartyStateChangeType : uint32_t
     /// A PartyChatControl was destroyed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyChatControlDestroyedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyChatControlDestroyedStateChange" /> object for
+    /// more information.
     /// </remarks>
     ChatControlDestroyed,
 
     /// <summary>
-    /// The operation started by a previous call to PartyLocalChatControl::SetAudioEncoderBitrate() completed.
+    /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetAudioEncoderBitrate()" />
+    /// completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartySetChatAudioEncoderBitrateCompletedStateChange object for
-    /// more information.
+    /// The PartyStateChange object should be cast to a
+    /// <see cref="PartySetChatAudioEncoderBitrateCompletedStateChange" /> object for more information.
     /// </remarks>
+    /// <nyi />
     SetChatAudioEncoderBitrateCompleted,
 
     /// <summary>
     /// Chat text has been received.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyChatTextReceivedStateChange object for more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyChatTextReceivedStateChange" /> object for more
+    /// information.
     /// </remarks>
     ChatTextReceived,
 
@@ -558,26 +578,26 @@ enum class PartyStateChangeType : uint32_t
     /// A voice chat transcription has been received.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyVoiceChatTranscriptionReceivedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyVoiceChatTranscriptionReceivedStateChange" />
+    /// object for more information.
     /// </remarks>
     VoiceChatTranscriptionReceived,
 
     /// <summary>
-    /// The operation started by a previous call to PartyLocalChatControl::SetAudioInput() completed.
+    /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetAudioInput()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartySetChatAudioInputCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartySetChatAudioInputCompletedStateChange" /> object
+    /// for more information.
     /// </remarks>
     SetChatAudioInputCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyLocalChatControl::SetAudioOutput() completed.
+    /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetAudioOutput()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartySetChatAudioOutputCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartySetChatAudioOutputCompletedStateChange" />
+    /// object for more information.
     /// </remarks>
     SetChatAudioOutputCompleted,
 
@@ -585,8 +605,8 @@ enum class PartyStateChangeType : uint32_t
     /// The state of an audio input associated with a local chat control changed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyLocalChatAudioInputChangedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyLocalChatAudioInputChangedStateChange" /> object
+    /// for more information.
     /// </remarks>
     LocalChatAudioInputChanged,
 
@@ -594,54 +614,58 @@ enum class PartyStateChangeType : uint32_t
     /// The state of an audio output associated with a local chat control changed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyLocalChatAudioOutputChangedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyLocalChatAudioOutputChangedStateChange" />
+    /// object for more information.
     /// </remarks>
     LocalChatAudioOutputChanged,
 
     /// <summary>
-    /// The operation started by a previous call to PartyLocalChatControl::SetTextToSpeechProfile() completed.
+    /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetTextToSpeechProfile()" />
+    /// completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartySetTextToSpeechProfileCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartySetTextToSpeechProfileCompletedStateChange" />
+    /// object for more information.
     /// </remarks>
     SetTextToSpeechProfileCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyLocalChatControl::SynthesizeTextToSpeech() completed.
+    /// The operation started by a previous call to <see cref="PartyLocalChatControl::SynthesizeTextToSpeech()" />
+    /// completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartySynthesizeTextToSpeechCompletedStateChange object for more
-    /// information. Receiving a state change of this type indicates that the audio has been synthesized, not that the
-    /// audio has been transmitted to anyone.
+    /// The PartyStateChange object should be cast to a <see cref="PartySynthesizeTextToSpeechCompletedStateChange" />
+    /// object for more information. Receiving a state change of this type indicates that the audio has been
+    /// synthesized, not that the audio has been transmitted to anyone.
     /// </remarks>
     SynthesizeTextToSpeechCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyLocalChatControl::SetLanguage() completed.
+    /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetLanguage()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartySetLanguageCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartySetLanguageCompletedStateChange" /> object for
+    /// more information.
     /// </remarks>
     SetLanguageCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyLocalChatControl::SetTranscriptionOptions() completed.
+    /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetTranscriptionOptions()" />
+    /// completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartySetTranscriptionOptionsCompletedStateChange object for
-    /// more information.
+    /// The PartyStateChange object should be cast to a <see cref="PartySetTranscriptionOptionsCompletedStateChange" />
+    /// object for more information.
     /// </remarks>
     SetTranscriptionOptionsCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyLocalChatControl::SetTextChatOptions() completed.
+    /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetTextChatOptions()" />
+    /// completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartySetTextChatOptionsCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartySetTextChatOptionsCompletedStateChange" />
+    /// object for more information.
     /// </remarks>
     SetTextChatOptionsCompleted,
 
@@ -649,17 +673,18 @@ enum class PartyStateChangeType : uint32_t
     /// The properties associated with the chat control changed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyChatControlPropertiesChangedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyChatControlPropertiesChangedStateChange" />
+    /// object for more information.
     /// </remarks>
+    /// <nyi />
     ChatControlPropertiesChanged,
 
     /// <summary>
     /// The chat control joined a network.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyChatControlJoinedNetworkStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyChatControlJoinedNetworkStateChange" /> object
+    /// for more information.
     /// </remarks>
     ChatControlJoinedNetwork,
 
@@ -667,43 +692,42 @@ enum class PartyStateChangeType : uint32_t
     /// The chat control left a network.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyChatControlLeftNetworkStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyChatControlLeftNetworkStateChange" /> object for
+    /// more information.
     /// </remarks>
     ChatControlLeftNetwork,
 
     /// <summary>
-    /// The operation started by a previous call to PartyNetwork::ConnectChatControl() completed.
+    /// The operation started by a previous call to <see cref="PartyNetwork::ConnectChatControl()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyConnectChatControlCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyConnectChatControlCompletedStateChange" />
+    /// object for more information.
     /// </remarks>
     ConnectChatControlCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyNetwork::DisconnectChatControl() completed.
+    /// The operation started by a previous call to <see cref="PartyNetwork::DisconnectChatControl()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyDisconnectChatControlCompletedStateChange object for more
-    /// information.
+    /// The PartyStateChange object should be cast to a <see cref="PartyDisconnectChatControlCompletedStateChange" />
+    /// object for more information.
     /// </remarks>
     DisconnectChatControlCompleted,
 
     /// <summary>
-    /// The operation started by a previous call to PartyLocalChatControl::PopulateAvailableTextToSpeechProfiles()
-    /// completed.
+    /// The operation started by a previous call to
+    /// <see cref="PartyLocalChatControl::PopulateAvailableTextToSpeechProfiles()" /> completed.
     /// </summary>
     /// <remarks>
-    /// The PartyStateChange object should be cast to a PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange
-    /// object for more information.
+    /// The PartyStateChange object should be cast to a
+    /// <see cref="PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange" /> object for more information.
     /// </remarks>
     PopulateAvailableTextToSpeechProfilesCompleted,
 };
 
 /// <summary>
-/// Reason values indicating whether an operation that results in a completion state change succeeded or why it may have
-/// failed.
+/// Results for operations that generate state changes.
 /// </summary>
 enum class PartyStateChangeResult
 {
@@ -734,19 +758,19 @@ enum class PartyStateChangeResult
 
     /// <summary>
     /// There are no available transparent cloud relay servers in the regions specified by the call to
-    /// PartyManager::CreateNewNetwork().
+    /// <see cref="PartyManager::CreateNewNetwork()" />.
     /// </summary>
     NoServersAvailable,
 
     /// <summary>
-    /// The PartyLocalUser specified in the call to PartyManager::CreateNewNetwork() or
-    /// PartyNetwork::AuthenticateLocalUser() is not authorized to complete the operation.
+    /// The PartyLocalUser specified in the call to <see cref="PartyManager::CreateNewNetwork()" /> or
+    /// <see cref="PartyNetwork::AuthenticateLocalUser()" /> is not authorized to complete the operation.
     /// </summary>
     UserNotAuthorized,
 
     /// <summary>
-    /// The PartyLocalUser specified in the call to PartyManager::CreateNewNetwork() has created too many networks and
-    /// cannot create new networks at this time.
+    /// The PartyLocalUser specified in the call to <see cref="PartyManager::CreateNewNetwork()" /> has created too many
+    /// networks and cannot create new networks at this time.
     /// </summary>
     UserCreateNetworkThrottled,
 
@@ -765,9 +789,9 @@ enum class PartyStateChangeResult
     TitleCreateNetworkThrottled,
 
     /// <summary>
-    /// The network rejected this operation because it would violate a limit in the network's configuration.
+    /// The network rejected this operation because it would violate a limit in the network's configuration. See
+    /// <see cref="PartyNetworkConfiguration" />.
     /// </summary>
-    /// <seealso cref="PartyNetworkConfiguration" />
     NetworkLimitReached,
 
     /// <summary>
@@ -793,23 +817,26 @@ enum class PartyStateChangeResult
 };
 
 /// <summary>
-/// The reasons for removing a local user from a network.
+/// Reasons for removing a local user from a network.
 /// </summary>
+/// <seealso cref="PartyNetwork::AuthenticateLocalUser" />
+/// <seealso cref="PartyNetwork::RemoveLocalUser" />
+/// <seealso cref="PartyManager::DestroyLocalUser" />
 enum class PartyLocalUserRemovedReason
 {
     /// <summary>
-    /// The local user is being removed because PartyNetwork::AuthenticateLocalUser() asynchronously failed.
+    /// The local user is being removed because <see cref="PartyNetwork::AuthenticateLocalUser()" /> asynchronously
+    /// failed.
     /// </summary>
-    /// <seealso cref="PartyNetwork::AuthenticateLocalUser" />
     AuthenticationFailed,
 
     /// <summary>
-    /// The local user is being removed because the title called PartyNetwork::RemoveLocalUser().
+    /// The local user is being removed because the title called <see cref="PartyNetwork::RemoveLocalUser()" />.
     /// </summary>
     RemoveLocalUser,
 
     /// <summary>
-    /// The local user is being removed because the title called PartyManager::DestroyLocalUser().
+    /// The local user is being removed because the title called <see cref="PartyManager::DestroyLocalUser()" />.
     /// </summary>
     DestroyLocalUser,
 
@@ -820,29 +847,29 @@ enum class PartyLocalUserRemovedReason
 };
 
 /// <summary>
-/// The reasons an object might be destroyed.
+/// Reasons an object might be destroyed.
 /// </summary>
 enum class PartyDestroyedReason
 {
     /// <summary>
-    /// The invitation|endpoint|device|network|chat control is being destroyed gracefully by request.
+    /// The invitation, endpoint, device, network, or chat control is being destroyed gracefully by request.
     /// </summary>
     Requested,
 
     /// <summary>
-    /// The invitation|endpoint|device|network|chat control is being destroyed because connectivity to the transparent
-    /// cloud relay server was lost.
+    /// The invitation, endpoint, device, network, or chat control is being destroyed because connectivity to the
+    /// transparent cloud relay server was lost.
     /// </summary>
     Disconnected,
 
     /// <summary>
-    /// The device|user the invitation|endpoint|chat control depended upon was kicked.
+    /// The device or user that the invitation, endpoint, or chat control depended upon was kicked.
     /// </summary>
     Kicked,
 
     /// <summary>
-    /// No local users on the local device were authenticated on the network, so the local device lost visibility to
-    /// the remotely managed invitation|endpoint|device|chat control.
+    /// No local users on the local device were authenticated on the network, so the local device lost visibility to the
+    /// remotely managed invitation, endpoint, device, or chat control.
     /// </summary>
     /// <remarks>
     /// Even though the local object referring to the remotely managed object has been destroyed, the remotely managed
@@ -851,14 +878,28 @@ enum class PartyDestroyedReason
     DeviceLostAuthentication,
 
     /// <summary>
-    /// The invitation|endpoint creation failed asynchronously, so the local object has been destroyed.
+    /// The invitation or endpoint creation failed asynchronously, so the local object has been destroyed.
     /// </summary>
     CreationFailed,
 };
 
 /// <summary>
-/// Defines the types of threads that Party library uses for internal purposes.
+/// Types of threads that Party library uses for internal purposes.
 /// </summary>
+/// <remarks>
+/// Party library internal audio threads are high priority, frequently-running threads with real-time requirements.
+/// <para>
+/// On Windows, these audio threads interact directly with XAudio2 every 20-40 milliseconds. The Party library's
+/// instance(s) of XAudio2 will be initialized with a processor affinity that corresponds to the processor affinity
+/// configured for the audio thread type via <see cref="PartyManager::SetThreadAffinityMask()" />. If no processor
+/// affinity is specified for the audio thread type, the instance(s) of XAudio2 will be initialized with a processor
+/// affinity of XAUDIO2_DEFAULT_PROCESSOR.
+/// </para>
+/// <para>
+/// Party library internal networking threads are driven from both network I/O and polling mechanisms. These wake every
+/// 50 to 100 milliseconds or whenever network traffic is received.
+/// </para>
+/// </remarks>
 /// <seealso cref="PartyManager::GetThreadAffinityMask" />
 /// <seealso cref="PartyManager::SetThreadAffinityMask" />
 enum class PartyThreadId
@@ -866,30 +907,16 @@ enum class PartyThreadId
     /// <summary>
     /// Represents Party library internal audio threads.
     /// </summary>
-    /// <remarks>
-    /// Party library internal audio threads are high priority, frequently-running threads with real-time requirements.
-    /// <para>
-    /// On Windows, these audio threads interact directly with XAudio2 every 20-40 milliseconds. The Party library's
-    /// instance(s) of XAudio2 will be initialized with a processor affinity that corresponds to the processor affinity
-    /// configured for the audio thread type via PartyManager::SetThreadAffinityMask(). If no processor affinity is
-    /// specified for the audio thread type, the instance(s) of XAudio2 will be initialized with a processor affinity of
-    /// XAUDIO2_DEFAULT_PROCESSOR.
-    /// </para>
-    /// </remarks>
     Audio,
 
     /// <summary>
     /// Represents Party library internal networking threads.
     /// </summary>
-    /// <remarks>
-    /// Party library internal networking threads are driven from both network I/O and polling mechanisms. These wake
-    /// every 50 to 100 milliseconds or whenever network traffic is received.
-    /// </remarks>
     Networking,
 };
 
 /// <summary>
-/// The options for sending a message.
+/// Options for controlling how a message is sent.
 /// </summary>
 /// <seealso cref="PartySendMessageQueuingConfiguration" />
 /// <seealso cref="PartyDataBuffersReturnedStateChange" />
@@ -910,10 +937,8 @@ enum class PartySendMessageOptions : int32_t
     /// Ensure the message is delivered to all targets, retransmitting if necessary.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// This option flag guarantees the message will arrive at each target endpoint, regardless of environmental packet
     /// loss, unless the target endpoint is destroyed. Packet transmissions will be retried as needed.
-    /// </para>
     /// <para>
     /// This option flag works well when sending important state information that must always reach the destination or
     /// else the target should be removed from the network. Use it with message content that does not have redundancy or
@@ -931,10 +956,8 @@ enum class PartySendMessageOptions : int32_t
     /// Transmit the message best-effort and ignore any packet loss.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// This option flag requests only a single attempt to transmit the message. If environmental packet loss occurs,
     /// the transmission will not be retried and the application should be prepared to handle the message's absence.
-    /// </para>
     /// <para>
     /// This option flag works well for information that is constantly being updated and doesn't require every update to
     /// arrive. Use it with message content that already has redundancy or the ability to be interpolated/extrapolated
@@ -951,11 +974,9 @@ enum class PartySendMessageOptions : int32_t
     /// that were also sent sequentially.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// <em>SequentialDelivery</em> doesn't provide any guarantees about the ordering of messages sent from different
     /// local endpoints and/or to different target endpoints. Each endpoint pairing should be considered a separate
     /// sequence space.
-    /// </para>
     /// <para>
     /// No guarantees are made about the order of sequential messages in relation to non-sequential messages.
     /// </para>
@@ -983,12 +1004,10 @@ enum class PartySendMessageOptions : int32_t
     /// Deliver the message to targets as soon as it arrives.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// Messages sent with the non-sequential delivery option do not provide any guarantees about the order in which
     /// they are delivered with respect to any other messages, sequential or non-sequential. They will be delivered to
     /// the targets as soon as they arrive, which may not be the same order in which they were sent if there is packet
     /// loss or reordering by the environment.
-    /// </para>
     /// <para>
     /// This option flag works well for messages that are safe to process in any order or have their own inherent
     /// ordering information already, and where you'd like maximum network efficiency and lowest perceived latency.
@@ -1003,11 +1022,9 @@ enum class PartySendMessageOptions : int32_t
     /// Instructs the Party library to make a copy of the supplied data buffers for subsequent transmission.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// The memory contents in the provided PartyDataBuffer structures will be copied so the caller does not need to
-    /// keep the buffers around after PartyLocalEndpoint::SendMessage() returns. This is more convenient but slightly
-    /// less efficient than using the <em>DontCopyDataBuffers</em> option flag.
-    /// </para>
+    /// keep the buffers around after <see cref="PartyLocalEndpoint::SendMessage()" /> returns. This is more convenient
+    /// but slightly less efficient than using the <em>DontCopyDataBuffers</em> option flag.
     /// <para>
     /// This is the default if the <em>DontCopyDataBuffers</em> option flag is not specified.
     /// </para>
@@ -1019,17 +1036,15 @@ enum class PartySendMessageOptions : int32_t
     /// valid until the library no longer needs them.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// The memory referenced by the provided PartyDataBuffer structures will not be copied but instead ownership will
     /// temporarily be transferred to the Party library so the memory can be accessed directly without additional
     /// copying overhead during the transmission process. It's the caller's responsibility to ensure the memory buffers
     /// remain valid and unmodified until the library no longer needs them and ownership is transferred back via a
-    /// PartyStateChangeType::DataBuffersReturned state change. This is more efficient but can be less convenient than
-    /// using the <em>CopyDataBuffers</em> option.
-    /// </para>
+    /// <see cref="PartyDataBuffersReturnedStateChange" />. This is more efficient but can be less convenient than using
+    /// the <em>CopyDataBuffers</em> option.
     /// <para>
     /// The PartyDataBuffer structures themselves do not need to remain valid after the
-    /// PartyLocalEndpoint::SendMessage() call returns, only the memory they reference.
+    /// <see cref="PartyLocalEndpoint::SendMessage()" /> call returns, only the memory they reference.
     /// </para>
     /// </remarks>
     DontCopyDataBuffers = 0x0004,
@@ -1039,13 +1054,11 @@ enum class PartySendMessageOptions : int32_t
     /// if there aren't any waiting.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// Coalescing multiple messages together in a single packet allows maximizing bandwidth efficiency (reducing per-
     /// packet overhead) at the potential expense of perceived latency for a message if you delay its transmission in
     /// order to coalesce. Sending with this flag causes the Party library to coalesce the message if there are other
     /// queued messages available, but not to wait for more messages if none exist and this message can be transmitted
     /// immediately.
-    /// </para>
     /// <para>
     /// Use this flag if you typically batch your network updates into single, periodic messages that are not likely to
     /// be queued around the same time as other messages and would not gain bandwidth efficiency if delayed.
@@ -1063,15 +1076,13 @@ enum class PartySendMessageOptions : int32_t
 
     /// <summary>
     /// Specifies that this message should always try to be coalesced with other messages and expect a
-    /// PartyLocalEndpoint::FlushMessages() call to begin transmitting.
+    /// <see cref="PartyLocalEndpoint::FlushMessages()" /> call to begin transmitting.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// Coalescing multiple messages together in a single packet allows maximizing bandwidth efficiency (reducing per-
     /// packet overhead) at the potential expense of perceived latency for a message if you delay its transmission in
     /// order to coalesce. Sending with this flag causes the Party library to always prefer coalescing the message and
     /// delay transmission until PartyLocalEndpoint::FlushMessages() is called.
-    /// </para>
     /// <para>
     /// Consider using this flag if you typically send a lot of small messages to the same targets in the same update
     /// loop and want to explicitly inform the Party library when the full update loop iteration is complete.
@@ -1090,7 +1101,6 @@ enum class PartySendMessageOptions : int32_t
     /// Indicates that this message should be acknowledged (if needed) in a timely manner.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// Receivers acknowledge reception of messages to inform the sender of delivery success or failure so it can do
     /// things such as retry dropped packets that contained messages sent with the <em>GuaranteedDelivery</em> option
     /// flag. Acknowledgements are often piggybacked on packets as part of typical bi-directional communication, but if
@@ -1098,7 +1108,6 @@ enum class PartySendMessageOptions : int32_t
     /// internally managed timeout for piggybacking opportunities before forcing acknowledgement packets to inform the
     /// sender. That dedicated packet consumes some extra overhead but ensures the sender gets timely status for issuing
     /// any necessary retries.
-    /// </para>
     /// <para>
     /// Using this flag for most guaranteed delivery messages is recommended. It works well with messages that are
     /// latency sensitive. It also works well when bi-directional guaranteed delivery send patterns are infrequent or
@@ -1117,14 +1126,12 @@ enum class PartySendMessageOptions : int32_t
     /// Indicates that this message can be acknowledged when convenient rather than urgently.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// Receivers acknowledge reception of messages to inform the sender of delivery success or failure so it can do
     /// things such as retry dropped packets that contained messages sent with the <em>GuaranteedDelivery</em> option
     /// flag. Acknowledgements are often piggybacked on packets as part of typical bi-directional communication, but if
     /// no packets are flowing in the return direction, this flag instructs the target endpoints to wait for
     /// piggybacking opportunities without forcing acknowledgement packets to inform the sender. This delays the sender
     /// finding out status for any necessary retries, but avoids extra overhead consumed by a dedicated packet.
-    /// </para>
     /// <para>
     /// Consider using this flag for guaranteed delivery messages that are "fire-and-forget" and are not latency
     /// sensitive. It may also reduce overhead when bi-directional send patterns are frequent.
@@ -1139,7 +1146,7 @@ enum class PartySendMessageOptions : int32_t
 DEFINE_ENUM_FLAG_OPERATORS(PartySendMessageOptions);
 
 /// <summary>
-/// Option flags describing a message that was received.
+/// Flags describing how a message was received.
 /// </summary>
 /// <seealso cref="PartyEndpointMessageReceivedStateChange" />
 /// <seealso cref="PartyLocalEndpoint::SendMessage" />
@@ -1155,9 +1162,10 @@ enum class PartyMessageReceivedOptions : int32_t
     /// </summary>
     /// <remarks>
     /// This flag's presence or absence represents the actual delivery mode. The Party library may occasionally adjust
-    /// messages internally to use guaranteed delivery even if PartySendMessageOptions::GuaranteedDelivery was not
-    /// originally specified to PartyLocalEndpoint::SendMessage(). It will never disable guaranteed delivery if it had
-    /// originally been requested, however.
+    /// messages internally to use guaranteed delivery even if
+    /// <see cref="PartySendMessageOptions::GuaranteedDelivery" /> was not originally specified to
+    /// <see cref="PartyLocalEndpoint::SendMessage()" />. It will never disable guaranteed delivery if it had originally
+    /// been requested, however.
     /// </remarks>
     GuaranteedDelivery = 0x0001,
 
@@ -1166,9 +1174,9 @@ enum class PartyMessageReceivedOptions : int32_t
     /// </summary>
     /// <remarks>
     /// This flag's presence or absence represents the actual delivery mode. The Party library may occasionally adjust
-    /// messages internally to sequential delivery even if PartySendMessageOptions::SequentialDelivery was not
-    /// originally specified to PartyLocalEndpoint::SendMessage(). It will never disable sequential delivery if it had
-    /// originally been requested, however.
+    /// messages internally to sequential delivery even if <see cref="PartySendMessageOptions::SequentialDelivery" />
+    /// was not originally specified to <see cref="PartyLocalEndpoint::SendMessage()" />. It will never disable
+    /// sequential delivery if it had originally been requested, however.
     /// </remarks>
     SequentialDelivery = 0x0002,
 
@@ -1188,17 +1196,19 @@ enum class PartyMessageReceivedOptions : int32_t
 DEFINE_ENUM_FLAG_OPERATORS(PartyMessageReceivedOptions);
 
 /// <summary>
-/// The type of expression PartyLocalEndpoint::CancelMessages() should evaluate in order to match queued messages.
+/// Type of expression <see cref="PartyLocalEndpoint::CancelMessages()" /> should evaluate in order to match queued
+/// messages.
 /// </summary>
 /// <seealso cref="PartySendMessageQueuingConfiguration" />
 /// <seealso cref="PartyLocalEndpoint::CancelMessages" />
+/// <nyi />
 enum class PartyCancelMessagesFilterExpression
 {
     /// <summary>
     /// Cancels all messages regardless of identity.
     /// </summary>
     /// <remarks>
-    /// The PartyLocalEndpoint::CancelMessages() <em>messageIdentityFilterMask</em> and
+    /// The <see cref="PartyLocalEndpoint::CancelMessages()" /> <em>messageIdentityFilterMask</em> and
     /// <em>filteredMessageIdentitiesToMatch</em> parameters and messages' PartySendMessageQueuingConfiguration
     /// structure <em>identityForCancelFilters</em> field are ignored for this expression type.
     /// </remarks>
@@ -1209,13 +1219,11 @@ enum class PartyCancelMessagesFilterExpression
     /// <em>messageIdentityFilterMask</em>) == <em>filteredMessageIdentitiesToMatch</em></c> evaluates to true.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// To filter to messages that have PartySendMessageQueuingConfiguration structure <em>identityForCancelFilters</em>
     /// field values with a particular bit (or bits) set a particular way, specify a
-    /// PartyLocalEndpoint::CancelMessages() <em>messageIdentityFilterMask</em> parameter with the bits to check enabled
-    /// and the desired way those bits must be set for a match in the <em>filteredMessageIdentitiesToMatch</em>
-    /// parameter value.
-    /// </para>
+    /// <see cref="PartyLocalEndpoint::CancelMessages()" /> <em>messageIdentityFilterMask</em> parameter with the bits
+    /// to check enabled and the desired way those bits must be set for a match in the
+    /// <em>filteredMessageIdentitiesToMatch</em> parameter value.
     /// <para>
     /// For example, to require matching specific <em>identityForCancelFilters</em> field values exactly, specify a
     /// <em>messageIdentityFilterMask</em> parameter with all bits set (the maximum uint32_t value) and the required
@@ -1234,13 +1242,11 @@ enum class PartyCancelMessagesFilterExpression
     /// <em>messageIdentityFilterMask</em>) != <em>filteredMessageIdentitiesToMatch</em></c> evaluates to true.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// To filter to messages that do not have PartySendMessageQueuingConfiguration structure
     /// <em>identityForCancelFilters</em> field values with a particular bit (or bits) set a specific way, provide a
-    /// PartyLocalEndpoint::CancelMessages() <em>messageIdentityFilterMask</em> parameter with the bits to check enabled
-    /// and the desired way those bits must not be set for a match in the <em>filteredMessageIdentitiesToMatch</em>
-    /// parameter value.
-    /// </para>
+    /// <see cref="PartyLocalEndpoint::CancelMessages()" /> <em>messageIdentityFilterMask</em> parameter with the bits
+    /// to check enabled and the desired way those bits must not be set for a match in the
+    /// <em>filteredMessageIdentitiesToMatch</em> parameter value.
     /// <para>
     /// For example, to filter to messages that have <em>identityForCancelFilters</em> values with a particular bit (or
     /// at least one bit from a particular group) enabled, specify a <em>messageIdentityFilterMask</em> parameter with
@@ -1256,8 +1262,9 @@ enum class PartyCancelMessagesFilterExpression
 };
 
 /// <summary>
-/// The options for synchronizing messages between endpoints.
+/// Options for synchronizing messages between endpoints.
 /// </summary>
+/// <nyi />
 enum class PartySynchronizeMessagesBetweenEndpointsOptions : int32_t
 {
     /// <summary>
@@ -1274,24 +1281,21 @@ enum class PartySynchronizeMessagesBetweenEndpointsOptions : int32_t
 DEFINE_ENUM_FLAG_OPERATORS(PartySynchronizeMessagesBetweenEndpointsOptions);
 
 /// <summary>
-/// The performance counters, queue lengths, historical usage metrics, or other statistical information that can be
-/// retrieved for a network.
+/// Types of statistics that can be retrieved for a network.
 /// </summary>
 /// <seealso cref="PartyEndpointStatistic" />
 /// <seealso cref="PartySendMessageOptions" />
 /// <seealso cref="PartyNetwork::GetNetworkStatistics" />
 /// <seealso cref="PartyLocalEndpoint::SendMessage" />
-/// <seealso cref="PartyLocalEndpoint::CancelMessages" />
+/// <seealso_nyi cref="PartyLocalEndpoint::CancelMessages" />
 enum class PartyNetworkStatistic
 {
     /// <summary>
     /// The current moving average round trip latency ("ping time") in milliseconds to the network's cloud relay server.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// This latency represents a moving average of the time it currently takes for this local device to send a message
     /// and receive a response from the transparent cloud relay server.
-    /// </para>
     /// </remarks>
     AverageRelayServerRoundTripLatencyInMilliseconds,
 
@@ -1299,15 +1303,13 @@ enum class PartyNetworkStatistic
     /// The total number of internal protocol packets ever transmitted to remote devices as part of this network.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// This statistic represents the total number of internal protocol packets transmitted by the local device for any
-    /// network reason. It includes packets generated as a result of PartyLocalEndpoint::SendMessage() calls but doesn't
-    /// necessarily have a one-to-one correspondence with them because multiple small messages may be coalesced together
-    /// into a single packet, or a large message may be fragmented into multiple packets depending on configuration and
-    /// environmental factors. Further, packets may be used to carry chat or other internal library functionality (e.g.,
-    /// API operation support messages, protocol acknowledgements or retries) on behalf of the application without an
-    /// explicit PartyLocalEndpoint::SendMessage() call.
-    /// </para>
+    /// network reason. It includes packets generated as a result of <see cref="PartyLocalEndpoint::SendMessage()" />
+    /// calls but doesn't necessarily have a one-to-one correspondence with them because multiple small messages may be
+    /// coalesced together into a single packet, or a large message may be fragmented into multiple packets depending on
+    /// configuration and environmental factors. Further, packets may be used to carry chat or other internal library
+    /// functionality (e.g., API operation support messages, protocol acknowledgements or retries) on behalf of the
+    /// application without an explicit PartyLocalEndpoint::SendMessage() call.
     /// <para>
     /// This statistic does not include any packets generated for HTTP web client operations that are used internally by
     /// the Party library for some aspects of authentication, management transactions, speech-to-text transcription, and
@@ -1320,13 +1322,11 @@ enum class PartyNetworkStatistic
     /// The total number of internal protocol bytes ever transmitted to remote devices as part of this network.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// This statistic represents the total number of bytes in internal protocol packets transmitted by the local device
-    /// for any network reason. This size includes PartyLocalEndpoint::SendMessage() payloads but also their internal
-    /// protocol overhead, as well as any chat or other internal library functionality needed (e.g., API operation
-    /// support messages, protocol acknowledgements or retries) on behalf of the application without an explicit
-    /// PartyLocalEndpoint::SendMessage() call.
-    /// </para>
+    /// for any network reason. This size includes <see cref="PartyLocalEndpoint::SendMessage()" /> payloads but also
+    /// their internal protocol overhead, as well as any chat or other internal library functionality needed (e.g., API
+    /// operation support messages, protocol acknowledgements or retries) on behalf of the application without an
+    /// explicit PartyLocalEndpoint::SendMessage() call.
     /// <para>
     /// The reported value does not include the packet overhead for Internet protocols (e.g., UDP, IP) or that of lower
     /// level media over which the Party library internal protocol operates.
@@ -1343,12 +1343,10 @@ enum class PartyNetworkStatistic
     /// The total number of internal protocol packets ever re-transmitted to remote devices as part of this network.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// This statistic represents the total number of internal protocol packet retransmissions by the local device due
     /// to apparent environmental loss of an earlier attempt. The Party library will only retry lost packets that
-    /// contain application messages sent with PartySendMessageOptions::GuaranteedDelivery or internal library messages
-    /// with similar delivery requirements.
-    /// </para>
+    /// contain application messages sent with <see cref="PartySendMessageOptions::GuaranteedDelivery" /> or internal
+    /// library messages with similar delivery requirements.
     /// <para>
     /// This statistic does not include any retries of packets generated for HTTP web client operations that are used
     /// internally by the Party library for some aspects of authentication, management transactions, speech-to-text
@@ -1361,12 +1359,10 @@ enum class PartyNetworkStatistic
     /// The total number of internal protocol bytes ever re-transmitted to remote devices as part of this network.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// This statistic represents the total number of bytes in internal protocol packet retransmissions by the local
     /// device due to apparent environmental loss of an earlier attempt. This size includes payloads of application
-    /// messages sent with PartySendMessageOptions::GuaranteedDelivery or internal library messages with similar
-    /// delivery requirements.
-    /// </para>
+    /// messages sent with <see cref="PartySendMessageOptions::GuaranteedDelivery" /> or internal library messages with
+    /// similar delivery requirements.
     /// <para>
     /// The reported value does not include the retried packet overhead for Internet protocols (e.g., UDP, IP) or that
     /// of lower level media over which the Party library internal protocol operates.
@@ -1401,15 +1397,13 @@ enum class PartyNetworkStatistic
     /// The total number of internal protocol packets ever received from remote devices as part of this network.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// This statistic represents the total number of internal protocol packets received by the local device for any
     /// network reason, which does not have a one-to-one correspondence with
-    /// PartyStateChangeType::EndpointMessageReceived state changes. Multiple small messages may be coalesced together
-    /// into a single packet, or a large message may be fragmented into multiple packets depending on configuration and
+    /// <see cref="PartyEndpointMessageReceivedStateChange" />s. Multiple small messages may be coalesced together into
+    /// a single packet, or a large message may be fragmented into multiple packets depending on configuration and
     /// environmental factors. Further, packets may be used to carry chat or other internal library functionality (e.g.,
     /// API operation support messages, protocol acknowledgements or retries) on behalf of the application without an
-    /// explicit PartyLocalEndpoint::SendMessage() call.
-    /// </para>
+    /// explicit <see cref="PartyLocalEndpoint::SendMessage()" /> call.
     /// <para>
     /// This statistic does not include any packets received as part of HTTP web client operations that are used
     /// internally by the Party library for some aspects of authentication, management transactions, speech-to-text
@@ -1422,12 +1416,10 @@ enum class PartyNetworkStatistic
     /// The total number of internal protocol bytes ever received from remote devices as part of this network.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// This statistic represents the total number of bytes in internal protocol packets received by the local device
-    /// for any network reason. This size includes PartyStateChangeType::EndpointMessageReceived state change payloads
-    /// but also their internal protocol overhead, as well as any chat or other internal library functionality needed
-    /// (e.g., API operation support messages, protocol acknowledgements or retries).
-    /// </para>
+    /// for any network reason. This size includes <see cref="PartyEndpointMessageReceivedStateChange" /> payloads but
+    /// also their internal protocol overhead, as well as any chat or other internal library functionality needed (e.g.,
+    /// API operation support messages, protocol acknowledgements or retries).
     /// <para>
     /// The reported value does not include the packet overhead for Internet protocols (e.g., UDP, IP) or that of lower
     /// level media over which the Party library internal protocol operates.
@@ -1441,254 +1433,235 @@ enum class PartyNetworkStatistic
     ReceivedProtocolBytes,
 
     /// <summary>
-    /// The number of messages currently queued by PartyLocalEndpoint::SendMessage() but not yet transmitted from all
-    /// local endpoints to all remote endpoints in the network.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
-    /// target endpoints at once via the transparent cloud relay server. Such messages will only be counted a single
-    /// time rather than multiplied per target endpoint.
-    /// </para>
-    /// </remarks>
-    CurrentlyQueuedSendMessages,
-
-    /// <summary>
-    /// The number of bytes of data in messages currently queued by PartyLocalEndpoint::SendMessage() but not yet
+    /// The number of messages currently queued by <see cref="PartyLocalEndpoint::SendMessage()" /> but not yet
     /// transmitted from all local endpoints to all remote endpoints in the network.
     /// </summary>
     /// <remarks>
     /// <para>
     /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
-    /// target endpoints at once via the transparent cloud relay server. Such messages' bytes will only be counted a
-    /// single time rather than multiplied per target endpoint.
-    /// </para>
-    /// </remarks>
-    CurrentlyQueuedSendMessageBytes,
-
-    /// <summary>
-    /// The number of PartyLocalEndpoint::SendMessage() messages from all local endpoints to all remote endpoints in the
-    /// network that are currently being transmitted or still have more local state changes to be processed.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// A message is considered "active" as soon as its first byte has been placed in a packet that is being
-    /// transmitted. It remains active until transmission completes and the local
-    /// PartyStateChangeType::DataBuffersReturned state change for it (if applicable) has been returned with
-    /// PartyManager::FinishProcessingStateChanges().
-    /// </para>
-    /// <para>
-    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
     /// target endpoints at once via the transparent cloud relay server. Such messages will only be counted a single
     /// time rather than multiplied per target endpoint.
-    /// </para>
-    /// </remarks>
-    CurrentlyActiveSendMessages,
-
-    /// <summary>
-    /// The number of bytes of data in PartyLocalEndpoint::SendMessage() messages from all local endpoints to all remote
-    /// endpoints in the network that are currently being transmitted or still have more local state changes to be
-    /// processed.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// A message is considered "active" as soon as its first byte has been placed in a packet that is being
-    /// transmitted. It remains active until transmission completes and the local
-    /// PartyStateChangeType::DataBuffersReturned state change for it (if applicable) has been returned with
-    /// PartyManager::FinishProcessingStateChanges().
-    /// </para>
-    /// <para>
-    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
-    /// target endpoints at once via the transparent cloud relay server. Such messages' bytes will only be counted a
-    /// single time rather than multiplied per target endpoint.
-    /// </para>
-    /// </remarks>
-    CurrentlyActiveSendMessageBytes,
-
-    /// <summary>
-    /// The total number of PartyLocalEndpoint::SendMessage() messages from all local endpoints to all remote endpoints
-    /// in the network that were ever discarded for exceeding their send queue timeouts without being transmitted.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// A message's send queue timeout is specified using the PartySendMessageQueuingConfiguration structure
-    /// <em>timeoutInMillseconds</em> field when calling PartyLocalEndpoint::SendMessage().
-    /// </para>
-    /// <para>
-    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
-    /// target endpoints at once via the transparent cloud relay server. Such messages will only be counted a single
-    /// time rather than multiplied per target endpoint.
-    /// </para>
-    /// <para>
-    /// Note that only local and remote endpoints that currently exist will be included when querying this statistic.
-    /// When endpoints that had timed out messages get destroyed between queries, this statistic might be perceived as
-    /// "going backward".
-    /// </para>
-    /// </remarks>
-    TimedOutSendMessages,
-
-    /// <summary>
-    /// The total number of bytes of data in PartyLocalEndpoint::SendMessage() messages from all local endpoints to all
-    /// remote endpoints in the network that were ever discarded for exceeding their send queue timeouts without being
-    /// transmitted.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// A message's send queue timeout is specified using the PartySendMessageQueuingConfiguration structure
-    /// <em>timeoutInMillseconds</em> field when calling PartyLocalEndpoint::SendMessage().
-    /// </para>
-    /// <para>
-    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
-    /// target endpoints at once via the transparent cloud relay server. Such messages' bytes will only be counted a
-    /// single time rather than multiplied per target endpoint.
-    /// </para>
-    /// <para>
-    /// Note that only local and remote endpoints that currently exist will be included when querying this statistic.
-    /// When endpoints that had timed out messages get destroyed between queries, this statistic might be perceived as
-    /// "going backward".
-    /// </para>
-    /// </remarks>
-    TimedOutSendMessageBytes,
-
-    /// <summary>
-    /// The total number of PartyLocalEndpoint::SendMessage() messages from all local endpoints to all remote endpoints
-    /// in the network that were ever canceled.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// Messages are canceled before being transmitted by the application calling PartyLocalEndpoint::CancelMessages()
-    /// with a matching filter expression.
-    /// </para>
-    /// <para>
-    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
-    /// target endpoints at once via the transparent cloud relay server. Such messages will only be counted a single
-    /// time rather than multiplied per target endpoint.
-    /// </para>
-    /// <para>
-    /// Note that only local and remote endpoints that currently exist will be included when querying this statistic.
-    /// When endpoints that had canceled messages get destroyed between queries, this statistic might be perceived as
-    /// "going backward".
-    /// </para>
-    /// </remarks>
-    CanceledSendMessages,
-
-    /// <summary>
-    /// The total number of bytes of data in PartyLocalEndpoint::SendMessage() messages from all local endpoints to all
-    /// remote endpoints in the network that were ever canceled.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// Messages are canceled before being transmitted by the application calling PartyLocalEndpoint::CancelMessages()
-    /// with a matching filter expression.
-    /// </para>
-    /// <para>
-    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
-    /// target endpoints at once via the transparent cloud relay server. Such messages' bytes will only be counted a
-    /// single time rather than multiplied per target endpoint.
-    /// </para>
-    /// <para>
-    /// Note that only local and remote endpoints that currently exist will be included when querying this statistic.
-    /// When endpoints that had canceled messages get destroyed between queries, this statistic might be perceived as
-    /// "going backward".
-    /// </para>
-    /// </remarks>
-    CanceledSendMessageBytes,
-};
-
-/// <summary>
-/// The performance counters, queue lengths, historical usage metrics, or other statistical information that can be
-/// retrieved for an endpoint.
-/// </summary>
-/// <seealso cref="PartyNetworkStatistic" />
-/// <seealso cref="PartySendMessageQueuingConfiguration" />
-/// <seealso cref="PartyLocalEndpoint::SendMessage" />
-/// <seealso cref="PartyLocalEndpoint::CancelMessages" />
-/// <seealso cref="PartyLocalEndpoint::GetEndpointStatistics" />
-enum class PartyEndpointStatistic
-{
-    /// <summary>
-    /// The number of messages currently queued by PartyLocalEndpoint::SendMessage() but not yet transmitted from the
-    /// local endpoint to the specified target endpoints.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
-    /// target endpoints at once via the transparent cloud relay server. If two or more of those endpoints are specified
-    /// to PartyLocalEndpoint::GetEndpointStatistics() when querying for this statistic, the message will only be
-    /// counted a single time rather than multiplied per target endpoint.
     /// </para>
     /// </remarks>
     CurrentlyQueuedSendMessages,
 
     /// <summary>
-    /// The number of bytes of data in messages currently queued by PartyLocalEndpoint::SendMessage() but not yet
-    /// transmitted from the local endpoint to the specified target endpoints.
+    /// The number of bytes of data in messages currently queued by <see cref="PartyLocalEndpoint::SendMessage()" /> but
+    /// not yet transmitted from all local endpoints to all remote endpoints in the network.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
-    /// target endpoints at once via the transparent cloud relay server. If two or more of those endpoints are specified
-    /// to PartyLocalEndpoint::GetEndpointStatistics() when querying for this statistic, the message bytes will only be
-    /// counted a single time rather than multiplied per target endpoint.
-    /// </para>
+    /// target endpoints at once via the transparent cloud relay server. Such messages' bytes will only be counted a
+    /// single time rather than multiplied per target endpoint.
     /// </remarks>
     CurrentlyQueuedSendMessageBytes,
 
     /// <summary>
-    /// The number of PartyLocalEndpoint::SendMessage() messages from the local endpoint to the specified target
-    /// endpoints that are currently being transmitted or still have more local state changes to be processed.
+    /// The number of <see cref="PartyLocalEndpoint::SendMessage()" /> messages from all local endpoints to all remote
+    /// endpoints in the network that are currently being transmitted or still have more local state changes to be
+    /// processed.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// A message is considered "active" as soon as its first byte has been placed in a packet that is being
     /// transmitted. It remains active until transmission completes and the local
-    /// PartyStateChangeType::DataBuffersReturned state change for it (if applicable) has been returned with
-    /// PartyManager::FinishProcessingStateChanges().
-    /// </para>
+    /// <see cref="PartyDataBuffersReturnedStateChange" /> for it (if applicable) has been returned with
+    /// <see cref="PartyManager::FinishProcessingStateChanges()" />.
     /// <para>
-    /// For efficiency, only a single message is tracked per PartyLocalEndpoint::SendMessage() when sending to multiple
-    /// target endpoints at once via the transparent cloud relay server. If two or more of those endpoints are specified
-    /// to PartyLocalEndpoint::GetEndpointStatistics() when querying for this statistic, the message will only be
-    /// counted a single time rather than multiplied per target endpoint.
+    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
+    /// target endpoints at once via the transparent cloud relay server. Such messages will only be counted a single
+    /// time rather than multiplied per target endpoint.
     /// </para>
     /// </remarks>
     CurrentlyActiveSendMessages,
 
     /// <summary>
-    /// The number of bytes of data in PartyLocalEndpoint::SendMessage() messages from the local endpoint to the
-    /// specified target endpoints that are currently being transmitted or still have more local state changes to be
-    /// processed.
+    /// The number of bytes of data in <see cref="PartyLocalEndpoint::SendMessage()" /> messages from all local
+    /// endpoints to all remote endpoints in the network that are currently being transmitted or still have more local
+    /// state changes to be processed.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// A message is considered "active" as soon as its first byte has been placed in a packet that is being
     /// transmitted. It remains active until transmission completes and the local
-    /// PartyStateChangeType::DataBuffersReturned state change for it (if applicable) has been returned with
-    /// PartyManager::FinishProcessingStateChanges().
-    /// </para>
+    /// <see cref="PartyDataBuffersReturnedStateChange" /> for it (if applicable) has been returned with
+    /// <see cref="PartyManager::FinishProcessingStateChanges()" />.
     /// <para>
-    /// For efficiency, only a single message is tracked per PartyLocalEndpoint::SendMessage() when sending to multiple
-    /// target endpoints at once via the transparent cloud relay server. If two or more of those endpoints are specified
-    /// to PartyLocalEndpoint::GetEndpointStatistics() when querying for this statistic, the message bytes will only be
-    /// counted a single time rather than multiplied per target endpoint.
+    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
+    /// target endpoints at once via the transparent cloud relay server. Such messages' bytes will only be counted a
+    /// single time rather than multiplied per target endpoint.
     /// </para>
     /// </remarks>
     CurrentlyActiveSendMessageBytes,
 
     /// <summary>
-    /// The total number of PartyLocalEndpoint::SendMessage() messages from the local endpoint to the specified target
-    /// endpoints that were ever discarded for exceeding their send queue timeouts without being transmitted.
+    /// The total number of <see cref="PartyLocalEndpoint::SendMessage()" /> messages from all local endpoints to all
+    /// remote endpoints in the network that were ever discarded for exceeding their send queue timeouts without being
+    /// transmitted.
     /// </summary>
     /// <remarks>
+    /// A message's send queue timeout is specified using
+    /// <see cref="PartySendMessageQueuingConfiguration::timeoutInMillseconds" /> when calling
+    /// PartyLocalEndpoint::SendMessage().
     /// <para>
-    /// A message's send queue timeout is specified using the PartySendMessageQueuingConfiguration structure
-    /// <em>timeoutInMillseconds</em> field when calling PartyLocalEndpoint::SendMessage().
+    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
+    /// target endpoints at once via the transparent cloud relay server. Such messages will only be counted a single
+    /// time rather than multiplied per target endpoint.
     /// </para>
+    /// <para>
+    /// Note that only local and remote endpoints that currently exist will be included when querying this statistic.
+    /// When endpoints that had timed out messages get destroyed between queries, this statistic might be perceived as
+    /// "going backward".
+    /// </para>
+    /// </remarks>
+    TimedOutSendMessages,
+
+    /// <summary>
+    /// The total number of bytes of data in <see cref="PartyLocalEndpoint::SendMessage()" /> messages from all local
+    /// endpoints to all remote endpoints in the network that were ever discarded for exceeding their send queue
+    /// timeouts without being transmitted.
+    /// </summary>
+    /// <remarks>
+    /// A message's send queue timeout is specified using
+    /// <see cref="PartySendMessageQueuingConfiguration::timeoutInMillseconds" /> when calling
+    /// PartyLocalEndpoint::SendMessage().
+    /// <para>
+    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
+    /// target endpoints at once via the transparent cloud relay server. Such messages' bytes will only be counted a
+    /// single time rather than multiplied per target endpoint.
+    /// </para>
+    /// <para>
+    /// Note that only local and remote endpoints that currently exist will be included when querying this statistic.
+    /// When endpoints that had timed out messages get destroyed between queries, this statistic might be perceived as
+    /// "going backward".
+    /// </para>
+    /// </remarks>
+    TimedOutSendMessageBytes,
+
+    /// <summary>
+    /// The total number of <see cref="PartyLocalEndpoint::SendMessage()" /> messages from all local endpoints to all
+    /// remote endpoints in the network that were ever canceled.
+    /// </summary>
+    /// <remarks>
+    /// Messages are canceled before being transmitted by the application calling PartyLocalEndpoint::CancelMessages()
+    /// with a matching filter expression.
+    /// <para>
+    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
+    /// target endpoints at once via the transparent cloud relay server. Such messages will only be counted a single
+    /// time rather than multiplied per target endpoint.
+    /// </para>
+    /// <para>
+    /// Note that only local and remote endpoints that currently exist will be included when querying this statistic.
+    /// When endpoints that had canceled messages get destroyed between queries, this statistic might be perceived as
+    /// "going backward".
+    /// </para>
+    /// </remarks>
+    CanceledSendMessages,
+
+    /// <summary>
+    /// The total number of bytes of data in <see cref="PartyLocalEndpoint::SendMessage()" /> messages from all local
+    /// endpoints to all remote endpoints in the network that were ever canceled.
+    /// </summary>
+    /// <remarks>
+    /// Messages are canceled before being transmitted by the application calling PartyLocalEndpoint::CancelMessages()
+    /// with a matching filter expression.
+    /// <para>
+    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
+    /// target endpoints at once via the transparent cloud relay server. Such messages' bytes will only be counted a
+    /// single time rather than multiplied per target endpoint.
+    /// </para>
+    /// <para>
+    /// Note that only local and remote endpoints that currently exist will be included when querying this statistic.
+    /// When endpoints that had canceled messages get destroyed between queries, this statistic might be perceived as
+    /// "going backward".
+    /// </para>
+    /// </remarks>
+    CanceledSendMessageBytes,
+};
+
+/// <summary>
+/// Types of statistics that can be retrieved for an endpoint.
+/// </summary>
+/// <seealso cref="PartyNetworkStatistic" />
+/// <seealso cref="PartySendMessageQueuingConfiguration" />
+/// <seealso cref="PartyLocalEndpoint::SendMessage" />
+/// <seealso_nyi cref="PartyLocalEndpoint::CancelMessages" />
+/// <seealso cref="PartyLocalEndpoint::GetEndpointStatistics" />
+enum class PartyEndpointStatistic
+{
+    /// <summary>
+    /// The number of messages currently queued by <see cref="PartyLocalEndpoint::SendMessage()" /> but not yet
+    /// transmitted from the local endpoint to the specified target endpoints.
+    /// </summary>
+    /// <remarks>
+    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
+    /// target endpoints at once via the transparent cloud relay server. If two or more of those endpoints are specified
+    /// to <see cref="PartyLocalEndpoint::GetEndpointStatistics()" /> when querying for this statistic, the message will
+    /// only be counted a single time rather than multiplied per target endpoint.
+    /// </remarks>
+    CurrentlyQueuedSendMessages,
+
+    /// <summary>
+    /// The number of bytes of data in messages currently queued by <see cref="PartyLocalEndpoint::SendMessage()" /> but
+    /// not yet transmitted from the local endpoint to the specified target endpoints.
+    /// </summary>
+    /// <remarks>
+    /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
+    /// target endpoints at once via the transparent cloud relay server. If two or more of those endpoints are specified
+    /// to <see cref="PartyLocalEndpoint::GetEndpointStatistics()" /> when querying for this statistic, the message
+    /// bytes will only be counted a single time rather than multiplied per target endpoint.
+    /// </remarks>
+    CurrentlyQueuedSendMessageBytes,
+
+    /// <summary>
+    /// The number of <see cref="PartyLocalEndpoint::SendMessage()" /> messages from the local endpoint to the specified
+    /// target endpoints that are currently being transmitted or still have more local state changes to be processed.
+    /// </summary>
+    /// <remarks>
+    /// A message is considered "active" as soon as its first byte has been placed in a packet that is being
+    /// transmitted. It remains active until transmission completes and the local
+    /// <see cref="PartyDataBuffersReturnedStateChange" /> for it (if applicable) has been returned with
+    /// <see cref="PartyManager::FinishProcessingStateChanges()" />.
+    /// <para>
+    /// For efficiency, only a single message is tracked per PartyLocalEndpoint::SendMessage() when sending to multiple
+    /// target endpoints at once via the transparent cloud relay server. If two or more of those endpoints are specified
+    /// to <see cref="PartyLocalEndpoint::GetEndpointStatistics()" /> when querying for this statistic, the message will
+    /// only be counted a single time rather than multiplied per target endpoint.
+    /// </para>
+    /// </remarks>
+    CurrentlyActiveSendMessages,
+
+    /// <summary>
+    /// The number of bytes of data in <see cref="PartyLocalEndpoint::SendMessage()" /> messages from the local endpoint
+    /// to the specified target endpoints that are currently being transmitted or still have more local state changes to
+    /// be processed.
+    /// </summary>
+    /// <remarks>
+    /// A message is considered "active" as soon as its first byte has been placed in a packet that is being
+    /// transmitted. It remains active until transmission completes and the local
+    /// <see cref="PartyDataBuffersReturnedStateChange" /> for it (if applicable) has been returned with
+    /// <see cref="PartyManager::FinishProcessingStateChanges()" />.
+    /// <para>
+    /// For efficiency, only a single message is tracked per PartyLocalEndpoint::SendMessage() when sending to multiple
+    /// target endpoints at once via the transparent cloud relay server. If two or more of those endpoints are specified
+    /// to <see cref="PartyLocalEndpoint::GetEndpointStatistics()" /> when querying for this statistic, the message
+    /// bytes will only be counted a single time rather than multiplied per target endpoint.
+    /// </para>
+    /// </remarks>
+    CurrentlyActiveSendMessageBytes,
+
+    /// <summary>
+    /// The total number of <see cref="PartyLocalEndpoint::SendMessage()" /> messages from the local endpoint to the
+    /// specified target endpoints that were ever discarded for exceeding their send queue timeouts without being
+    /// transmitted.
+    /// </summary>
+    /// <remarks>
+    /// A message's send queue timeout is specified using
+    /// <see cref="PartySendMessageQueuingConfiguration::timeoutInMillseconds" /> when calling
+    /// PartyLocalEndpoint::SendMessage().
     /// <para>
     /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
     /// target endpoints at once via the transparent cloud relay server. If two or more of those endpoints are specified
-    /// to PartyLocalEndpoint::GetEndpointStatistics() when querying for this statistic, the message will only be
-    /// counted a single time rather than multiplied per target endpoint.
+    /// to <see cref="PartyLocalEndpoint::GetEndpointStatistics()" /> when querying for this statistic, the message will
+    /// only be counted a single time rather than multiplied per target endpoint.
     /// </para>
     /// <para>
     /// When querying this statistic for all target endpoints by providing a zero-entry array to
@@ -1700,20 +1673,19 @@ enum class PartyEndpointStatistic
     TimedOutSendMessages,
 
     /// <summary>
-    /// The total number of bytes of data in PartyLocalEndpoint::SendMessage() messages from the local endpoint to the
-    /// specified target endpoints that were ever discarded for exceeding their send queue timeouts without being
-    /// transmitted.
+    /// The total number of bytes of data in <see cref="PartyLocalEndpoint::SendMessage()" /> messages from the local
+    /// endpoint to the specified target endpoints that were ever discarded for exceeding their send queue timeouts
+    /// without being transmitted.
     /// </summary>
     /// <remarks>
-    /// <para>
-    /// A message's send queue timeout is specified using the PartySendMessageQueuingConfiguration structure
-    /// <em>timeoutInMillseconds</em> field when calling PartyLocalEndpoint::SendMessage().
-    /// </para>
+    /// A message's send queue timeout is specified using
+    /// <see cref="PartySendMessageQueuingConfiguration::timeoutInMillseconds" /> when calling
+    /// PartyLocalEndpoint::SendMessage().
     /// <para>
     /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
     /// target endpoints at once via the transparent cloud relay server. If two or more of those endpoints are specified
-    /// to PartyLocalEndpoint::GetEndpointStatistics() when querying for this statistic, the message bytes will only be
-    /// counted a single time rather than multiplied per target endpoint.
+    /// to <see cref="PartyLocalEndpoint::GetEndpointStatistics()" /> when querying for this statistic, the message
+    /// bytes will only be counted a single time rather than multiplied per target endpoint.
     /// </para>
     /// <para>
     /// When querying this statistic for all target endpoints by providing a zero-entry array to
@@ -1725,19 +1697,17 @@ enum class PartyEndpointStatistic
     TimedOutSendMessageBytes,
 
     /// <summary>
-    /// The total number of PartyLocalEndpoint::SendMessage() messages from the local endpoint to the specified target
-    /// endpoints that were ever canceled.
+    /// The total number of <see cref="PartyLocalEndpoint::SendMessage()" /> messages from the local endpoint to the
+    /// specified target endpoints that were ever canceled.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// Messages are canceled before being transmitted by the application calling PartyLocalEndpoint::CancelMessages()
     /// with a matching filter expression.
-    /// </para>
     /// <para>
     /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
     /// target endpoints at once via the PartyNetwork transparent cloud relay server. If two or more of those endpoints
-    /// are specified to PartyLocalEndpoint::GetEndpointStatistics() when querying for this statistic, the message will
-    /// only be counted a single time rather than multiplied per target endpoint.
+    /// are specified to <see cref="PartyLocalEndpoint::GetEndpointStatistics()" /> when querying for this statistic,
+    /// the message will only be counted a single time rather than multiplied per target endpoint.
     /// </para>
     /// <para>
     /// When querying this statistic for all target endpoints by providing a zero-entry array to
@@ -1749,19 +1719,17 @@ enum class PartyEndpointStatistic
     CanceledSendMessages,
 
     /// <summary>
-    /// The total number of bytes of data in PartyLocalEndpoint::SendMessage() messages from the local endpoint to the
-    /// specified target endpoints that were ever canceled.
+    /// The total number of bytes of data in <see cref="PartyLocalEndpoint::SendMessage()" /> messages from the local
+    /// endpoint to the specified target endpoints that were ever canceled.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// Messages are canceled before being transmitted by the application calling PartyLocalEndpoint::CancelMessages()
     /// with a matching filter expression.
-    /// </para>
     /// <para>
     /// For efficiency, only a single message is queued by PartyLocalEndpoint::SendMessage() when sending to multiple
     /// target endpoints at once via the PartyNetwork transparent cloud relay server. If two or more of those endpoints
-    /// are specified to PartyLocalEndpoint::GetEndpointStatistics() when querying for this statistic, the message bytes
-    /// will only be counted a single time rather than multiplied per target endpoint.
+    /// are specified to <see cref="PartyLocalEndpoint::GetEndpointStatistics()" /> when querying for this statistic,
+    /// the message bytes will only be counted a single time rather than multiplied per target endpoint.
     /// </para>
     /// <para>
     /// When querying this statistic for all target endpoints by providing a zero-entry array to
@@ -1774,15 +1742,16 @@ enum class PartyEndpointStatistic
 };
 
 /// <summary>
-/// Defines who may revoke PartyInvitations via PartyNetwork::RevokeInvitation().
+/// Options for who may revoke an invitation.
 /// </summary>
 /// <seealso cref="PartyNetwork::RevokeInvitation" />
+/// <seealso cref="PartyInvitation" />
+/// <seealso cref="PartyLocalUser" />
 enum class PartyInvitationRevocability
 {
     /// <summary>
     /// The invitation may only be revoked by the PartyLocalUser that created the invitation.
     /// </summary>
-    /// <seealso cref="PartyLocalUser" />
     Creator,
 
     /// <summary>
@@ -1792,7 +1761,7 @@ enum class PartyInvitationRevocability
 };
 
 /// <summary>
-/// Defines the options for defining the communication relationship between two chat controls.
+/// Options for defining the communication relationship between two chat controls.
 /// </summary>
 enum class PartyChatPermissionOptions
 {
@@ -1820,8 +1789,10 @@ enum class PartyChatPermissionOptions
 DEFINE_ENUM_FLAG_OPERATORS(PartyChatPermissionOptions);
 
 /// <summary>
-/// Defines the possible options for selecting audio devices
+/// Options for selecting audio devices
 /// </summary>
+/// <seealso cref="PartyLocalChatControl::SetAudioInput" />
+/// <seealso cref="PartyLocalChatControl::SetAudioOutput" />
 enum class PartyAudioDeviceSelectionType
 {
     /// <summary>
@@ -1833,39 +1804,39 @@ enum class PartyAudioDeviceSelectionType
     /// Select audio device based on the platform settings.
     /// </summary>
     /// <remarks>
-    /// If this selection type is used for PartyLocalChatControl::SetAudioInput() or
-    /// PartyLocalChatControl::SetAudioOutput() then the audioDeviceSelectionContext should be a nullptr.
+    /// If this selection type is used for <see cref="PartyLocalChatControl::SetAudioInput()" /> or
+    /// <see cref="PartyLocalChatControl::SetAudioOutput()" /> then the audioDeviceSelectionContext should be nullptr.
     /// </remarks>
-    /// <seealso cref="PartyLocalChatControl::SetAudioInput" />
-    /// <seealso cref="PartyLocalChatControl::SetAudioOutput" />
     SystemDefault,
 
     /// <summary>
     /// Select audio device based on the platform and user settings.
     /// </summary>
     /// <remarks>
-    /// If this selection type is used for PartyLocalChatControl::SetAudioInput() or
-    /// PartyLocalChatControl::SetAudioOutput() then the audioDeviceSelectionContext must be a platform specific user
-    /// context.
+    /// If this selection type is used for <see cref="PartyLocalChatControl::SetAudioInput()" /> or
+    /// <see cref="PartyLocalChatControl::SetAudioOutput()" /> then the audioDeviceSelectionContext must be a platform
+    /// specific user context.
     /// </remarks>
-    /// <seealso cref="PartyLocalChatControl::SetAudioInput" />
-    /// <seealso cref="PartyLocalChatControl::SetAudioOutput" />
     PlatformUserDefault,
 
     /// <summary>
     /// Audio device specified by the game.
+    /// </summary>
     /// <remarks>
-    /// If this selection type is used for PartyLocalChatControl::SetAudioInput() or
-    /// PartyLocalChatControl::SetAudioOutput() then the audioDeviceSelectionContext must be the identifier of the audio
-    /// device to use.
+    /// If this selection type is used for <see cref="PartyLocalChatControl::SetAudioInput()" /> or
+    /// <see cref="PartyLocalChatControl::SetAudioOutput()" /> then the audioDeviceSelectionContext must be the
+    /// identifier of the audio device to use.
+    /// <para>
+    /// Note that on iOS and Android, setting a manual input device is an illegal operation. Using this with
+    /// <see cref="PartyLocalChatControl::SetAudioInput()" /> on Android and iOS will result in an error indicating that
+    /// the device selection type is not supported.
+    /// </para>
     /// </remarks>
-    /// <seealso cref="PartyLocalChatControl::SetAudioInput" />
-    /// <seealso cref="PartyLocalChatControl::SetAudioOutput" />
     Manual,
 };
 
 /// <summary>
-/// Defines the possible states of an audio input associated with a local chat control.
+/// States of an audio input associated with a local chat control.
 /// </summary>
 enum class PartyAudioInputState
 {
@@ -1883,11 +1854,8 @@ enum class PartyAudioInputState
     /// The audio input wasn't found.
     /// </summary>
     /// <remarks>
-    /// This can occur if the input was removed while in use.
-    /// <para>
-    /// When in this state, the chat control will subscribe to audio device changes and use the specified input if it
-    /// can be found at a later time.
-    /// </para>
+    /// This can occur if the input was removed while in use. When in this state, the chat control will subscribe to
+    /// audio device changes and use the specified input if it can be found at a later time.
     /// </remarks>
     NotFound,
 
@@ -1913,7 +1881,7 @@ enum class PartyAudioInputState
 };
 
 /// <summary>
-/// Defines the possible states of an audio output associated with a local chat control.
+/// States of an audio output associated with a local chat control.
 /// </summary>
 enum class PartyAudioOutputState
 {
@@ -1931,11 +1899,8 @@ enum class PartyAudioOutputState
     /// The audio output wasn't found.
     /// </summary>
     /// <remarks>
-    /// This can occur if the output was removed while in use.
-    /// <para>
-    /// When in this state, the chat control will subscribe to audio device changes and use the specified output if it
-    /// can be found at a later time.
-    /// </para>
+    /// This can occur if the output was removed while in use. When in this state, the chat control will subscribe to
+    /// audio device changes and use the specified output if it can be found at a later time.
     /// </remarks>
     NotFound,
 
@@ -1956,7 +1921,7 @@ enum class PartyAudioOutputState
 };
 
 /// <summary>
-/// Defines the possible audio states for a local chat control.
+/// Audio states for a local chat control.
 /// </summary>
 enum class PartyLocalChatControlChatIndicator
 {
@@ -1980,14 +1945,15 @@ enum class PartyLocalChatControlChatIndicator
     /// </summary>
     /// <remarks>
     /// This may be due to the user removing a physical audio device, or an error during audio device initialization. A
-    /// state change of type LocalChatAudioInputChanged or LocalChatAudioOutputChanged with more granular information
-    /// will have been provided prior to the chat indicator changing to this value.
+    /// <see cref="PartyLocalChatAudioInputChangedStateChange" /> or
+    /// <see cref="PartyLocalChatAudioOutputChangedStateChange" /> with more granular information will have been
+    /// provided prior to the chat indicator changing to this value.
     /// </remarks>
     NoAudioInput,
 };
 
 /// <summary>
-/// Defines the possible audio states for a target chat control in relation to a local chat control.
+/// Audio states for a target chat control in relation to a local chat control.
 /// </summary>
 enum class PartyChatControlChatIndicator
 {
@@ -2013,8 +1979,9 @@ enum class PartyChatControlChatIndicator
 };
 
 /// <summary>
-/// Defines the supported genders for PartyTextToSpeechProfiles.
+/// Genders for text to speech profiles.
 /// </summary>
+/// <seealso cref="PartyTextToSpeechProfile" />
 enum class PartyGender
 {
     /// <summary>
@@ -2034,55 +2001,57 @@ enum class PartyGender
 };
 
 /// <summary>
-/// Defines types of transcriptions for PartyVoiceChatTranscriptionReceivedStateChange.
+/// Types of transcription phrases.
 /// </summary>
+/// <remarks>
+/// A <em>Hypothesis</em> phrase represents a snapshot into the transcription process and does not represent a stable
+/// accumulation of transcription. For example, a first speech hypothesis may contain the words "fine fun" and the
+/// second hypothesis may contain the words "find funny". Hypothesis messages are frequent and there can be many
+/// hypothesis messages associated with a particular phrase. Once a transcription of type Final is received, no more
+/// hypothesis messages associated with that phrase will be provided; new hypothesis phrases will represent a new
+/// logical phrase. Because each phrase is tied to a speaker, hypothesis messages for a phrase can be correlated by
+/// inspecting the <em>speaker</em> field of the <see cref="PartyVoiceChatTranscriptionReceivedStateChange" />.
+/// <para>
+/// Hypothesis phrases can optionally be used to improve the user experience by improving perceived responsiveness. An
+/// example implementation might have a special text box for hypothesis messages that is frequently updated with the
+/// latest hypothesis transcription from each chat control. Once a non-hypothesis transcription is received, the
+/// transcription for the chat control would be removed from the hypothesis text box and rendered in a long-lived text
+/// box.
+/// </para>
+/// <para>
+/// A <em>Final</em> phrase represents the end of the transcription process after the speaker has completed a sentence
+/// or phrase. Capitalization, punctuation, inverse text normalization, and profanity masking will have been applied to
+/// this transcription. For example, if a user speaks a phrase represented by the words "my flight to seattle leaves at
+/// six", the transcription will read "My flight to Seattle leaves at 6." Inverse text normalization is the process that
+/// converts the word "six" to the number "6". Profane words will be replaced by asterisks.
+/// </para>
+/// <para>
+/// If the associated transcription represents the audio generated by a call to
+/// <see cref="PartyLocalChatControl::SynthesizeTextToSpeech()" />, the text string used to generated the audio will be
+/// used the transcription. No post-processing, such as capitalization and punctuation, will be applied to the text.
+/// </para>
+/// </remarks>
+/// <seealso cref="PartyLocalChatControl::SynthesizeTextToSpeech" />
 /// <seealso cref="PartyVoiceChatTranscriptionReceivedStateChange" />
 enum class PartyVoiceChatTranscriptionPhraseType
 {
     /// <summary>
     /// The transcription is a hypothesis phrase.
     /// </summary>
-    /// <remarks>
-    /// A hypothesis phrase represents a snapshot into the transcription process and does not represent a stable
-    /// accumulation of transcription. For example, a first speech hypothesis may contain the words "fine fun" and the
-    /// second hypothesis may contain the words "find funny". Hypothesis messages are frequent and there can be many
-    /// hypothesis messages associated with a particular phrase. Once a transcription of type Final is received, no more
-    /// hypothesis messages associated with that phrase will be provided; new hypothesis phrases will represent a new
-    /// logical phrase. Because each phrase is tied to a speaker, hypothesis messages for a phrase can be correlated by
-    /// inspecting the <em>speaker</em> field of the PartyVoiceChatTranscriptionReceivedStateChange.
-    /// <para>
-    /// Hypothesis phrases can optionally be used to improve the user experience by improving perceived responsiveness.
-    /// An example implementation might have a special text box for hypothesis messages that is frequently updated with
-    /// the latest hypothesis transcription from each chat control. Once a non-hypothesis transcription is received, the
-    /// transcription for the chat control would be removed from the hypothesis text box and rendered in a long-lived
-    /// text box.
-    /// </para>
-    /// </remarks>
     Hypothesis,
 
     /// <summary>
     /// The transcription is a final phrase.
     /// </summary>
-    /// <remarks>
-    /// A final phrase represents the end of the transcription process after the speaker has completed a sentence or
-    /// phrase. Capitalization, punctuation, inverse text normalization, and profanity masking will have been applied to
-    /// this transcription. For example, if a user speaks a phrase represented by the words "my flight to seattle leaves
-    /// at six", the transcription will read "My flight to Seattle leaves at 6." Inverse text normalization is the
-    /// process that converts the word "six" to the number "6". Profane words will be replaced by asterisks.
-    /// <para>
-    /// If the associated transcription represents the audio generated by a call to
-    /// PartyLocalChatControl::SynthesizeTextToSpeech(), the text string used to generated the audio will be used the
-    /// transcription. No post-processing, such as capitalization and punctuation, will be applied to the text.
-    /// </para>
-    /// </remarks>
-    /// <seealso cref="PartyLocalChatControl::SynthesizeTextToSpeech" />
     Final,
 };
 
 /// <summary>
-/// Defines transcription options.
+/// Voice chat transcription options.
 /// </summary>
 /// <seealso cref="PartyLocalChatControl::SetTranscriptionOptions" />
+/// <seealso cref="PartyVoiceChatTranscriptionReceivedStateChange" />
+/// <seealso cref="PartyVoiceChatTranscriptionPhraseType" />
 enum class PartyVoiceChatTranscriptionOptions
 {
     /// <summary>
@@ -2092,28 +2061,25 @@ enum class PartyVoiceChatTranscriptionOptions
 
     /// <summary>
     /// Transcriptions of the local chat control will be generated and provided to the same local chat control via
-    /// PartyVoiceChatTranscriptionReceivedStateChange events.
+    /// <see cref="PartyVoiceChatTranscriptionReceivedStateChange" /> events.
     /// </summary>
-    /// <seealso cref="PartyVoiceChatTranscriptionReceivedStateChange" />
     TranscribeSelf = 0x1,
 
     /// <summary>
     /// Transcriptions of other chat controls with the same language as the local chat control will be generated and
-    /// provided to the local chat control via PartyVoiceChatTranscriptionReceivedStateChange events.
+    /// provided to the local chat control via <see cref="PartyVoiceChatTranscriptionReceivedStateChange" /> events.
     /// </summary>
-    /// <seealso cref="PartyVoiceChatTranscriptionReceivedStateChange" />
     TranscribeOtherChatControlsWithMatchingLanguages = 0x2,
 
     /// <summary>
     /// Transcriptions of other chat controls with languages that are different from the local chat control's language
-    /// will be generated and provided to the local chat control via PartyVoiceChatTranscriptionReceivedStateChange
-    /// events.
+    /// will be generated and provided to the local chat control via
+    /// <see cref="PartyVoiceChatTranscriptionReceivedStateChange" /> events.
     /// </summary>
     /// <remarks>
     /// The transcriptions are not translated by default. Translation to the local chat control's language can also be
-    /// enabled by adding PartyVoiceChatTranscriptionOptions::TranslateToLocalLanguage.
+    /// enabled by adding <em>TranslateToLocalLanguage</em>.
     /// </remarks>
-    /// <seealso cref="PartyVoiceChatTranscriptionReceivedStateChange" />
     TranscribeOtherChatControlsWithNonMatchingLanguages = 0x4,
 
     /// <summary>
@@ -2124,12 +2090,11 @@ enum class PartyVoiceChatTranscriptionOptions
     /// transcription. If the phrases will not be used, however, they can be disabled in order to reduce the network
     /// bandwidth used to send the phrases to the local chat control.
     /// <para>
-    /// This option will have no effect unless also combined with PartyVoiceChatTranscriptionOptions::TranscribeSelf,
-    /// PartyVoiceChatTranscriptionOptions::TranscribeOtherChatControlsWithMatchingLanguages, and/or
-    /// PartyVoiceChatTranscriptionOptions::TranscribeOtherChatControlsWithNonMatchingLanguages.
+    /// This option will have no effect unless also combined with <em>TranscribeSelf</em>,
+    /// <em>TranscribeOtherChatControlsWithMatchingLanguages</em>, and/or
+    /// <em>TranscribeOtherChatControlsWithNonMatchingLanguages</em>.
     /// </para>
     /// </remarks>
-    /// <seealso cref="PartyVoiceChatTranscriptionPhraseType" />
     DisableHypothesisPhrases = 0x8,
 
     /// <summary>
@@ -2137,9 +2102,9 @@ enum class PartyVoiceChatTranscriptionOptions
     /// </summary>
     /// <remarks>
     /// Transcriptions generated as specified via other PartyVoiceChatTranscriptionOptions values will be translated
-    /// into the local chat control's language, which is specified by PartyLocalChatControl::GetLanguage(). The
-    /// translations will be provided in addition to the original transcription via
-    /// PartyVoiceChatTranscriptionReceivedStateChange events.
+    /// into the local chat control's language, which is specified by
+    /// <see cref="PartyLocalChatControl::GetLanguage()" />. The translations will be provided in addition to the
+    /// original transcription via <see cref="PartyVoiceChatTranscriptionReceivedStateChange" /> events.
     /// <para>
     /// If translation is enabled, a translation corresponding to the local chat control's language will always be
     /// provided in each resulting PartyVoiceChatTranscriptionReceivedStateChange. If the speaking chat control's
@@ -2147,22 +2112,22 @@ enum class PartyVoiceChatTranscriptionOptions
     /// identical.
     /// </para>
     /// <para>
-    /// This option will have no effect unless also combined with one or more of
-    /// PartyVoiceChatTranscriptionOptions::TranscribeSelf,
-    /// PartyVoiceChatTranscriptionOptions::TranscribeOtherChatControlsWithMatchingLanguages, and
-    /// PartyVoiceChatTranscriptionOptions::TranscribeOtherChatControlsWithNonMatchingLanguages.
+    /// This option will have no effect unless also combined with one or more of <em>TranscribeSelf</em>,
+    /// <em>TranscribeOtherChatControlsWithMatchingLanguages</em>, and
+    /// <em>TranscribeOtherChatControlsWithNonMatchingLanguages</em>.
     /// </para>
     /// </remarks>
-    /// <seealso cref="PartyVoiceChatTranscriptionReceivedStateChange" />
     TranslateToLocalLanguage = 0x10,
 };
 
 DEFINE_ENUM_FLAG_OPERATORS(PartyVoiceChatTranscriptionOptions);
 
 /// <summary>
-/// Defines text chat options.
+/// Text chat options.
 /// </summary>
 /// <seealso cref="PartyLocalChatControl::SetTextChatOptions" />
+/// <seealso cref="PartyLocalChatControl::GetLanguage" />
+/// <seealso cref="PartyChatTextReceivedStateChange" />
 enum class PartyTextChatOptions
 {
     /// <summary>
@@ -2174,23 +2139,22 @@ enum class PartyTextChatOptions
     /// Incoming text chat will be translated to the local chat control's language.
     /// </summary>
     /// <remarks>
-    /// The language specified via PartyLocalChatControl::GetLanguage() is the language to which the incoming text
-    /// chat will be translated. The translations will be provided in addition to the original text chat via a
-    /// PartyChatTextReceivedStateChange.
+    /// The language specified via <see cref="PartyLocalChatControl::GetLanguage()" /> is the language to which the
+    /// incoming text chat will be translated. The translations will be provided in addition to the original text chat
+    /// via a <see cref="PartyChatTextReceivedStateChange" />.
     /// <para>
     /// If translation is enabled, a translation corresponding to the local chat control's language will always be
-    /// provided in each resulting PartyChatTextReceivedStateChange. If the source chat control's language is the
-    /// same as the local chat control's language, the chat text and translation strings will be identical.
+    /// provided in each resulting PartyChatTextReceivedStateChange. If the source chat control's language is the same
+    /// as the local chat control's language, the chat text and translation strings will be identical.
     /// </para>
     /// </remarks>
-    /// <seealso cref="PartyChatTextReceivedStateChange" />
     TranslateToLocalLanguage = 0x1,
 };
 
 DEFINE_ENUM_FLAG_OPERATORS(PartyTextChatOptions);
 
 /// <summary>
-/// Option flags describing a translation that was received.
+/// Flags describing how a translation was received.
 /// </summary>
 enum class PartyTranslationReceivedOptions
 {
@@ -2203,12 +2167,11 @@ enum class PartyTranslationReceivedOptions
     /// The translation was truncated.
     /// </summary>
     /// <remarks>
-    /// A translation string may be up to <see cref="c_maxChatTextMessageLength" /> characters long, not including the
-    /// null terminator. Truncation occurs if the translated string length would exceed that limit, which can happen
-    /// due to language differences even though the original string length is less than or equal to <see
-    /// cref="c_maxChatTextMessageLength" />. Truncation may occur at an arbitrary point in the UTF-8 byte sequence
-    /// and may not result in a complete, valid character or word. Strings are always null terminated, even when
-    /// truncated.
+    /// A translation string may be up to <c>c_maxChatTextMessageLength</c> characters long, not including the null
+    /// terminator. Truncation occurs if the translated string length would exceed that limit, which can happen due to
+    /// language differences even though the original string length is less than or equal to
+    /// <c>c_maxChatTextMessageLength</c>. Truncation may occur at an arbitrary point in the UTF-8 byte sequence and may
+    /// not result in a complete, valid character or word. Strings are always null terminated, even when truncated.
     /// </remarks>
     Truncated = 0x1,
 };
@@ -2216,7 +2179,7 @@ enum class PartyTranslationReceivedOptions
 DEFINE_ENUM_FLAG_OPERATORS(PartyTranslationReceivedOptions);
 
 /// <summary>
-/// Defines types of text-to-speech operations.
+/// Types of text-to-speech operations.
 /// </summary>
 /// <seealso cref="PartyLocalChatControl::SetTextToSpeechProfile" />
 /// <seealso cref="PartyLocalChatControl::GetTextToSpeechProfile" />
@@ -2242,15 +2205,15 @@ enum class PartySynthesizeTextToSpeechType
     /// The audio should be rendered to the chat controls to which the local chat control is configured to send audio.
     /// </summary>
     /// <remarks>
-    /// This type is typically used for the "text-to-speech voice chat" scenario where a user elects not to
-    /// participate in voice chat with their microphone, but still wishes to participate in the voice chat via
-    /// text-to-speech audio. The audio will be rendered to the chat controls to which the local chat control has been
-    /// configured to send audio via PartyLocalChatControl::SetPermissions(). The chat control does not need to be in
-    /// a network for a text-to-speech operation of this type to succeed, but it will have no apparent effect because
+    /// This type is typically used for the "text-to-speech voice chat" scenario where a user elects not to participate
+    /// in voice chat with their microphone, but still wishes to participate in the voice chat via text-to-speech audio.
+    /// The audio will be rendered to the chat controls to which the local chat control has been configured to send
+    /// audio via <see cref="PartyLocalChatControl::SetPermissions()" />. The chat control does not need to be in a
+    /// network for a text-to-speech operation of this type to succeed, but it will have no apparent effect because
     /// there will be no other chat controls to which the local chat control could be configured to send audio.
     /// <para>
     /// Because the audio represents the user's voice, it will be transcribed according to the options specified via
-    /// PartyLocalChatControl::SetTranscriptionOptions().
+    /// <see cref="PartyLocalChatControl::SetTranscriptionOptions()" />.
     /// </para>
     /// </remarks>
     VoiceChat,
@@ -2285,6 +2248,13 @@ struct PartyNetworkDescriptor
 /// <summary>
 /// Network configuration data.
 /// </summary>
+/// <seealso cref="PartyNetwork::AuthenticateLocalUser" />
+/// <seealso cref="PartyAuthenticateLocalUserCompletedStateChange" />
+/// <seealso cref="PartyManager::ConnectToNetwork" />
+/// <seealso cref="PartyConnectToNetworkCompletedStateChange" />
+/// <seealso cref="PartyNetwork::CreateEndpoint" />
+/// <seealso cref="PartyNetworkDestroyedStateChange" />
+/// <seealso cref="PartyStateChangeResult" />
 struct PartyNetworkConfiguration
 {
     /// <summary>
@@ -2293,48 +2263,37 @@ struct PartyNetworkConfiguration
     /// <remarks>
     /// This value must be greater than 0.
     /// <para>
-    /// If a client would violate this limit by calling PartyNetwork::AuthenticateLocalUser(), the operation will fail
-    /// asynchronously and PartyAuthenticateLocalUserCompletedStateChange::result will be set to
-    /// PartyStateChangeResult::NetworkLimitReached.
+    /// If a client would violate this limit by calling <see cref="PartyNetwork::AuthenticateLocalUser()" />, the
+    /// operation will fail asynchronously and <see cref="PartyAuthenticateLocalUserCompletedStateChange::result" />
+    /// will be set to <see cref="PartyStateChangeResult::NetworkLimitReached" />.
     /// </para>
     /// </remarks>
-    /// <seealso cref="PartyNetwork::AuthenticateLocalUser" />
-    /// <seealso cref="PartyAuthenticateLocalUserCompletedStateChange" />
-    /// <seealso cref="PartyStateChangeResult" />
     uint32_t maxUserCount;
 
     /// <summary>
     /// The maximum number of devices allowed to connect to the network.
     /// </summary>
     /// <remarks>
-    /// This value must be between 1 and c_maxNetworkConfigurationMaxDeviceCount inclusive.
+    /// This value must be between 1 and <c>c_maxNetworkConfigurationMaxDeviceCount</c> inclusive.
     /// <para>
-    /// If a client would violate this limit by calling PartyManager::ConnectToNetwork(), the operation will fail
-    /// asynchronously and PartyConnectToNetworkCompletedStateChange::result will be set to
-    /// PartyStateChangeResult::NetworkLimitReached.
+    /// If a client would violate this limit by calling <see cref="PartyManager::ConnectToNetwork()" />, the operation
+    /// will fail asynchronously and <see cref="PartyConnectToNetworkCompletedStateChange::result" /> will be set to
+    /// <see cref="PartyStateChangeResult::NetworkLimitReached" />.
     /// </para>
     /// </remarks>
-    /// <seealso cref="c_maxNetworkConfigurationMaxDeviceCount" />
-    /// <seealso cref="PartyManager::ConnectToNetwork" />
-    /// <seealso cref="PartyConnectToNetworkCompletedStateChange" />
-    /// <seealso cref="PartyStateChangeResult" />
     _Field_range_(1, c_maxNetworkConfigurationMaxDeviceCount) uint32_t maxDeviceCount;
 
     /// <summary>
     /// The maximum number of users allowed per device.
     /// </summary>
     /// <remarks>
-    /// This value must be between 1 and c_maxLocalUsersPerDeviceCount inclusive.
+    /// This value must be between 1 and <c>c_maxLocalUsersPerDeviceCount</c> inclusive.
     /// <para>
-    /// If a client would violate this limit by calling PartyNetwork::AuthenticateLocalUser(), the operation will fail
-    /// asynchronously and PartyAuthenticateLocalUserCompletedStateChange::result will be set to
-    /// PartyStateChangeResult::NetworkLimitReached.
+    /// If a client would violate this limit by calling <see cref="PartyNetwork::AuthenticateLocalUser()" />, the
+    /// operation will fail asynchronously and <see cref="PartyAuthenticateLocalUserCompletedStateChange::result" />
+    /// will be set to <see cref="PartyStateChangeResult::NetworkLimitReached" />.
     /// </para>
     /// </remarks>
-    /// <seealso cref="c_maxLocalUsersPerDeviceCount" />
-    /// <seealso cref="PartyNetwork::AuthenticateLocalUser" />
-    /// <seealso cref="PartyAuthenticateLocalUserCompletedStateChange" />
-    /// <seealso cref="PartyStateChangeResult" />
     _Field_range_(1, c_maxLocalUsersPerDeviceCount) uint32_t maxUsersPerDeviceCount;
 
     /// <summary>
@@ -2343,32 +2302,26 @@ struct PartyNetworkConfiguration
     /// <remarks>
     /// This value must be greater than 0.
     /// <para>
-    /// If a client would violate this limit by calling PartyNetwork::AuthenticateLocalUser(), the operation will fail
-    /// asynchronously and PartyAuthenticateLocalUserCompletedStateChange::result will be set to
-    /// PartyStateChangeResult::NetworkLimitReached.
+    /// If a client would violate this limit by calling <see cref="PartyNetwork::AuthenticateLocalUser()" />, the
+    /// operation will fail asynchronously and <see cref="PartyAuthenticateLocalUserCompletedStateChange::result" />
+    /// will be set to <see cref="PartyStateChangeResult::NetworkLimitReached" />.
     /// </para>
     /// </remarks>
-    /// <seealso cref="PartyNetwork::AuthenticateLocalUser" />
-    /// <seealso cref="PartyAuthenticateLocalUserCompletedStateChange" />
-    /// <seealso cref="PartyStateChangeResult" />
     uint32_t maxDevicesPerUserCount;
 
     /// <summary>
     /// The maximum number of endpoints allowed per device.
     /// </summary>
     /// <remarks>
-    /// This value must be between 0 and c_maxNetworkConfigurationMaxEndpointsPerDeviceCount inclusive.
+    /// This value must be between 0 and <c>c_maxNetworkConfigurationMaxEndpointsPerDeviceCount</c> inclusive.
     /// <para>
-    /// If a client would violate this limit by calling PartyNetwork::CreateEndpoint() after the network configuration
-    /// was made available, the call to PartyNetwork::CreateEndpoint() will fail synchronously. If the client had
-    /// already queued a violating number of endpoint creations when the network configuration became available, the
-    /// client will be kicked from the network and a PartyNetworkDestroyedStateChange will be generated.
+    /// If a client would violate this limit by calling <see cref="PartyNetwork::CreateEndpoint()" /> after the network
+    /// configuration was made available, the call to PartyNetwork::CreateEndpoint() will fail synchronously. If the
+    /// client had already queued a violating number of endpoint creations when the network configuration became
+    /// available, the client will be kicked from the network and a <see cref="PartyNetworkDestroyedStateChange" /> will
+    /// be generated.
     /// </para>
     /// </remarks>
-    /// <seealso cref="c_maxNetworkConfigurationMaxEndpointsPerDeviceCount" />
-    /// <seealso cref="PartyNetwork::CreateEndpoint" />
-    /// <seealso cref="PartyNetworkDestroyedStateChange" />
-    /// <seealso cref="PartyStateChangeResult" />
     _Field_range_(0, c_maxNetworkConfigurationMaxEndpointsPerDeviceCount) uint32_t maxEndpointsPerDeviceCount;
 };
 
@@ -2393,22 +2346,21 @@ struct PartyRegion
 /// </summary>
 /// <seealso cref="PartyInvitation" />
 /// <seealso cref="PartyInvitationRevocability" />
+/// <seealso cref="PartyManager::CreateNewNetwork" />
+/// <seealso cref="PartyNetwork::CreateInvitation" />
+/// <seealso cref="PartyInvitation::GetInvitationConfiguration" />
 struct PartyInvitationConfiguration
 {
     /// <summary>
     /// The identifier of the invitation.
     /// </summary>
     /// <remarks>
-    /// This value may only be null when used as input to PartyManager::CreateNewNetwork() or
-    /// PartyNetwork::CreateInvitation().
+    /// This value may only be nullptr when used as input to <see cref="PartyManager::CreateNewNetwork()" /> or
+    /// <see cref="PartyNetwork::CreateInvitation()" />.
     /// <para>
-    /// The length of this string must be less than or equal to c_maxInvitationIdentifierStringLength.
+    /// The length of this string must be less than or equal to <c>c_maxInvitationIdentifierStringLength</c>.
     /// </para>
     /// </remarks>
-    /// <seealso cref="c_maxInvitationIdentifierStringLength" />
-    /// <seealso cref="PartyManager::CreateNewNetwork" />
-    /// <seealso cref="PartyNetwork::CreateInvitation" />
-    /// <seealso cref="PartyInvitation::GetInvitationConfiguration" />
     _Maybenull_ PartyString identifier;
 
     /// <summary>
@@ -2420,25 +2372,19 @@ struct PartyInvitationConfiguration
     /// The number of PlayFab Entity IDs that the invitation allows to authenticate into the network.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// If this value is 0, all users are allowed to authenticate using the invitation's identifier.
-    /// </para>
     /// <para>
-    /// This value must be less than or equal to c_maxInvitationEntityIdCount.
+    /// This value must be less than or equal to <c>c_maxInvitationEntityIdCount</c>.
     /// </para>
     /// </remarks>
-    /// <seealso cref="c_maxInvitationEntityIdCount" />
     _Field_range_(0, c_maxInvitationEntityIdCount) uint32_t entityIdCount;
 
     /// <summary>
     /// The list of PlayFab Entity IDs that the invitation allows to authenticate into the network.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// If this list is empty, all users are allowed to authenticate using the invitation's identifier.
-    /// </para>
     /// </remarks>
-    /// <seealso cref="PartyInvitation::GetInvitationConfiguration" />
     _Field_size_(entityIdCount) const PartyString * entityIds;
 };
 
@@ -2446,24 +2392,23 @@ struct PartyInvitationConfiguration
 /// Optional configuration parameters for modifying local queuing behavior when sending a message.
 /// </summary>
 /// <seealso cref="PartyLocalEndpoint::SendMessage" />
-/// <seealso cref="PartyLocalEndpoint::CancelMessages" />
+/// <seealso_nyi cref="PartyLocalEndpoint::CancelMessages" />
 struct PartySendMessageQueuingConfiguration
 {
     /// <summary>
     /// The priority of the locally queued message in relation to chat data or messages sent from other local endpoints.
     /// </summary>
     /// <remarks>
-    /// <para>
-    /// <em>priority</em> must be a value between c_minSendMessageQueuingPriority and c_maxSendMessageQueuingPriority,
-    /// inclusive. Higher numbers represent higher relative priority (will be transmitted first) over lower numbers. The
-    /// default when no PartySendMessageQueuingConfiguration structure is provided to PartyLocalEndpoint::SendMessage()
-    /// is c_defaultSendMessageQueuingPriority, which lies exactly in the middle of the signed integer range (zero).
-    /// </para>
+    /// <c>priority</c> must be a value between <c>c_minSendMessageQueuingPriority</c> and
+    /// <c>c_maxSendMessageQueuingPriority</c>, inclusive. Higher numbers represent higher relative priority (will be
+    /// transmitted first) over lower numbers. The default when no PartySendMessageQueuingConfiguration structure is
+    /// provided to <see cref="PartyLocalEndpoint::SendMessage()" /> is <c>c_defaultSendMessageQueuingPriority</c>,
+    /// which lies exactly in the middle of the signed integer range (zero).
     /// <para>
     /// Send queue priority does not modify the order in which messages sent from a given local endpoint are transmitted
     /// or delivered. It only affects the ordering of messages from different local endpoints, or between an endpoint
-    /// and internally transmitted chat data, which uses priority c_chatSendMessageQueuingPriority. The local endpoint
-    /// send queue that has the messages with the highest priority value will have its messages eligible for
+    /// and internally transmitted chat data, which uses priority <c>c_chatSendMessageQueuingPriority</c>. The local
+    /// endpoint send queue that has the messages with the highest priority value will have its messages eligible for
     /// transmission first. If all remaining messages queued by local endpoints are of equal priority, then the
     /// individual messages will be eligible for transmission in the same order in which their
     /// PartyLocalEndpoint::SendMessage() calls occurred.
@@ -2482,7 +2427,7 @@ struct PartySendMessageQueuingConfiguration
     /// that they get the first opportunity to use the limited network resources. If you continue to send messages
     /// faster than can successfully be transmitted, lower priority messages may get "starved" and the associated local
     /// endpoint send queue will continue to grow. Be sure to manage such potential growth by canceling extraneous
-    /// messages with PartyLocalEndpoint::CancelMessages(), using the <em>timeoutInMilliseconds</em> field to
+    /// messages with PartyLocalEndpoint::CancelMessages(), using the <c>timeoutInMilliseconds</c> field to
     /// automatically time out messages that have been queued for too long, or simply reducing the size and/or frequency
     /// of the PartyLocalEndpoint::SendMessage() calls.
     /// </para>
@@ -2493,14 +2438,12 @@ struct PartySendMessageQueuingConfiguration
     /// A caller-defined value to use when evaluating the message for applicability with cancel filter expressions.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// This message identity value can have any caller-specific meaning and is not interpreted by the Party library
     /// other than for use by PartyLocalEndpoint::CancelMessages() when evaluating whether the message matches the
     /// optionally provided cancel filter expression.
-    /// </para>
     /// <para>
     /// A default value of zero is used when no PartySendMessageQueuingConfiguration structure is provided to
-    /// PartyLocalEndpoint::SendMessage().
+    /// <see cref="PartyLocalEndpoint::SendMessage()" />.
     /// </para>
     /// <para>
     /// Canceling messages can help prevent the local send queue from growing excessively when experiencing poor network
@@ -2523,15 +2466,13 @@ struct PartySendMessageQueuingConfiguration
     /// transmission opportunity.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// If the message has not started transmitting when this timeout elapses due to connection quality or receiver
     /// responsiveness, the message will be aborted and removed from the queue without being sent.
-    /// </para>
     /// <para>
-    /// A <em>timeoutInMilliseconds</em> value of zero indicates that there should be no timeout and that the message
+    /// A <c>timeoutInMilliseconds</c> value of zero indicates that there should be no timeout and that the message
     /// should remain queued until it is either successfully transmitted, is explicitly canceled, or encounters some
     /// transmission failure such as remote disconnection. Zero is the default when no
-    /// PartySendMessageQueuingConfiguration structure is provided to PartyLocalEndpoint::SendMessage().
+    /// PartySendMessageQueuingConfiguration structure is provided to <see cref="PartyLocalEndpoint::SendMessage()" />.
     /// </para>
     /// <para>
     /// Message send queue timeouts can help prevent the local send queue from growing excessively when experiencing
@@ -2572,8 +2513,8 @@ struct PartyTranslation
     /// Indicates whether the translation operation succeeded.
     /// </summary>
     /// <remarks>
-    /// On success, <em>translation</em> will be a string of non-zero length containing the translated text. On
-    /// failure, the string will be empty.
+    /// On success, <c>translation</c> will be a string of non-zero length containing the translated text. On failure,
+    /// the string will be empty.
     /// </remarks>
     PartyStateChangeResult result;
 
@@ -2581,18 +2522,18 @@ struct PartyTranslation
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
     /// The language code of the translation.
     /// </summary>
     /// <remarks>
-    /// The language code will be in BCP 47 format, such as en-US for English (United States). Supported language
-    /// codes are enumerated at
-    /// https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support.
+    /// The language code will be in BCP 47 format, such as en-US for English (United States). Supported language codes
+    /// are enumerated at
+    /// <see cref="https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support" />.
     /// </remarks>
     PartyString languageCode;
 
@@ -2605,13 +2546,13 @@ struct PartyTranslation
     /// The translation string.
     /// </summary>
     /// <remarks>
-    /// The translation string may be up to <see cref="c_maxChatTextMessageLength" /> characters long, not including
-    /// the null terminator. Truncation occurs if the translated string length would exceed that limit, which can
-    /// happen due to language differences even though the original string length is less than or equal to <see
-    /// cref="c_maxChatTextMessageLength" />. In such a case, <em>options</em> will contain
-    /// PartyTranslationReceivedOptions::Truncated. Truncation may occur at an arbitrary point in the UTF-8 byte
-    /// sequence and may not result in a complete, valid character or word. Strings are always null terminated, even
-    /// when truncated.
+    /// The translation string may be up to <c>c_maxChatTextMessageLength</c> characters long, not including the null
+    /// terminator. Truncation occurs if the translated string length would exceed that limit, which can happen due to
+    /// language differences even though the original string length is less than or equal to
+    /// <c>c_maxChatTextMessageLength</c>. In such a case, <c>options</c> will contain
+    /// <see cref="PartyTranslationReceivedOptions::Truncated" />. Truncation may occur at an arbitrary point in the
+    /// UTF-8 byte sequence and may not result in a complete, valid character or word. Strings are always null
+    /// terminated, even when truncated.
     /// </remarks>
     PartyString translation;
 };
@@ -2620,11 +2561,11 @@ struct PartyTranslation
 /// A generic, base structure representation of an event or change in state.
 /// </summary>
 /// <remarks>
-/// PartyStateChange structures are reported by PartyManager::StartProcessingStateChanges() for the title to handle and
-/// then promptly pass back via the PartyManager::FinishProcessingStateChanges() method.
+/// PartyStateChange structures are reported by <see cref="PartyManager::StartProcessingStateChanges()" /> for the title
+/// to handle and then promptly pass back via the <see cref="PartyManager::FinishProcessingStateChanges()" /> method.
 /// <para>
-/// The StateChangeType field indicates which kind of state change occurred, and this base structure should then be cast
-/// to a more specific derived structure to retrieve additional event-specific information.
+/// The <c>stateChangeType</c> field indicates which kind of state change occurred, and this base structure should then
+/// be cast to a more specific derived structure to retrieve additional event-specific information.
 /// </para>
 /// </remarks>
 /// <seealso cref="PartyManager::StartProcessingStateChanges" />
@@ -2642,9 +2583,8 @@ struct PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::RegionsChanged type of state change.
+/// Information specific to the <em>RegionsChanged</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::RegionsChanged" />
 /// <seealso cref="PartyManager::GetRegions" />
 struct PartyRegionsChangedStateChange : PartyStateChange
 {
@@ -2653,8 +2593,8 @@ struct PartyRegionsChangedStateChange : PartyStateChange
     /// Succeeded, or provides the reason that it failed.
     /// </summary>
     /// <remarks>
-    /// On success, the region list provided by PartyManager::GetRegions() will be populated with the results of the
-    /// operation. On failure, the region list provided by PartyManager::GetRegions() will be empty.
+    /// On success, the region list provided by <see cref="PartyManager::GetRegions()" /> will be populated with the
+    /// results of the operation. On failure, the region list provided by PartyManager::GetRegions() will be empty.
     /// </remarks>
     PartyStateChangeResult result;
 
@@ -2662,17 +2602,17 @@ struct PartyRegionsChangedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::CreateNewNetworkCompleted type of state change.
+/// Information specific to the <em>CreateNewNetworkCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::CreateNewNetworkCompleted" />
 /// <seealso cref="PartyManager::CreateNewNetwork" />
+/// <seealso cref="PartyManager::SerializeNetworkDescriptor" />
 struct PartyCreateNewNetworkCompletedStateChange : PartyStateChange
 {
     /// <summary>
@@ -2684,9 +2624,9 @@ struct PartyCreateNewNetworkCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -2718,10 +2658,10 @@ struct PartyCreateNewNetworkCompletedStateChange : PartyStateChange
     /// The network descriptor of the network that was created.
     /// </summary>
     /// <remarks>
-    /// This regionName and opaqueConnectionInformation fields are only populated if the result field is
-    /// PartyStateChangeResult::Succeeded. The networkIdentifier field should always be populated. If the result field
-    /// is PartyStateChangeResult::Succeeded, this network descriptor is serializable via
-    /// PartyManager::SerializeNetworkDescriptor().
+    /// The regionName and opaqueConnectionInformation fields are only populated if the result field is
+    /// <see cref="PartyStateChangeResult::Succeeded" />. The networkIdentifier field should always be populated. If the
+    /// result field is PartyStateChangeResult::Succeeded, this network descriptor is serializable via
+    /// <see cref="PartyManager::SerializeNetworkDescriptor()" />.
     /// </remarks>
     PartyNetworkDescriptor networkDescriptor;
 
@@ -2732,9 +2672,8 @@ struct PartyCreateNewNetworkCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::ConnectToNetworkCompleted type of state change.
+/// Information specific to the <em>ConnectToNetworkCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::ConnectToNetworkCompleted" />
 /// <seealso cref="PartyManager::ConnectToNetwork" />
 struct PartyConnectToNetworkCompletedStateChange : PartyStateChange
 {
@@ -2747,9 +2686,9 @@ struct PartyConnectToNetworkCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -2769,9 +2708,8 @@ struct PartyConnectToNetworkCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::AuthenticateLocalUserCompleted type of state change.
+/// Information specific to the <em>AuthenticateLocalUserCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::AuthenticateLocalUser" />
 /// <seealso cref="PartyNetwork::AuthenticateLocalUser" />
 struct PartyAuthenticateLocalUserCompletedStateChange : PartyStateChange
 {
@@ -2784,9 +2722,9 @@ struct PartyAuthenticateLocalUserCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -2811,9 +2749,8 @@ struct PartyAuthenticateLocalUserCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::NetworkConfigurationMadeAvailable type of state change.
+/// Information specific to the <em>NetworkConfigurationMadeAvailable</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::NetworkConfigurationMadeAvailable" />
 /// <seealso cref="PartyNetwork::GetNetworkConfiguration" />
 struct PartyNetworkConfigurationMadeAvailableStateChange : PartyStateChange
 {
@@ -2829,15 +2766,14 @@ struct PartyNetworkConfigurationMadeAvailableStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::NetworkDescriptorChanged type of state change.
+/// Information specific to the <em>NetworkDescriptorChanged</em> type of state change.
 /// </summary>
 /// <remarks>
 /// This state change is generated when the network descriptor of a network changes due to migration from one server to
-/// another. Use PartyNetwork::GetNetworkDescriptor() to get the new network descriptor. The old network descriptor is
-/// no longer guaranteed to be usable for connecting to the network, so any outstanding external references to the old
-/// network descriptor (such as invitations sent over a social network) should be updated.
+/// another. Use <see cref="PartyNetwork::GetNetworkDescriptor()" /> to get the new network descriptor. The old network
+/// descriptor is no longer guaranteed to be usable for connecting to the network, so any outstanding external
+/// references to the old network descriptor (such as invitations sent over a social network) should be updated.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::NetworkDescriptorChanged" />
 /// <seealso cref="PartyNetwork::GetNetworkDescriptor" />
 struct PartyNetworkDescriptorChangedStateChange : PartyStateChange
 {
@@ -2848,13 +2784,12 @@ struct PartyNetworkDescriptorChangedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::LocalUserRemoved type of state change.
+/// Information specific to the <em>LocalUserRemoved</em> type of state change.
 /// </summary>
 /// <remarks>
 /// All PartyEndpoints depending on this user will have been destroyed prior to this state change being generated. All
 /// PartyChatControls depending on this user will have left the network prior to this state change being generated.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::LocalUserRemoved" />
 /// <seealso cref="PartyNetwork::RemoveLocalUser" />
 /// <seealso cref="PartyManager::DestroyLocalUser" />
 struct PartyLocalUserRemovedStateChange : PartyStateChange
@@ -2876,20 +2811,19 @@ struct PartyLocalUserRemovedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::RemoveLocalUserCompleted type of state change.
+/// Information specific to the <em>RemoveLocalUserCompleted</em> type of state change.
 /// </summary>
 /// <remarks>
 /// All PartyEndpoints and PartyChatControls depending upon this user will have been destroyed with reason
-/// PartyDestroyedReason::UserRemoved before this state change is generated. If the user referenced by this state change
-/// was the last authenticated user in the network, then all remaining PartyEndpoints on this device, which at this
-/// point inherently consists of only endpoints associated with the last user or no user, will also have been destroyed
-/// before this state change is generated. An associated PartyLocalUserRemovedStateChange will have been generated
-/// before this state change is generated.
+/// <see cref="PartyDestroyedReason::UserRemoved" /> before this state change is generated. If the user referenced by
+/// this state change was the last authenticated user in the network, then all remaining PartyEndpoints on this device,
+/// which at this point inherently consists of only endpoints associated with the last user or no user, will also have
+/// been destroyed before this state change is generated. An associated <see cref="PartyLocalUserRemovedStateChange" />
+/// will have been generated before this state change is generated.
 /// </remarks>
 /// <seealso cref="PartyChatControlDestroyedStateChange" />
 /// <seealso cref="PartyChatControlLeftNetworkStateChange" />
 /// <seealso cref="PartyEndpointDestroyedStateChange" />
-/// <seealso cref="PartyStateChangeType::RemoveLocalUserCompleted" />
 /// <seealso cref="PartyNetwork::RemoveLocalUser" />
 struct PartyRemoveLocalUserCompletedStateChange : PartyStateChange
 {
@@ -2902,9 +2836,9 @@ struct PartyRemoveLocalUserCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -2924,16 +2858,15 @@ struct PartyRemoveLocalUserCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::DestroyLocalUserCompleted type of state change.
+/// Information specific to the <em>DestroyLocalUserCompleted</em> type of state change.
 /// </summary>
 /// <remarks>
 /// This PartyLocalUser will be removed from all dependent networks prior to this state change. All dependent
-/// PartyEndpoint and PartyChatControl objects will be destroyed with reason PartyDestroyedReason::UserRemoved prior to
-/// the PartyLocalUser being removed from its dependent networks. Once this state change is returned to
-/// PartyManager::FinishProcessingStateChanges(), the PartyLocalUser object memory will become invalid.
+/// PartyEndpoint and PartyChatControl objects will be destroyed with reason
+/// <see cref="PartyDestroyedReason::UserRemoved" /> prior to the PartyLocalUser being removed from its dependent
+/// networks. Once this state change is returned to <see cref="PartyManager::FinishProcessingStateChanges()" />, the
+/// PartyLocalUser object memory will become invalid.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::DestroyLocalUserCompleted" />
-/// <seealso cref="PartyStateChangeType::LocalUserRemoved" />
 /// <seealso cref="PartyManager::DestroyLocalUser" />
 struct PartyDestroyLocalUserCompletedStateChange : PartyStateChange
 {
@@ -2946,9 +2879,9 @@ struct PartyDestroyLocalUserCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -2963,14 +2896,14 @@ struct PartyDestroyLocalUserCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::LocalUserKicked type of state change.
+/// Information specific to the <em>LocalUserKicked</em> type of state change.
 /// </summary>
 /// <remarks>
 /// All PartyEndpoints and PartyChatControls depending upon this user will have been destroyed with reason
-/// PartyDestroyedReason::Kicked before this state change is generated.
+/// <see cref="PartyDestroyedReason::Kicked" /> before this state change is generated.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::LocalUserKicked" />
 /// <seealso cref="PartyNetwork::KickUser" />
+/// <nyi />
 struct PartyLocalUserKickedStateChange : PartyStateChange
 {
     /// <summary>
@@ -2985,13 +2918,12 @@ struct PartyLocalUserKickedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::CreateEndpointCompleted type of state change.
+/// Information specific to the <em>CreateEndpointCompleted</em> type of state change.
 /// </summary>
 /// <remarks>
-/// An associated PartyEndpointCreatedStateChange will be generated before this state change is generated.
+/// An associated <see cref="PartyEndpointCreatedStateChange" /> will be generated before this state change is
+/// generated.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::CreateEndpointCompleted" />
-/// <seealso cref="PartyStateChangeType::EndpointCreated" />
 /// <seealso cref="PartyNetwork::CreateEndpoint" />
 struct PartyCreateEndpointCompletedStateChange : PartyStateChange
 {
@@ -3004,9 +2936,9 @@ struct PartyCreateEndpointCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -3031,13 +2963,12 @@ struct PartyCreateEndpointCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::DestroyEndpointCompleted type of state change.
+/// Information specific to the <em>DestroyEndpointCompleted</em> type of state change.
 /// </summary>
 /// <remarks>
-/// An associated PartyEndpointDestroyedStateChange will be generated before this state change is generated.
+/// An associated <see cref="PartyEndpointDestroyedStateChange" /> will be generated before this state change is
+/// generated.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::DestroyEndpointCompleted" />
-/// <seealso cref="PartyStateChangeType::EndpointDestroyed" />
 /// <seealso cref="PartyNetwork::DestroyEndpoint" />
 struct PartyDestroyEndpointCompletedStateChange : PartyStateChange
 {
@@ -3050,9 +2981,9 @@ struct PartyDestroyEndpointCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -3072,9 +3003,8 @@ struct PartyDestroyEndpointCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::EndpointCreated type of state change.
+/// Information specific to the <em>EndpointCreated</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::EndpointCreated" />
 struct PartyEndpointCreatedStateChange : PartyStateChange
 {
     /// <summary>
@@ -3089,9 +3019,8 @@ struct PartyEndpointCreatedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::EndpointDestroyed type of state change.
+/// Information specific to the <em>EndpointDestroyed</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::EndpointDestroyed" />
 struct PartyEndpointDestroyedStateChange : PartyStateChange
 {
     /// <summary>
@@ -3113,19 +3042,18 @@ struct PartyEndpointDestroyedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::RemoteDeviceCreated type of state change.
+/// Information specific to the <em>RemoteDeviceCreated</em> type of state change.
 /// </summary>
 /// <remarks>
 /// This state change indicates that the device was just created.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::RemoteDeviceCreated" />
 struct PartyRemoteDeviceCreatedStateChange : PartyStateChange
 {
     /// <summary>
@@ -3135,12 +3063,11 @@ struct PartyRemoteDeviceCreatedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::RemoteDeviceDestroyed type of state change.
+/// Information specific to the <em>RemoteDeviceDestroyed</em> type of state change.
 /// </summary>
 /// <remarks>
 /// This state change is generated when device has left all networks.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::RemoteDeviceDestroyed" />
 struct PartyRemoteDeviceDestroyedStateChange : PartyStateChange
 {
     /// <summary>
@@ -3150,12 +3077,11 @@ struct PartyRemoteDeviceDestroyedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::RemoteDeviceJoinedNetwork type of state change.
+/// Information specific to the <em>RemoteDeviceJoinedNetwork</em> type of state change.
 /// </summary>
 /// <remarks>
 /// This state change indicates that the device has just joined the network.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::RemoteDeviceJoinedNetwork" />
 struct PartyRemoteDeviceJoinedNetworkStateChange : PartyStateChange
 {
     /// <summary>
@@ -3170,12 +3096,11 @@ struct PartyRemoteDeviceJoinedNetworkStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::RemoteDeviceLeftNetwork type of state change.
+/// Information specific to the <em>RemoteDeviceLeftNetwork</em> type of state change.
 /// </summary>
 /// <remarks>
 /// This state change indicates that the device just left the network.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::RemoteDeviceLeftNetwork" />
 struct PartyRemoteDeviceLeftNetworkStateChange : PartyStateChange
 {
     /// <summary>
@@ -3187,9 +3112,9 @@ struct PartyRemoteDeviceLeftNetworkStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -3204,11 +3129,11 @@ struct PartyRemoteDeviceLeftNetworkStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::DevicePropertiesChanged type of state change.
+/// Information specific to the <em>DevicePropertiesChanged</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::DevicePropertiesChanged" />
 /// <seealso cref="PartyLocalDevice::SetSharedProperties" />
 /// <seealso cref="PartyDevice::GetSharedProperty" />
+/// <nyi />
 struct PartyDevicePropertiesChangedStateChange : PartyStateChange
 {
     /// <summary>
@@ -3225,21 +3150,20 @@ struct PartyDevicePropertiesChangedStateChange : PartyStateChange
     /// The keys of the properties that have changed.
     /// </summary>
     /// <remarks>
-    /// Each key can represent an add, update, or delete. If the key was deleted, PartyDevice::GetSharedProperty() will
-    /// return nullptr for the value.
+    /// Each key can represent an add, update, or delete. If the key was deleted,
+    /// <see cref="PartyDevice::GetSharedProperty()" /> will return nullptr for the value.
     /// </remarks>
     _Field_size_(propertyCount) const PartyString * keys;
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::LeaveNetworkCompleted type of state change.
+/// Information specific to the <em>LeaveNetworkCompleted</em> type of state change.
 /// </summary>
 /// <remarks>
-/// An associated PartyNetworkDestroyedStateChange will be generated before this state change is generated. The network
-/// object <em>network</em> is only valid until this state change is returned to
-/// PartyManager::FinishProcessingStateChanges().
+/// An associated <see cref="PartyNetworkDestroyedStateChange" /> will be generated before this state change is
+/// generated. The network object <c>network</c> is only valid until this state change is returned to
+/// <see cref="PartyManager::FinishProcessingStateChanges()" />.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::LeaveNetworkCompleted" />
 /// <seealso cref="PartyNetwork::LeaveNetwork" />
 struct PartyLeaveNetworkCompletedStateChange : PartyStateChange
 {
@@ -3252,9 +3176,9 @@ struct PartyLeaveNetworkCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -3269,9 +3193,8 @@ struct PartyLeaveNetworkCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::NetworkDestroyed type of state change.
+/// Information specific to the <em>NetworkDestroyed</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::NetworkDestroyed" />
 struct PartyNetworkDestroyedStateChange : PartyStateChange
 {
     /// <summary>
@@ -3283,9 +3206,9 @@ struct PartyNetworkDestroyedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -3295,9 +3218,8 @@ struct PartyNetworkDestroyedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::EndpointMessageReceived type of state change.
+/// Information specific to the <em>EndpointMessageReceived</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::EndpointMessageReceived" />
 /// <seealso cref="PartyLocalEndpoint::SendMessage" />
 struct PartyEndpointMessageReceivedStateChange : PartyStateChange
 {
@@ -3312,17 +3234,17 @@ struct PartyEndpointMessageReceivedStateChange : PartyStateChange
     PartyEndpoint * senderEndpoint;
 
     /// <summary>
-    /// The number of local endpoints to which the message was sent. This value will always be
-    /// greater than zero. If the sender specified an empty target endpoints array in the
-    /// PartyLocalEndpoint::SendMessage() call that resulted in this state change, <c>receiverEndpointCount</c> and
-    /// <c>receiverEndpoints</c> will contain all local endpoints.
+    /// The number of local endpoints to which the message was sent. This value will always be greater than zero. If the
+    /// sender specified an empty target endpoints array in the <see cref="PartyLocalEndpoint::SendMessage()" /> call
+    /// that resulted in this state change, <c>receiverEndpointCount</c> and <c>receiverEndpoints</c> will contain all
+    /// local endpoints.
     /// </summary>
     uint32_t receiverEndpointCount;
 
     /// <summary>
     /// The local endpoints to which the message was sent. This array will never be empty. If the sender specified an
-    /// empty target endpoints array in the PartyLocalEndpoint::SendMessage() call that resulted in this state change,
-    /// <c>receiverEndpointCount</c> and <c>receiverEndpoints</c> will contain all local endpoints.
+    /// empty target endpoints array in the <see cref="PartyLocalEndpoint::SendMessage()" /> call that resulted in this
+    /// state change, <c>receiverEndpointCount</c> and <c>receiverEndpoints</c> will contain all local endpoints.
     /// </summary>
     _Field_size_(receiverEndpointCount) PartyLocalEndpointArray receiverEndpoints;
 
@@ -3343,14 +3265,13 @@ struct PartyEndpointMessageReceivedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::DataBuffersReturned type of state change.
+/// Information specific to the <em>DataBuffersReturned</em> type of state change.
 /// </summary>
 /// <remarks>
-/// This state change is only returned if the corresponding call to PartyLocalEndpoint::SendMessage() included the
-/// PartySendMessageOptions::DontCopyDataBuffers option. This state change is returned once the data buffers passed with
-/// this call are no longer in use by the PartyManager instance.
+/// This state change is only returned if the corresponding call to <see cref="PartyLocalEndpoint::SendMessage()" />
+/// included the <see cref="PartySendMessageOptions::DontCopyDataBuffers" /> option. This state change is returned once
+/// the data buffers passed with this call are no longer in use by the PartyManager instance.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::DataBuffersReturned" />
 /// <seealso cref="PartyLocalEndpoint::SendMessage" />
 struct PartyDataBuffersReturnedStateChange : PartyStateChange
 {
@@ -3381,11 +3302,11 @@ struct PartyDataBuffersReturnedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::EndpointPropertiesChanged type of state change.
+/// Information specific to the <em>EndpointPropertiesChanged</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::EndpointPropertiesChanged" />
 /// <seealso cref="PartyLocalEndpoint::SetSharedProperties" />
 /// <seealso cref="PartyEndpoint::GetSharedProperty" />
+/// <nyi />
 struct PartyEndpointPropertiesChangedStateChange : PartyStateChange
 {
     /// <summary>
@@ -3402,14 +3323,14 @@ struct PartyEndpointPropertiesChangedStateChange : PartyStateChange
     /// The keys of the properties that have changed.
     /// </summary>
     /// <remarks>
-    /// Each key can represent an add, update, or delete. If the key was deleted, PartyEndpoint::GetSharedProperty()
-    /// will return nullptr for the value.
+    /// Each key can represent an add, update, or delete. If the key was deleted,
+    /// <see cref="PartyEndpoint::GetSharedProperty()" /> will return nullptr for the value.
     /// </remarks>
     _Field_size_(propertyCount) const PartyString * keys;
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::SynchronizeMessagesBetweenEndpointsCompleted type of state change.
+/// Information specific to the <em>SynchronizeMessagesBetweenEndpointsCompleted</em> type of state change.
 /// </summary>
 /// <remarks>
 /// This state change signifies that the synchronize operation has completed. This means that all data sends sent to or
@@ -3417,9 +3338,9 @@ struct PartyEndpointPropertiesChangedStateChange : PartyStateChange
 /// PartyManager::SynchronizeMessagesBetweenEndpoints have completed. Data sends queued after the call to
 /// PartyManager::SynchronizeMessagesBetweenEndpoints will now start being sent and received.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::SynchronizeMessagesBetweenEndpointsCompleted" />
 /// <seealso cref="PartyLocalEndpoint::SendMessage" />
 /// <seealso cref="PartyManager::SynchronizeMessagesBetweenEndpoints" />
+/// <nyi />
 struct PartySynchronizeMessagesBetweenEndpointsCompletedStateChange : PartyStateChange
 {
     /// <summary>
@@ -3448,15 +3369,14 @@ struct PartySynchronizeMessagesBetweenEndpointsCompletedStateChange : PartyState
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::CreateInvitationCompleted type of state change.
+/// Information specific to the <em>CreateInvitationCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::CreateInvitationCompleted" />
-/// <seealso cref="PartyStateChangeType::InvitationCreated" />
 /// <seealso cref="PartyNetwork::CreateInvitation" />
 struct PartyCreateInvitationCompletedStateChange : PartyStateChange
 {
     /// <summary>
-    /// Indicates that the PartyNetwork::CreateInvitation() operation succeeded or provides the reason that it failed.
+    /// Indicates that the <see cref="PartyNetwork::CreateInvitation()" /> operation succeeded or provides the reason
+    /// that it failed.
     /// </summary>
     PartyStateChangeResult result;
 
@@ -3464,9 +3384,9 @@ struct PartyCreateInvitationCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -3491,15 +3411,14 @@ struct PartyCreateInvitationCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::RevokeInvitationCompleted type of state change.
+/// Information specific to the <em>RevokeInvitationCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::RevokeInvitationCompleted" />
-/// <seealso cref="PartyStateChangeType::InvitationDestroyed" />
 /// <seealso cref="PartyNetwork::RevokeInvitation" />
 struct PartyRevokeInvitationCompletedStateChange : PartyStateChange
 {
     /// <summary>
-    /// Indicates that the PartyNetwork::RevokeInvitation() operation succeeded or provides the reason that it failed.
+    /// Indicates that the <see cref="PartyNetwork::RevokeInvitation()" /> operation succeeded or provides the reason
+    /// that it failed.
     /// </summary>
     PartyStateChangeResult result;
 
@@ -3507,9 +3426,9 @@ struct PartyRevokeInvitationCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -3524,7 +3443,7 @@ struct PartyRevokeInvitationCompletedStateChange : PartyStateChange
 
     /// <summary>
     /// The revoked invitation.
-    /// <summary>
+    /// </summary>
     PartyInvitation * invitation;
 
     /// <summary>
@@ -3534,9 +3453,8 @@ struct PartyRevokeInvitationCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::InvitationCreated type of state change.
+/// Information specific to the <em>InvitationCreated</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::InvitationCreated" />
 struct PartyInvitationCreatedStateChange : PartyStateChange
 {
     /// <summary>
@@ -3548,15 +3466,15 @@ struct PartyInvitationCreatedStateChange : PartyStateChange
     /// The invitation that was created.
     /// </summary>
     /// <remarks>
-    /// Upon receiving this state change, the invitation object will be queryable via PartyNetwork::GetInvitations().
+    /// Upon receiving this state change, the invitation object will be queryable via
+    /// <see cref="PartyNetwork::GetInvitations()" />.
     /// </remarks>
     PartyInvitation * invitation;
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::InvitationDestroyed type of state change.
+/// Information specific to the <em>InvitationDestroyed</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::InvitationDestroyed" />
 struct PartyInvitationDestroyedStateChange : PartyStateChange
 {
     /// <summary>
@@ -3569,7 +3487,7 @@ struct PartyInvitationDestroyedStateChange : PartyStateChange
     /// </summary>
     /// <remarks>
     /// Upon receiving this state change, the invitation object will no longer be queryable via
-    /// PartyNetwork::GetInvitations().
+    /// <see cref="PartyNetwork::GetInvitations()" />.
     /// </remarks>
     PartyInvitation * invitation;
 
@@ -3577,10 +3495,11 @@ struct PartyInvitationDestroyedStateChange : PartyStateChange
     /// The reason the invitation was destroyed.
     /// </summary>
     /// <remarks>
-    /// If the invitation object was destroyed because it was explicitly revoked via PartyNetwork::RevokeInvitation()
-    /// or automatically revoked when the creating local user left the network, this value will be
-    /// PartyDestroyedReason::Requested. If the invitation object was destroyed because the local client is no longer
-    /// authenticated in the network, this value will be PartyDestroyedReason::DeviceLostAuthentication.
+    /// If the invitation object was destroyed because it was explicitly revoked via
+    /// <see cref="PartyNetwork::RevokeInvitation()" /> or automatically revoked when the creating local user left the
+    /// network, this value will be <see cref="PartyDestroyedReason::Requested" />. If the invitation object was
+    /// destroyed because the local client is no longer authenticated in the network, this value will be
+    /// <see cref="PartyDestroyedReason::DeviceLostAuthentication" />.
     /// </remarks>
     PartyDestroyedReason reason;
 
@@ -3588,18 +3507,18 @@ struct PartyInvitationDestroyedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::NetworkPropertiesChanged type of state change.
+/// Information specific to the <em>NetworkPropertiesChanged</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::NetworkPropertiesChanged" />
 /// <seealso cref="PartyNetwork::GetSharedProperty" />
 /// <seealso cref="PartyNetwork::SetSharedProperties" />
+/// <nyi />
 struct PartyNetworkPropertiesChangedStateChange : PartyStateChange
 {
     /// <summary>
@@ -3616,21 +3535,22 @@ struct PartyNetworkPropertiesChangedStateChange : PartyStateChange
     /// The keys of the properties that have changed.
     /// </summary>
     /// <remarks>
-    /// Each key can represent an add, update, or delete. If the key was deleted, PartyNetwork::GetSharedProperty() will
-    /// return nullptr for the value.
+    /// Each key can represent an add, update, or delete. If the key was deleted,
+    /// <see cref="PartyNetwork::GetSharedProperty()" /> will return nullptr for the value.
     /// </remarks>
     _Field_size_(propertyCount) const PartyString * keys;
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::KickDeviceCompleted type of state change.
+/// Information specific to the <em>KickDeviceCompleted</em> type of state change.
 /// </summary>
 /// <remarks>
-/// All associated PartyRemoteDeviceDestroyedStateChange and PartyEndpointDestroyedStateChange state changes will be
-/// generated before this state change is generated.
+/// All associated <see cref="PartyRemoteDeviceDestroyedStateChange" /> and
+/// <see cref="PartyEndpointDestroyedStateChange" /> state changes will be generated before this state change is
+/// generated.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::KickDeviceCompleted" />
 /// <seealso cref="PartyNetwork::KickDevice" />
+/// <nyi />
 struct PartyKickDeviceCompletedStateChange : PartyStateChange
 {
     /// <summary>
@@ -3642,9 +3562,9 @@ struct PartyKickDeviceCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -3664,14 +3584,15 @@ struct PartyKickDeviceCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::KickUserCompleted type of state change.
+/// Information specific to the <em>KickUserCompleted</em> type of state change.
 /// </summary>
 /// <remarks>
-/// All associated PartyRemoteDeviceDestroyedStateChange, PartyEndpointDestroyedStateChange, and
-/// PartyLocalUserKickedStateChange state changes will be generated before this state change is generated.
+/// All associated <see cref="PartyRemoteDeviceDestroyedStateChange" />,
+/// <see cref="PartyEndpointDestroyedStateChange" />, and <see cref="PartyLocalUserKickedStateChange" /> state changes
+/// will be generated before this state change is generated.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::KickUserCompleted" />
 /// <seealso cref="PartyNetwork::KickUser" />
+/// <nyi />
 struct PartyKickUserCompletedStateChange : PartyStateChange
 {
     /// <summary>
@@ -3683,9 +3604,9 @@ struct PartyKickUserCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -3705,9 +3626,8 @@ struct PartyKickUserCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::CreateChatControlCompleted type of state change.
+/// Information specific to the <em>CreateChatControlCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::CreateChatControlCompleted" />
 /// <seealso cref="PartyLocalDevice::CreateChatControl" />
 struct PartyCreateChatControlCompletedStateChange : PartyStateChange
 {
@@ -3720,9 +3640,9 @@ struct PartyCreateChatControlCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -3752,9 +3672,8 @@ struct PartyCreateChatControlCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::DestroyChatControlCompleted type of state change.
+/// Information specific to the <em>DestroyChatControlCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::DestroyChatControlCompleted" />
 /// <seealso cref="PartyLocalDevice::DestroyChatControl" />
 struct PartyDestroyChatControlCompletedStateChange : PartyStateChange
 {
@@ -3767,9 +3686,9 @@ struct PartyDestroyChatControlCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -3792,9 +3711,8 @@ struct PartyDestroyChatControlCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::ChatControlCreated type of state change.
+/// Information specific to the <em>ChatControlCreated</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::ChatControlCreated" />
 /// <seealso cref="PartyLocalDevice::CreateChatControl" />
 struct PartyChatControlCreatedStateChange : PartyStateChange
 {
@@ -3805,9 +3723,8 @@ struct PartyChatControlCreatedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::ChatControlDestroyed type of state change.
+/// Information specific to the <em>ChatControlDestroyed</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::ChatControlDestroyed" />
 /// <seealso cref="PartyLocalDevice::DestroyChatControl" />
 struct PartyChatControlDestroyedStateChange : PartyStateChange
 {
@@ -3828,17 +3745,17 @@ struct PartyChatControlDestroyedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::SetChatAudioEncoderBitrateCompleted type of state change.
+/// Information specific to the <em>SetChatAudioEncoderBitrateCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::SetChatAudioEncoderBitrateCompleted" />
-/// <seealso cref="PartyLocalChatControl::SetChatAudioEncoderBitrateCompleted" />
+/// <seealso cref="PartyLocalChatControl::SetAudioEncoderBitrate" />
+/// <nyi />
 struct PartySetChatAudioEncoderBitrateCompletedStateChange : PartyStateChange
 {
     /// <summary>
@@ -3850,9 +3767,9 @@ struct PartySetChatAudioEncoderBitrateCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -3872,10 +3789,12 @@ struct PartySetChatAudioEncoderBitrateCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::ChatTextReceived type of state change.
+/// Information specific to the <em>ChatTextReceived</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::ChatTextReceived" />
+/// <seealso cref="PartyLocalDevice::CreateChatControl" />
 /// <seealso cref="PartyLocalChatControl::SendText" />
+/// <seealso cref="PartyLocalChatControl::SetTextChatOptions" />
+/// <seealso cref="PartyLocalChatControl::SetLanguage" />
 struct PartyChatTextReceivedStateChange : PartyStateChange
 {
     /// <summary>
@@ -3894,11 +3813,24 @@ struct PartyChatTextReceivedStateChange : PartyStateChange
     _Field_size_(receiverChatControlCount) PartyLocalChatControlArray receiverChatControls;
 
     /// <summary>
+    /// The language of the chat text.
+    /// </summary>
+    /// <remarks>
+    /// The language will only be provided when translation to the local language is enabled. If translation isn't
+    /// enabled, or failure is encountered during translation, the language code will be an empty string.
+    /// <para>
+    /// The language code will be in BCP 47 format, such as en-US for English (United States). Supported language codes
+    /// are enumerated at
+    /// <see cref="https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support" />.
+    /// </para>
+    /// </remarks>
+    PartyString languageCode;
+
+    /// <summary>
     /// The received chat text.
     /// </summary>
     /// <remarks>
-    /// The string may be up to <see cref="c_maxChatTextMessageLength" /> characters long, not including the null
-    /// terminator.
+    /// The string may be up to <c>c_maxChatTextMessageLength</c> characters long, not including the null terminator.
     /// </remarks>
     PartyString chatText;
 
@@ -3916,54 +3848,50 @@ struct PartyChatTextReceivedStateChange : PartyStateChange
     /// The number of translations associated with the chat text.
     /// </summary>
     /// <remarks>
-    /// Translations will be provided if PartyTextChatOptions::TranslateToLocalLanguage had previously been specified
-    /// via PartyLocalChatControl::SetTextChatOptions() on a chat control local to this device. There may be more than
-    /// one translation if multiple local chat controls have enabled translation and the local chat controls have
-    /// specified different languages via either PartyLocalDevice::CreateChatControl() or
-    /// PartyLocalChatControl::SetLanguage(). In that case, the app can compare the <em>languageCode</em> field of
-    /// each PartyTranslation in <em>translations</em> against the language code, obtained via
-    /// PartyLocalChatControl::GetLanguage(), for each local chat control in <em>receiverChatControls</em> to
-    /// determine the target local chat control for each translation.
+    /// Translations will be provided if <see cref="PartyTextChatOptions::TranslateToLocalLanguage" /> had previously
+    /// been specified via <see cref="PartyLocalChatControl::SetTextChatOptions()" /> on a chat control local to this
+    /// device. There may be more than one translation if multiple local chat controls have enabled translation and the
+    /// local chat controls have specified different languages via either
+    /// <see cref="PartyLocalDevice::CreateChatControl()" /> or <see cref="PartyLocalChatControl::SetLanguage()" />. In
+    /// that case, the app can compare the <c>languageCode</c> field of each PartyTranslation in <c>translations</c>
+    /// against the language code, obtained via <see cref="PartyLocalChatControl::GetLanguage()" />, for each local chat
+    /// control in <c>receiverChatControls</c> to determine the target local chat control for each translation.
     /// </remarks>
-    /// <seealso cref="PartyLocalDevice::CreateChatControl" />
-    /// <seealso cref="PartyLocalChatControl::SetTextChatOptions" />
-    /// <seealso cref="PartyLocalChatControl::SetLanguage" />
     uint32_t translationCount;
 
     /// <summary>
     /// An array containing the translations of the chat text string.
     /// </summary>
     /// <remarks>
-    /// Translations will be provided if PartyTextChatOptions::TranslateToLocalLanguage had previously been specified
-    /// via PartyLocalChatControl::SetTextChatOptions() on a chat control local to this device. There may be more than
-    /// one translation if multiple local chat controls have enabled translation and the local chat controls have
-    /// specified different languages via either PartyLocalDevice::CreateChatControl() or
-    /// PartyLocalChatControl::SetLanguage(). In that case, the app can compare the <em>languageCode</em> field of
-    /// each PartyTranslation in <em>translations</em> against the language code, obtained via
-    /// PartyLocalChatControl::GetLanguage(), for each local chat control in <em>receiverChatControls</em> to
-    /// determine the target local chat control for each translation.
+    /// Translations will be provided if <see cref="PartyTextChatOptions::TranslateToLocalLanguage" /> had previously
+    /// been specified via <see cref="PartyLocalChatControl::SetTextChatOptions()" /> on a chat control local to this
+    /// device. There may be more than one translation if multiple local chat controls have enabled translation and the
+    /// local chat controls have specified different languages via either
+    /// <see cref="PartyLocalDevice::CreateChatControl()" /> or <see cref="PartyLocalChatControl::SetLanguage()" />. In
+    /// that case, the app can compare the <c>languageCode</c> field of each PartyTranslation in <c>translations</c>
+    /// against the language code, obtained via <see cref="PartyLocalChatControl::GetLanguage()" />, for each local chat
+    /// control in <c>receiverChatControls</c> to determine the target local chat control for each translation.
     /// </remarks>
-    /// A translation corresponding to the language for each chat control in <em>receiverChatControls</em> that has
-    /// enabled translation will be provided, even if the source chat control's language is the same as the local
-    /// chat control's language. In such a case, the chat text and translation strings will be identical.
+    /// A translation corresponding to the language for each chat control in <c>receiverChatControls</c> that has
+    /// enabled translation will be provided, even if the source chat control's language is the same as the local chat
+    /// control's language. In such a case, the chat text and translation strings will be identical.
     /// </para>
-    /// <seealso cref="PartyLocalDevice::CreateChatControl" />
-    /// <seealso cref="PartyLocalChatControl::SetTextChatOptions" />
-    /// <seealso cref="PartyLocalChatControl::SetLanguage" />
     _Field_size_(translationCount) PartyTranslation * translations;
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::VoiceChatTranscriptionReceived type of state change.
+/// Information specific to the <em>VoiceChatTranscriptionReceived</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::VoiceChatTranscriptionReceived" />
+/// <seealso cref="PartyLocalDevice::CreateChatControl" />
+/// <seealso cref="PartyLocalChatControl::SetTranscriptionOptions" />
+/// <seealso cref="PartyLocalChatControl::SetLanguage" />
 struct PartyVoiceChatTranscriptionReceivedStateChange : PartyStateChange
 {
     /// <summary>
     /// Indicates that the transcription operation Succeeded or provides the reason that it failed.
     /// </summary>
     /// <remarks>
-    /// On success, the <em>transcription</em> field will be a string of non-zero length. On failure, the string will be
+    /// On success, the <c>transcription</c> field will be a string of non-zero length. On failure, the string will be
     /// empty. Failure indicates that a transcription operation was attempted for the speaker but could not be
     /// completed. If transcription is enabled at the request of the user associated with the chat control, and the
     /// transcription messages are shown via UI, it is recommended that failures also be indicated to the user in order
@@ -3975,9 +3903,9 @@ struct PartyVoiceChatTranscriptionReceivedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -3996,20 +3924,34 @@ struct PartyVoiceChatTranscriptionReceivedStateChange : PartyStateChange
     _Field_size_(receiverChatControlCount) PartyLocalChatControlArray receiverChatControls;
 
     /// <summary>
+    /// The language code of the transcription.
+    /// </summary>
+    /// <remarks>
+    /// The language code will always be provided when the <c>result</c> field indicates success. Otherwise, the
+    /// language code will be an empty string.
+    /// <para>
+    /// The language code will be in BCP 47 format, such as en-US for English (United States). Supported language codes
+    /// are enumerated at
+    /// <see cref="https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support" />.
+    /// </para>
+    /// </remarks>
+    PartyString languageCode;
+
+    /// <summary>
     /// The transcribed voice chat text.
     /// </summary>
     /// <remarks>
-    /// The string may be up to <see cref="c_maxChatTextMessageLength" /> characters long, not including the null
-    /// terminator. The string will always be empty when the <em>result</em> field indicates failures.
+    /// The string may be up to <c>c_maxChatTextMessageLength</c> characters long, not including the null terminator.
+    /// The string will always be empty when the <c>result</c> field indicates failures.
     /// </remarks>
     PartyString transcription;
 
     /// <summary>
-    /// Indicates the phrase type of the text provided in the <em>transcription</em> field.
+    /// Indicates the phrase type of the text provided in the <c>transcription</c> field.
     /// </summary>
     /// <remarks>
-    /// The type will always be PartyVoiceChatTranscriptionPhraseType::Final when the <em>result</em> field indicates
-    /// failure.
+    /// The type will always be <see cref="PartyVoiceChatTranscriptionPhraseType::Final" /> when the <c>result</c> field
+    /// indicates failure.
     /// </remarks>
     PartyVoiceChatTranscriptionPhraseType type;
 
@@ -4017,48 +3959,41 @@ struct PartyVoiceChatTranscriptionReceivedStateChange : PartyStateChange
     /// The number of translations associated with the transcribed voice chat text.
     /// </summary>
     /// <remarks>
-    /// Translations will be provided if PartyVoiceChatTranscriptionOptions::TranslateToLocalLanguage had previously
-    /// been specified via PartyLocalChatControl::SetTranscriptionOptions() on a chat control local to this device.
-    /// There may be more than one translation if multiple local chat controls have enabled translation and the local
-    /// chat controls have specified different languages via either PartyLocalDevice::CreateChatControl() or
-    /// PartyLocalChatControl::SetLanguage(). In that case, the app can compare the <em>languageCode</em> field of
-    /// each PartyTranslation in <em>translations</em> against the language code, obtained via
-    /// PartyLocalChatControl::GetLanguage(), for each local chat control in <em>receiverChatControls</em> to
-    /// determine the target local chat control for each translation.
+    /// Translations will be provided if <see cref="PartyVoiceChatTranscriptionOptions::TranslateToLocalLanguage" /> had
+    /// previously been specified via <see cref="PartyLocalChatControl::SetTranscriptionOptions()" /> on a chat control
+    /// local to this device. There may be more than one translation if multiple local chat controls have enabled
+    /// translation and the local chat controls have specified different languages via either
+    /// <see cref="PartyLocalDevice::CreateChatControl()" /> or <see cref="PartyLocalChatControl::SetLanguage()" />. In
+    /// that case, the app can compare the <c>languageCode</c> field of each PartyTranslation in <c>translations</c>
+    /// against the language code, obtained via <see cref="PartyLocalChatControl::GetLanguage()" />, for each local chat
+    /// control in <c>receiverChatControls</c> to determine the target local chat control for each translation.
     /// </remarks>
-    /// <seealso cref="PartyLocalDevice::CreateChatControl" />
-    /// <seealso cref="PartyLocalChatControl::SetTranscriptionOptions" />
-    /// <seealso cref="PartyLocalChatControl::SetLanguage" />
     uint32_t translationCount;
 
     /// <summary>
     /// An array containing the translations of the voice chat transcription string.
     /// </summary>
     /// <remarks>
-    /// Translations will be provided if PartyVoiceChatTranscriptionOptions::TranslateToLocalLanguage had previously
-    /// been specified via PartyLocalChatControl::SetTranscriptionOptions() on a chat control local to this device.
-    /// There may be more than one translation if multiple local chat controls have enabled translation and the local
-    /// chat controls have specified different languages via either PartyLocalDevice::CreateChatControl() or
-    /// PartyLocalChatControl::SetLanguage(). In that case, the app can compare the <em>languageCode</em> field of
-    /// each PartyTranslation in <em>translations</em> against the language code, obtained via
-    /// PartyLocalChatControl::GetLanguage(), for each local chat control in <em>receiverChatControls</em> to
-    /// determine the target local chat control for each translation.
+    /// Translations will be provided if <see cref="PartyVoiceChatTranscriptionOptions::TranslateToLocalLanguage" /> had
+    /// previously been specified via <see cref="PartyLocalChatControl::SetTranscriptionOptions()" /> on a chat control
+    /// local to this device. There may be more than one translation if multiple local chat controls have enabled
+    /// translation and the local chat controls have specified different languages via either
+    /// <see cref="PartyLocalDevice::CreateChatControl()" /> or <see cref="PartyLocalChatControl::SetLanguage()" />. In
+    /// that case, the app can compare the <c>languageCode</c> field of each PartyTranslation in <c>translations</c>
+    /// against the language code, obtained via <see cref="PartyLocalChatControl::GetLanguage()" />, for each local chat
+    /// control in <c>receiverChatControls</c> to determine the target local chat control for each translation.
     /// <para>
-    /// A translation corresponding to the language for each chat control in <em>receiverChatControls</em> that has
-    /// enabled translation will be provided, even if the speaking chat control's language is the same as the local
-    /// chat control's language. In such a case, the transcription and translation strings will be identical.
+    /// A translation corresponding to the language for each chat control in <c>receiverChatControls</c> that has
+    /// enabled translation will be provided, even if the speaking chat control's language is the same as the local chat
+    /// control's language. In such a case, the transcription and translation strings will be identical.
     /// </para>
     /// </remarks>
-    /// <seealso cref="PartyLocalDevice::CreateChatControl" />
-    /// <seealso cref="PartyLocalChatControl::SetTranscriptionOptions" />
-    /// <seealso cref="PartyLocalChatControl::SetLanguage" />
     _Field_size_(translationCount) PartyTranslation * translations;
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::SetChatAudioInputCompleted type of state change.
+/// Information specific to the <em>SetChatAudioInputCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::SetChatAudioInputCompleted" />
 /// <seealso cref="PartyLocalChatControl::SetAudioInput" />
 struct PartySetChatAudioInputCompletedStateChange : PartyStateChange
 {
@@ -4071,9 +4006,9 @@ struct PartySetChatAudioInputCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -4098,9 +4033,8 @@ struct PartySetChatAudioInputCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::SetChatAudioOutputCompleted type of state change.
+/// Information specific to the <em>SetChatAudioOutputCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::SetChatAudioOutputCompleted" />
 /// <seealso cref="PartyLocalChatControl::SetAudioOutput" />
 struct PartySetChatAudioOutputCompletedStateChange : PartyStateChange
 {
@@ -4113,9 +4047,9 @@ struct PartySetChatAudioOutputCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -4140,9 +4074,8 @@ struct PartySetChatAudioOutputCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::LocalChatAudioInputChanged type of state change.
+/// Information specific to the <em>LocalChatAudioInputChanged</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::LocalChatAudioInputChanged" />
 /// <seealso cref="PartyLocalChatControl::SetAudioInput" />
 struct PartyLocalChatAudioInputChangedStateChange : PartyStateChange
 {
@@ -4160,16 +4093,15 @@ struct PartyLocalChatAudioInputChangedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::LocalChatAudioOutputChanged type of state change.
+/// Information specific to the <em>LocalChatAudioOutputChanged</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::LocalChatAudioOutputChanged" />
 /// <seealso cref="PartyLocalChatControl::SetAudioOutput" />
 struct PartyLocalChatAudioOutputChangedStateChange : PartyStateChange
 {
@@ -4187,20 +4119,19 @@ struct PartyLocalChatAudioOutputChangedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::SetTextToSpeechProfileCompleted type of state change.
+/// Information specific to the <em>SetTextToSpeechProfileCompleted</em> type of state change.
 /// </summary>
 /// <remarks>
 /// At most, one PartySetTextToSpeechProfileCompletedStateChange object will be returned in any state change batch from
-/// PartyManager::StartProcessingStateChanges().
+/// <see cref="PartyManager::StartProcessingStateChanges()" />.
 /// </remarks>
-/// <seealso cref="PartyStateChangeType::SetTextToSpeechProfileCompleted" />
 /// <seealso cref="PartyLocalChatControl::SetTextToSpeechProfile" />
 struct PartySetTextToSpeechProfileCompletedStateChange : PartyStateChange
 {
@@ -4208,9 +4139,10 @@ struct PartySetTextToSpeechProfileCompletedStateChange : PartyStateChange
     /// Indicates that the operation Succeeded or the reason that it failed.
     /// </summary>
     /// <remarks>
-    /// On success, PartyLocalChatControl::GetTextToSpeechProfile() will return the full profile object corresponding to
-    /// the profile identifier provided to the PartyLocalChatControl::SetTextToSpeechProfile() call associated with this
-    /// state change. On failure, PartyLocalChatControl::GetTextToSpeechProfile() will return null.
+    /// On success, <see cref="PartyLocalChatControl::GetTextToSpeechProfile()" /> will return the full profile object
+    /// corresponding to the profile identifier provided to the
+    /// <see cref="PartyLocalChatControl::SetTextToSpeechProfile()" /> call associated with this state change. On
+    /// failure, PartyLocalChatControl::GetTextToSpeechProfile() will return null.
     /// </remarks>
     PartyStateChangeResult result;
 
@@ -4218,9 +4150,9 @@ struct PartySetTextToSpeechProfileCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -4245,9 +4177,8 @@ struct PartySetTextToSpeechProfileCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::SynthesizeTextToSpeechCompleted type of state change.
+/// Information specific to the <em>SynthesizeTextToSpeechCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::SynthesizeTextToSpeechCompleted" />
 /// <seealso cref="PartyLocalChatControl::SynthesizeTextToSpeech" />
 struct PartySynthesizeTextToSpeechCompletedStateChange : PartyStateChange
 {
@@ -4260,9 +4191,9 @@ struct PartySynthesizeTextToSpeechCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -4291,9 +4222,8 @@ struct PartySynthesizeTextToSpeechCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::SetLanguageCompleted type of state change.
+/// Information specific to the <em>SetLanguageCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::SetLanguageCompleted" />
 /// <seealso cref="PartyLocalChatControl::SetLanguage" />
 struct PartySetLanguageCompletedStateChange : PartyStateChange
 {
@@ -4306,9 +4236,9 @@ struct PartySetLanguageCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -4328,9 +4258,8 @@ struct PartySetLanguageCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::SetTranscriptionOptionsCompleted type of state change.
+/// Information specific to the <em>SetTranscriptionOptionsCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::SetTranscriptionOptionsCompleted" />
 /// <seealso cref="PartyLocalChatControl::SetTranscriptionOptions" />
 struct PartySetTranscriptionOptionsCompletedStateChange : PartyStateChange
 {
@@ -4339,9 +4268,9 @@ struct PartySetTranscriptionOptionsCompletedStateChange : PartyStateChange
     /// </summary>
     /// <remarks>
     /// On success, internal state has updated to reflect whether transcription operations should be attempted on behalf
-    /// of <em>localChatControl</em>. Success does not guarantee that transcription operations will complete
-    /// successfully. Failures to complete transcription operations will be exposed through the <em>result</em> field of
-    /// the PartyStateChangeType::VoiceChatTranscriptionReceived state change.
+    /// of <c>localChatControl</c>. Success does not guarantee that transcription operations will complete successfully.
+    /// Failures to complete transcription operations will be exposed through the <c>result</c> field of the
+    /// <see cref="PartyStateChangeType::VoiceChatTranscriptionReceived" /> state change.
     /// </remarks>
     PartyStateChangeResult result;
 
@@ -4349,9 +4278,9 @@ struct PartySetTranscriptionOptionsCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -4371,9 +4300,8 @@ struct PartySetTranscriptionOptionsCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::PartySetTextChatOptionsCompleted type of state change.
+/// Information specific to the <em>PartySetTextChatOptionsCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::PartySetTextChatOptionsCompleted" />
 /// <seealso cref="PartyLocalChatControl::SetTranscriptionOptions" />
 struct PartySetTextChatOptionsCompletedStateChange : PartyStateChange
 {
@@ -4386,9 +4314,9 @@ struct PartySetTextChatOptionsCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -4408,11 +4336,11 @@ struct PartySetTextChatOptionsCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::ChatControlPropertiesChanged type of state change.
+/// Information specific to the <em>ChatControlPropertiesChanged</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::ChatControlPropertiesChanged" />
 /// <seealso cref="PartyLocalChatControl::SetSharedProperties" />
 /// <seealso cref="PartyChatControl::GetSharedProperty" />
+/// <nyi />
 struct PartyChatControlPropertiesChangedStateChange : PartyStateChange
 {
     /// <summary>
@@ -4429,17 +4357,16 @@ struct PartyChatControlPropertiesChangedStateChange : PartyStateChange
     /// The keys of the properties that have changed.
     /// </summary>
     /// <remarks>
-    /// Each key can represent an add, update, or delete. If the key was deleted, PartyChatControl::GetSharedProperty()
-    /// will return nullptr for the value.
+    /// Each key can represent an add, update, or delete. If the key was deleted,
+    /// <see cref="PartyChatControl::GetSharedProperty()" /> will return nullptr for the value.
     /// </remarks>
     _Field_size_(propertyCount) const PartyString * keys;
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::ChatControlJoinedNetwork type of state change.
+/// Information specific to the <em>ChatControlJoinedNetwork</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::ChatControlJoinedNetwork" />
-/// <seealso cref="PartyLocalChatControl::ConnectChatControl" />
+/// <seealso cref="PartyNetwork::ConnectChatControl" />
 struct PartyChatControlJoinedNetworkStateChange : PartyStateChange
 {
     /// <summary>
@@ -4454,10 +4381,9 @@ struct PartyChatControlJoinedNetworkStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::ChatControlLeftNetwork type of state change.
+/// Information specific to the <em>ChatControlLeftNetwork</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::ChatControlLeftNetwork" />
-/// <seealso cref="PartyLocalChatControl::DisconnectChatControl" />
+/// <seealso cref="PartyNetwork::DisconnectChatControl" />
 struct PartyChatControlLeftNetworkStateChange : PartyStateChange
 {
     /// <summary>
@@ -4469,9 +4395,9 @@ struct PartyChatControlLeftNetworkStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -4486,10 +4412,9 @@ struct PartyChatControlLeftNetworkStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::ConnectChatControlCompleted type of state change.
+/// Information specific to the <em>ConnectChatControlCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::ConnectChatControlCompleted" />
-/// <seealso cref="PartyLocalChatControl::ConnectChatControl" />
+/// <seealso cref="PartyNetwork::ConnectChatControl" />
 struct PartyConnectChatControlCompletedStateChange : PartyStateChange
 {
     /// <summary>
@@ -4501,9 +4426,9 @@ struct PartyConnectChatControlCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -4523,10 +4448,9 @@ struct PartyConnectChatControlCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::DisconnectChatControlCompleted type of state change.
+/// Information specific to the <em>DisconnectChatControlCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::DisconnectChatControlCompleted" />
-/// <seealso cref="PartyLocalChatControl::DisconnectChatControl" />
+/// <seealso cref="PartyNetwork::DisconnectChatControl" />
 struct PartyDisconnectChatControlCompletedStateChange : PartyStateChange
 {
     /// <summary>
@@ -4538,9 +4462,9 @@ struct PartyDisconnectChatControlCompletedStateChange : PartyStateChange
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -4560,10 +4484,8 @@ struct PartyDisconnectChatControlCompletedStateChange : PartyStateChange
 };
 
 /// <summary>
-/// Information specific to the PartyStateChangeType::PopulateAvailableTextToSpeechProfilesCompleted type of state
-/// change.
+/// Information specific to the <em>PopulateAvailableTextToSpeechProfilesCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyStateChangeType::PopulateAvailableTextToSpeechProfilesCompleted" />
 /// <seealso cref="PartyLocalChatControl::PopulateAvailableTextToSpeechProfiles" />
 struct PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange : PartyStateChange
 {
@@ -4571,8 +4493,9 @@ struct PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange : PartySta
     /// Indicates that the operation Succeeded or the reason that it failed.
     /// </summary>
     /// <remarks>
-    /// On success, the profile list provided by PartyLocalChatControl::GetAvailableTextToSpeechProfiles() will be
-    /// populated with the results of the operation. On failure, the profile list will remain unchanged.
+    /// On success, the profile list provided by
+    /// <see cref="PartyLocalChatControl::GetAvailableTextToSpeechProfiles()" /> will be populated with the results of
+    /// the operation. On failure, the profile list will remain unchanged.
     /// </remarks>
     PartyStateChangeResult result;
 
@@ -4580,9 +4503,9 @@ struct PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange : PartySta
     /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
     /// <remarks>
-    /// The human-readable form of this error detail can be retrieved via PartyManager::GetErrorMessage().
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
     /// </remarks>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError errorDetail;
 
     /// <summary>
@@ -4602,7 +4525,7 @@ struct PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange : PartySta
 /// A callback invoked every time a new memory buffer must be dynamically allocated by the Party library.
 /// </summary>
 /// <remarks>
-/// This callback is optionally installed using the PartyManager::SetMemoryCallbacks() method.
+/// This callback is optionally installed using the <see cref="PartyManager::SetMemoryCallbacks()" /> method.
 /// <para>
 /// The callback must allocate and return a pointer to a contiguous block of memory of the specified size that will
 /// remain valid until the title's corresponding <see cref="PartyFreeMemoryCallback" /> is invoked to release it. If
@@ -4610,8 +4533,8 @@ struct PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange : PartySta
 /// sometimes considered benign but will usually cause current Party library operation(s) to fail.
 /// </para>
 /// <para>
-/// Every non-nullptr returned by this method will be subsequently passed to the corresponding <see
-/// cref="PartyFreeMemoryCallback" /> once the memory is no longer needed.
+/// Every non-nullptr returned by this method will be subsequently passed to the corresponding
+/// <see cref="PartyFreeMemoryCallback" /> once the memory is no longer needed.
 /// </para>
 /// </remarks>
 /// <param name="size">
@@ -4640,7 +4563,7 @@ _Post_writable_byte_size_(size) void *
 /// be freed.
 /// </summary>
 /// <remarks>
-/// This callback is optionally installed using the PartyManager::SetMemoryCallbacks() method.
+/// This callback is optionally installed using the <see cref="PartyManager::SetMemoryCallbacks()" /> method.
 /// <para>
 /// The callback is invoked whenever the Party library has finished using a memory buffer previously returned by the
 /// title's corresponding <see cref="PartyAllocateMemoryCallback" />, so that the title can free the memory buffer.
@@ -4670,12 +4593,12 @@ void
 /// <seealso cref="PartyManager::GetLocalUsers" />
 /// <seealso cref="PartyManager::DestroyLocalUser" />
 /// <seealso cref="PartyManager::CreateNewNetwork" />
-/// <seealso cref="PartyManager::CreateChatControl" />
 /// <seealso cref="PartyNetwork::AuthenticateLocalUser" />
 /// <seealso cref="PartyNetwork::RemoveLocalUser" />
 /// <seealso cref="PartyNetwork::CreateInvitation" />
 /// <seealso cref="PartyNetwork::RevokeInvitation" />
 /// <seealso cref="PartyNetwork::CreateEndpoint" />
+/// <seealso cref="PartyLocalDevice::CreateChatControl" />
 class PartyLocalUser
 {
 public:
@@ -4683,24 +4606,76 @@ public:
     /// Gets the Entity ID associated with this local user.
     /// </summary>
     /// <remarks>
-    /// The retrieved Entity ID is identical to the Entity ID provided by the title via PartyManager::CreateLocalUser().
+    /// The retrieved Entity ID is identical to the Entity ID provided by the title via
+    /// <see cref="PartyManager::CreateLocalUser()" />.
     /// <para>
     /// The memory for the Entity ID string remains valid for the life of the local user, which is until its
-    /// DestroyLocalUserCompleted state change has been provided via PartyManager::StartProcessingStateChanges() and all
-    /// state changes referencing the local user have been returned to PartyManager::FinishProcessingStateChanges().
+    /// <see cref="PartyDestroyLocalUserCompletedStateChange" /> has been provided via
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> and all state changes referencing the local user have
+    /// been returned to <see cref="PartyManager::FinishProcessingStateChanges()" />.
     /// </para>
     /// </remarks>
     /// <param name="entityId">
     /// The output Entity ID.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyManager::CreateLocalUser" />
     PartyError GetEntityId(
         _Outptr_ PartyString * entityId
+        ) const party_no_throw;
+
+    /// <summary>
+    /// Updates the PlayFab Entity Token associated with this local user, for use in future authenticated operations.
+    /// </summary>
+    /// <remarks>
+    /// This function takes a PlayFab Entity Token as <paramref name="titlePlayerEntityToken" />. No synchronous
+    /// validation is performed on this value. When the library performs operations that require user authentication or
+    /// authorization, such as creating a network, authenticating into a network, or performing speech-to-text
+    /// transcription, the Party service will validate that the token is valid, is not expired, is associated with the
+    /// same Entity ID that was provided to the <see cref="PartyManager::CreateLocalUser()" /> call, and is authorized
+    /// to perform the operation. If these conditions aren't met, the operation will fail.
+    /// <para>
+    /// A PlayFab Entity Token can be obtained from the output of a PlayFab login operation and then provided as input
+    /// to this function. The token must be associated with a PlayFab Entity of type `title_player_account`, which, for
+    /// most developers, represents the "player" in the most traditional way.
+    /// </para>
+    /// <para>
+    /// The provided <paramref name="titlePlayerEntityToken" /> must have been acquired using the same Title ID that was
+    /// passed to <see cref="PartyManager::Initialize()" />.
+    /// </para>
+    /// <para>
+    /// The Party library makes a copy of the supplied PlayFab Entity Token for use in subsequent operations that
+    /// require authentication or authorization of the local user, such as
+    /// <see cref="PartyManager::CreateNewNetwork()" /> or <see cref="PartyNetwork::AuthenticateLocalUser()" />. If the
+    /// token provided to this call is expired or otherwise invalid, operations that require a valid token will fail. A
+    /// new, valid token can be provided to the Party library by another call to this function.
+    /// </para>
+    /// <para>
+    /// The caller is responsible for monitoring the expiration of the entity token provided to this function and
+    /// <see cref="PartyManager::CreateLocalUser()" />. When the token is nearing or past the expiration time a new
+    /// token should be obtained by performing a PlayFab login operation and provided to the Party library by calling
+    /// this function. It is recommended to acquire a new token when the previously supplied token is halfway through
+    /// its validity period. On platforms that may enter a low power state or otherwise cause the application to pause
+    /// execution for a long time, preventing the token from being refreshed before it expires, the token should be
+    /// checked for expiration once execution resumes.
+    /// </para>
+    /// </remarks>
+    /// <param name="titlePlayerEntityToken">
+    /// The PlayFab Entity Token to associate with the local user.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <seealso cref="PartyManager::GetErrorMessage" />
+    /// <seealso cref="PartyManager::CreateLocalUser" />
+    /// <seealso cref="PartyManager::CreateNewNetwork" />
+    /// <seealso cref="PartyNetwork::AuthenticateLocalUser" />
+    PartyError UpdateEntityToken(
+        PartyString titlePlayerEntityToken
         ) const party_no_throw;
 
     /// <summary>
@@ -4712,13 +4687,12 @@ public:
     /// nullptr.
     /// </remarks>
     /// <param name="customContext">
-    /// The output to which the custom context is written.
+    /// The output custom context.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if retrieving the custom context succeeded or an error code otherwise. The human-readable
-    /// form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if retrieving the custom context succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyLocalUser::SetCustomContext" />
     PartyError GetCustomContext(
         _Outptr_result_maybenull_ void ** customContext
@@ -4730,7 +4704,7 @@ public:
     /// <remarks>
     /// The custom context is typically used as a "shortcut" that simplifies accessing local, title-specific memory
     /// associated with the local user without requiring a mapping lookup. The value is retrieved using the
-    /// PartyLocalUser::GetCustomContext() method.
+    /// <see cref="GetCustomContext()" /> method.
     /// <para>
     /// Any configured value is treated as opaque by the library, and is only valid on the local device; it is not
     /// transmitted over the network.
@@ -4740,10 +4714,9 @@ public:
     /// An arbitrary, pointer-sized value to store with the player object.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if configuring the custom context succeeded or an error code otherwise. The human-readable
-    /// form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if configuring the custom context succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyLocalUser::GetCustomContext" />
     PartyError SetCustomContext(
         _In_opt_ void * customContext
@@ -4761,15 +4734,20 @@ private:
 /// <summary>
 /// Represents an endpoint in a network.
 /// </summary>
+/// <seealso cref="PartyLocalEndpoint" />
 class PartyEndpoint
 {
 public:
     /// <summary>
-    /// Gets the PartyLocalEndpoint version of this endpoint.
+    /// Gets the <see cref="PartyLocalEndpoint" /> version of this endpoint.
     /// </summary>
-    /// <remarks>
-    /// If this endpoint is not a local endpoint, nullptr is returned.
-    /// </remarks>
+    /// <param name="localEndpoint">
+    /// The output local version of this endpoint object, or nullptr if this is not a local endpoint.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetLocal(
         _Outptr_result_maybenull_ PartyLocalEndpoint ** localEndpoint
         ) const party_no_throw;
@@ -4781,19 +4759,19 @@ public:
     /// If this endpoint is not associated with a user, <paramref name="entityId" /> is set to nullptr.
     /// <para>
     /// The memory for the Entity ID string remains valid for the life of the endpoint, which is until its
-    /// EndpointDestroyed and/or DestroyEndpointCompleted state change, depending on the type of destruction that
-    /// occurred, has been provided via PartyManager::StartProcessingStateChanges() and all state changes referencing
-    /// the endpoint have been returned to PartyManager::FinishProcessingStateChanges().
+    /// <see cref="PartyEndpointDestroyedStateChange" /> and/or <see cref="PartyDestroyEndpointCompletedStateChange" />,
+    /// depending on the type of destruction that occurred, has been provided via
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> and all state changes referencing the endpoint have
+    /// been returned to <see cref="PartyManager::FinishProcessingStateChanges()" />.
     /// </para>
     /// </remarks>
     /// <param name="entityId">
-    /// The output Entity ID.
+    /// The output Entity ID of ther user associated with this endpoint, or nullptr.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError GetEntityId(
         _Outptr_result_maybenull_ PartyString * entityId
         ) const party_no_throw;
@@ -4801,6 +4779,13 @@ public:
     /// <summary>
     /// Gets the network associated with this endpoint.
     /// </summary>
+    /// <param name="network">
+    /// The output network associated with this endpoint.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetNetwork(
         _Outptr_ PartyNetwork ** network
         ) const party_no_throw;
@@ -4808,6 +4793,13 @@ public:
     /// <summary>
     /// Gets the device associated with this endpoint.
     /// </summary>
+    /// <param name="device">
+    /// The output device associated with this endpoint.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetDevice(
         _Outptr_ PartyDevice ** device
         ) const party_no_throw;
@@ -4818,28 +4810,28 @@ public:
     /// <remarks>
     /// This identifier is unique within the endpoint's network and is consistent across all endpoints in a network. It
     /// is intended to be used as a compact option for titles to refer to specific endpoints in
-    /// PartyLocalEndpoint::SendMessage() data buffers without much bandwidth overhead or the need to manually negotiate
-    /// identifiers. This identifier is not unique across networks.
+    /// <see cref="PartyLocalEndpoint::SendMessage()" /> data buffers without much bandwidth overhead or the need to
+    /// manually negotiate identifiers. This identifier is not unique across networks.
     /// <para>
     /// This does not solve the "A talks to B about C before B sees C join" problem. See
     /// PartyManager::SynchronizeMessagesBetweenEndpoints() as a solution for this problem.
     /// </para>
     /// <para>
     /// For local endpoints, this method will fail until the unique identifier is assigned by the transparent cloud
-    /// relay. The unique identifier will be assigned when the PartyEndpointCreatedStateChange for this endpoint is
-    /// provided via PartyManager::StartProcessingStateChanges(). For remote endpoints, this method will always succeed.
+    /// relay. The unique identifier will be assigned when the <see cref="PartyEndpointCreatedStateChange" /> for this
+    /// endpoint is provided via <see cref="PartyManager::StartProcessingStateChanges()" />. For remote endpoints, this
+    /// method will always succeed.
     /// </para>
     /// </remarks>
     /// <param name="uniqueIdentifier">
     /// The output unique identifier.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyEndpointCreatedStateChange" />
-    /// <seealso cref="PartyManager::SynchronizeMessagesBetweenEndpoints" />
+    /// <seealso_nyi cref="PartyManager::SynchronizeMessagesBetweenEndpoints" />
     /// <seealso cref="PartyManager::StartProcessingStateChanges" />
     /// <seealso cref="PartyNetwork::FindEndpointByUniqueIdentifier" />
     PartyError GetUniqueIdentifier(
@@ -4853,9 +4845,20 @@ public:
     /// This function is currently unimplemented and will always fail.
     /// <para>
     /// If there is no property associated with the key, the resulting value will be nullptr. The returned value is only
-    /// valid until the next call to PartyManager::StartProcessingStateChanges().
+    /// valid until the next call to <see cref="PartyManager::StartProcessingStateChanges()" />.
     /// </para>
     /// </remarks>
+    /// <param name="key">
+    /// The key of the shared property to retrieve.
+    /// </param>
+    /// <param name="value">
+    /// A library-allocated output buffer containing the retrieved property, or nullptr if the property doesn't exist.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError GetSharedProperty(
         PartyString key,
         _Outptr_result_maybenull_ const PartyDataBuffer ** value
@@ -4867,9 +4870,21 @@ public:
     /// <remarks>
     /// This function is currently unimplemented and will always fail.
     /// <para>
-    /// The returned array is only valid until the next call to PartyManager::StartProcessingStateChanges().
+    /// The returned array is only valid until the next call to
+    /// <see cref="PartyManager::StartProcessingStateChanges()" />.
     /// </para>
     /// </remarks>
+    /// <param name="propertyCount">
+    /// The output number of shared properties.
+    /// </param>
+    /// <param name="keys">
+    /// A library-allocated output array containing the keys of all shared properties.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError GetSharedPropertyKeys(
         _Out_ uint32_t * propertyCount,
         _Outptr_result_buffer_(*propertyCount) const PartyString ** keys
@@ -4883,13 +4898,12 @@ public:
     /// nullptr.
     /// </remarks>
     /// <param name="customContext">
-    /// The output to which the custom context is written.
+    /// The output custom context.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if retrieving the custom context succeeded or an error code otherwise. The human-readable
-    /// form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if retrieving the custom context succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyEndpoint::SetCustomContext" />
     PartyError GetCustomContext(
         _Outptr_result_maybenull_ void ** customContext
@@ -4901,7 +4915,7 @@ public:
     /// <remarks>
     /// The custom context is typically used as a "shortcut" that simplifies accessing local, title-specific memory
     /// associated with the endpoint without requiring a mapping lookup. The value is retrieved using the
-    /// PartyEndpoint::GetCustomContext() method.
+    /// <see cref="GetCustomContext()" /> method.
     /// <para>
     /// Any configured value is treated as opaque by the library, and is only valid on the local device; it is not
     /// transmitted over the network.
@@ -4911,10 +4925,9 @@ public:
     /// An arbitrary, pointer-sized value to store with the endpoint object.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if configuring the custom context succeeded or an error code otherwise. The human-readable
-    /// form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if configuring the custom context succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyEndpoint::GetCustomContext" />
     PartyError SetCustomContext(
         _In_opt_ void * customContext
@@ -4932,6 +4945,8 @@ private:
 /// <summary>
 /// Represents a local endpoint.
 /// </summary>
+/// <seealso cref="PartyEndpoint" />
+/// <seealso cref="PartyEndpoint::GetLocal" />
 class PartyLocalEndpoint : public PartyEndpoint
 {
 public:
@@ -4942,13 +4957,12 @@ public:
     /// If this endpoint is not associated with a user, <paramref name="localUser" /> is set to nullptr.
     /// </remarks>
     /// <param name="localUser">
-    /// The output PartyLocalUser.
+    /// The output local user associated with this local endpoint, or nullptr.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError GetLocalUser(
         _Outptr_result_maybenull_ PartyLocalUser ** localUser
         ) const party_no_throw;
@@ -4957,14 +4971,12 @@ public:
     /// Sends a message to other endpoints in the network.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// Sending messages to local endpoints is not currently supported. If the array of target endpoints includes any
     /// local targets, this call will synchronously fail.
-    /// </para>
     /// <para>
-    /// All targeted endpoints on a given device will be provided a single PartyStateChangeType::EndpointMessageReceived
-    /// state change with every targeted local endpoint provided in the PartyEndpointMessageReceivedStateChange
-    /// <em>receiverEndpoints</em> array.
+    /// All targeted endpoints on a given device will be provided a single
+    /// <see cref="PartyEndpointMessageReceivedStateChange" /> with every targeted local endpoint provided in the
+    /// PartyEndpointMessageReceivedStateChange <em>receiverEndpoints</em> array.
     /// </para>
     /// <para>
     /// If the array of target endpoints is specified as having zero entries, then the message is broadcast to all
@@ -4978,38 +4990,39 @@ public:
     /// Callers provide 1 or more PartyDataBuffer structures in the <paramref name="dataBuffers" /> array. The memory
     /// that the structures reference does not have to be contiguous, making it easy to have a fixed header buffer
     /// followed by a variable payload, for example. The buffers will be assembled in order, transmitted, and delivered
-    /// to the targeted endpoints as a single contiguous data block in a PartyStateChangeType::EndpointMessageReceived
-    /// state change. The Party library does not expend bandwidth transmitting metadata to describe the original
-    /// PartyDataBuffer segmentation.
+    /// to the targeted endpoints as a single contiguous data block in a PartyEndpointMessageReceivedStateChange. The
+    /// Party library does not expend bandwidth transmitting metadata to describe the original PartyDataBuffer
+    /// segmentation.
     /// </para>
     /// <para>
     /// By default, the buffers described in the caller's <paramref name="dataBuffers" /> array are copied to an
-    /// allocated buffer before PartyLocalEndpoint::SendMessage() returns. Specifying
-    /// PartySendMessageOptions::DontCopyDataBuffers will avoid this extra copy step and instead require the caller to
-    /// keep the memory specified in each buffer valid and unmodified until a PartyStateChangeType::DataBuffersReturned
-    /// state change returns ownership of the memory to the caller. The PartyDataBuffer structures themselves do not
-    /// need to remain valid after the PartyLocalEndpoint::SendMessage() call returns, only the memory that they
-    /// reference.
+    /// allocated buffer before SendMessage() returns. Specifying
+    /// <see cref="PartySendMessageOptions::DontCopyDataBuffers" /> will avoid this extra copy step and instead require
+    /// the caller to keep the memory specified in each buffer valid and unmodified until a
+    /// <see cref="PartyDataBuffersReturnedStateChange" /> returns ownership of the memory to the caller. The
+    /// PartyDataBuffer structures themselves do not need to remain valid after the SendMessage() call returns, only the
+    /// memory that they reference.
     /// </para>
     /// <para>
-    /// Callers that use PartySendMessageOptions::DontCopyDataBuffers may provide a caller-specific <paramref
-    /// name="messageIdentifier" /> context. This pointer-sized value will be included with all
-    /// PartyStateChangeType::DataBuffersReturned state changes so that the caller can easily access its own private
-    /// message tracking information. The actual value is treated as opaque and is not interpreted by the Party library,
-    /// nor transmitted remotely. It's the caller's responsibility to ensure any of its own memory that <paramref
-    /// name="messageIdentifier" /> might represent remains valid until the final requested state change associated with
-    /// the message and associated <paramref name="messageIdentifier" /> has been processed and returned via
-    /// PartyManager::FinishProcessingStateChanges().
+    /// Callers that use PartySendMessageOptions::DontCopyDataBuffers may provide a caller-specific
+    /// <paramref name="messageIdentifier" /> context. This pointer-sized value will be included with all
+    /// PartyDataBuffersReturnedStateChanges so that the caller can easily access its own private message tracking
+    /// information. The actual value is treated as opaque and is not interpreted by the Party library, nor transmitted
+    /// remotely. It's the caller's responsibility to ensure any of its own memory that
+    /// <paramref name="messageIdentifier" /> might represent remains valid until the final requested state change
+    /// associated with the message and associated <paramref name="messageIdentifier" /> has been processed and returned
+    /// via <see cref="PartyManager::FinishProcessingStateChanges()" />.
     /// </para>
     /// <para>
     /// Messages may not be transmitted to target endpoints right away based on factors such as connection quality and
     /// receiver responsiveness. The local send queue will grow if you are sending faster than the connection to an
     /// endpoint is estimated to currently support. This increases memory usage and may result in increases in perceived
     /// message latency, so callers are strongly recommended to monitor and manage the local send queues. You can
-    /// retrieve information about the send queue using PartyLocalEndpoint::GetEndpointStatistics(). You can manage the
-    /// send queue by reducing the size and/or frequency of sending, by using the <paramref name="queuingConfiguration"
-    /// /> optional settings to configure timeouts that automatically expire messages that have been queued for too
-    /// long, or by using PartyLocalEndpoint::CancelMessages() to explicitly remove some or all queued messages.
+    /// retrieve information about the send queue using <see cref="PartyLocalEndpoint::GetEndpointStatistics()" />. You
+    /// can manage the send queue by reducing the size and/or frequency of sending, by using the
+    /// <paramref name="queuingConfiguration" /> optional settings to configure timeouts that automatically expire
+    /// messages that have been queued for too long, or by using PartyLocalEndpoint::CancelMessages() to explicitly
+    /// remove some or all queued messages.
     /// </para>
     /// <para>
     /// The Party library automatically fragments and reassembles large messages that exceed the maximum size supported
@@ -5021,7 +5034,8 @@ public:
     /// <param name="targetEndpointCount">
     /// The number of target endpoints in the <paramref name="targetEndpoints" /> array. May be zero to broadcast to all
     /// remote endpoints in the network. A device that receives a broadcast message will have the target endpoint fields
-    /// of the PartyEndpointMessageReceivedStateChange populated with all of the device's local endpoints.
+    /// of the <see cref="PartyEndpointMessageReceivedStateChange" /> populated with all of the device's local
+    /// endpoints.
     /// </param>
     /// <param name="targetEndpoints">
     /// The <paramref name="targetEndpointCount" /> entry array of target PartyEndpoint object pointers to which the
@@ -5032,7 +5046,7 @@ public:
     /// </param>
     /// <param name="queuingConfiguration">
     /// An optional structure describing how the message should behave while locally queued and waiting for an
-    /// opportunity to transmit. May be null to use default queuing behavior.
+    /// opportunity to transmit. May be nullptr to use default queuing behavior.
     /// </param>
     /// <param name="dataBufferCount">
     /// The number of buffer structures provided in the <paramref name="dataBuffers" /> array. Must be greater than 0.
@@ -5043,19 +5057,19 @@ public:
     /// </param>
     /// <param name="messageIdentifier">
     /// An opaque, caller-specific context pointer the Party library will include in any state changes referring to this
-    /// message. It is not interpreted or transmitted remotely. May be null if no message identification context is
+    /// message. It is not interpreted or transmitted remotely. May be nullptr if no message identification context is
     /// needed.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if enqueuing the message for transmission succeeded or an error code otherwise. The
-    /// human-readable form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if enqueuing the message for transmission succeeded or an error code otherwise. If
+    /// this method fails, no related state changes will be generated. The human-readable form of the error code can be
+    /// retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartySendMessageOptions" />
     /// <seealso cref="PartySendMessageQueuingConfiguration" />
     /// <seealso cref="PartyDataBuffersReturnedStateChange" />
     /// <seealso cref="PartyEndpointMessageReceivedStateChange" />
-    /// <seealso cref="PartyLocalEndpoint::CancelMessages" />
+    /// <seealso_nyi cref="PartyLocalEndpoint::CancelMessages" />
     /// <seealso cref="PartyLocalEndpoint::GetEndpointStatistics" />
     /// <seealso cref="PartyLocalEndpoint::FlushMessages" />
     PartyError SendMessage(
@@ -5069,25 +5083,23 @@ public:
         ) party_no_throw;
 
     /// <summary>
-    /// Cancels all or a filterable subset of messages previously submitted using PartyLocalEndpoint::SendMessage() that
-    /// have not yet started transmitting.
+    /// Cancels all or a filterable subset of messages previously submitted using <see cref="SendMessage()" /> that have
+    /// not yet started transmitting.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// This function is currently unimplemented and will always fail.
-    /// </para>
     /// <para>
     /// Matching messages in this local endpoint's send queue to the specified target endpoint(s) that have not started
     /// transmitting will be removed from the queue without being sent.
     /// </para>
     /// <para>
-    /// When using PartyCancelMessagesFilterExpression::None for the <paramref name="filterExpression" /> parameter,
-    /// PartyLocalEndpoint::CancelMessages() will cancel all messages from this local endpoint to the specified target
-    /// endpoints. Callers can instead specify a different PartyCancelMessagesFilterExpression value along with specific
-    /// masks and values to match in the <paramref name="messageIdentityFilterMask" /> and <paramref
-    /// name="filteredMessageIdentitiesToMatch" /> parameters in order to only match a subset of messages based on how
-    /// the filter expressions evaluate the <em>identityForCancelFilters</em> field provided with each message in its
-    /// PartySendMessageQueuingConfiguration structure.
+    /// When using <see cref="PartyCancelMessagesFilterExpression::None" /> for the <paramref name="filterExpression" />
+    /// parameter, CancelMessages() will cancel all messages from this local endpoint to the specified target endpoints.
+    /// Callers can instead specify a different PartyCancelMessagesFilterExpression value along with specific masks and
+    /// values to match in the <paramref name="messageIdentityFilterMask" /> and
+    /// <paramref name="filteredMessageIdentitiesToMatch" /> parameters in order to only match a subset of messages
+    /// based on how the filter expressions evaluate the <em>identityForCancelFilters</em> field provided with each
+    /// message in its <see cref="PartySendMessageQueuingConfiguration" /> structure.
     /// </para>
     /// </remarks>
     /// <param name="targetEndpointCount">
@@ -5112,13 +5124,13 @@ public:
     /// Optional output parameter to receive the number of messages that were actually canceled.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if canceling messages succeeded or an error code otherwise. The human-readable form of the
-    /// error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if canceling messages succeeded or an error code otherwise. The human-readable form
+    /// of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyCancelMessagesFilterExpression" />
     /// <seealso cref="PartySendMessageQueuingConfiguration" />
     /// <seealso cref="PartyLocalEndpoint::SendMessage" />
+    /// <nyi />
     PartyError CancelMessages(
         uint32_t targetEndpointCount,
         _In_reads_(targetEndpointCount) PartyEndpointArray targetEndpoints,
@@ -5133,35 +5145,32 @@ public:
     /// regardless of their coalesce settings.
     /// </summary>
     /// <remarks>
+    /// When <see cref="PartySendMessageOptions::CoalesceOpportunistically" /> or
+    /// <see cref="PartySendMessageOptions::AlwaysCoalesceUntilFlushed" /> is specified in a call to
+    /// <see cref="SendMessage()" />, the message may not be transmitted immediately and instead be combined with other
+    /// messages. This coalescing can improve bandwidth efficiency at the potential expense of perceived latency. This
+    /// function allows the title to manually force such coalesced messages to begin transmitting as soon as possible.
     /// <para>
-    /// When PartySendMessageOptions::CoalesceOpportunistically or PartySendMessageOptions::AlwaysCoalesceUntilFlushed
-    /// is specified in a call to PartyLocalEndpoint::SendMessage(), the message may not be transmitted immediately and
-    /// instead be combined with other messages. This coalescing can improve bandwidth efficiency at the potential
-    /// expense of perceived latency. This function allows the title to manually force such coalesced messages to begin
-    /// transmitting as soon as possible.
-    /// </para>
-    /// <para>
-    /// Currently this function ignores the <paramref name="targetEndpoints" /> parameter and forces all queued messages from this
-    /// local endpoint to be transmitted as soon as possible.
+    /// Currently this function ignores the <paramref name="targetEndpoints" /> parameter and forces all queued messages
+    /// from this local endpoint to be transmitted as soon as possible.
     /// </para>
     /// </remarks>
     /// <param name="targetEndpointCount">
-    /// This parameter is currently ignored. The number of target endpoints in the <paramref name="targetEndpoints" /> array.
+    /// This parameter is currently ignored. The number of target endpoints in the <paramref name="targetEndpoints" />
+    /// array.
     /// </param>
     /// <param name="targetEndpoints">
-    /// This parameter is currently ignored. A <paramref name="targetEndpointCount" /> entry array of target PartyEndpoint object pointers. Messages from
-    /// this local endpoint, up through and including the most recent message to any endpoint in the array, will be
-    /// transmitted as soon as possible.
+    /// This parameter is currently ignored. A <paramref name="targetEndpointCount" /> entry array of target
+    /// PartyEndpoint object pointers. Messages from this local endpoint, up through and including the most recent
+    /// message to any endpoint in the array, will be transmitted as soon as possible.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if flushing messages succeeded or an error code otherwise. The human-readable form of the
-    /// error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if flushing messages succeeded or an error code otherwise. The human-readable form of
+    /// the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartyLocalEndpoint::SendMessage" />
-    /// <seealso cref="PartySendMessageOptions::CoalesceOpportunistically" />
-    /// <seealso cref="PartySendMessageOptions::AlwaysCoalesceUntilFlushed" />
+    /// <seealso cref="PartySendMessageOptions" />
     /// <seealso cref="PartyManager::StartProcessingStateChanges" />
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError FlushMessages(
         uint32_t targetEndpointCount,
         _In_reads_(targetEndpointCount) PartyEndpointArray targetEndpoints
@@ -5171,10 +5180,8 @@ public:
     /// Gets one or more statistic counter values for the specified target endpoints.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// This function is used to retrieve performance counters, queue lengths, historical usage metrics, or other
     /// statistical information recorded between this local endpoint and a target endpoint.
-    /// </para>
     /// <para>
     /// Alternatively, multiple target endpoints can be provided, or a zero-entry array to retrieve statistics for all
     /// target endpoints currently in the network, including this local one. If multiple target endpoints are requested,
@@ -5184,13 +5191,14 @@ public:
     /// </para>
     /// <para>
     /// A given PartyEndpointStatistic type may appear in any order in the <paramref name="statisticTypes" /> array, but
-    /// must not be specified more than once. Each corresponding statistic value will be written to the <paramref
-    /// name="statisticValues" /> array in the same order.
+    /// must not be specified more than once. Each corresponding statistic value will be written to the
+    /// <paramref name="statisticValues" /> array in the same order.
     /// </para>
     /// <para>
     /// The returned statistic values are always the most current ones available. There is no guarantee they will report
     /// the same value from one GetEndpointStatistics() call to the next, even if there were no intervening calls to
-    /// PartyManager::StartProcessingStateChanges() or PartyManager::FinishProcessingStateChanges().
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> or
+    /// <see cref="PartyManager::FinishProcessingStateChanges()" />.
     /// </para>
     /// </remarks>
     /// <param name="targetEndpointCount">
@@ -5214,10 +5222,9 @@ public:
     /// PartyEndpointStatistic appears in the <paramref name="statisticTypes" /> input array.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if retrieving the endpoint statistics succeeded or an error code otherwise. The
-    /// human-readable form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if retrieving the endpoint statistics succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyEndpointStatistic" />
     /// <seealso cref="PartyNetwork::GetNetworkStatistics" />
     PartyError GetEndpointStatistics(
@@ -5238,6 +5245,21 @@ public:
     /// specified in the call will remain unchanged.
     /// </para>
     /// </remarks>
+    /// <param name="propertyCount">
+    /// The number of properties to set or remove.
+    /// </param>
+    /// <param name="keys">
+    /// An array of size <paramref name="propertyCount" /> containing the keys to set or remove.
+    /// </param>
+    /// <param name="values">
+    /// An array of size <paramref name="propertyCount" /> containing the values for each key in
+    /// <paramref name="keys" />.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError SetSharedProperties(
         uint32_t propertyCount,
         _In_reads_(propertyCount) const PartyString * keys,
@@ -5256,15 +5278,20 @@ private:
 /// <summary>
 /// Represents a device across networks.
 /// </summary>
+/// <seealso cref="PartyLocalDevice" />
 class PartyDevice
 {
 public:
     /// <summary>
-    /// Gets the PartyLocalDevice version of this device.
+    /// Gets the <see cref="PartyLocalDevice" /> version of this device.
     /// </summary>
-    /// <remarks>
-    /// If this device is not the local device, nullptr is returned.
-    /// </remarks>
+    /// <param name="localDevice">
+    /// The output local version of this device object, or nullptr if this is not a local device.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetLocal(
         _Outptr_result_maybenull_ PartyLocalDevice ** localDevice
         ) const party_no_throw;
@@ -5274,9 +5301,19 @@ public:
     /// </summary>
     /// <remarks>
     /// The memory for the returned array is invalidated whenever the title calls
-    /// PartyManager::StartProcessingStateChanges(). If this is the local device, the memory for the array is also
-    /// invalidated when PartyLocalDevice::CreateChatControl() returns success.
+    /// <see cref="PartyManager::StartProcessingStateChanges()" />. If this is the local device, the memory for the
+    /// array is also invalidated when <see cref="PartyLocalDevice::CreateChatControl()" /> returns success.
     /// </remarks>
+    /// <param name="chatControlCount">
+    /// The output number of chat controls on this device.
+    /// </param>
+    /// <param name="chatControls">
+    /// A library-allocated output array containing the chat controls on this device.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetChatControls(
         _Out_ uint32_t * chatControlCount,
         _Outptr_result_buffer_(*chatControlCount) PartyChatControlArray * chatControls
@@ -5289,9 +5326,20 @@ public:
     /// This function is currently unimplemented and will always fail.
     /// <para>
     /// If there is no property associated with the key, the resulting value will be nullptr. The returned value is only
-    /// valid until the next call to PartyManager::StartProcessingStateChanges().
+    /// valid until the next call to <see cref="PartyManager::StartProcessingStateChanges()" />.
     /// </para>
     /// </remarks>
+    /// <param name="key">
+    /// The key of the shared property to retrieve.
+    /// </param>
+    /// <param name="value">
+    /// A library-allocated output buffer containing the retrieved property, or nullptr if the property doesn't exist.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError GetSharedProperty(
         PartyString key,
         _Outptr_result_maybenull_ const PartyDataBuffer ** value
@@ -5303,9 +5351,21 @@ public:
     /// <remarks>
     /// This function is currently unimplemented and will always fail.
     /// <para>
-    /// The returned array is only valid until the next call to PartyManager::StartProcessingStateChanges().
+    /// The returned array is only valid until the next call to
+    /// <see cref="PartyManager::StartProcessingStateChanges()" />.
     /// </para>
     /// </remarks>
+    /// <param name="propertyCount">
+    /// The output number of shared properties.
+    /// </param>
+    /// <param name="keys">
+    /// A library-allocated output array containing the keys of all shared properties.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError GetSharedPropertyKeys(
         _Out_ uint32_t * propertyCount,
         _Outptr_result_buffer_(*propertyCount) const PartyString ** keys
@@ -5319,13 +5379,12 @@ public:
     /// nullptr.
     /// </remarks>
     /// <param name="customContext">
-    /// The output to which the custom context is written.
+    /// The output custom context.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if retrieving the custom context succeeded or an error code otherwise. The human-readable
-    /// form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if retrieving the custom context succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyDevice::SetCustomContext" />
     PartyError GetCustomContext(
         _Outptr_result_maybenull_ void ** customContext
@@ -5337,7 +5396,7 @@ public:
     /// <remarks>
     /// The custom context is typically used as a "shortcut" that simplifies accessing local, title-specific memory
     /// associated with the device without requiring a mapping lookup. The value is retrieved using the
-    /// PartyDevice::GetCustomContext() method.
+    /// <see cref="GetCustomContext()" /> method.
     /// <para>
     /// Any configured value is treated as opaque by the library, and is only valid on the local device; it is not
     /// transmitted over the network.
@@ -5347,10 +5406,9 @@ public:
     /// An arbitrary, pointer-sized value to store with the device object.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if configuring the custom context succeeded or an error code otherwise. The human-readable
-    /// form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if configuring the custom context succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyDevice::GetCustomContext" />
     PartyError SetCustomContext(
         _In_opt_ void * customContext
@@ -5368,6 +5426,7 @@ private:
 /// <summary>
 /// Represents the local device.
 /// </summary>
+/// <seealso cref="PartyDevice" />
 /// <seealso cref="PartyManager::GetLocalDevice" />
 class PartyLocalDevice : public PartyDevice
 {
@@ -5376,36 +5435,56 @@ public:
     /// Creates a local chat control for the specified user.
     /// </summary>
     /// <remarks>
-    /// If this method returns success, a PartyCreateChatControlCompletedStateChange state change will be generated to
+    /// If this method returns success, a <see cref="PartyCreateChatControlCompletedStateChange" /> will be generated to
     /// provide the result of the asynchronous operation. If the asynchronous operation succeeds, a
-    /// PartyChatControlCreatedStateChange will be generated. If the operation fails, a
-    /// PartyChatControlDestroyedStateChange will be generated. This method itself does not make the chat control
-    /// visible to any remote devices. To announce this chat control to remote devices, the title should call
+    /// <see cref="PartyChatControlCreatedStateChange" /> will be generated. If the operation fails, a
+    /// <see cref="PartyChatControlDestroyedStateChange" /> will be generated. This method itself does not make the chat
+    /// control visible to any remote devices. To announce this chat control to remote devices, the title should call
     /// PartyNetwork::ConnectChatControl.
     /// <para>
     /// On successful return, this method invalidates the memory for any array previously returned by
-    /// PartyManager::GetChatControls() or PartyDevice::GetChatControls() for the local device, as it synchronously
-    /// adds the new chat control to the arrays. PartyManager::StartProcessingStateChanges() also invalidates the
-    /// memory for these arrays.
+    /// <see cref="PartyManager::GetChatControls()" /> or <see cref="PartyDevice::GetChatControls()" /> for the local
+    /// device, as it synchronously adds the new chat control to the arrays.
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> also invalidates the memory for these arrays.
     /// </para>
     /// <para>
-    /// The language associated with this chat control can optionally be specified via the <paramref
-    /// name="languageCode" /> parameter. If no language is specified, the user's default, as determined by the
-    /// platform, will be used. The language is used as the spoken the language associated with this chat control for
-    /// transcription and the target language for incoming translations. If the language code specified is en-US, for
-    /// instance, the input audio to this chat control will be treated as the English (United
-    /// States) language and transcribed as such. If translation is enabled via either
-    /// PartyLocalChatControl::SetVoiceChatTranscriptionOptions() or PartyLocalChatControl::SetTextChatOptions(), the
-    /// incoming voice chat transcriptions and/or text chat will be translated to English (United States).
+    /// The language associated with this chat control can optionally be specified via the
+    /// <paramref name="languageCode" /> parameter. If no language is specified, the user's default, as determined by
+    /// the platform, will be used. The language is used as the spoken the language associated with this chat control
+    /// for transcription and the target language for incoming translations. If the language code specified is en-US,
+    /// for instance, the input audio to this chat control will be treated as the English (United States) language and
+    /// transcribed as such. If translation is enabled via either
+    /// <see cref="PartyLocalChatControl::SetTranscriptionOptions()" /> or
+    /// <see cref="PartyLocalChatControl::SetTextChatOptions()" />, the incoming voice chat transcriptions and/or text
+    /// chat will be translated to English (United States).
     /// </para>
     /// <para>
     /// The language code should be in BCP 47 format; supported language codes are enumerated at
-    /// https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support. Specifying an
-    /// unsupported or invalid language code will not cause this method to fail, but will result in failure to
-    /// generate transcriptions associated with this chat control. The language code used with this method can be
-    /// queried via PartyLocalChatControl::GetLanguage(). It can be modified via PartyLocalChatControl::SetLanguage().
+    /// <see cref="https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support" />.
+    /// Specifying an unsupported or invalid language code will not cause this method to fail, but will result in
+    /// failure to generate transcriptions associated with this chat control. The language code used with this method
+    /// can be queried via <see cref="PartyLocalChatControl::GetLanguage()" />. It can be modified via
+    /// <see cref="PartyLocalChatControl::SetLanguage()" />.
     /// </para>
     /// </remarks>
+    /// <param name="localUser">
+    // The local user for the new local chat control.
+    /// </param>
+    /// <param name="languageCode">
+    /// The optional language to use.
+    /// </param>
+    /// <param name="asyncIdentifier">
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
+    /// </param>
+    /// <param name="localChatControl">
+    /// The optional, output local chat control.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to create a chat control began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     /// <seealso cref="PartyCreateChatControlCompletedStateChange" />
     /// <seealso cref="PartyChatControlCreatedStateChange" />
     /// <seealso cref="PartyChatControlDestroyedStateChange" />
@@ -5414,8 +5493,8 @@ public:
     /// <seealso cref="PartyNetwork::ConnectChatControl" />
     /// <seealso cref="PartyLocalChatControl::GetLanguage" />
     /// <seealso cref="PartyLocalChatControl::SetLanguage" />
-    /// <seealso cref="PartyLocalChatControl::SetVoiceChatTranscriptionOptions" />
-    /// <seealso cref="PartyLocalChatControl::SetTextChatTranscriptionOptions" />
+    /// <seealso cref="PartyLocalChatControl::SetTranscriptionOptions" />
+    /// <seealso cref="PartyLocalChatControl::SetTranscriptionOptions" />
     PartyError CreateChatControl(
         const PartyLocalUser * localUser,
         _In_opt_ PartyString languageCode,
@@ -5426,6 +5505,18 @@ public:
     /// <summary>
     /// Destroys a local chat control.
     /// </summary>
+    /// <param name="localChatControl">
+    /// The local chat control to destroy.
+    /// </param>
+    /// <param name="asyncIdentifier">
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to destroy the chat control began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     /// <seealso cref="PartyDestroyChatControlCompletedStateChange" />
     /// <seealso cref="PartyChatControlDestroyedStateChange" />
     PartyError DestroyChatControl(
@@ -5443,6 +5534,21 @@ public:
     /// specified in the call will remain unchanged.
     /// </para>
     /// </remarks>
+    /// <param name="propertyCount">
+    /// The number of properties to set or remove.
+    /// </param>
+    /// <param name="keys">
+    /// An array of size <paramref name="propertyCount" /> containing the keys to set or remove.
+    /// </param>
+    /// <param name="values">
+    /// An array of size <paramref name="propertyCount" /> containing the values for each key in
+    /// <paramref name="keys" />.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError SetSharedProperties(
         uint32_t propertyCount,
         _In_reads_(propertyCount) const PartyString * keys,
@@ -5459,7 +5565,7 @@ private:
 };
 
 /// <summary>
-/// Represents an invitation to authenticate into a network via PartyNetwork::AuthenticateLocalUser().
+/// Represents an invitation used to authenticate a user into a network.
 /// </summary>
 /// <seealso cref="PartyManager::CreateNewNetwork" />
 /// <seealso cref="PartyNetwork::CreateInvitation" />
@@ -5469,12 +5575,15 @@ class PartyInvitation
 {
 public:
     /// <summary>
-    /// Gets the PlayFab Entity ID of the user that created this invitation or null if this invitation was generated as
-    /// part of a PartyManager::CreateNewNetwork() operation.
+    /// Gets the PlayFab Entity ID of the user that created this invitation or nullptr if this invitation was generated
+    /// as part of a <see cref="PartyManager::CreateNewNetwork()" /> operation.
     /// </summary>
+    /// <param name="entityId">
+    /// The output Entity ID of the user that created this invitation, or nullptr.
+    /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     PartyError GetCreatorEntityId(
         _Outptr_result_maybenull_ PartyString * entityId
@@ -5484,12 +5593,15 @@ public:
     /// Gets this invitation's configuration.
     /// </summary>
     /// <remarks>
-    /// The memory for the PartyInvitationConfiguration and all memory it references are valid for the lifetime of the
-    /// invitation object.
+    /// The memory for the <see cref="PartyInvitationConfiguration" /> and all memory it references are valid for the
+    /// lifetime of the invitation object.
     /// </remarks>
+    /// <param name="configuration">
+    /// The output configuration of this invitation.
+    /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartyInvitationConfiguration" />
     PartyError GetInvitationConfiguration(
@@ -5505,13 +5617,12 @@ public:
     /// nullptr.
     /// </remarks>
     /// <param name="customContext">
-    /// The output to which the custom context is written.
+    /// The output custom context.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if retrieving the custom context succeeded or an error code otherwise. The human-readable
-    /// form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if retrieving the custom context succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyInvitation::SetCustomContext" />
     PartyError GetCustomContext(
         _Outptr_result_maybenull_ void ** customContext
@@ -5523,7 +5634,7 @@ public:
     /// <remarks>
     /// The custom context is typically used as a "shortcut" that simplifies accessing local, title-specific memory
     /// associated with the invitation without requiring a mapping lookup. The value is retrieved using the
-    /// PartyInvitation::GetCustomContext() method.
+    /// <see cref="GetCustomContext()" /> method.
     /// <para>
     /// Any configured value is treated as opaque by the library, and is only valid on the local device; it is not
     /// transmitted over the network.
@@ -5533,10 +5644,9 @@ public:
     /// An arbitrary, pointer-sized value to store with the invitation object.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if configuring the custom context succeeded or an error code otherwise. The human-readable
-    /// form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if configuring the custom context succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyInvitation::GetCustomContext" />
     PartyError SetCustomContext(
         _In_opt_ void * customContext
@@ -5569,22 +5679,22 @@ public:
     /// network.
     /// <para>
     /// Upon successful completion of the asynchronous operation started by this call, a user is considered
-    /// authenticated into the network. Completion is indicated by the PartyAuthenticateLocalUserCompletedStateChange.
-    /// Successful authentication requires that the local user's PlayFab Entity Token is valid and is associated with
-    /// the local user's PlayFab Entity ID. Successful authentication also requires that the provided invitation allows
-    /// the provided local user to join the network. Authentication will fail if authenticating the provided user would
-    /// violate one of the limits in the network's configuration. These requirements are enforced by the transparent
-    /// cloud relay server. If the asynchronous operation fails, the PartyAuthenticateLocalUserCompletedStateChange will
-    /// provide a diagnostic result and error detail, and a PartyLocalUserRemovedStateChange will be generated. Because
-    /// being connected to a network with no authenticated users is not a useful state outside of transition periods,
-    /// the Party library will automatically disconnect a device that does not have an authenticated user for an
-    /// extended period.
+    /// authenticated into the network. Completion is indicated by the
+    /// <see cref="PartyAuthenticateLocalUserCompletedStateChange" />. Successful authentication requires that the local
+    /// user's PlayFab Entity Token is valid and is associated with the local user's PlayFab Entity ID. Successful
+    /// authentication also requires that the provided invitation allows the provided local user to join the network.
+    /// Authentication will fail if authenticating the provided user would violate one of the limits in the network's
+    /// configuration. These requirements are enforced by the transparent cloud relay server. If the asynchronous
+    /// operation fails, the PartyAuthenticateLocalUserCompletedStateChange will provide a diagnostic result and error
+    /// detail, and a <see cref="PartyLocalUserRemovedStateChange" /> will be generated. Because being connected to a
+    /// network with no authenticated users is not a useful state outside of transition periods, the Party library will
+    /// automatically disconnect a device that does not have an authenticated user for an extended period.
     /// </para>
     /// <para>
     /// Users need an <paramref name="invitationIdentifier" /> to call this method and authenticate into the network.
     /// Most commonly this means that another device will have to share the identifier of the initial invitation
-    /// generated via PartyManager::CreateNewNetwork() or share the identifier of an invitation it has generated via
-    /// PartyNetwork::CreateInvitation().
+    /// generated via <see cref="PartyManager::CreateNewNetwork()" /> or share the identifier of an invitation it has
+    /// generated via <see cref="CreateInvitation()" />.
     /// </para>
     /// <para>
     /// User authentication also determines device authentication. A device is considered authenticated into the network
@@ -5601,20 +5711,20 @@ public:
     /// respective completion state changes will indicate such.
     /// </para>
     /// <para>
-    /// If the local device enters a state in which there are no authenticated users and no authentication operations
-    /// in progress, then all endpoints, including those that are not fully created, will be destroyed automatically.
-    /// This will be signaled by PartyEndpointDestroyedStateChanges.
+    /// If the local device enters a state in which there are no authenticated users and no authentication operations in
+    /// progress, then all endpoints, including those that are not fully created, will be destroyed automatically. This
+    /// will be signaled by PartyEndpointDestroyedStateChanges.
     /// </para>
     /// <para>
     /// On successful return, this method invalidates the memory for any array previously returned by
-    /// PartyNetwork::GetLocalUsers(), as it synchronously adds the new user to the array.
-    /// PartyManager::StartProcessingStateChanges() also invalidates the memory for the array.
+    /// <see cref="PartyNetwork::GetLocalUsers()" />, as it synchronously adds the new user to the array.
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> also invalidates the memory for the array.
     /// </para>
     /// <para>
     /// This function will fail if the specified <paramref name="localUser" /> is in the process of authenticating into
     /// the network, is already authenticated into the network, is authenticated but in the process of being removed due
-    /// to a previous call to PartyNetwork::RemoveLocalUser(), or if the device overall is in the process of becoming
-    /// unauthenticated due to its last authenticated user being removed from the network.
+    /// to a previous call to <see cref="PartyNetwork::RemoveLocalUser()" />, or if the device overall is in the process
+    /// of becoming unauthenticated due to its last authenticated user being removed from the network.
     /// </para>
     /// </remarks>
     /// <param name="localUser">
@@ -5628,10 +5738,10 @@ public:
     /// with this call.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to authenticate the local user began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyAuthenticateLocalUserCompletedStateChange" />
     /// <seealso cref="PartyEndpointDestroyedStateChange" />
     /// <seealso cref="PartyLocalUserRemovedStateChange" />
@@ -5641,7 +5751,6 @@ public:
     /// <seealso cref="PartyNetwork::GetLocalUsers" />
     /// <seealso cref="PartyManager::CreateNewNetwork" />
     /// <seealso cref="PartyNetwork::CreateInvitation" />
-    /// <seealso cref="PartyInvitation::GetIdentifier" />
     PartyError AuthenticateLocalUser(
         const PartyLocalUser * localUser,
         PartyString invitationIdentifier,
@@ -5652,25 +5761,26 @@ public:
     /// Queues an asynchronous operation to remove a local user from the network.
     /// </summary>
     /// <remarks>
-    /// Upon successful completion of the asynchronous operation, a user is no longer considered authenticated into the
-    /// network. Completion is indicated by a PartyRemoveLocalUserCompletedStateChange. If the asynchronous operation
-    /// succeeds, a PartyLocalUserRemovedStateChange will be provided before the
+    /// Upon completion of the asynchronous operation, a user is no longer considered authenticated into the network.
+    /// Completion is indicated by a <see cref="PartyRemoveLocalUserCompletedStateChange" />. The asynchronous operation
+    /// will always succeed, and a <see cref="PartyLocalUserRemovedStateChange" /> will always be provided before the
     /// PartyRemoveLocalUserCompletedStateChange. Prior to the removal of a local user, all endpoints associated with
     /// that user are destroyed and all chat controls associated with that user will be disconnected from the network.
     /// Each endpoint destruction and chat control disconnection will be indicated by a
-    /// PartyEndpointDestroyedStateChange or PartyChatControlLeftNetworkStateChange, respectively.
+    /// <see cref="PartyEndpointDestroyedStateChange" /> or <see cref="PartyChatControlLeftNetworkStateChange" />,
+    /// respectively.
     /// <para>
     /// When all local users are removed from the network, the device is no longer considered authenticated. All
     /// endpoints are destroyed and all remote devices will appear to leave the network, because they are no longer
     /// visible to the local device. Similarly, all remote devices will see the local device as having left the network.
     /// The device will not immediately be disconnected and can again be authenticated by a new call to
-    /// PartyNetwork::AuthenticateLocalUser(). However, because being connected to a network with no authenticated users
-    /// is not a useful state outside of transition periods, the Party library will automatically disconnect a device
-    /// that is unauthenticated for more than one minute.
+    /// <see cref="AuthenticateLocalUser()" />. However, because being connected to a network with no authenticated
+    /// users is not a useful state outside of transition periods, the Party library will automatically disconnect a
+    /// device that is unauthenticated for more than one minute.
     /// </para>
     /// <para>
     /// This function will fail if the specified <paramref name="localUser" /> is already in the process of being
-    /// removed from the network due to a previous call to PartyNetwork::RemoveLocalUser().
+    /// removed from the network due to a previous call to RemoveLocalUser().
     /// </para>
     /// </remarks>
     /// <param name="localUser">
@@ -5681,10 +5791,10 @@ public:
     /// with this call.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to remove the local user began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyRemoveLocalUserCompletedStateChange" />
     /// <seealso cref="PartyEndpointDestroyedStateChange" />
     /// <seealso cref="PartyChatControlLeftNetworkStateChange" />
@@ -5699,15 +5809,15 @@ public:
     /// Queues an asynchronous attempt to create an invitation for the network.
     /// </summary>
     /// <remarks>
-    /// To join a network, a user must provide an invitation to PartyNetwork::AuthenticateLocalUser().
+    /// To join a network, a user must provide an invitation to <see cref="AuthenticateLocalUser()" />.
     /// <para>
     /// This function queues an asynchronous attempt to create an invitation for the network. A
-    /// PartyCreateInvitationCompletedStateChange will be provided upon completion of the asynchronous operation,
-    /// indicating success or failure. On success, a PartyInvitationCreatedStateChange will have been generated
-    /// beforehand to indicate that the transparent cloud relay server is ready to accept authentications using the
-    /// invitation's identifier. On failure, a PartyInvitationDestroyedStateChange will have been generated beforehand
-    /// to indicate that the invitation object is no longer valid and will no longer be queryable via
-    /// PartyNetwork::GetInvitations().
+    /// <see cref="PartyCreateInvitationCompletedStateChange" /> will be provided upon completion of the asynchronous
+    /// operation, indicating success or failure. On success, a <see cref="PartyInvitationCreatedStateChange" /> will
+    /// have been generated beforehand to indicate that the transparent cloud relay server is ready to accept
+    /// authentications using the invitation's identifier. On failure, a
+    /// <see cref="PartyInvitationDestroyedStateChange" /> will have been generated beforehand to indicate that the
+    /// invitation object is no longer valid and will no longer be queryable via <see cref="GetInvitations()" />.
     /// </para>
     /// <para>
     /// The lifetime of the invitation is tied to the owning local user's membership in the network, therefore
@@ -5717,13 +5827,13 @@ public:
     /// created using that identifier.
     /// </para>
     /// <para>
-    /// Invitations created with this method will only be queryable via PartyNetwork::GetInvitations() on the local
-    /// device where the invitation was created.
+    /// Invitations created with this method will only be queryable via GetInvitations() on the local device where the
+    /// invitation was created.
     /// </para>
     /// <para>
-    /// On successful return, this method invalidates the memory for any array previously returned by
-    /// PartyNetwork::GetInvitations(), as it synchronously adds the new invitation to the array.
-    /// PartyManager::StartProcessingStateChanges() also invalidates the memory for the array.
+    /// On successful return, this method invalidates the memory for any array previously returned by GetInvitations(),
+    /// as it synchronously adds the new invitation to the array.
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> also invalidates the memory for the array.
     /// </para>
     /// </remarks>
     /// <param name="localUser">
@@ -5734,21 +5844,22 @@ public:
     /// An optionally specified configuration for the newly created invitation.
     /// <para>
     /// If this value is null, the default configuration values will be used. By default, PlayFab Party will generate a
-    /// unique invitation identifier for the title, the revocability will be PartyInvitationRevocability::Creator, and
-    /// the PlayFab Entity ID list will be empty, allowing any user to join using the invitation.
+    /// unique invitation identifier for the title, the revocability will be
+    /// <see cref="PartyInvitationRevocability::Creator" />, and the PlayFab Entity ID list will be empty, allowing any
+    /// user to join using the invitation.
     /// </para>
     /// <para>
     /// If a configuration is provided, the title may optionally specify the identifier on the configuration. If the
-    /// identifier is null or an empty string, the PlayFab Party library will generate an identifier for the title. It
-    /// is guaranteed that this generated identifer will be different from all identifiers that the PlayFab Party
+    /// identifier is nullptr or an empty string, the PlayFab Party library will generate an identifier for the title.
+    /// It is guaranteed that this generated identifer will be different from all identifiers that the PlayFab Party
     /// library has already generated for invitations on this network across all devices. Titles may specify their own
     /// identifier by providing a non-null, non-empty value in the configuration. If the title specifies the identifier,
     /// it is the title's responsibility to ensure that this identifier does not collide with the identifiers of other
-    /// invitations created on this network via PartyManager::CreateNewNetwork() or PartyNetwork::CreateInvitation() on
+    /// invitations created on this network via <see cref="PartyManager::CreateNewNetwork()" /> or CreateInvitation() on
     /// any device. If the title attempts to create an invitation with an identifer that would collide with a
     /// pre-existing invitation, then the operation will fail asynchronously and the title will receive a
-    /// PartyInvitationDestroyedStateChange followed by a PartyCreateInvitationCompletedStateChange with a failure
-    /// result.
+    /// PartyInvitationDestroyedStateChange followed by a <see cref="PartyCreateInvitationCompletedStateChange" /> with
+    /// a failure result.
     /// </para>
     /// <para>
     /// If a configuration is provided, its revocability must be PartyInvitationRevocability::Creator.
@@ -5763,14 +5874,14 @@ public:
     /// with this call.
     /// </param>
     /// <param name="invitation">
-    /// An optional, output invitation that may immediately be used to queue user authentications on a network via
-    /// PartyNetwork::AuthenticateLocalUser().
+    /// The optional, output invitation that may immediately be used to queue user authentications on a network via
+    /// <see cref="AuthenticateLocalUser()" />.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to create an invitation began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyNetwork::AuthenticateLocalUser" />
     /// <seealso cref="PartyInvitationDestroyedStateChange" />
     /// <seealso cref="PartyCreateInvitationCompletedStateChange" />
@@ -5789,17 +5900,18 @@ public:
     /// invitation's identifier.
     /// <para>
     /// This function queues an asynchronous attempt to revoke an invitation from the network. A
-    /// PartyRevokeInvitationCompletedStateChange will be provided upon completion of the asynchronous operation,
-    /// indicating success or failure. On success, a PartyInvitationDestroyedStateChange will have been generated
-    /// beforehand with PartyDestroyedReason::Requested, to indicate that the network will no longer accept
-    /// authentications using the invitation's identifier until a new invitation is created with that same identifier.
-    /// It also indicates that the invitation will no longer be queryable via PartyNetwork::GetInvitations().
+    /// <see cref="PartyRevokeInvitationCompletedStateChange" /> will be provided upon completion of the asynchronous
+    /// operation, indicating success or failure. On success, a <see cref="PartyInvitationDestroyedStateChange" /> will
+    /// have been generated beforehand with <see cref="PartyDestroyedReason::Requested" />, to indicate that the network
+    /// will no longer accept authentications using the invitation's identifier until a new invitation is created with
+    /// that same identifier. It also indicates that the invitation will no longer be queryable via
+    /// <see cref="GetInvitations()" />.
     /// </para>
     /// <para>
     /// This operation will only succeed if the invitation was created with its revocability specified such that the
     /// <paramref name="localUser" /> on the local device may revoke the invitation. This might not be the case if the
-    /// revocability is set to PartyInvitationRevocability::Creator and the <paramref name="localUser" /> is
-    /// authenticated on a different device than the creator or if the <paramref name="localUser" /> refers to a
+    /// revocability is set to <see cref="PartyInvitationRevocability::Creator" /> and the <paramref name="localUser" />
+    /// is authenticated on a different device than the creator or if the <paramref name="localUser" /> refers to a
     /// different user than the creator.
     /// </para>
     /// </remarks>
@@ -5814,10 +5926,10 @@ public:
     /// with this call.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to revoke the invitation began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyRevokeInvitationCompletedStateChange" />
     /// <seealso cref="PartyInvitationDestroyedStateChange" />
     PartyError RevokeInvitation(
@@ -5831,32 +5943,32 @@ public:
     /// </summary>
     /// <remarks>
     /// The array is backed by the library's internal memory. The array is only valid until the next call to either
-    /// PartyNetwork::CreateInvitation() or PartyManager::StartProcessingStateChanges().
+    /// <see cref="CreateInvitation()" /> or <see cref="PartyManager::StartProcessingStateChanges()" />.
     /// <para>
-    /// A new invitation is exposed to the local device whenever the local device calls PartyNetwork::CreateInvitation()
-    /// or a PartyInvitationCreatedStateChange is provided via PartyManager::StartProcessingStateChanges().
+    /// A new invitation is exposed to the local device whenever the local device calls CreateInvitation() or a
+    /// <see cref="PartyInvitationCreatedStateChange" /> is provided via
+    /// <see cref="PartyManager::StartProcessingStateChanges()" />.
     /// </para>
     /// <para>
-    /// Invitations created via PartyNetwork::CreateInvitation() will only be exposed to the local device. The initial
-    /// invitation will be exposed to all devices in the network via a PartyInvitationCreatedStateChange.
+    /// Invitations created via CreateInvitation() will only be exposed to the local device. The initial invitation will
+    /// be exposed to all devices in the network via a PartyInvitationCreatedStateChange.
     /// </para>
     /// <para>
-    /// An invitation will no longer be exposed to the local device whenever a PartyInvitationDestroyedStateChange is
-    /// provided via PartyManager::StartProcessingStateChanges().
+    /// An invitation will no longer be exposed to the local device whenever a
+    /// <see cref="PartyInvitationDestroyedStateChange" /> is provided via
+    /// <see cref="PartyManager::StartProcessingStateChanges()" />.
     /// </para>
     /// </remarks>
     /// <param name="invitationCount">
     /// An output value indicating the number of invitations provided in <paramref name="invitations" />.
     /// </param>
     /// <param name="invitations">
-    /// An output array, backed by the library's internal memory, containing the list of invitations that have been
-    /// created for the network.
+    /// A library-allocated output array containing the invitations that have been created for the network.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyManager::CreateNewNetwork" />
     /// <seealso cref="PartyNetwork::CreateInvitation" />
     /// <seealso cref="PartyNetwork::RevokeInvitation" />
@@ -5872,17 +5984,18 @@ public:
     /// </summary>
     /// <remarks>
     /// This function queues an asynchronous attempt to create an endpoint associated with the local device on this
-    /// network. A PartyCreateEndpointCompletedStateChange will be provided upon completion of the operation, indicating
-    /// success or failure. On success, a PartyEndpointCreatedStateChange will be generated, and the endpoint will be
-    /// fully created, connected to the network, and visible to all authenticated devices in the network. On failure, a
-    /// PartyEndpointDestroyedStateChange will be generated.
+    /// network. A <see cref="PartyCreateEndpointCompletedStateChange" /> will be provided upon completion of the
+    /// operation, indicating success or failure. On success, a <see cref="PartyEndpointCreatedStateChange" /> will be
+    /// generated, and the endpoint will be fully created, connected to the network, and visible to all authenticated
+    /// devices in the network. On failure, a <see cref="PartyEndpointDestroyedStateChange" /> will be generated.
     /// <para>
     /// This function optionally provides <paramref name="localEndpoint" /> as output that can immediately be used to
-    /// perform asynchronous endpoint operations, such as PartyLocalEndpoint::SendMessage() and
+    /// perform asynchronous endpoint operations, such as <see cref="PartyLocalEndpoint::SendMessage()" /> and
     /// PartyLocalEndpoint::SetSharedProperties(). These asynchronous operations will be internally queued until the
-    /// endpoint creation completes, at which point they will be processed. PartyEndpoint::GetUniqueIdentifier() will
-    /// return a failure until the endpoint creation completes. This <paramref name="localEndpoint" /> will also be
-    /// provided in the resulting PartyCreateEndpointCompletedStateChange.
+    /// endpoint creation completes, at which point they will be processed.
+    /// <see cref="PartyEndpoint::GetUniqueIdentifier()" /> will return a failure until the endpoint creation completes.
+    /// This <paramref name="localEndpoint" /> will also be provided in the resulting
+    /// PartyCreateEndpointCompletedStateChange.
     /// </para>
     /// <para>
     /// A local user may optionally be provided as the owner of an endpoint. If an owning local user is provided, it
@@ -5892,35 +6005,35 @@ public:
     /// via a PartyEndpointDestroyedStateChange.
     /// </para>
     /// <para>
-    /// If the local device enters a state in which there are no authenticated users and no authentication operations
-    /// in progress, then all endpoints, including those that are not fully created, will be destroyed automatically.
-    /// This will be signaled by PartyEndpointDestroyedStateChanges.
+    /// If the local device enters a state in which there are no authenticated users and no authentication operations in
+    /// progress, then all endpoints, including those that are not fully created, will be destroyed automatically. This
+    /// will be signaled by PartyEndpointDestroyedStateChanges.
     /// </para>
     /// <para>
     /// On successful return, this method invalidates the memory for any array previously returned by
-    /// PartyNetwork::GetEndpoints(), as it synchronously adds the new endpoint to the array.
-    /// PartyManager::StartProcessingStateChanges() also invalidates the memory for the array.
+    /// <see cref="GetEndpoints()" />, as it synchronously adds the new endpoint to the array.
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> also invalidates the memory for the array.
     /// </para>
     /// <para>
     /// The property bag is a collection of title-specific values associated with an endpoint. The initial property bag
     /// is queryable as soon as the endpoint becomes visible.
     /// </para>
     /// <para>
-    /// The property bag is currently unimplemented. <paramref name="propertyCount" /> must be zero and both <paramref
-    /// name="keys" /> and <paramref name="values" /> must be nullptr.
+    /// The property bag is currently unimplemented. <paramref name="propertyCount" /> must be zero and both
+    /// <paramref name="keys" /> and <paramref name="values" /> must be nullptr.
     /// </para>
     /// <para>
-    /// If a client would violate the PartyNetworkConfiguration::maxEndpointsPerDeviceCount limit by calling this method
-    /// after the network configuration was made available, this operation will fail synchronously. If the client
-    /// queues a violating number of endpoint creations before the network configuration becomes available, the client
-    /// will be kicked from the network and a PartyNetworkDestroyedStateChange will be generated when the network
-    /// configuration becomes available.
+    /// If a client would violate the <see cref="PartyNetworkConfiguration::maxEndpointsPerDeviceCount" /> limit by
+    /// calling this method after the network configuration was made available, this operation will fail synchronously.
+    /// If the client queues a violating number of endpoint creations before the network configuration becomes
+    /// available, the client will be kicked from the network and a <see cref="PartyNetworkDestroyedStateChange" /> will
+    /// be generated when the network configuration becomes available.
     /// </para>
     /// </remarks>
     /// <param name="localUser">
     /// An optional local user to associate as the owner of this endpoint. When this endpoint becomes visible on remote
     /// devices, the user's identifier will be tied to this endpoint. The endpoint will be destroyed if the user becomes
-    /// unauthenticated because they were voluntarily removed via PartyNetwork::RemoveLocalUser() or kicked via
+    /// unauthenticated because they were voluntarily removed via <see cref="RemoveLocalUser()" /> or kicked via
     /// PartyNetwork::KickUser().
     /// </param>
     /// <param name="propertyCount">
@@ -5942,10 +6055,12 @@ public:
     /// with this call.
     /// </param>
     /// <param name="localEndpoint">
-    /// An optional, output local endpoint object on which to queue endpoint operations.
+    /// The optional, output local endpoint object on which to queue endpoint operations.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the asynchronous operation to create the endpoint began, or an error code otherwise.
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to create the endpoint began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartyCreateEndpointCompletedStateChange" />
     /// <seealso cref="PartyEndpointCreatedStateChange" />
@@ -5955,12 +6070,12 @@ public:
     /// <seealso cref="PartyNetwork::GetEndpoints" />
     /// <seealso cref="PartyNetwork::CreateEndpoint" />
     /// <seealso cref="PartyLocalEndpoint::SendMessage" />
-    /// <seealso cref="PartyLocalEndpoint::SetSharedProperties" />
+    /// <seealso_nyi cref="PartyLocalEndpoint::SetSharedProperties" />
     /// <seealso cref="PartyEndpoint::GetUniqueIdentifier" />
     /// <seealso cref="PartyEndpoint::GetEntityId" />
     /// <seealso cref="PartyNetwork::AuthenticateLocalUser" />
     /// <seealso cref="PartyNetwork::RemoveLocalUser" />
-    /// <seealso cref="PartyNetwork::KickUser" />
+    /// <seealso_nyi cref="PartyNetwork::KickUser" />
     PartyError CreateEndpoint(
         _In_opt_ const PartyLocalUser * localUser,
         uint32_t propertyCount,
@@ -5975,19 +6090,20 @@ public:
     /// </summary>
     /// <remarks>
     /// This function queues an asynchronous attempt to destroy an endpoint associated with the local device on this
-    /// network. A PartyDestroyEndpointCompletedStateChange will be provided upon completion of the operation,
-    /// indicating success or failure. On success, the endpoint is no longer connected to the network or visible to any
-    /// devices. Memory for the endpoint will remain valid until all state changes referencing the endpoint have been
-    /// returned to PartyManager::FinishProcessingStateChanges().
+    /// network. A <see cref="PartyDestroyEndpointCompletedStateChange" /> will be provided upon completion of the
+    /// operation, indicating success or failure. On success, the endpoint is no longer connected to the network or
+    /// visible to any devices. Memory for the endpoint will remain valid until all state changes referencing the
+    /// endpoint have been returned to <see cref="PartyManager::FinishProcessingStateChanges()" />.
     /// <para>
     /// If this call returns success, asynchronous endpoint destruction has begun and methods that require network
-    /// connectivity, such as PartyLocalEndpoint::SendMessage(), will fail. Methods that retrieve cached state, such as
-    /// PartyEndpoint::GetCustomContext() and PartyEndpoint::GetEntityId(), will continue to succeed.
+    /// connectivity, such as <see cref="PartyLocalEndpoint::SendMessage()" />, will fail. Methods that retrieve cached
+    /// state, such as <see cref="PartyEndpoint::GetCustomContext()" /> and <see cref="PartyEndpoint::GetEntityId()" />,
+    /// will continue to succeed.
     /// </para>
     /// <para>
     /// When the local device begins destroying an endpoint, every remote device will be alerted via a
-    /// PartyEndpointDestroyedStateChange. Those remote devices have the opportunity to send the destructing endpoint
-    /// any final messages they wish before returning the PartyEndpointDestroyedStateChange to
+    /// <see cref="PartyEndpointDestroyedStateChange" />. Those remote devices have the opportunity to send the
+    /// destructing endpoint any final messages they wish before returning the PartyEndpointDestroyedStateChange to
     /// PartyManager::FinishProcessingStateChanges(). By returning the PartyEndpointDestroyedStateChange, the remote
     /// device acknowledges the endpoint's destruction and may no longer target the endpoint in
     /// PartyLocalEndpoint::SendMessage() calls. Because the endpoint will not be able to complete its destruction on
@@ -6007,7 +6123,9 @@ public:
     /// with this call.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the asynchronous operation to destroy the endpoint began, or an error code otherwise.
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to destroy the endpoint began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartyDestroyEndpointCompletedStateChange" />
     /// <seealso cref="PartyEndpointDestroyedStateChange" />
@@ -6015,7 +6133,7 @@ public:
     /// <seealso cref="PartyManager::FinishProcessingStateChanges" />
     /// <seealso cref="PartyLocalEndpoint::SendMessage" />
     /// <seealso cref="PartyEndpoint::GetCustomContext" />
-    /// <seealso cref="PartyLocalEndpoint::GetEntityId" />
+    /// <seealso cref="PartyEndpoint::GetEntityId" />
     PartyError DestroyEndpoint(
         _In_ PartyLocalEndpoint * localEndpoint,
         _In_opt_ void * asyncIdentifier
@@ -6024,6 +6142,15 @@ public:
     /// <summary>
     /// Leaves the network.
     /// </summary>
+    /// <param name="asyncIdentifier">
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to leave the network began, or an error code otherwise.
+    /// If this method fails, no related state changes will be generated. The human-readable form of the error code can
+    /// be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError LeaveNetwork(
         _In_opt_ void * asyncIdentifier
         ) party_no_throw;
@@ -6043,20 +6170,19 @@ public:
     /// </para>
     /// <para>
     /// The memory for the returned array is invalidated whenever the title calls
-    /// PartyManager::StartProcessingStateChanges() or PartyNetwork::CreateEndpoint() returns success.
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> or <see cref="CreateEndpoint()" /> returns success.
     /// </para>
     /// </remarks>
     /// <param name="endpointCount">
     /// The output number of PartyEndpoint entries in the <paramref name="endpoints" /> array.
     /// </param>
     /// <param name="endpoints">
-    /// An output array, backed by the library's internal memory, containing the list of endpoints.
+    /// A library-allocated output array containing the endpoints in this network.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyEndpointCreatedStateChange" />
     /// <seealso cref="PartyNetwork::CreateEndpoint" />
     /// <seealso cref="PartyManager::StartProcessingStateChanges" />
@@ -6075,7 +6201,7 @@ public:
     /// The output endpoint with a network-unique identifier matching <paramref name="uniqueIdentifier" />.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if an endpoint with a matching identifier was found on this network or an error code
+    /// <c>c_partyErrorSuccess</c> if an endpoint with a matching identifier was found on this network or an error code
     /// otherwise.
     /// </returns>
     /// <seealso cref="PartyEndpoint::GetUniqueIdentifier" />
@@ -6089,8 +6215,18 @@ public:
     /// </summary>
     /// <remarks>
     /// The memory for the returned array is invalidated whenever the title calls
-    /// PartyManager::StartProcessingStateChanges(). The local device is always in the array.
+    /// <see cref="PartyManager::StartProcessingStateChanges()" />. The local device is always in the array.
     /// </remarks>
+    /// <param name="deviceCount">
+    /// The output number of devices in this network.
+    /// </param>
+    /// <param name="devices">
+    /// A library-allocated output array containing the devices in this network.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetDevices(
         _Out_ uint32_t * deviceCount,
         _Outptr_result_buffer_(*deviceCount) PartyDeviceArray * devices
@@ -6101,22 +6237,21 @@ public:
     /// </summary>
     /// <remarks>
     /// The array is backed by the library's internal memory. The array is only valid until the next call to either
-    /// PartyNetwork::AuthenticateLocalUser() or PartyManager::StartProcessingStateChanges(). The individual local user
-    /// objects are valid until the local user's PartyDestroyLocalUserCompletedStateChange is reported and all state
-    /// changes referencing the local user object are returned via PartyManager::FinishProcessingStateChanges().
+    /// <see cref="AuthenticateLocalUser()" /> or <see cref="PartyManager::StartProcessingStateChanges()" />. The
+    /// individual local user objects are valid until the local user's
+    /// <see cref="PartyDestroyLocalUserCompletedStateChange" /> is reported and all state changes referencing the local
+    /// user object are returned via <see cref="PartyManager::FinishProcessingStateChanges()" />.
     /// </remarks>
     /// <param name="userCount">
     /// An output value indicating the number of users provided in <paramref name="localUsers" />.
     /// </param>
     /// <param name="localUsers">
-    /// An output array, backed by the library's internal memory, containing the list of users that are authenticated
-    /// into the network.
+    /// A library-allocated output array containing the local users that are authenticated into the network.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyNetwork::AuthenticateLocalUser" />
     /// <seealso cref="PartyNetwork::RemoveLocalUser" />
     PartyError GetLocalUsers(
@@ -6129,32 +6264,32 @@ public:
     /// </summary>
     /// <remarks>
     /// A network descriptor contains all the information required for a device to connect to the network to which the
-    /// descriptor is associated. PartyManager::SerializeNetworkDescriptor() can be used to get the serialized form of
-    /// the descriptor, which is safe to exchange over title and platform-specific communication channels. However, the
-    /// network descriptor provided by this call is not serializable until the asynchronous creation operation
-    /// associated with this network successfully completes, signaled by a PartyCreateNewNetworkCompletedStateChange
-    /// with a success result code.
+    /// descriptor is associated. <see cref="PartyManager::SerializeNetworkDescriptor()" /> can be used to get the
+    /// serialized form of the descriptor, which is safe to exchange over title and platform-specific communication
+    /// channels. However, the network descriptor provided by this call is not serializable until the asynchronous
+    /// creation operation associated with this network successfully completes, signaled by a
+    /// <see cref="PartyCreateNewNetworkCompletedStateChange" /> with a success result code.
     /// <para>
     /// PartyNetworkDescriptors work in tandem with PartyInvitations to facilitate inviting remote users to join the
-    /// network. First, obtain the network descriptor via PartyNetwork::GetNetworkDescriptor() and serialize it via
-    /// PartyManager::SerializeNetworkDescriptor(). Next, create an invitation via PartyNetwork::CreateInvitation() or
-    /// query for a preexisting invitation via PartyNetwork::GetInvitations() and obtain the invitation's identifier
-    /// from its configuration via PartyInvitation::GetInvitationConfiguration(). Last, include both the serialized
-    /// network descriptor and the invitation identifier in the payload of the platform-specific invite mechanism. When
-    /// the remote user receives the invite, they deserialize the network descriptor from the platform-invite payload
-    /// via PartyManager::DeserializeNetworkDescriptor() and pass the deserialized descriptor to
-    /// PartyNetwork::ConnectToNetwork(). After connecting, the remote user joins by authenticating into the network via
-    /// PartyNetwork::AuthenticateLocalUser() with the invitation identifier in the platform-invite payload.
+    /// network. First, obtain the network descriptor via GetNetworkDescriptor() and serialize it via
+    /// PartyManager::SerializeNetworkDescriptor(). Next, create an invitation via <see cref="CreateInvitation()" /> or
+    /// query for a preexisting invitation via <see cref="GetInvitations()" /> and obtain the invitation's identifier
+    /// from its configuration via <see cref="PartyInvitation::GetInvitationConfiguration()" />. Last, include both the
+    /// serialized network descriptor and the invitation identifier in the payload of the platform-specific invite
+    /// mechanism. When the remote user receives the invite, they deserialize the network descriptor from the
+    /// platform-invite payload via <see cref="PartyManager::DeserializeNetworkDescriptor()" /> and pass the
+    /// deserialized descriptor to <see cref="PartyManager::ConnectToNetwork()" />. After connecting, the remote user
+    /// joins by authenticating into the network via <see cref="AuthenticateLocalUser()" /> with the invitation
+    /// identifier in the platform-invite payload.
     /// </para>
     /// </remarks>
     /// <param name="networkDescriptor">
     /// The output network descriptor.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyCreateNewNetworkCompletedStateChange" />
     /// <seealso cref="PartyManager::CreateNewNetwork" />
     /// <seealso cref="PartyManager::SerializeNetworkDescriptor" />
@@ -6173,9 +6308,16 @@ public:
     /// Gets the network configuration which was set when creating the network.
     /// </summary>
     /// <remarks>
-    /// Returns a null pointer until a call to PartyManager::StartProcessingStateChanges() returns a
-    /// PartyStateChangeType::NetworkConfigurationMadeAvailable state change.
+    /// Returns nullptr until a call to <see cref="PartyManager::StartProcessingStateChanges()" /> returns a
+    /// <see cref="PartyNetworkConfigurationMadeAvailableStateChange" />.
     /// </remarks>
+    /// <param name="networkConfiguration">
+    /// The output network configuration.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetNetworkConfiguration(
         _Outptr_ const PartyNetworkConfiguration ** networkConfiguration
         ) const party_no_throw;
@@ -6186,6 +6328,19 @@ public:
     /// <remarks>
     /// This function is currently unimplemented and will always fail.
     /// </remarks>
+    /// <param name="targetDevice">
+    /// The device to kick.
+    /// </param>
+    /// <param name="asyncIdentifier">
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to kick the device began, or an error code otherwise.
+    /// If this method fails, no related state changes will be generated. The human-readable form of the error code can
+    /// be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError KickDevice(
         const PartyDevice * targetDevice,
         _In_opt_ void * asyncIdentifier
@@ -6197,6 +6352,19 @@ public:
     /// <remarks>
     /// This function is currently unimplemented and will always fail.
     /// </remarks>
+    /// <param name="targetEntityId">
+    /// The Entity ID of the user to kick.
+    /// </param>
+    /// <param name="asyncIdentifier">
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to kick the user began, or an error code otherwise. If
+    /// this method fails, no related state changes will be generated. The human-readable form of the error code can be
+    /// retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError KickUser(
         PartyString targetEntityId,
         _In_opt_ void * asyncIdentifier
@@ -6209,9 +6377,20 @@ public:
     /// This function is currently unimplemented and will always fail.
     /// <para>
     /// If there is no property associated with the key, the resulting value will be nullptr. The returned value is only
-    /// valid until the next call to PartyManager::StartProcessingStateChanges().
+    /// valid until the next call to <see cref="PartyManager::StartProcessingStateChanges()" />.
     /// </para>
     /// </remarks>
+    /// <param name="key">
+    /// The key of the shared property to retrieve.
+    /// </param>
+    /// <param name="value">
+    /// A library-allocated output buffer containing the retrieved property, or nullptr if the property doesn't exist.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError GetSharedProperty(
         PartyString key,
         _Outptr_result_maybenull_ const PartyDataBuffer ** value
@@ -6223,9 +6402,21 @@ public:
     /// <remarks>
     /// This function is currently unimplemented and will always fail.
     /// <para>
-    /// The returned array is only valid until the next call to PartyManager::StartProcessingStateChanges().
+    /// The returned array is only valid until the next call to
+    /// <see cref="PartyManager::StartProcessingStateChanges()" />.
     /// </para>
     /// </remarks>
+    /// <param name="propertyCount">
+    /// The output number of shared properties.
+    /// </param>
+    /// <param name="keys">
+    /// A library-allocated output array containing the keys of all shared properties.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError GetSharedPropertyKeys(
         _Out_ uint32_t * propertyCount,
         _Outptr_result_buffer_(*propertyCount) const PartyString ** keys
@@ -6241,6 +6432,21 @@ public:
     /// specified in the call will remain unchanged.
     /// </para>
     /// </remarks>
+    /// <param name="propertyCount">
+    /// The number of properties to set or remove.
+    /// </param>
+    /// <param name="keys">
+    /// An array of size <paramref name="propertyCount" /> containing the keys to set or remove.
+    /// </param>
+    /// <param name="values">
+    /// An array of size <paramref name="propertyCount" /> containing the values for each key in
+    /// <paramref name="keys" />.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError SetSharedProperties(
         uint32_t propertyCount,
         _In_reads_(propertyCount) const PartyString * keys,
@@ -6252,10 +6458,22 @@ public:
     /// </summary>
     /// <remarks>
     /// On successful return, this method invalidates the memory for any array previously returned by
-    /// PartyNetwork::GetChatControls() or PartyChatControl::GetNetworks() for <paramref name="chatControl" />, as it
-    /// synchronously updates those arrays. PartyManager::StartProcessingStateChanges() also invalidates the memory for
-    /// those arrays.
+    /// <see cref="GetChatControls()" /> or <see cref="PartyChatControl::GetNetworks()" /> for
+    /// <paramref name="chatControl" />, as it synchronously updates those arrays.
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> also invalidates the memory for those arrays.
     /// </remarks>
+    /// <param name="chatControl">
+    /// The chat control to connect to this network.
+    /// </param>
+    /// <param name="asyncIdentifier">
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to connect the chat control began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError ConnectChatControl(
         _In_ PartyLocalChatControl * chatControl,
         _In_opt_ void * asyncIdentifier
@@ -6264,6 +6482,18 @@ public:
     /// <summary>
     /// Disconnects the local chat control from the network.
     /// </summary>
+    /// <param name="chatControl">
+    /// The chat control to disconnect from this network.
+    /// </param>
+    /// <param name="asyncIdentifier">
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to disconnect the chat control began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError DisconnectChatControl(
         _In_ PartyLocalChatControl * chatControl,
         _In_opt_ void * asyncIdentifier
@@ -6273,9 +6503,20 @@ public:
     /// Gets the chat controls connected to this network.
     /// </summary>
     /// <remarks>
-    /// The returned array is valid until the next call to either PartyManager::StartProcessingStateChanges() or
-    /// PartyNetwork::ConnectChatControl() on this network.
+    /// The returned array is valid until the next call to either
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> or <see cref="ConnectChatControl()" /> on this
+    /// network.
     /// </remarks>
+    /// <param name="chatControlCount">
+    /// The output number of chat controls in this network.
+    /// </param>
+    /// <param name="chatControls">
+    /// A library-allocated output array containing the chat controls in this network.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetChatControls(
         _Out_ uint32_t * chatControlCount,
         _Outptr_result_buffer_(*chatControlCount) PartyChatControlArray * chatControls
@@ -6285,19 +6526,18 @@ public:
     /// Gets one or more statistic counter values for the network.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// This function is used to retrieve performance counters, queue lengths, historical usage metrics, or other
     /// statistical information recorded for this network.
-    /// </para>
     /// <para>
     /// A given PartyNetworkStatistic type may appear in any order in the <paramref name="statisticTypes" /> array, but
-    /// must not be specified more than once. Each corresponding statistic value will be written to the <paramref
-    /// name="statisticValues" /> array in the same order.
+    /// must not be specified more than once. Each corresponding statistic value will be written to the
+    /// <paramref name="statisticValues" /> array in the same order.
     /// </para>
     /// <para>
     /// The returned statistic values are always the most current ones available. There is no guarantee they will report
     /// the same value from one GetNetworkStatistics() call to the next, even if there were no intervening calls to
-    /// PartyManager::StartProcessingStateChanges() or PartyManager::FinishProcessingStateChanges().
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> or
+    /// <see cref="PartyManager::FinishProcessingStateChanges()" />.
     /// </para>
     /// </remarks>
     /// <param name="statisticCount">
@@ -6313,10 +6553,9 @@ public:
     /// PartyNetworkStatistic appears in the <paramref name="statisticTypes" /> input array.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if retrieving the network statistics succeeded or an error code otherwise. The
-    /// human-readable form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if retrieving the network statistics succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyNetworkStatistic" />
     /// <seealso cref="PartyLocalEndpoint::GetEndpointStatistics" />
     PartyError GetNetworkStatistics(
@@ -6333,13 +6572,12 @@ public:
     /// nullptr.
     /// </remarks>
     /// <param name="customContext">
-    /// The output to which the custom context is written.
+    /// The output custom context.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if retrieving the custom context succeeded or an error code otherwise. The human-readable
-    /// form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if retrieving the custom context succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyNetwork::SetCustomContext" />
     PartyError GetCustomContext(
         _Outptr_result_maybenull_ void ** customContext
@@ -6351,7 +6589,7 @@ public:
     /// <remarks>
     /// The custom context is typically used as a "shortcut" that simplifies accessing local, title-specific memory
     /// associated with the network without requiring a mapping lookup. The value is retrieved using the
-    /// PartyNetwork::GetCustomContext() method.
+    /// <see cref="GetCustomContext()" /> method.
     /// <para>
     /// Any configured value is treated as opaque by the library, and is only valid on the local device; it is not
     /// transmitted over the network.
@@ -6361,10 +6599,9 @@ public:
     /// An arbitrary, pointer-sized value to store with the network object.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if configuring the custom context succeeded or an error code otherwise. The human-readable
-    /// form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if configuring the custom context succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyNetwork::GetCustomContext" />
     PartyError SetCustomContext(
         _In_opt_ void * customContext
@@ -6382,15 +6619,20 @@ private:
 /// <summary>
 /// The management class for chat operations.
 /// </summary>
+/// <seealso cref="PartyLocalChatControl" />
 class PartyChatControl
 {
 public:
     /// <summary>
-    /// Gets the PartyLocalChatControl version of this chat control.
+    /// Gets the <see cref="PartyLocalChatControl" /> version of this chat control.
     /// </summary>
-    /// <remarks>
-    /// If this chat control is not a local chat control, nullptr is returned.
-    /// </remarks>
+    /// <param name="localChatControl">
+    /// The local version of this chat control object, or nullptr if this is not a local chat control.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetLocal(
         _Outptr_result_maybenull_ PartyLocalChatControl ** localChatControl
         ) const party_no_throw;
@@ -6398,6 +6640,13 @@ public:
     /// <summary>
     /// Returns the device this chat control is associated with.
     /// </summary>
+    /// <param name="device">
+    /// The output device this chat control is associated with.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetDevice(
         _Outptr_ PartyDevice ** device
         ) const party_no_throw;
@@ -6407,18 +6656,18 @@ public:
     /// </summary>
     /// <remarks>
     /// The memory for the Entity ID string remains valid for the life of the chat control, which is until its
-    /// ChatControlDestroyed and/or DestroyChatControlCompleted state change, depending on the type of destruction that
-    /// occurred, has been provided via PartyManager::StartProcessingStateChanges() and all state changes referencing
-    /// the chat control have been returned to PartyManager::FinishProcessingStateChanges().
+    /// <see cref="PartyChatControlDestroyedStateChange" /> and/or
+    /// <see cref="PartyDestroyChatControlCompletedStateChange" />, depending on the type of destruction that occurred,
+    /// has been provided via <see cref="PartyManager::StartProcessingStateChanges()" /> and all state changes
+    /// referencing the chat control have been returned to <see cref="PartyManager::FinishProcessingStateChanges()" />.
     /// </remarks>
     /// <param name="entityId">
     /// The output Entity ID.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError GetEntityId(
         _Outptr_ PartyString * entityId
         ) const party_no_throw;
@@ -6430,9 +6679,20 @@ public:
     /// This function is currently unimplemented and will always fail.
     /// <para>
     /// If there is no property associated with the key, the resulting value will be nullptr. The returned value is only
-    /// valid until the next call to PartyManager::StartProcessingStateChanges().
+    /// valid until the next call to <see cref="PartyManager::StartProcessingStateChanges()" />.
     /// </para>
     /// </remarks>
+    /// <param name="key">
+    /// The key of the shared property to retrieve.
+    /// </param>
+    /// <param name="value">
+    /// A library-allocated output buffer containing the retrieved property, or nullptr if the property doesn't exist.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError GetSharedProperty(
         PartyString key,
         _Outptr_result_maybenull_ const PartyDataBuffer ** value
@@ -6444,9 +6704,21 @@ public:
     /// <remarks>
     /// This function is currently unimplemented and will always fail.
     /// <para>
-    /// The returned array is only valid until the next call to PartyManager::StartProcessingStateChanges().
+    /// The returned array is only valid until the next call to
+    /// <see cref="PartyManager::StartProcessingStateChanges()" />.
     /// </para>
     /// </remarks>
+    /// <param name="propertyCount">
+    /// The output number of shared properties.
+    /// </param>
+    /// <param name="keys">
+    /// A library-allocated output array containing the keys of all shared properties.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError GetSharedPropertyKeys(
         _Out_ uint32_t * propertyCount,
         _Outptr_result_buffer_(*propertyCount) const PartyString ** keys
@@ -6456,9 +6728,19 @@ public:
     /// Gets the networks to which this chat control is connected.
     /// </summary>
     /// <remarks>
-    /// The returned array is only valid until the next call to either PartyManager::StartProcessingStateChanges() or
-    /// PartyNetwork::ConnectChatControl().
+    /// The returned array is only valid until the next call to either
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> or <see cref="PartyNetwork::ConnectChatControl()" />.
     /// </remarks>
+    /// <param name="networkCount">
+    /// The output number of networks to which this chat control is connected.
+    /// </param>
+    /// <param name="networks">
+    /// A library-allocated output array containing the networks to which this chat control is connected.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetNetworks(
         _Out_ uint32_t * networkCount,
         _Outptr_result_buffer_(*networkCount) PartyNetworkArray * networks
@@ -6473,13 +6755,12 @@ public:
     /// nullptr.
     /// </remarks>
     /// <param name="customContext">
-    /// The output Entity ID.
+    /// The output custom context.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if retrieving the custom context succeeded or an error code otherwise. The human-readable
-    /// form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if retrieving the custom context succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyChatControl::SetCustomContext" />
     PartyError GetCustomContext(
         _Outptr_result_maybenull_ void ** customContext
@@ -6491,7 +6772,7 @@ public:
     /// <remarks>
     /// The custom context is typically used as a "shortcut" that simplifies accessing local, title-specific memory
     /// associated with the chat control without requiring a mapping lookup. The value is retrieved using the
-    /// PartyChatControl::GetCustomContext() method.
+    /// <see cref="GetCustomContext()" /> method.
     /// <para>
     /// Any configured value is treated as opaque by the library, and is only valid on the local device; it is not
     /// transmitted over the network.
@@ -6501,10 +6782,9 @@ public:
     /// An arbitrary, pointer-sized value to store with the chat control object.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if configuring the custom context succeeded or an error code otherwise. The human-readable
-    /// form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if configuring the custom context succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyChatControl::GetCustomContext" />
     PartyError SetCustomContext(
         _In_opt_ void * customContext
@@ -6522,6 +6802,8 @@ private:
 /// <summary>
 /// The management class for chat operations related to the local device.
 /// </summary>
+/// <seealso cref="PartyChatControl" />
+/// <seealso cref="PartyChatControl::GetLocal" />
 class PartyLocalChatControl : public PartyChatControl
 {
 public:
@@ -6529,13 +6811,12 @@ public:
     /// Gets the local user associated with this local chat control.
     /// </summary>
     /// <param name="localUser">
-    /// The output PartyLocalUser.
+    /// The output local user.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError GetLocalUser(
         _Outptr_ PartyLocalUser ** localUser
         ) const party_no_throw;
@@ -6545,17 +6826,27 @@ public:
     /// </summary>
     /// <remarks>
     /// The target chat control can be either remote or local. The default permission set is
-    /// PartyChatPermissionOptions::None. This setting is local only; if I use this to send voice chat to a remote chat
-    /// control, they must also have configured themselves to allow voice chat from this chat control.
+    /// <see cref="PartyChatPermissionOptions::None" />. This setting is local only; if I use this to send voice chat to
+    /// a remote chat control, they must also have configured themselves to allow voice chat from this chat control.
     /// <para>
     /// There is no explicit permission for sending chat text; that should be considered when constructing the list of
-    /// target chat controls when calling PartyLocalChatControl::SendText().
+    /// target chat controls when calling <see cref="SendText()" />.
     /// </para>
     /// <para>
     /// The Party library does no enforcement of platform restrictions. Platform restrictions must be considered when
     /// setting the chat permissions between two chat controls.
     /// </para>
     /// </remarks>
+    /// <param name="targetChatControl">
+    /// The target chat control.
+    /// </param>
+    /// <param name="chatPermissionOptions">
+    /// The chat permission options.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError SetPermissions(
         const PartyChatControl * targetChatControl,
         PartyChatPermissionOptions chatPermissionOptions
@@ -6564,6 +6855,16 @@ public:
     /// <summary>
     /// Gets the voice communication relationship between the local chat control and a target chat control.
     /// </summary>
+    /// <param name="targetChatControl">
+    /// The target chat control.
+    /// </param>
+    /// <param name="chatPermissionOptions">
+    /// The output chat permission options.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetPermissions(
         const PartyChatControl * targetChatControl,
         _Out_ PartyChatPermissionOptions * chatPermissionOptions
@@ -6573,10 +6874,8 @@ public:
     /// Transmits a chat text string to each specified target chat control.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// Sending chat text to local chat controls is not currently supported. If the array of target chat controls
     /// includes any local targets, this call will synchronously fail.
-    /// </para>
     /// <para>
     /// There is no guaranteed translation, localization, or offensive language filtering of the text content; the chat
     /// text string will be presented with the text as is.
@@ -6590,16 +6889,16 @@ public:
     /// The PartyDataBuffer structures in the <paramref name="dataBuffers" /> array are for auxiliary data associated
     /// with the chat text, such as metadata indicating the color that should be used to render the text or a binary
     /// blob containing image data for an icon to render along with the chat text. For sending game data that is
-    /// unrelated to text chat, see PartyLocalEndpoint::SendMessage(), a messaging option that exposes finer control
-    /// over message transmission behavior.
+    /// unrelated to text chat, see <see cref="PartyLocalEndpoint::SendMessage()" />, a messaging option that exposes
+    /// finer control over message transmission behavior.
     /// </para>
     /// <para>
     /// Callers provide 0 or more PartyDataBuffer structures in the <paramref name="dataBuffers" /> array. The memory
     /// that the structures reference does not have to be contiguous, making it easy to have a fixed header buffer
     /// followed by a variable payload, for example. The buffers will be assembled in order, transmitted, and delivered
     /// to the targeted chat controls as a single contiguous data block, separate from the chat text, in a
-    /// PartyChatTextReceivedStateChange. The Party library does not expend bandwidth transmitting metadata to describe
-    /// the original PartyDataBuffer segmentation.
+    /// <see cref="PartyChatTextReceivedStateChange" />. The Party library does not expend bandwidth transmitting
+    /// metadata to describe the original PartyDataBuffer segmentation.
     /// </para>
     /// </remarks>
     /// <param name="targetChatControlCount">
@@ -6608,6 +6907,9 @@ public:
     /// <param name="targetChatControls">
     /// The <paramref name="targetChatControlCount" /> entry array of target PartyChatControls.
     /// </param>
+    /// <param name="chatText">
+    /// The text to send.
+    /// </param>
     /// <param name="dataBufferCount">
     /// The number of buffer structures provided in the <paramref name="dataBuffers" /> array.
     /// </param>
@@ -6615,6 +6917,10 @@ public:
     /// The <paramref name="dataBufferCount" /> entry array of PartyDataBuffer structures describing an auxiliary
     /// message payload to send. This is ignored when <paramref name="dataBufferCount" /> is zero.
     /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     /// <seealso cref="PartyChatTextReceivedStateChange" />
     PartyError SendText(
         uint32_t targetChatControlCount,
@@ -6631,32 +6937,33 @@ public:
     /// If the specified device isn't present, the chat control will subscribe to audio device changes and use the
     /// device when it does appear.
     /// </remarks>
-    /// <param name="audioDeviceSelectionType" />
-    /// If PartyAudioDeviceSelectionType::None is specified, the audio input will be cleared. If
-    /// PartyAudioDeviceSelectionType::SystemDefault is specified, the Party library will attempt to use the system's
-    /// default communication device. If PartyAudioDeviceSelectionType::PlatformUserDefault is specified, the Party
-    /// library will attempt to use the default communication device associated with
-    /// <paramref name="audioDeviceSelectionContext" />. If PartyAudioDeviceSelectionType::Manual is specified, the
-    /// Party library will attempt to use the communication device whose device identifier matches
-    /// <paramref name="audioDeviceSelectionContext" />.
+    /// <param name="audioDeviceSelectionType">
+    /// If <see cref="PartyAudioDeviceSelectionType::None" /> is specified, the audio input will be cleared. If
+    /// <see cref="PartyAudioDeviceSelectionType::SystemDefault" /> is specified, the Party library will attempt to use
+    /// the system's default communication device. If <see cref="PartyAudioDeviceSelectionType::PlatformUserDefault" />
+    /// is specified, the Party library will attempt to use the default communication device associated with
+    /// <paramref name="audioDeviceSelectionContext" />. If <see cref="PartyAudioDeviceSelectionType::Manual" /> is
+    /// specified, the Party library will attempt to use the communication device whose device identifier matches. Note
+    /// that this is not supported on iOS or Android. <paramref name="audioDeviceSelectionContext" />.
     /// </param>
     /// <param name="audioDeviceSelectionContext">
-    /// When using PartyAudioDeviceSelectionType::None or PartyAudioDeviceSelectionType::SystemDefault,
-    /// <paramref name="audioDeviceSelectionContext" /> will be ignored. When using
-    /// PartyAudioDeviceSelectionType::PlatformUserDefault, <paramref name="audioDeviceSelectionContext" /> must be the
-    /// non-null, non-empty platform-specific user context that the chat control should use when selecting the audio
-    /// device. When using PartyAudioDeviceSelectionType::Manual, <paramref name="audioDeviceSelectionContext" /> must
-    /// be the non-null, non-empty identifier of the audio device that the chat control should use.
+    /// When using <see cref="PartyAudioDeviceSelectionType::None" /> or
+    /// <see cref="PartyAudioDeviceSelectionType::SystemDefault" />, <paramref name="audioDeviceSelectionContext" />
+    /// will be ignored. When using <see cref="PartyAudioDeviceSelectionType::PlatformUserDefault" />,
+    /// <paramref name="audioDeviceSelectionContext" /> must be the non-null, non-empty platform-specific user context
+    /// that the chat control should use when selecting the audio device. When using
+    /// <see cref="PartyAudioDeviceSelectionType::Manual" />, <paramref name="audioDeviceSelectionContext" /> must be
+    /// the non-null, non-empty identifier of the audio device that the chat control should use.
     /// </param>
     /// <param name="asyncIdentifier">
-    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state
-    /// change with this call.
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to set the audio input began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyLocalChatControl::GetAudioInput" />
     /// <seealso cref="PartyLocalChatControl::SetAudioOutput" />
     PartyError SetAudioInput(
@@ -6676,19 +6983,20 @@ public:
     /// An output value indicating the selection type that was used to select the provided <paramref name="deviceId" />.
     /// </param>
     /// <param name="audioDeviceSelectionContext">
-    /// When using PartyAudioDeviceSelectionType::None, <paramref name="audioDeviceSelectionContext" /> will be empty.
-    /// When using PartyAudioDeviceSelectionType::SystemDefault, <paramref name="audioDeviceSelectionContext" /> will be
-    /// empty. When using PartyAudioDeviceSelectionType::PlatformUserDefault,
+    /// When using <see cref="PartyAudioDeviceSelectionType::None" />, <paramref name="audioDeviceSelectionContext" />
+    /// will be empty. When using <see cref="PartyAudioDeviceSelectionType::SystemDefault" />,
+    /// <paramref name="audioDeviceSelectionContext" /> will be empty. When using
+    /// <see cref="PartyAudioDeviceSelectionType::PlatformUserDefault" />,
     /// <paramref name="audioDeviceSelectionContext" /> will be the value provided in a previous call to
-    /// PartyLocalChatControl::SetAudioInput(). When using PartyAudioDeviceSelectionType::Manual,
+    /// <see cref="SetAudioInput()" />. When using <see cref="PartyAudioDeviceSelectionType::Manual" />,
     /// <paramref name="audioDeviceSelectionContext" /> will be empty.
     /// </param>
     /// <param name="deviceId">
     /// An output value indicating the selected audio input device's identifier.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartyLocalChatControl::SetAudioInput" />
     /// <seealso cref="PartyLocalChatControl::GetAudioOutput" />
@@ -6705,32 +7013,33 @@ public:
     /// If the specified device isn't present, the chat control will subscribe to audio device changes and use the
     /// device when it does appear.
     /// </remarks>
-    /// <param name="audioDeviceSelectionType" />
-    /// If PartyAudioDeviceSelectionType::None is specified, the audio output will be cleared. If
-    /// PartyAudioDeviceSelectionType::SystemDefault is specified, the Party library will attempt to use the system's
-    /// default communication device. If PartyAudioDeviceSelectionType::PlatformUserDefault is specified, the Party
-    /// library will attempt to use the default communication device associated with
-    /// <paramref name="audioDeviceSelectionContext" />. If PartyAudioDeviceSelectionType::Manual is specified, the
-    /// Party library will attempt to use the communication device whose device identifier matches
+    /// <param name="audioDeviceSelectionType">
+    /// If <see cref="PartyAudioDeviceSelectionType::None" /> is specified, the audio output will be cleared. If
+    /// <see cref="PartyAudioDeviceSelectionType::SystemDefault" /> is specified, the Party library will attempt to use
+    /// the system's default communication device. If <see cref="PartyAudioDeviceSelectionType::PlatformUserDefault" />
+    /// is specified, the Party library will attempt to use the default communication device associated with
+    /// <paramref name="audioDeviceSelectionContext" />. If <see cref="PartyAudioDeviceSelectionType::Manual" /> is
+    /// specified, the Party library will attempt to use the communication device whose device identifier matches
     /// <paramref name="audioDeviceSelectionContext" />.
     /// </param>
     /// <param name="audioDeviceSelectionContext">
-    /// When using PartyAudioDeviceSelectionType::None or PartyAudioDeviceSelectionType::SystemDefault,
-    /// <paramref name="audioDeviceSelectionContext" /> will be ignored. When using
-    /// PartyAudioDeviceSelectionType::PlatformUserDefault, <paramref name="audioDeviceSelectionContext" /> must be the
-    /// non-null, non-empty platform-specific user context that the chat control should use when selecting the audio
-    /// device. When using PartyAudioDeviceSelectionType::Manual, <paramref name="audioDeviceSelectionContext" /> must
-    /// be the non-null, non-empty identifier of the audio device that the chat control should use.
+    /// When using <see cref="PartyAudioDeviceSelectionType::None" /> or
+    /// <see cref="PartyAudioDeviceSelectionType::SystemDefault" />, <paramref name="audioDeviceSelectionContext" />
+    /// will be ignored. When using <see cref="PartyAudioDeviceSelectionType::PlatformUserDefault" />,
+    /// <paramref name="audioDeviceSelectionContext" /> must be the non-null, non-empty platform-specific user context
+    /// that the chat control should use when selecting the audio device. When using
+    /// <see cref="PartyAudioDeviceSelectionType::Manual" />, <paramref name="audioDeviceSelectionContext" /> must be
+    /// the non-null, non-empty identifier of the audio device that the chat control should use.
     /// </param>
     /// <param name="asyncIdentifier">
-    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state
-    /// change with this call.
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to set the audio output began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyLocalChatControl::GetAudioOutput" />
     /// <seealso cref="PartyLocalChatControl::SetAudioInput" />
     PartyError SetAudioOutput(
@@ -6750,19 +7059,20 @@ public:
     /// An output value indicating the selection type that was used to select the provided <paramref name="deviceId" />.
     /// </param>
     /// <param name="audioDeviceSelectionContext">
-    /// When using PartyAudioDeviceSelectionType::None, <paramref name="audioDeviceSelectionContext" /> will be empty.
-    /// When using PartyAudioDeviceSelectionType::SystemDefault, <paramref name="audioDeviceSelectionContext" /> will be
-    /// empty. When using PartyAudioDeviceSelectionType::PlatformUserDefault,
+    /// When using <see cref="PartyAudioDeviceSelectionType::None" />, <paramref name="audioDeviceSelectionContext" />
+    /// will be empty. When using <see cref="PartyAudioDeviceSelectionType::SystemDefault" />,
+    /// <paramref name="audioDeviceSelectionContext" /> will be empty. When using
+    /// <see cref="PartyAudioDeviceSelectionType::PlatformUserDefault" />,
     /// <paramref name="audioDeviceSelectionContext" /> will be the value provided in a previous call to
-    /// PartyLocalChatControl::SetAudioOutput(). When using PartyAudioDeviceSelectionType::Manual,
+    /// <see cref="SetAudioOutput()" />. When using <see cref="PartyAudioDeviceSelectionType::Manual" />,
     /// <paramref name="audioDeviceSelectionContext" /> will be empty.
     /// </param>
     /// <param name="deviceId">
     /// An output value indicating the selected audio output device's identifier.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartyLocalChatControl::SetAudioOutput" />
     /// <seealso cref="PartyLocalChatControl::GetAudioInput" />
@@ -6776,16 +7086,25 @@ public:
     /// Populates the local chat control's list of supported text to speech profiles.
     /// </summary>
     /// <remarks>
-    /// This is an asynchronous operation; a PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange will be
-    /// provided via PartyManager::StartProcessingStateChanges() on completion.
+    /// This is an asynchronous operation; a
+    /// <see cref="PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange" /> will be provided via
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> on completion.
     /// <para>
     /// The asynchronous operation must complete successfully before GetAvailableTextToSpeechProfiles() can be called.
     /// </para>
     /// </remarks>
+    /// <param name="asyncIdentifier">
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation began, or an error code otherwise. If this method
+    /// fails, no related state changes will be generated. The human-readable form of the error code can be retrieved
+    /// via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     /// <seealso cref="PartyLocalChatControl::GetAvailableTextToSpeechProfiles" />
     /// <seealso cref="PartyLocalChatControl::SetTextToSpeechProfile" />
     /// <seealso cref="PartyLocalChatControl::GetTextToSpeechProfile" />
-    /// <seealso cref="PartyStateChangeType::PopulateAvailableTextToSpeechProfilesCompleted" />
     PartyError PopulateAvailableTextToSpeechProfiles(
         _In_opt_ void * asyncIdentifier
         ) party_no_throw;
@@ -6795,11 +7114,23 @@ public:
     /// </summary>
     /// <remarks>
     /// This method synchronously returns the result cached by the last successful
-    /// LocalChatControl::PopulateAvailableTextToSpeechProfiles() operation.
+    /// <see cref="PopulateAvailableTextToSpeechProfiles()" /> operation.
     /// <para>
-    /// The returned array is only valid until the next call to PartyManager::StartProcessingStateChanges().
+    /// The returned array is only valid until the next call to
+    /// <see cref="PartyManager::StartProcessingStateChanges()" />.
     /// </para>
     /// </remarks>
+    /// <param name="profileCount">
+    /// The output number of available profiles.
+    /// </param>
+    /// <param name="profiles">
+    /// A library-allocated output array containing the available profiles.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <seealso cref="PartyLocalChatControl::PopulateAvailableTextToSpeechProfiles" />
     PartyError GetAvailableTextToSpeechProfiles(
         _Out_ uint32_t * profileCount,
         _Outptr_result_buffer_(*profileCount) PartyTextToSpeechProfileArray * profiles
@@ -6809,24 +7140,22 @@ public:
     /// Configures the profile to use for a specified type of text-to-speech operation.
     /// </summary>
     /// <remarks>
+    /// The profile provided will be used for all subsequent calls to <see cref="SynthesizeTextToSpeech()" /> that
+    /// specify the same value for <paramref name="type" />. No profile will be configured until
+    /// SetTextToSpeechProfile() is called at least once. Thus, this method must be called at least once before any
+    /// calls to SynthesizeTextToSpeech() can succeed.
     /// <para>
-    /// The profile provided will be used for all subsequent calls to PartyLocalChatControl::SynthesizeTextToSpeech()
-    /// that specify the same value for <paramref name="type" />. No profile will be configured until
-    /// PartyLocalChatControl::SetTextToSpeechProfile() is called at least once. Thus, this method must be called at
-    /// least once before any calls to PartyLocalChatControl::SynthesizeTextToSpeech() can succeed.
+    /// This method accepts a profile identifier to indicate the profile selection so that titles may either pass in the
+    /// result of <see cref="PartyTextToSpeechProfile::GetIdentifier()" /> or provide a profile identifer cached from a
+    /// previous Party library session.
     /// </para>
     /// <para>
-    /// This method accepts a profile identifier to indicate the profile selection so that titles may either pass in
-    /// the result of PartyTextToSpeechProfile::GetIdentifier() or provide a profile identifer cached from a previous
-    /// Party library session.
+    /// Multiple SetTextToSpeechProfile() operations can be initiated, and they will be asynchronously queued. Each
+    /// operation will be processed and completed in order.
     /// </para>
     /// <para>
-    /// Multiple PartyLocalChatControl::SetTextToSpeechProfile() operations can be initiated, and they will be
-    /// asynchronously queued. Each operation will be processed and completed in order.
-    /// </para>
-    /// <para>
-    /// This is an asynchronous operation; a PartySetTextToSpeechProfileCompletedStateChange will be provided via
-    /// PartyManager::StartProcessingStateChanges() on completion.
+    /// This is an asynchronous operation; a <see cref="PartySetTextToSpeechProfileCompletedStateChange" /> will be
+    /// provided via <see cref="PartyManager::StartProcessingStateChanges()" /> on completion.
     /// </para>
     /// </remarks>
     /// <param name="type">
@@ -6836,15 +7165,15 @@ public:
     /// The identifier of the profile that text-to-speech operations of the specified type should use.
     /// </param>
     /// <param name="asyncIdentifier">
-    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state
-    /// change with this call.
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error
-    /// code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to set the text to speech profile began, or an error
+    /// code otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartyLocalChatControl::GetTextToSpeechProfile" />
-    /// <seealso cref="PartyStateChangeType::SetTextToSpeechProfileCompletedStateChange" />
     /// <seealso cref="PartyManager::StartProcessingStateChanges" />
     PartyError SetTextToSpeechProfile(
         PartySynthesizeTextToSpeechType type,
@@ -6853,31 +7182,30 @@ public:
         ) party_no_throw;
 
     /// <summary>
-    /// Gets the profile that was last configured from a successfully completed
-    /// PartyLocalChatControl::SetTextToSpeechProfile() operation for a specified type of text-to-speech operation.
+    /// Gets the profile that was last configured from a successfully completed <see cref="SetTextToSpeechProfile()" />
+    /// operation for a specified type of text-to-speech operation.
     /// </summary>
     /// <remarks>
-    /// If no profile has been successfully configured for the specified type of text-to-speech operation, the
-    /// retrieved profile will be null.
+    /// If no profile has been successfully configured for the specified type of text-to-speech operation, the retrieved
+    /// profile will be null.
     /// <para>
-    /// The retrieved profile will update when a PartySetTextToSpeechProfileCompletedStateChange associated with a
-    /// call to PartyLocalChatControl::SetTextToSpeechProfile(), which specified the same value for <paramref
-    /// name="type" />, is provided via PartyManager::StartProcessingStateChanges().
+    /// The retrieved profile will update when a <see cref="PartySetTextToSpeechProfileCompletedStateChange" />
+    /// associated with a call to SetTextToSpeechProfile(), which specified the same value for <paramref name="type" />,
+    /// is provided via <see cref="PartyManager::StartProcessingStateChanges()" />.
     /// </para>
     /// </remarks>
     /// <param name="type">
     /// The type of text-to-speech operations for which the profile should be retrieved.
     /// </param>
     /// <param name="profile">
-    /// The output to which the profile pointer will be written. The profile may be null if none has been set for the
-    /// specified type. The pointer is only valid until the next call to PartyManager::StartProcessingStateChanges().
+    /// The output profile. The profile may be nullptr if none has been set for the specified type. The pointer is only
+    /// valid until the next call to <see cref="PartyManager::StartProcessingStateChanges()" />.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error
-    /// code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartyLocalChatControl::SetTextToSpeechProfile" />
-    /// <seealso cref="PartyStateChangeType::SetTextToSpeechProfileCompletedStateChange" />
     PartyError GetTextToSpeechProfile(
         PartySynthesizeTextToSpeechType type,
         _Outptr_result_maybenull_ PartyTextToSpeechProfile ** profile
@@ -6888,11 +7216,9 @@ public:
     /// control or render directly to the chat control's audio output.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// SynthesizeTextToSpeech() cannot be called for a particular <paramref name="type" /> until a text-to-speech
     /// profile has been configured for the specified <paramref name="type" /> via
-    /// PartyLocalChatControl::SetTextToSpeechProfile().
-    /// </para>
+    /// <see cref="SetTextToSpeechProfile()" />.
     /// <para>
     /// SynthesizeTextToSpeech() can be called immediately after configuring a text-to-speech profile via a call to
     /// SetTextToSpeechProfile() with the same <paramref name="type" />. In such a case, the text-to-speech operation
@@ -6906,12 +7232,13 @@ public:
     /// The text from which to synthesize audio.
     /// </param>
     /// <param name="asyncIdentifier">
-    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state
-    /// change with this call.
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error
-    /// code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to synthesize the text to speech began, or an error
+    /// code otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartyLocalChatControl::SetTextToSpeechProfile" />
     PartyError SynthesizeTextToSpeech(
@@ -6928,15 +7255,14 @@ public:
     /// used as the spoken language associated with this chat control for transcription and the target language for
     /// incoming translations. If the language code specified is en-US, for instance, the input audio to this chat
     /// control will be treated as the English (United States) language and transcribed as such. If translation is
-    /// enabled via either PartyLocalChatControl::SetVoiceChatTranscriptionOptions() or
-    /// PartyLocalChatControl::SetTextChatOptions(), the incoming voice chat transcriptions and/or text chat will be
-    /// translated to English (United States).
+    /// enabled via either <see cref="SetTranscriptionOptions()" /> or <see cref="SetTextChatOptions()" />, the incoming
+    /// voice chat transcriptions and/or text chat will be translated to English (United States).
     /// <para>
     /// The language code should be in BCP 47 format; supported language codes are enumerated at
-    /// https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support. Specifying an
-    /// unsupported or invalid language code will not cause this method to fail, but will result in failure to
-    /// generate transcriptions associated with this chat control. The language code can be queried via
-    /// LocalChatControl::GetLanguage().
+    /// <see cref="https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support" />.
+    /// Specifying an unsupported or invalid language code will not cause this method to fail, but will result in
+    /// failure to generate transcriptions associated with this chat control. The language code can be queried via
+    /// <see cref="GetLanguage()" />.
     /// </para>
     /// </remarks>
     /// <param name="languageCode">
@@ -6944,16 +7270,16 @@ public:
     /// the user's default, as determined by the platform, will be used.
     /// </param>
     /// <param name="asyncIdentifier">
-    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state
-    /// change with this call.
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error
-    /// code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to set the language began, or an error code otherwise.
+    /// If this method fails, no related state changes will be generated. The human-readable form of the error code can
+    /// be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartyLocalChatControl::GetLanguage" />
-    /// <seealso cref="PartyLocalChatControl::SetVoiceChatTranscriptionOptions" />
-    /// <seealso cref="PartyLocalChatControl::SetTextChatTranscriptionOptions" />
+    /// <seealso cref="PartyLocalChatControl::SetTranscriptionOptions" />
     PartyError SetLanguage(
         _In_opt_ PartyString languageCode,
         _In_opt_ void * asyncIdentifier
@@ -6966,32 +7292,31 @@ public:
     /// The language is used as the spoken language associated with this chat control for transcription and the target
     /// language for incoming translations. If the language code specified is en-US, for instance, the input audio to
     /// this chat control will be treated as the English (United States) language and transcribed as such. If
-    /// translation is enabled via either PartyLocalChatControl::SetVoiceChatTranscriptionOptions() or
-    /// PartyLocalChatControl::SetTextChatOptions(), the incoming voice chat transcriptions and/or text chat will be
-    /// translated to English (United States).
+    /// translation is enabled via either <see cref="SetTranscriptionOptions()" /> or
+    /// <see cref="SetTextChatOptions()" />, the incoming voice chat transcriptions and/or text chat will be translated
+    /// to English (United States).
     /// <para>
     /// The language code should be in BCP 47 format; supported language codes are enumerated at
-    /// https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support. Specifying an
-    /// unsupported or invalid language code will not cause this method to fail, but will result in failure to
-    /// generate transcriptions associated with this chat control. The language code can be queried via
-    /// LocalChatControl::GetLanguage().
+    /// <see cref="https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support" />.
+    /// Specifying an unsupported or invalid language code will not cause this method to fail, but will result in
+    /// failure to generate transcriptions associated with this chat control. The language code can be queried via
+    /// <see cref="GetLanguage()" />.
     /// </para>
     /// </remarks>
     /// <param name="languageCode">
-    /// The BCP 47 language code used by the chat control future communication. The string remains valid until the
-    /// next PartySetLanguageCompletedStateChange is provided via PartyManager::StartProcessingStateChanges() or the
-    /// chat control is destroyed.
+    /// The output BCP 47 language code used by the chat control future communication. The string remains valid until
+    /// the next <see cref="PartySetLanguageCompletedStateChange" /> is provided via
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> or the chat control is destroyed.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error
-    /// code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartySetLanguageCompletedStateChange" />
     /// <seealso cref="PartyManager::StartProcessingStateChanges" />
     /// <seealso cref="PartyLocalDevice::CreateChatControl" />
     /// <seealso cref="PartyLocalChatControl::SetLanguage" />
-    /// <seealso cref="PartyLocalChatControl::SetVoiceChatTranscriptionOptions" />
-    /// <seealso cref="PartyLocalChatControl::SetTextChatTranscriptionOptions" />
+    /// <seealso cref="PartyLocalChatControl::SetTranscriptionOptions" />
     PartyError GetLanguage(
         _Outptr_ PartyString * languageCode
         ) const party_no_throw;
@@ -7003,24 +7328,26 @@ public:
     /// Transcription is the process of generating strings representing spoken phrases in voice chat. The options
     /// specified via <paramref name="options" /> specify the chat controls that should generate these transcription
     /// strings, which are subsequently provided to the local chat control via
-    /// PartyStateChangeType::VoiceChatTranscriptionReceived state changes.
+    /// <see cref="PartyVoiceChatTranscriptionReceivedStateChange" />s.
     /// <para>
     /// Only chat controls configured to use a language that supports transcription, via
-    /// PartyLocalDevice::CreateChatControl() or PartyLocalChatControl::SetLanguage(), will provide transcriptions.
+    /// <see cref="PartyLocalDevice::CreateChatControl()" /> or <see cref="SetLanguage()" />, will provide
+    /// transcriptions.
     /// </para>
     /// </remarks>
     /// <param name="options">
-    /// Options associated with voice chat transcription, such as which chat controls should generate transcriptions
-    /// for the local chat control, and whether those transcriptions should be translated to the local chat control's
+    /// Options associated with voice chat transcription, such as which chat controls should generate transcriptions for
+    /// the local chat control, and whether those transcriptions should be translated to the local chat control's
     /// language.
     /// </param>
     /// <param name="asyncIdentifier">
-    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state
-    /// change with this call.
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error
-    /// code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to set the transcription options began, or an error
+    /// code otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     PartyError SetTranscriptionOptions(
         PartyVoiceChatTranscriptionOptions options,
@@ -7034,10 +7361,11 @@ public:
     /// Transcription is the process of generating strings representing spoken phrases in voice chat. The options
     /// specified via <paramref name="options" /> specify the chat controls that should generate these transcription
     /// strings, which are subsequently provided to the local chat control via
-    /// PartyStateChangeType::VoiceChatTranscriptionReceived state changes.
+    /// <see cref="PartyVoiceChatTranscriptionReceivedStateChange" />s.
     /// <para>
     /// Only chat controls configured to use a language that supports transcription, via
-    /// PartyLocalDevice::CreateChatControl() or PartyLocalChatControl::SetLanguage(), will provide transcriptions.
+    /// <see cref="PartyLocalDevice::CreateChatControl()" /> or <see cref="SetLanguage()" />, will provide
+    /// transcriptions.
     /// </para>
     /// </remarks>
     /// <param name="options">
@@ -7045,8 +7373,8 @@ public:
     /// control, remote chat controls, or none.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error
-    /// code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     PartyError GetTranscriptionOptions(
         _Out_ PartyVoiceChatTranscriptionOptions * options
@@ -7059,12 +7387,13 @@ public:
     /// Options associated with text chat, such as whether incoming text chat should be translated.
     /// </param>
     /// <param name="asyncIdentifier">
-    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state
-    /// change with this call.
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error
-    /// code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to set the chat text options began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     PartyError SetTextChatOptions(
         PartyTextChatOptions options,
@@ -7078,8 +7407,8 @@ public:
     /// Options associated with text chat.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error
-    /// code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
     PartyError GetTextChatOptions(
         _Out_ PartyTextChatOptions * options
@@ -7095,6 +7424,16 @@ public:
     /// This is a local setting that takes effect immediately.
     /// </para>
     /// </remarks>
+    /// <param name="targetChatControl">
+    /// The target chat control.
+    /// </param>
+    /// <param name="volume">
+    /// The volume.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError SetAudioRenderVolume(
         const PartyChatControl * targetChatControl,
         float volume
@@ -7110,6 +7449,16 @@ public:
     /// This is a local setting that takes effect immediately.
     /// </para>
     /// </remarks>
+    /// <param name="targetChatControl">
+    /// The target chat control.
+    /// </param>
+    /// <param name="volume">
+    /// The volume.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetAudioRenderVolume(
         const PartyChatControl* targetChatControl,
         _Out_ float * volume
@@ -7122,8 +7471,15 @@ public:
     /// Muting determines whether audio data will be captured from the chat control's audio input and sent to the
     /// appropriate chat controls according to the configured relationships. When the audio input is muted, no audio
     /// data will be captured, regardless of the relationships that have been configured. Muting does not stop outgoing
-    /// text messages or audio that has been generated by a call to SynthesizeTextToSpeech().
+    /// text messages or audio that has been generated by a call to <see cref="SynthesizeTextToSpeech()" />.
     /// </remarks>
+    /// <param name="muted">
+    /// True to mute, false otherwise.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError SetAudioInputMuted(
         PartyBool muted
         ) party_no_throw;
@@ -7137,57 +7493,104 @@ public:
     /// data will be captured, regardless of the relationships that have been configured. Muting does not stop outgoing
     /// text messages or audio that has been generated by a call to SynthesizeTextToSpeech().
     /// </remarks>
+    /// <param name="muted">
+    /// True if muted, false otherwise.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetAudioInputMuted(
         _Out_ PartyBool * muted
         ) const party_no_throw;
 
     /// <summary>
-    /// Provides whether the incoming audio from the target chat control has previously been muted in relation to the
-    /// local chat control.
+    /// Configures whether the incoming audio from the target chat control, in relation to the local chat control, is
+    /// muted.
     /// </summary>
     /// <remarks>
     /// Audio muting determines whether incoming voice audio from the target chat control will be rendered to the local
     /// chat control.
     /// </remarks>
+    /// <param name="targetChatControl">
+    /// The target chat control.
+    /// </param>
+    /// <param name="muted">
+    /// True to mute, false otherwise.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError SetIncomingAudioMuted(
-        const PartyChatControl * targetChatContorl,
+        const PartyChatControl * targetChatControl,
         PartyBool muted
         ) party_no_throw;
 
     /// <summary>
-    /// Provides whether the incoming audio from the target chat control has previously been muted in relation to the
-    /// local chat control.
+    /// Provides whether the incoming audio from the target chat control, in relation to the local chat control, has
+    /// previously been muted.
     /// </summary>
     /// <remarks>
     /// Audio muting determines whether incoming voice audio from the target chat control will be rendered to the local
     /// chat control.
     /// </remarks>
+    /// <param name="targetChatControl">
+    /// The target chat control.
+    /// </param>
+    /// <param name="muted">
+    /// True if muted, false otherwise.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetIncomingAudioMuted(
         const PartyChatControl * targetChatControl,
         _Out_ PartyBool * muted
         ) const party_no_throw;
 
     /// <summary>
-    /// Provides whether the incoming text messages from the target chat control has previously been muted in relation
-    /// to the local chat control.
+    /// Configures whether the incoming text messages from the target chat control, in relation to the local chat
+    /// control, is muted.
     /// </summary>
     /// <remarks>
     /// Chat text muting determines whether incoming chat text messages from the target chat control will be provided to
     /// the local chat control.
     /// </remarks>
+    /// <param name="targetChatControl">
+    /// The target chat control.
+    /// </param>
+    /// <param name="muted">
+    /// True to mute, false otherwise.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError SetIncomingTextMuted(
         const PartyChatControl * targetChatControl,
         PartyBool muted
         ) party_no_throw;
 
     /// <summary>
-    /// Provides whether the incoming text messages from the target chat control has previously been muted in relation
-    /// to the local chat control.
+    /// Provides whether the incoming text messages from the target chat control, in relation to the local chat control,
+    /// has previously been muted.
     /// </summary>
     /// <remarks>
     /// Chat text muting determines whether incoming chat text messages from the target chat control will be provided to
     /// the local chat control.
     /// </remarks>
+    /// <param name="targetChatControl">
+    /// The target chat control.
+    /// </param>
+    /// <param name="muted">
+    /// True if muted, false otherwise.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetIncomingTextMuted(
         const PartyChatControl * targetChatControl,
         _Out_ PartyBool * muted
@@ -7203,6 +7606,13 @@ public:
     /// This value changes frequently and is typically polled every graphics frame.
     /// </para>
     /// </remarks>
+    /// <param name="chatIndicator">
+    /// The chat indicator.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetLocalChatIndicator(
         _Out_ PartyLocalChatControlChatIndicator * chatIndicator
         ) const party_no_throw;
@@ -7218,6 +7628,16 @@ public:
     /// This value changes frequently and is typically polled every graphics frame.
     /// </para>
     /// </remarks>
+    /// <param name="targetChatControl">
+    /// The target chat control.
+    /// </param>
+    /// <param name="chatIndicator">
+    /// The chat indicator.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetChatIndicator(
         const PartyChatControl * targetChatControl,
         _Out_ PartyChatControlChatIndicator * chatIndicator
@@ -7229,6 +7649,19 @@ public:
     /// <remarks>
     /// This function is currently unimplemented and will always fail.
     /// </remarks>
+    /// <param name="bitrate">
+    /// The bitrate.
+    /// </param>
+    /// <param name="asyncIdentifier">
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to set the encoder bitrate began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError SetAudioEncoderBitrate(
         uint32_t bitrate,
         _In_opt_ void * asyncIdentifier
@@ -7240,6 +7673,14 @@ public:
     /// <remarks>
     /// This function is currently unimplemented and will always fail.
     /// </remarks>
+    /// <param name="bitrate">
+    /// The bitrate.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError GetAudioEncoderBitrate(
         _Out_ uint32_t * bitrate
         ) const party_no_throw;
@@ -7254,6 +7695,21 @@ public:
     /// specified in the call will remain unchanged.
     /// </para>
     /// </remarks>
+    /// <param name="propertyCount">
+    /// The number of properties to set or remove.
+    /// </param>
+    /// <param name="keys">
+    /// An array of size <paramref name="propertyCount" /> containing the keys to set or remove.
+    /// </param>
+    /// <param name="values">
+    /// An array of size <paramref name="propertyCount" /> containing the values for each key in
+    /// <paramref name="keys" />.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError SetSharedProperties(
         uint32_t propertyCount,
         _In_reads_(propertyCount) const PartyString * keys,
@@ -7282,7 +7738,14 @@ public:
     /// <summary>
     /// Gets the unique identifier associated with this profile.
     /// </summary>
-    /// <seealso cref="LocalChatControl::SetTextToSpeechProfile" />
+    /// <param name="identifier">
+    /// The output unique identifier.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <seealso cref="PartyLocalChatControl::SetTextToSpeechProfile" />
     PartyError GetIdentifier(
         _Outptr_ PartyString * identifier
         ) const party_no_throw;
@@ -7293,6 +7756,13 @@ public:
     /// <remarks>
     /// This name is intended for use in title UI and logs, but is not localized.
     /// </remarks>
+    /// <param name="name">
+    /// The output profile name.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetName(
         _Outptr_ PartyString * name
         ) const party_no_throw;
@@ -7300,6 +7770,13 @@ public:
     /// <summary>
     /// Gets the language code associated with this profile.
     /// </summary>
+    /// <param name="languageCode">
+    /// The output profile language.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetLanguageCode(
         _Outptr_ PartyString * languageCode
         ) const party_no_throw;
@@ -7307,6 +7784,13 @@ public:
     /// <summary>
     /// Gets the gender associated with this profile.
     /// </summary>
+    /// <param name="gender">
+    /// The output profile gender.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
     PartyError GetGender(
         _Out_ PartyGender * gender
         ) const party_no_throw;
@@ -7319,13 +7803,12 @@ public:
     /// nullptr.
     /// </remarks>
     /// <param name="customContext">
-    /// The output to which the custom context is written.
+    /// The output custom context.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if retrieving the custom context succeeded or an error code otherwise. The human-readable
-    /// form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if retrieving the custom context succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyTextToSpeechProfile::SetCustomContext" />
     PartyError GetCustomContext(
         _Outptr_result_maybenull_ void ** customContext
@@ -7337,20 +7820,19 @@ public:
     /// <remarks>
     /// The custom context is typically used as a "shortcut" that simplifies accessing local, title-specific memory
     /// associated with the profile without requiring a mapping lookup. The value is retrieved using the
-    /// PartyTextToSpeechProfile::GetCustomContext() method.
+    /// <see cref="GetCustomContext()" /> method.
     /// <para>
     /// Any configured value is treated as opaque by the library, and is only valid on the local device; it is not
     /// transmitted over the network.
     /// </para>
     /// </remarks>
     /// <param name="customContext">
-    /// An arbitrary, pointer-sized value to store with the player object.
+    /// An arbitrary, pointer-sized value to store with the profile object.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if configuring the custom context succeeded or an error code otherwise. The human-readable
-    /// form of the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if configuring the custom context succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyTextToSpeechProfile::GetCustomContext" />
     PartyError SetCustomContext(
         _In_opt_ void * customContext
@@ -7397,10 +7879,8 @@ public:
     /// The output, human-readable error message.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     static PartyError GetErrorMessage(
         PartyError error,
         _Outptr_ PartyString * errorMessage
@@ -7414,31 +7894,33 @@ public:
     /// A network descriptor contains all the information required for a device to connect to the network to which the
     /// descriptor is associated. <paramref name="serializedNetworkDescriptorString" /> is the serialized form of the
     /// descriptor specified by <paramref name="networkDescriptor" /> and is safe to communicate over title and
-    /// platform-specific communication channels. The string may be up to <see
-    /// cref="c_maxSerializedNetworkDescriptorStringLength" /> characters long, not including the null terminator, and
-    /// will never contain non-ASCII, control, or other characters that would require JSON or XML escaping.
+    /// platform-specific communication channels. The string may be up to
+    /// <c>c_maxSerializedNetworkDescriptorStringLength</c> characters long, not including the null terminator, and will
+    /// never contain non-ASCII, control, or other characters that would require JSON or XML escaping.
     /// <para>
     /// This method will fail if the network descriptor is not serializable. For example, the descriptor provided
-    /// synchronously by a call to PartyManager::CreateNewNetwork() is not serializable because it does not contain
+    /// synchronously by a call to <see cref="CreateNewNetwork()" /> is not serializable because it does not contain
     /// enough information for a remote client to connect to the new network. The network descriptor changes and becomes
-    /// serializable when the PartyCreateNewNetworkCompletedStateChange is provided and indicates success. The updated
-    /// network descriptor is provided as a field in the PartyCreateNewNetworkCompletedStateChange. Once connected to
-    /// the network, the descriptor can be retrieved using PartyNetwork::GetNetworkDescriptor().
+    /// serializable when the <see cref="PartyCreateNewNetworkCompletedStateChange" /> is provided and indicates
+    /// success. The updated network descriptor is provided as a field in the PartyCreateNewNetworkCompletedStateChange.
+    /// Once connected to the network, the descriptor can be retrieved using
+    /// <see cref="PartyNetwork::GetNetworkDescriptor()" />.
     /// </para>
     /// <para>
     /// PartyNetworkDescriptors work in tandem with PartyInvitations to facilitate inviting remote users to join the
     /// network. First, obtain the network descriptor via PartyNetwork::GetNetworkDescriptor() and serialize it via
-    /// PartyManager::SerializeNetworkDescriptor(). Next, create an invitation via PartyNetwork::CreateInvitation() or
-    /// query for a preexisting invitation via PartyNetwork::GetInvitations() and obtain the invitation's identifier
-    /// from its configuration via PartyInvitation::GetInvitationConfiguration(). Last, include both the serialized
-    /// network descriptor and the invitation identifier in the payload of the platform-specific invite mechanism. When
-    /// the remote user receives the invite, they deserialize the network descriptor from the platform-invite payload
-    /// via PartyManager::DeserializeNetworkDescriptor() and pass the deserialized descriptor to
-    /// PartyNetwork::ConnectToNetwork(). After connecting, the remote user joins by authenticating into the network via
-    /// PartyNetwork::AuthenticateLocalUser() with the invitation identifier in the platform-invite payload.
+    /// SerializeNetworkDescriptor(). Next, create an invitation via <see cref="PartyNetwork::CreateInvitation()" /> or
+    /// query for a preexisting invitation via <see cref="PartyNetwork::GetInvitations()" /> and obtain the invitation's
+    /// identifier from its configuration via <see cref="PartyInvitation::GetInvitationConfiguration()" />. Last,
+    /// include both the serialized network descriptor and the invitation identifier in the payload of the
+    /// platform-specific invite mechanism. When the remote user receives the invite, they deserialize the network
+    /// descriptor from the platform-invite payload via <see cref="DeserializeNetworkDescriptor()" /> and pass the
+    /// deserialized descriptor to <see cref="ConnectToNetwork()" />. After connecting, the remote user joins by
+    /// authenticating into the network via <see cref="PartyNetwork::AuthenticateLocalUser()" /> with the invitation
+    /// identifier in the platform-invite payload.
     /// </para>
     /// <para>
-    /// This method can be called prior to the PartyManager::Initialize() method.
+    /// This method can be called prior to the <see cref="Initialize()" /> method.
     /// </para>
     /// </remarks>
     /// <param name="networkDescriptor">
@@ -7450,10 +7932,10 @@ public:
     /// escaping.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the descriptor is serializable and was successfully serialized, or an error code
+    /// <c>c_partyErrorSuccess</c> if the descriptor is serializable and was successfully serialized, or an error code
     /// otherwise.
     /// </returns>
-    /// <seealso cref="PartyManager:DeserializeNetworkDescriptor" />
+    /// <seealso cref="PartyManager::DeserializeNetworkDescriptor" />
     /// <seealso cref="PartyNetwork::GetNetworkDescriptor" />
     /// <seealso cref="PartyManager::ConnectToNetwork" />
     /// <seealso cref="PartyInvitation" />
@@ -7468,24 +7950,23 @@ public:
 
     /// <summary>
     /// Deserializes a network descriptor structure from an opaque string serialized via a prior call to
-    /// PartyManager::SerializeNetworkDescriptor().
+    /// <see cref="SerializeNetworkDescriptor()" />.
     /// </summary>
     /// <remarks>
     /// The resulting <paramref name="networkDescriptor" /> can be used to connect to a network via
-    /// PartyManager::ConnectToNetwork().
+    /// <see cref="ConnectToNetwork()" />.
     /// <para>
-    /// This method can be called prior to the PartyManager::Initialize() method.
+    /// This method can be called prior to the <see cref="Initialize()" /> method.
     /// </para>
     /// </remarks>
     /// <param name="serializedNetworkDescriptorString">
     /// The serialized network descriptor string.
     /// </param>
     /// <param name="networkDescriptor">
-    /// The output network descriptor structure that will be populated after deserializing
-    /// <paramref name="serializedNetworkDescriptorString" />.
+    /// The output network descriptor. <paramref name="serializedNetworkDescriptorString" />.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the descriptor string is a valid serialized network descriptor string and was
+    /// <c>c_partyErrorSuccess</c> if the descriptor string is a valid serialized network descriptor string and was
     /// successfully deserialized, or an error code otherwise.
     /// </returns>
     /// <seealso cref="PartyManager::SerializeNetworkDescriptor" />
@@ -7507,25 +7988,24 @@ public:
     /// custom and default routines is not permitted.
     /// </para>
     /// <para>
-    /// This method must be called prior to the PartyManager::Initialize() method. The callbacks cannot change while any
-    /// allocations are outstanding. It also must be only called by one thread at a time as it isn't multithreading
+    /// This method must be called prior to the <see cref="Initialize()" /> method. The callbacks cannot change while
+    /// any allocations are outstanding. It also must be only called by one thread at a time as it isn't multithreading
     /// safe.
     /// </para>
     /// <para>
-    /// The configured callbacks are persisted until changed, including across calls to PartyManager::Cleanup().
+    /// The configured callbacks are persisted until changed, including across calls to <see cref="Cleanup()" />.
     /// </para>
     /// </remarks>
     /// <param name="allocateMemoryCallback">
-    /// A pointer to the custom allocation callback to use, or a null pointer to restore the default.
+    /// A pointer to the custom allocation callback to use, or nullptr to restore the default.
     /// </param>
     /// <param name="freeMemoryCallback">
-    /// A pointer to the custom freeing callback to use, or a null pointer to restore the default.
+    /// A pointer to the custom freeing callback to use, or nullptr to restore the default.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyAllocateMemoryCallback" />
     /// <seealso cref="PartyFreeMemoryCallback" />
     /// <seealso cref="PartyManager::GetMemoryCallbacks" />
@@ -7540,7 +8020,7 @@ public:
     /// <remarks>
     /// This retrieves the memory allocation routines servicing requests by the Party library for new memory.
     /// <para>
-    /// This method does not require the PartyManager::Initialize() method to have been called first.
+    /// This method does not require the <see cref="Initialize()" /> method to have been called first.
     /// </para>
     /// </remarks>
     /// <param name="allocateMemoryCallback">
@@ -7550,10 +8030,9 @@ public:
     /// A place to store a pointer to the memory freeing callback currently used.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyAllocateMemoryCallback" />
     /// <seealso cref="PartyFreeMemoryCallback" />
     /// <seealso cref="PartyManager::SetMemoryCallbacks" />
@@ -7569,14 +8048,13 @@ public:
     /// This method enables the title to configure the processor affinity for internal Party library threads of a given
     /// type.
     /// <para>
-    /// This method may be called at any time before or after PartyManager::Initialize() and will take effect
-    /// immediately. Thread processor settings are persisted across calls to PartyManager::Cleanup() and
-    /// PartyManager::Initialize(). When there are more than 64 cores present, this method always applies to processor
-    /// group 0.
+    /// This method may be called at any time before or after <see cref="Initialize()" /> and will take effect
+    /// immediately. Thread processor settings are persisted across calls to <see cref="Cleanup()" /> and Initialize().
+    /// When there are more than 64 cores present, this method always applies to processor group 0.
     /// </para>
     /// <para>
-    /// In order to specify any processor, pass <see cref="c_anyProcessor" /> as the <paramref name="threadAffinityMask"
-    /// /> parameter. This is also the default value the Party library will use if this method is never called.
+    /// In order to specify any processor, pass <c>c_anyProcessor</c> as the <paramref name="threadAffinityMask" />
+    /// parameter. This is also the default value the Party library will use if this method is never called.
     /// </para>
     /// </remarks>
     /// <param name="threadId">
@@ -7586,10 +8064,9 @@ public:
     /// The affinity mask for this type of Party library thread.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyThreadId" />
     /// <seealso cref="PartyManager::GetThreadAffinityMask" />
     static PartyError SetThreadAffinityMask(
@@ -7604,24 +8081,23 @@ public:
     /// <remarks>
     /// This retrieves the current processor affinity for internal Party library threads of a given type.
     /// <para>
-    /// This method does not require PartyManager::Initialize() to have been called first.
+    /// This method does not require <see cref="Initialize()" /> to have been called first.
     /// </para>
     /// <para>
-    /// A reported value of <see cref="c_anyProcessor" /> written to <paramref name="threadAffinityMask" /> indicates
-    /// that the thread is free to run on any processor.
+    /// A reported value of <c>c_anyProcessor</c> written to <paramref name="threadAffinityMask" /> indicates that the
+    /// thread is free to run on any processor.
     /// </para>
     /// </remarks>
     /// <param name="threadId">
     /// The type of internal Party library thread for which processor affinity should be retrieved.
     /// </param>
     /// <param name="threadAffinityMask">
-    /// A place to store the affinity mask for this type of Party library thread.
+    /// The output affinity mask for this type of Party library thread.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyThreadId" />
     /// <seealso cref="PartyManager::SetThreadAffinityMask" />
     static PartyError GetThreadAffinityMask(
@@ -7633,28 +8109,27 @@ public:
     /// Initializes the PartyManager object instance.
     /// </summary>
     /// <remarks>
-    /// This must be called before any other method, aside from the static methods PartyManager::GetSingleton(),
-    /// PartyManager::SetMemoryCallbacks(), PartyManager::GetMemoryCallbacks(), PartyManager::SetThreadAffinityMask(),
-    /// PartyManager::GetThreadAffinityMask(), PartyManager::SerializeNetworkDescriptor(), and
-    /// PartyManager::DeserializeNetworkDescriptor(). PartyManager::Initialize() cannot be called again without a
-    /// subsequent PartyManager::Cleanup() call.
+    /// This must be called before any other method, aside from the static methods <see cref="GetSingleton()" />,
+    /// <see cref="SetMemoryCallbacks()" />, <see cref="GetMemoryCallbacks()" />,
+    /// <see cref="SetThreadAffinityMask()" />, <see cref="GetThreadAffinityMask()" />,
+    /// <see cref="SerializeNetworkDescriptor()" />, and <see cref="DeserializeNetworkDescriptor()" />. Initialize()
+    /// cannot be called again without a subsequent <see cref="Cleanup()" /> call.
     /// <para>
-    /// Every call to PartyManager::Initialize() should have a corresponding PartyManager::Cleanup() call.
+    /// Every call to Initialize() should have a corresponding Cleanup() call.
     /// </para>
     /// <para>
     /// The provided <paramref name="titleId" /> must be the same Title ID used to acquire the PlayFab Entity IDs and
-    /// Entity Tokens that will be passed to PartyManager::CreateLocalUser().
+    /// Entity Tokens that will be passed to <see cref="CreateLocalUser()" />.
     /// </para>
     /// </remarks>
     /// <param name="titleId">
     /// The title's PlayFab Title ID.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartyManager::CreateLocalUser" />
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyManager::Cleanup" />
     /// <seealso cref="PartyManager::GetSingleton" />
     /// <seealso cref="PartyManager::SetMemoryCallbacks" />
@@ -7673,18 +8148,17 @@ public:
     /// <remarks>
     /// If local users were participating in a PartyNetwork, they are removed ungracefully (it appears to remote devices
     /// as if network connectivity to this device has been lost), so best practice is to call
-    /// PartyNetwork::LeaveNetwork() first on all networks returned from a call to PartyManager::GetNetworks() and wait
-    /// for the corresponding PartyLeaveNetworkCompletedStateChange to have the local users exit any existing
-    /// PartyNetworks gracefully.
+    /// <see cref="PartyNetwork::LeaveNetwork()" /> first on all networks returned from a call to
+    /// <see cref="GetNetworks()" /> and wait for the corresponding <see cref="PartyLeaveNetworkCompletedStateChange" />
+    /// to have the local users exit any existing PartyNetworks gracefully.
     /// <para>
-    /// Every call to PartyManager::Initialize() should have a corresponding PartyManager::Cleanup() call.
+    /// Every call to <see cref="Initialize()" /> should have a corresponding Cleanup() call.
     /// </para>
     /// </remarks>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyManager::Initialize" />
     /// <seealso cref="PartyNetwork::LeaveNetwork" />
     /// <seealso cref="PartyManager::GetNetworks" />
@@ -7698,16 +8172,16 @@ public:
     /// This method provides the Party library an opportunity to synchronize state with remote devices or services, and
     /// retrieves a list of all changes currently available for the title since the last call to this method. The title
     /// should use the provided array of 0 or more changes to update its own state or UI, and then call
-    /// PartyManager::FinishProcessingStateChanges() with them in a timely manner.
+    /// <see cref="FinishProcessingStateChanges()" /> with them in a timely manner.
     /// <para>
     /// Party library state exposed by the library can change during this call, so you must be thread-safe in your use
-    /// of it. For example, invoking PartyManager::StartProcessingStateChanges() on your UI thread at the same time a
-    /// separate worker thread is looping through the list of endpoints returned by PartyNetwork::GetEndpoints() may
-    /// result in crashes because PartyManager::StartProcessingStateChanges() can alter the memory associated with the
-    /// endpoint list. PartyManager::StartProcessingStateChanges() should be called frequently-- at least once per
-    /// graphics frame. It's designed to execute and return quickly such that it can be called on your main UI thread
-    /// with negligible impact. For best results, you should also minimize the time you spend handling state changes
-    /// before calling PartyManager::FinishProcessingStateChanges().
+    /// of it. For example, invoking StartProcessingStateChanges() on your UI thread at the same time a separate worker
+    /// thread is looping through the list of endpoints returned by <see cref="PartyNetwork::GetEndpoints()" /> may
+    /// result in crashes because StartProcessingStateChanges() can alter the memory associated with the endpoint list.
+    /// StartProcessingStateChanges() should be called frequently-- at least once per graphics frame. It's designed to
+    /// execute and return quickly such that it can be called on your main UI thread with negligible impact. For best
+    /// results, you should also minimize the time you spend handling state changes before calling
+    /// FinishProcessingStateChanges().
     /// </para>
     /// </remarks>
     /// <param name="stateChangeCount">
@@ -7715,14 +8189,13 @@ public:
     /// array.
     /// </param>
     /// <param name="stateChanges">
-    /// The output array of all PartyStateChange entries for the title to handle and then pass to
-    /// PartyManager::FinishProcessingStateChanges().
+    /// A library-allocated output array of all PartyStateChange entries for the title to handle and then pass to
+    /// <see cref="FinishProcessingStateChanges()" />.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyStateChange" />
     /// <seealso cref="PartyManager::FinishProcessingStateChanges" />
     PartyError StartProcessingStateChanges(
@@ -7735,32 +8208,30 @@ public:
     /// </summary>
     /// <remarks>
     /// This method informs the Party library that the state changes reported by a previous call to
-    /// PartyManager::StartProcessingStateChanges() have now been handled by the title, so their associated resources
-    /// can be reclaimed. You may call PartyManager::FinishProcessingStateChanges() with any number of state changes.
-    /// Each state change returned by PartyManager::StartProcessingStateChanges() must be included in a call to
-    /// PartyManager::FinishProcessingStateChanges() exactly once but they may be returned out of order and may be
-    /// interleaved with state changes from subsequent calls to PartyManager::StartProcessingStateChanges(). Even if
-    /// state changes are held across subsequent calls to PartyManager::StartProcessingStateChanges, the Party library
-    /// state returned by all getters will advance and may no longer reflect the same state that the held state changes
-    /// refer to.
+    /// <see cref="StartProcessingStateChanges()" /> have now been handled by the title, so their associated resources
+    /// can be reclaimed. You may call FinishProcessingStateChanges() with any number of state changes. Each state
+    /// change returned by StartProcessingStateChanges() must be included in a call to FinishProcessingStateChanges()
+    /// exactly once but they may be returned out of order and may be interleaved with state changes from subsequent
+    /// calls to StartProcessingStateChanges(). Even if state changes are held across subsequent calls to
+    /// StartProcessingStateChanges, the Party library state returned by all getters will advance and may no longer
+    /// reflect the same state that the held state changes refer to.
     /// <para>
     /// For best results, you should minimize the time you spend handling state changes before calling
-    /// PartyManager::FinishProcessingStateChanges().
+    /// FinishProcessingStateChanges().
     /// </para>
     /// </remarks>
     /// <param name="stateChangeCount">
     /// The number of changes, provided in the list specified by <paramref name="stateChanges" />, previously returned
-    /// by PartyManager::StartProcessingStateChanges() that have now been handled by the title.
+    /// by <see cref="StartProcessingStateChanges()" /> that have now been handled by the title.
     /// </param>
     /// <param name="stateChanges">
-    /// The array of changes previously returned by PartyManager::StartProcessingStateChanges() that have now been
+    /// The array of changes previously returned by <see cref="StartProcessingStateChanges()" /> that have now been
     /// handled by the title.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyStateChange" />
     /// <seealso cref="PartyManager::StartProcessingStateChanges" />
     PartyError FinishProcessingStateChanges(
@@ -7773,10 +8244,10 @@ public:
     /// information.
     /// </summary>
     /// <remarks>
-    /// The array provided by this method is not populated until the first PartyRegionsChangedStateChange is provided.
-    /// Each subsequent PartyRegionsChangedStateChange indicates an update to this set of regions. Background operations
-    /// to populate this set begin when PartyManager::Initialize() is called and, if this set hasn't yet been
-    /// successfully populated, when PartyManager::CreateNewNetwork() is called.
+    /// The array provided by this method is not populated until the first <see cref="PartyRegionsChangedStateChange" />
+    /// is provided. Each subsequent PartyRegionsChangedStateChange indicates an update to this set of regions.
+    /// Background operations to populate this set begin when <see cref="Initialize()" /> is called and, if this set
+    /// hasn't yet been successfully populated, when <see cref="CreateNewNetwork()" /> is called.
     /// <para>
     /// The array will be sorted in order of increasing latency. Latency for a region is defined as the end-to-end time
     /// it takes to send a UDP datagram to the PlayFab Quality of Service beacon for that region and receive a response.
@@ -7791,22 +8262,21 @@ public:
     /// </para>
     /// <para>
     /// For efficiency, the library measures latency on several threads that are affinitized to the processor specified
-    /// for the networking threads via PartyManager::SetThreadAffinityMask(). The amortized worst-case time to complete
+    /// for the networking threads via <see cref="SetThreadAffinityMask()" />. The amortized worst-case time to complete
     /// latency measurements for each region is approximately 500 ms. The average time to complete latency measurements
     /// for each region will vary by network environment but will typically be much lower.
     /// </para>
     /// </remarks>
     /// <param name="regionCount">
-    /// An output value indicating the number of regions provided in <paramref name="regions" />.
+    /// The output number of regions provided in <paramref name="regions" />.
     /// </param>
     /// <param name="regions">
-    /// An output array, backed by the library's internal memory, containing the set of regions.
+    /// A library-allocated output array containing the set of regions.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyRegionsChangedStateChange" />
     /// <seealso cref="PartyManager::CreateNewNetwork" />
     PartyError GetRegions(
@@ -7818,14 +8288,12 @@ public:
     /// Queues an asynchronous attempt to create a new network.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// A PartyNetwork is a set of devices, such as Xbox One consoles and PCs, that are connected via a client-server
     /// topology to a transparent cloud relay server. Each device in the network contains a collection of endpoints
     /// associated with the network; directed messages can be sent from an endpoint on the local device to any set of
     /// endpoints, or broadcast to all endpoints. This function queues an attempt to allocate a relay, thus creating a
     /// new network, on behalf of the user represented by <paramref name="localUser" /> but does not connect the local
     /// device to the network.
-    /// </para>
     /// <para>
     /// If no devices connect to the network within ten minutes of the relay's creation, it will shutdown. The network
     /// will stay active indefinitely while at least one device is connected, migrating to a new relay if required. If
@@ -7833,28 +8301,29 @@ public:
     /// inactivity.
     /// </para>
     /// <para>
-    /// The local device can queue an attempt to connect to the new network by immediately passing <paramref
-    /// name="networkDescriptor" /> to PartyManager::ConnectToNetwork(). Using this descriptor with
+    /// The local device can queue an attempt to connect to the new network by immediately passing
+    /// <paramref name="networkDescriptor" /> to <see cref="ConnectToNetwork()" />. Using this descriptor with
     /// SerializeNetworkDescriptor() will result in failure because the descriptor does not contain enough information
     /// for a remote device to connect to the network. The network descriptor changes and becomes serializable when the
-    /// PartyCreateNewNetworkCompletedStateChange is provided and indicates success. The updated network descriptor is
-    /// provided as a field in the PartyCreateNewNetworkCompletedStateChange. Once connected to the network, the
-    /// descriptor can be retrieved using PartyNetwork::GetNetworkDescriptor().
+    /// <see cref="PartyCreateNewNetworkCompletedStateChange" /> is provided and indicates success. The updated network
+    /// descriptor is provided as a field in the PartyCreateNewNetworkCompletedStateChange. Once connected to the
+    /// network, the descriptor can be retrieved using <see cref="PartyNetwork::GetNetworkDescriptor()" />.
     /// </para>
     /// <para>
     /// The network is created in the first available region using the order specified in <paramref name="regions" />.
-    /// If none of the specified regions are available, the network will not be created. Specifying 0 for <paramref
-    /// name="regionCount" /> defaults to using all regions in which the title is configured, ordered by lowest latency.
+    /// If none of the specified regions are available, the network will not be created. Specifying 0 for
+    /// <paramref name="regionCount" /> defaults to using all regions in which the title is configured, ordered by
+    /// lowest latency.
     /// </para>
     /// <para>
     /// The initial invitation for the newly created network will not be owned by any user. Therefore calling
-    /// PartyInvitation::GetEntityId() will return a null string for the initial invitation. As well, the initial
-    /// invitation for the newly created network will persist for the lifetime of the network until specifically revoked
-    /// via PartyNetwork::RevokeInvitation(). New invitations can be created for the network via
-    /// PartyNetwork::CreateInvitation() by local users that are authenticated into the network, and those invitations
-    /// will persist until their creating local users are removed from the network. Users join the network via
-    /// PartyNetwork::AuthenticateLocalUser() by providing the identifier of an invitation that was successfully
-    /// created, has not been revoked, and allows them to join.
+    /// <see cref="PartyInvitation::GetCreatorEntityId()" /> will return nullptr for the initial invitation. As well,
+    /// the initial invitation for the newly created network will persist for the lifetime of the network until
+    /// specifically revoked via <see cref="PartyNetwork::RevokeInvitation()" />. New invitations can be created for the
+    /// network via <see cref="PartyNetwork::CreateInvitation()" /> by local users that are authenticated into the
+    /// network, and those invitations will persist until their creating local users are removed from the network. Users
+    /// join the network via <see cref="PartyNetwork::AuthenticateLocalUser()" /> by providing the identifier of an
+    /// invitation that was successfully created, has not been revoked, and allows them to join.
     /// </para>
     /// </remarks>
     /// <param name="localUser">
@@ -7876,17 +8345,19 @@ public:
     /// An optionally specified configuration for the initial invitation.
     /// <para>
     /// If this value is null, then default configuration values will be used. By default, PlayFab Party will generate a
-    /// unique invitation identifier for the title, the revocability will be PartyInvitationRevocability::Anyone, and
-    /// the PlayFab Entity ID list will be empty, allowing any user to join using the invitation.
+    /// unique invitation identifier for the title, the revocability will be
+    /// <see cref="PartyInvitationRevocability::Anyone" />, and the PlayFab Entity ID list will be empty, allowing any
+    /// user to join using the invitation.
     /// </para>
     /// <para>
     /// If a configuration is provided, the title may optionally specify the identifier on the configuration. If the
-    /// identifier is null or an empty string, the PlayFab Party library will generate an identifier for the title. It
-    /// is guaranteed that this generated identifer will be different from all identifiers that the PlayFab Party
+    /// identifier is nullptr or an empty string, the PlayFab Party library will generate an identifier for the title.
+    /// It is guaranteed that this generated identifer will be different from all identifiers that the PlayFab Party
     /// library will generate for all future invitations on this network across all devices. Titles may specify their
     /// own identifier by providing a non-null, non-empty value in the configuration. If the title specifies the
     /// identifier, it is the title's responsibility to ensure that this identifier does not collide with the
-    /// identifiers of future invitations created on this network via PartyNetwork::CreateInvitation() on any device.
+    /// identifiers of future invitations created on this network via <see cref="PartyNetwork::CreateInvitation()" /> on
+    /// any device.
     /// </para>
     /// <para>
     /// If a configuration is provided, its revocability must be PartyInvitationRevocability::Anyone.
@@ -7901,18 +8372,20 @@ public:
     /// with this call.
     /// </param>
     /// <param name="networkDescriptor">
-    /// An optional, output network descriptor that can be used to immediately queue a connection of the local device to
-    /// the newly created network via PartyManager::ConnectToNetwork().
+    /// The optional, output network descriptor that can be used to immediately queue a connection of the local device
+    /// to the newly created network via <see cref="ConnectToNetwork()" />.
     /// </param>
     /// <param name="appliedInitialInvitationIdentifier">
-    /// An optional, output buffer to which the initial invitation's identifier is written. If
+    /// The optional, output buffer to which the initial invitation's identifier is written. If
     /// <paramref name="initialInvitationConfiguration" /> has been provided with a non-null, non-empty identifier, then
     /// this buffer will be filled with the same identifier. If an initial configuration was not provided or the
     /// provided configuration had an empty or null identifier, the PlayFab Party library will generate one and return
     /// it to the title in this buffer.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the asynchronous operation to create a new network began, or an error code otherwise.
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to create a new network began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartyCreateNewNetworkCompletedStateChange" />
     /// <seealso cref="PartyManager::ConnectToNetwork" />
@@ -7937,37 +8410,39 @@ public:
     /// Queues an asynchronous attempt to connect to a network.
     /// </summary>
     /// <remarks>
-    /// This function queues an asynchronous attempt to connect to the network associated with <paramref
-    /// name="networkDescriptor" /> by negotiating and establishing a secure DTLS connection from the local device to
-    /// the transparent cloud relay server. A PartyConnectToNetworkCompletedStateChange will be provided upon completion
-    /// of the asynchronous operation, indicating success or failure. On success, the local device will have established
-    /// a connection to the transparent cloud relay server. On failure, a PartyNetworkDestroyedStateChange will be
-    /// generated. No other devices will become visible, and the local device will not be visible to any remote devices,
-    /// until at least one local user is successfully authenticated via PartyNetwork::AuthenticateLocalUser().
+    /// This function queues an asynchronous attempt to connect to the network associated with
+    /// <paramref name="networkDescriptor" /> by negotiating and establishing a secure DTLS connection from the local
+    /// device to the transparent cloud relay server. A <see cref="PartyConnectToNetworkCompletedStateChange" /> will be
+    /// provided upon completion of the asynchronous operation, indicating success or failure. On success, the local
+    /// device will have established a connection to the transparent cloud relay server. On failure, a
+    /// <see cref="PartyNetworkDestroyedStateChange" /> will be generated. No other devices will become visible, and the
+    /// local device will not be visible to any remote devices, until at least one local user is successfully
+    /// authenticated via <see cref="PartyNetwork::AuthenticateLocalUser()" />.
     /// <para>
     /// After the device successfully connects to the network, it must authenticate into the network via
     /// PartyNetwork::AuthenticateLocalUser(). If the device is connected to the network but unauthenticated for more
     /// than one minute, the device will be disconnected and a PartyNetworkDestroyedStateChange will be generated. This
     /// will occur regardless of whether the device never authenticated or lost authentication after calling
-    /// PartyNetwork::RemoveLocalUser().
+    /// <see cref="PartyNetwork::RemoveLocalUser()" />.
     /// </para>
     /// <para>
     /// This function optionally provides <paramref name="network" /> as output that can immediately be used to perform
-    /// asynchronous network operations, such as PartyNetwork::CreateInvitation() and
-    /// PartyNetwork::CreateEndpoint(). These asynchronous operations will be internally queued until the connection
-    /// completes, at which point they will be processed. This <paramref name="network" /> will also be provided on the
-    /// resulting PartyConnectToNetworkCompletedStateChange where it will be fully-connected and associated with the
-    /// provided <paramref name="asyncIdentifier" />.
+    /// asynchronous network operations, such as <see cref="PartyNetwork::CreateInvitation()" /> and
+    /// <see cref="PartyNetwork::CreateEndpoint()" />. These asynchronous operations will be internally queued until the
+    /// connection completes, at which point they will be processed. This <paramref name="network" /> will also be
+    /// provided on the resulting PartyConnectToNetworkCompletedStateChange where it will be fully-connected and
+    /// associated with the provided <paramref name="asyncIdentifier" />.
     /// </para>
     /// <para>
-    /// This operation will asynchronously fail with PartyConnectToNetworkCompletedStateChange::result set to
-    /// PartyStateChangeResult::NetworkLimitReached if the limit of connected devices for the network has been reached
-    /// as specified in the network's configuration when it was created via PartyManager::CreateNewNetwork().
+    /// This operation will asynchronously fail with <see cref="PartyConnectToNetworkCompletedStateChange::result" />
+    /// set to <see cref="PartyStateChangeResult::NetworkLimitReached" /> if the limit of connected devices for the
+    /// network has been reached as specified in the network's configuration when it was created via
+    /// <see cref="CreateNewNetwork()" />.
     /// </para>
     /// <para>
     /// On successful return, this method invalidates the memory for any array previously returned by
-    /// PartyManager::GetNetworks(), as it synchronously adds the new network to the array.
-    /// PartyManager::StartProcessingStateChanges() also invalidates the memory for the array.
+    /// <see cref="GetNetworks()" />, as it synchronously adds the new network to the array.
+    /// <see cref="StartProcessingStateChanges()" /> also invalidates the memory for the array.
     /// </para>
     /// </remarks>
     /// <param name="networkDescriptor">
@@ -7978,10 +8453,12 @@ public:
     /// with this call.
     /// </param>
     /// <param name="network">
-    /// An optional, output network object.
+    /// The optional, output network object.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the asynchronous operation to connect to a new network began, or an error code otherwise.
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to connect to a new network began, or an error code
+    /// otherwise. If this method fails, no related state changes will be generated. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartyConnectToNetworkCompletedStateChange" />
     /// <seealso cref="PartyNetworkConfiguration" />
@@ -8023,6 +8500,11 @@ public:
     /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
     /// with this call.
     /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the asynchronous operation to synchronize messages began, or an error code
+    /// otherwise. The human-readable form of the error code can be retrieved via <see cref="GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
     PartyError SynchronizeMessagesBetweenEndpoints(
         uint32_t endpointCount,
         _In_reads_(endpointCount) PartyEndpointArray endpoints,
@@ -8037,16 +8519,15 @@ public:
     /// The local device represents the physical device on which the title is executing, such as an Xbox One or PC. Once
     /// the library is initialized, this method will always succeed in returning a local device. The local device will
     /// also appear in the device list of any network to which the local device has connected via
-    /// PartyManager::ConnectToNetwork().
+    /// <see cref="ConnectToNetwork()" />.
     /// </remarks>
     /// <param name="localDevice">
     /// The output local device.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     PartyError GetLocalDevice(
         _Outptr_ PartyLocalDevice ** localDevice
         ) const party_no_throw;
@@ -8056,37 +8537,47 @@ public:
     /// operations.
     /// </summary>
     /// <remarks>
-    /// This object takes a PlayFab Entity ID as <paramref name="entityId" /> and a PlayFab Entity Token as <paramref
-    /// name="titlePlayerEntityToken" />. No synchronous validation is performed upon these values except that the
-    /// length of <paramref name="entityId" /> is less than or equal to <see cref="c_maxEntityIdStringLength" />. When
-    /// the library performs operations that require user authentication or authorization, such as creating a network,
+    /// This function takes a PlayFab Entity ID as <paramref name="entityId" /> and a PlayFab Entity Token as
+    /// <paramref name="titlePlayerEntityToken" />. No synchronous validation is performed on these values except that
+    /// the length of <paramref name="entityId" /> is less than or equal to <c>c_maxEntityIdStringLength</c>. When the
+    /// library performs operations that require user authentication or authorization, such as creating a network,
     /// authenticating into a network, or performing speech-to-text transcription, the Party service will validate that
-    /// the token is valid, is associated with the Entity ID provided, and is authorized to perform the operation. If
-    /// these conditions aren't met, the operation will fail.
+    /// the token is valid, is
+    // not expired, is associated with the Entity ID provided, and is authorized to perform the operation. If these
+    /// conditions aren't met, the operation will fail.
     /// <para>
-    /// A PlayFab Entity ID and Entity Token can be obtained through the output of a PlayFab login operation and then
-    /// provided as input to this function. The PlayFab Entity ID must be of type `title_player_account` which, for most
-    /// developers, represents the "player" in the most traditional way.
+    /// A PlayFab Entity ID and Entity Token can be obtained from the output of a PlayFab login operation and then
+    /// provided as input to this function. The PlayFab Entity ID must be of type `title_player_account`, which, for
+    /// most developers, represents the "player" in the most traditional way.
     /// </para>
     /// <para>
     /// The provided <paramref name="entityId" /> and <paramref name="titlePlayerEntityToken" /> must have been acquired
-    /// using the same Title ID that was passed to PartyManager::Initialize().
+    /// using the same Title ID that was passed to <see cref="Initialize()" />.
     /// </para>
     /// <para>
-    /// The PlayFab Entity Token must be valid at the time PartyManager::CreateLocalUser() is called. The Party library
-    /// copies this token and uses the copy for operations that require authentication or authorization of the local
-    /// user, such as PartyManager::CreateNewNetwork() or PartyNetwork::AuthenticateLocalUser(). The Party library will
-    /// refresh its copy of the token on a background networking thread as required. If the token provided to this call
-    /// is invalid, operations that require a valid token would never succeed.
+    /// The Party library makes a copy of the supplied PlayFab Entity Token for use in subsequent operations that
+    /// require authentication or authorization of the local user, such as <see cref="CreateNewNetwork()" /> or
+    /// <see cref="PartyNetwork::AuthenticateLocalUser()" />. If the token provided to this call is expired or otherwise
+    /// invalid, operations that require a valid token will fail. A new, valid token can be provided to the Party
+    /// library via a call to <see cref="PartyLocalUser::UpdateEntityToken()" />.
     /// </para>
     /// <para>
-    /// Only c_maxLocalUsersPerDeviceCount PartyLocalUser objects may exist simultaneously at any given time. This
-    /// method will synchronously fail if creating another local user would exceed that limit.
+    /// The caller is responsible for monitoring the expiration of the entity token provided to this function and
+    /// UpdateEntityToken(). When the token is nearing or past the expiration time a new token should be obtained by
+    /// performing a PlayFab login operation and provided to the Party library by calling
+    /// PartyLocalUser::UpdateEntityToken(). It is recommended to acquire a new token when the previously supplied token
+    /// is halfway through its validity period. On platforms that may enter a low power state or otherwise cause the
+    /// application to pause execution for a long time, preventing the token from being refreshed before it expires, the
+    /// token should be checked for expiration once execution resumes.
+    /// </para>
+    /// <para>
+    /// Only <c>c_maxLocalUsersPerDeviceCount</c> PartyLocalUser objects may exist simultaneously at any given time.
+    /// This method will synchronously fail if creating another local user would exceed that limit.
     /// </para>
     /// <para>
     /// On successful return, this method invalidates the memory for any array previously returned by
-    /// PartyManager::GetLocalUsers(), as it synchronously adds the new user to the array.
-    /// PartyManager::StartProcessingStateChanges() also invalidates the memory for the array.
+    /// <see cref="GetLocalUsers()" />, as it synchronously adds the new user to the array.
+    /// <see cref="StartProcessingStateChanges()" /> also invalidates the memory for the array.
     /// </para>
     /// </remarks>
     /// <param name="entityId">
@@ -8099,20 +8590,20 @@ public:
     /// The output local user object.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if creating the local user succeeded or an error code otherwise. The human-readable form of
-    /// the error code can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if creating the local user succeeded or an error code otherwise. The human-readable
+    /// form of the error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartyManager::Initialize" />
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyManager::GetLocalUsers" />
     /// <seealso cref="PartyManager::DestroyLocalUser" />
     /// <seealso cref="PartyManager::CreateNewNetwork" />
-    /// <seealso cref="PartyManager::CreateChatControl" />
     /// <seealso cref="PartyNetwork::AuthenticateLocalUser" />
     /// <seealso cref="PartyNetwork::RemoveLocalUser" />
     /// <seealso cref="PartyNetwork::CreateInvitation" />
     /// <seealso cref="PartyNetwork::RevokeInvitation" />
     /// <seealso cref="PartyNetwork::CreateEndpoint" />
+    /// <seealso cref="PartyLocalUser::UpdateEntityToken" />
+    /// <seealso cref="PartyLocalDevice::CreateChatControl" />
     PartyError CreateLocalUser(
         PartyString entityId,
         PartyString titlePlayerEntityToken,
@@ -8124,19 +8615,19 @@ public:
     /// </summary>
     /// <remarks>
     /// A successful return value signifies that the asynchronous operation has started and a DestroyLocalUserCompleted
-    /// state change is guaranteed to eventually be provided, via PartyManager::StartProcessingStateChanges(), with the
+    /// state change is guaranteed to eventually be provided, via <see cref="StartProcessingStateChanges()" />, with the
     /// result of the operation. A failing return value signifies that the asynchronous operation will not execute and
     /// no completion state change will be provided. If the asynchronous operation succeeds, the local user will be
-    /// removed from the list returned by PartyManager::GetLocalUsers() during the
-    /// PartyManager::StartProcessingStateChanges() call that provides the DestroyLocalUserCompleted state change. The
-    /// user object will be destroyed upon returning the final state change referencing the user via
-    /// PartyManager::FinishProcessingStateChanges().
+    /// removed from the list returned by <see cref="GetLocalUsers()" /> during the
+    /// <see cref="StartProcessingStateChanges()" /> call that provides the
+    /// <see cref="PartyDestroyLocalUserCompletedStateChange" />. The user object will be destroyed upon returning the
+    /// final state change referencing the user via <see cref="FinishProcessingStateChanges()" />.
     /// <para>
-    /// Before the asynchronous operation completes, i.e. before the DestroyLocalUserCompleted state change is provided
-    /// by PartyManager::StartProcessingStateChanges(), the local user will be removed from all objects and networks
-    /// referencing the local user. If the object depended on the user to remain in a valid state, such as with a chat
-    /// control or endpoint tied to the user, or a network where the local user is the only authenticated local user,
-    /// the object will be destroyed and the relevant state change will be provided prior to the
+    /// Before the asynchronous operation completes, i.e. before the PartyDestroyLocalUserCompletedStateChange is
+    /// provided by <see cref="StartProcessingStateChanges()" />, the local user will be removed from all objects and
+    /// networks referencing the local user. If the object depended on the user to remain in a valid state, such as with
+    /// a chat control or endpoint tied to the user, or a network where the local user is the only authenticated local
+    /// user, the object will be destroyed and the relevant state change will be provided prior to the
     /// DestroyLocalUserCompleted state change.
     /// </para>
     /// </remarks>
@@ -8148,7 +8639,9 @@ public:
     /// with this call.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the operation to destroy the local user started or an error code otherwise.
+    /// <c>c_partyErrorSuccess</c> if the operation to destroy the local user started or an error code otherwise. If
+    /// this method fails, no related state changes will be generated. The human-readable form of the error code can be
+    /// retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
     /// <seealso cref="PartyDestroyLocalUserCompletedStateChange" />
     /// <seealso cref="PartyManager::GetLocalUsers" />
@@ -8162,21 +8655,21 @@ public:
     /// </summary>
     /// <remarks>
     /// The array is backed by the library's internal memory. The array is only valid until the next call to either
-    /// PartyManager::CreateLocalUser() or PartyManager::StartProcessingStateChanges(). The individual local user
-    /// objects are valid until the local user's PartyDestroyLocalUserCompletedStateChange is reported and all state
-    /// changes referencing the local user object are returned via PartyManager::FinishProcessingStateChanges().
+    /// <see cref="CreateLocalUser()" /> or <see cref="StartProcessingStateChanges()" />. The individual local user
+    /// objects are valid until the local user's <see cref="PartyDestroyLocalUserCompletedStateChange" /> is reported
+    /// and all state changes referencing the local user object are returned via
+    /// <see cref="FinishProcessingStateChanges()" />.
     /// </remarks>
     /// <param name="userCount">
-    /// An output value indicating the number of local users provided in <paramref name="localUsers" />.
+    /// The output number of local users provided in <paramref name="localUsers" />.
     /// </param>
     /// <param name="localUsers">
-    /// An output array, backed by the library's internal memory, containing the local users.
+    /// A library-allocated output array containing the local users.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyManager::CreateLocalUser" />
     /// <seealso cref="PartyManager::DestroyLocalUser" />
     /// <seealso cref="PartyManager::StartProcessingStateChanges" />
@@ -8191,23 +8684,20 @@ public:
     /// </summary>
     /// <remarks>
     /// The array is backed by the library's internal memory. The array is only valid until the next call to
-    /// PartyManager::StartProcessingStateChanges(). The individual network objects are valid until the network is
+    /// <see cref="StartProcessingStateChanges()" />. The individual network objects are valid until the network is
     /// destroyed and all state changes referencing the network have been returned via
-    /// PartyManager::FinishProcessingStateChanges().
+    /// <see cref="FinishProcessingStateChanges()" />.
     /// </remarks>
     /// <param name="networkCount">
-    /// An output value indicating the number of networks to which the local device is connected provided in <paramref
-    /// name="networks" />.
+    /// The output number of networks to which the local device is connected provided in <paramref name="networks" />.
     /// </param>
     /// <param name="networks">
-    /// An output array, backed by the library's internal memory, containing the networks to which the local device is
-    /// connected.
+    /// A library-allocated output array containing the networks to which the local device is connected.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
     /// <seealso cref="PartyManager::ConnectToNetwork" />
     /// <seealso cref="PartyManager::StartProcessingStateChanges" />
     PartyError GetNetworks(
@@ -8220,23 +8710,22 @@ public:
     /// </summary>
     /// <remarks>
     /// The array is backed by the library's internal memory. The array is only valid until the next call to either
-    /// PartyManager::CreateChatControl() or PartyManager::StartProcessingStateChanges(). The individual chat control
-    /// objects are valid until the chat control is destroyed and all state changes referencing the chat control object
-    /// are returned via PartyManager::FinishProcessingStateChanges().
+    /// <see cref="PartyLocalDevice::CreateChatControl()" /> or <see cref="StartProcessingStateChanges()" />. The
+    /// individual chat control objects are valid until the chat control is destroyed and all state changes referencing
+    /// the chat control object are returned via <see cref="FinishProcessingStateChanges()" />.
     /// </remarks>
     /// <param name="chatControlCount">
-    /// An output value indicating the number of networks to which the local device is connected provided in <paramref
-    /// name="chatControls" />.
+    /// The output number of networks to which the local device is connected provided in
+    /// <paramref name="chatControls" />.
     /// </param>
     /// <param name="chatControls">
-    /// An output array, backed by the library's internal memory, containing the list of all chat controls.
+    /// A library-allocated output array containing the list of all chat controls.
     /// </param>
     /// <returns>
-    /// c_partyErrorSuccess if the call succeeded or an error code otherwise. The human-readable form of the error code
-    /// can be retrieved via PartyManager::GetErrorMessage().
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartyManager::GetErrorMessage" />
-    /// <seealso cref="PartyManager::CreateChatControl" />
+    /// <seealso cref="PartyLocalDevice::CreateChatControl" />
     /// <seealso cref="PartyManager::StartProcessingStateChanges" />
     /// <seealso cref="PartyManager::FinishProcessingStateChanges" />
     PartyError GetChatControls(

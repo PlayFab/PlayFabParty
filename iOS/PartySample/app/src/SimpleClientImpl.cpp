@@ -20,10 +20,19 @@
 #include <iostream>
 #include <string>
 
-
 bool g_isRunning = false;
 bool g_initializeCompleted = false;
 bool g_shouldShutdown = false;
+std::string g_networkName;
+std::string g_networkDescriptor;
+
+// This flag indicates a reconnection phase - the state during which the event loop (see method Tick())
+// will be attempting to connect to network. The phase will start when a network disconnection event is received
+// (see OnDisconnect callback method) while disconnect wasn't intentional. The phase will end when either a successful
+// network connection was made (see method ConnectToNetwork) or number of attempts exceeded an allowed number (see method Tick()).
+bool g_reconnecting = false;
+constexpr uint32_t c_maxReconnectAttempts = 10;
+uint32_t g_reconnectsRemaining = 0;
 std::string g_pfTitle;
 
 const char *
@@ -45,11 +54,31 @@ struct ChatControlCustomContext
 };
 
 void
+SimpleClientImpl::OnDisconnect(
+    const bool disconnectWasExpected
+    )
+{
+    if(!disconnectWasExpected)
+    {
+        if(!g_reconnecting && g_reconnectsRemaining == 0)
+        {
+            g_reconnecting = true;
+            g_reconnectsRemaining = c_maxReconnectAttempts;
+        }
+    }
+    else
+    {
+        g_shouldShutdown = true;
+    }
+}
+
+void
 SimpleClientImpl::Initialize(const char* pfTitle)
 {
     g_isRunning = true;
     g_pfTitle = pfTitle;
     Managers::Initialize<NetworkStateChangeManager>();
+    Managers::Get<NetworkManager>()->SetOnNetworkDestroyed(std::bind(&SimpleClientImpl::OnDisconnect, this, std::placeholders::_1));
 }
 
 void
@@ -98,12 +127,14 @@ SimpleClientImpl::CreateNetwork(
             networkId.c_str(),
             [this, networkId](std::string message)
             {
+                g_networkName = networkId;
                 this->SendSysLogToUI(this->FormatMessage("create network: %s", message.c_str()));
                 Managers::Get<PlayFabManager>()->SetDescriptor(
                     networkId,
                     message, 
                     [this, message](void)
                     {
+                        g_networkDescriptor = message;
                         m_messageHandler->OnEndLoading();
                         this->SendSysLogToUI(this->FormatMessage("set network descriptor succeeded"));
                         std::string l_message = message;
@@ -125,6 +156,7 @@ SimpleClientImpl::JoinNetwork(
 {
     if (g_isRunning && g_initializeCompleted)
     {
+        g_networkName = networkId;
         SendSysLogToUI(FormatMessage("JoinNetwork g_pfTitle: %s", g_pfTitle.c_str()));
         Managers::Get<NetworkManager>()->Initialize(g_pfTitle.c_str());
         m_messageHandler->OnStartLoading();
@@ -133,6 +165,7 @@ SimpleClientImpl::JoinNetwork(
             [this, networkId](std::string message)
             {
                 this->SendSysLogToUI(this->FormatMessage("OnGetDescriptorForConnectTo : %s", message.c_str()));
+                g_networkDescriptor = message;
                 m_messageHandler->OnGetDescriptorCompleted(networkId, message);
             });
     }
@@ -141,22 +174,39 @@ SimpleClientImpl::JoinNetwork(
 void
 SimpleClientImpl::ConnectToNetwork(
     std::string networkId,
-    std::string message
+    std::string message,
+    bool rejoining
     )
 {
     Managers::Get<NetworkManager>()->ConnectToNetwork(
         networkId.c_str(),
         message.c_str(),
-        [this](void)
+        [this, rejoining](void)
         {
             m_messageHandler->OnEndLoading();
-            this->SendSysLogToUI(this->FormatMessage("OnConnectToNetwork succeeded"));
+            g_reconnectsRemaining = 0;
+            g_reconnecting = false;
+            if (rejoining)
+            {
+                this->SendSysLogToUI(this->FormatMessage("Connection re-established"));
+            }
+            else
+            {
+                this->SendSysLogToUI(this->FormatMessage("OnConnectToNetwork succeeded"));
+            }
             m_messageHandler->OnJoinedNetwork();
         },
-        [this](PartyError error)
+        [this, rejoining](PartyError error)
         {
             m_messageHandler->OnEndLoading();
-            this->SendSysLogToUI(this->FormatMessage("OnConnectToNetworkFailed: %s", GetErrorMessage(error)));
+            if (!rejoining || g_reconnectsRemaining == 0)
+            {
+                this->SendSysLogToUI(this->FormatMessage("OnConnectToNetworkFailed: %s", GetErrorMessage(error)));
+            }
+            else
+            {
+                this->SendSysLogToUI(this->FormatMessage("Rejoining failed (%s). Trying again (%i)...", GetErrorMessage(error), g_reconnectsRemaining));
+            }
         });
 }
 
@@ -279,6 +329,23 @@ SimpleClientImpl::Tick()
     {
         g_shouldShutdown = false;
         Managers::Get<NetworkManager>()->Shutdown();
+    }
+    else if(!Managers::Get<NetworkManager>()->IsConnecting() && g_reconnecting)
+    {
+        // if we are still in a reconnection phase and the Network Manager is not trying to connect at this moment,
+        // make an additional attempt to connect
+        if (g_reconnectsRemaining > 0)
+        {
+            this->SendSysLogToUI(this->FormatMessage("Trying to reconnect with %i attempts remaining...", g_reconnectsRemaining));
+            --g_reconnectsRemaining;
+            this->ConnectToNetwork(g_networkName, g_networkDescriptor, true);
+        }
+        else
+        {
+            this->SendSysLogToUI(this->FormatMessage("Failed attempting to reconnect after %i attempts!", c_maxReconnectAttempts));
+            g_reconnecting = false;
+            g_shouldShutdown = true;
+        }
     }
 }
 

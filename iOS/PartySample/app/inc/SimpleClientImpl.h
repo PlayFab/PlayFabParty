@@ -17,6 +17,12 @@
 class SimpleClientImpl
 {
 public:
+    // callback for Network Manager's SetOnNetworkDestroyed method
+    void
+    OnDisconnect(
+        const bool disconnectWasExpected
+        );
+
     void
     Initialize(
         const char* pfTitle
@@ -43,7 +49,8 @@ public:
     void
     ConnectToNetwork(
         std::string networkId,
-        std::string message
+        std::string message,
+        bool rejoining
         );
 
     void
