@@ -246,7 +246,7 @@ PartySample::PlayFabManager::onGetDescriptorSuccess(
     if (result.Error.notNull())
     {
         // An error occured in the cloud script, output the error to standard output
-        DEBUGLOG("CloudScript error occured: %hs\n", result.Error->Message.c_str());
+        DEBUGLOG("CloudScript error occured: %s\n", result.Error->Message.c_str());
         if (m_onCompletedGettingDescriptor != nullptr)
         {
             // Send an error message to the chat window.

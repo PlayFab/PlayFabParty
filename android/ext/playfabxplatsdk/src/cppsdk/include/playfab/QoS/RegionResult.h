@@ -13,11 +13,11 @@ namespace PlayFabInternal
         struct RegionResult
         {
         public:
-            RegionResult(PlayFabInternal::MultiplayerModels::AzureRegion region, int latencyMs, int errorCode);
+            RegionResult(std::string region, int latencyMs, int errorCode);
             RegionResult() = delete;
 
             // The datacenter region
-            PlayFabInternal::MultiplayerModels::AzureRegion region;
+            std::string region;
 
             // Average latency to reach the data center
             int latencyMs;

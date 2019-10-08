@@ -27,6 +27,15 @@ PartyError PartyLocalUser::GetEntityId(
         entityId);
 }
 
+PartyError PartyLocalUser::UpdateEntityToken(
+    PartyString titlePlayerEntityToken
+    ) const party_no_throw
+{
+    return PartyLocalUserUpdateEntityToken(
+        reinterpret_cast<PARTY_LOCAL_USER_HANDLE>(this),
+        titlePlayerEntityToken);
+}
+
 PartyError PartyLocalUser::GetCustomContext(
     _Outptr_result_maybenull_ void ** customContext
     ) const party_no_throw
@@ -734,7 +743,7 @@ PartyError PartyLocalChatControl::SetAudioInput(
 }
 
 PartyError PartyLocalChatControl::GetAudioInput(
-    _Out_opt_ PartyAudioDeviceSelectionType * audioDeviceSelectionType,
+    _Out_ PartyAudioDeviceSelectionType * audioDeviceSelectionType,
     _Outptr_ PartyString * audioDeviceSelectionContext,
     _Outptr_ PartyString * deviceId
     ) const party_no_throw
@@ -760,7 +769,7 @@ PartyError PartyLocalChatControl::SetAudioOutput(
 }
 
 PartyError PartyLocalChatControl::GetAudioOutput(
-    _Out_opt_ PartyAudioDeviceSelectionType * audioDeviceSelectionType,
+    _Out_ PartyAudioDeviceSelectionType * audioDeviceSelectionType,
     _Outptr_ PartyString * audioDeviceSelectionContext,
     _Outptr_ PartyString * deviceId
     ) const party_no_throw
@@ -830,7 +839,7 @@ PartyError PartyLocalChatControl::SynthesizeTextToSpeech(
 }
 
 PartyError PartyLocalChatControl::SetLanguage(
-    PartyString languageCode,
+    _In_opt_ PartyString languageCode,
     _In_opt_ void * asyncIdentifier
     ) party_no_throw
 {
@@ -1432,880 +1441,884 @@ PartyError PartyManager::GetChatControls(
 //
 // C to C++ structure and constant verification
 //
-#pragma push_macro("C_ASSERT")
-#undef C_ASSERT
-#define C_ASSERT(e) typedef char __C_ASSERT__[(e)?1:-1]
+#pragma push_macro("PARTY_C_ASSERT")
+#undef PARTY_C_ASSERT
+#define PARTY_C_ASSERT(e) typedef char __PARTY_C_ASSERT__[(e)?1:-1]
 
 // BEGIN GENERATED SECTION: DO NOT EDIT
 
-C_ASSERT(PARTY_MAX_NETWORK_CONFIGURATION_MAX_DEVICE_COUNT == c_maxNetworkConfigurationMaxDeviceCount);
-C_ASSERT(PARTY_MAX_NETWORK_CONFIGURATION_MAX_ENDPOINTS_PER_DEVICE_COUNT == c_maxNetworkConfigurationMaxEndpointsPerDeviceCount);
-C_ASSERT(PARTY_MAX_LOCAL_USERS_PER_DEVICE_COUNT == c_maxLocalUsersPerDeviceCount);
-C_ASSERT(PARTY_OPAQUE_CONNECTION_INFORMATION_BYTE_COUNT == c_opaqueConnectionInformationByteCount);
-C_ASSERT(PARTY_MAX_INVITATION_IDENTIFIER_STRING_LENGTH == c_maxInvitationIdentifierStringLength);
-C_ASSERT(PARTY_MAX_INVITATION_ENTITY_ID_COUNT == c_maxInvitationEntityIdCount);
-C_ASSERT(PARTY_MAX_ENTITY_ID_STRING_LENGTH == c_maxEntityIdStringLength);
-C_ASSERT(PARTY_NETWORK_IDENTIFIER_STRING_LENGTH == c_networkIdentifierStringLength);
-C_ASSERT(PARTY_MAX_REGION_NAME_STRING_LENGTH == c_maxRegionNameStringLength);
-C_ASSERT(PARTY_MAX_SERIALIZED_NETWORK_DESCRIPTOR_STRING_LENGTH == c_maxSerializedNetworkDescriptorStringLength);
-C_ASSERT(PARTY_MAX_AUDIO_DEVICE_IDENTIFIER_STRING_LENGTH == c_maxAudioDeviceIdentifierStringLength);
-C_ASSERT(PARTY_MAX_LANGUAGE_CODE_STRING_LENGTH == c_maxLanguageCodeStringLength);
-C_ASSERT(PARTY_MAX_CHAT_TEXT_MESSAGE_STRING_LENGTH == c_maxChatTextMessageStringLength);
-C_ASSERT(PARTY_MAX_CHAT_TRANSCRIPTION_MESSAGE_STRING_LENGTH == c_maxChatTranscriptionMessageStringLength);
-C_ASSERT(PARTY_MAX_TEXT_TO_SPEECH_PROFILE_IDENTIFIER_STRING_LENGTH == c_maxTextToSpeechProfileIdentifierStringLength);
-C_ASSERT(PARTY_MAX_TEXT_TO_SPEECH_PROFILE_NAME_STRING_LENGTH == c_maxTextToSpeechProfileNameStringLength);
-C_ASSERT(PARTY_MAX_TEXT_TO_SPEECH_INPUT_STRING_LENGTH == c_maxTextToSpeechInputStringLength);
-C_ASSERT(PARTY_ANY_PROCESSOR == c_anyProcessor);
-C_ASSERT(PARTY_MIN_SEND_MESSAGE_QUEUING_PRIORITY == c_minSendMessageQueuingPriority);
-C_ASSERT(PARTY_CHAT_SEND_MESSAGE_QUEUING_PRIORITY == c_chatSendMessageQueuingPriority);
-C_ASSERT(PARTY_DEFAULT_SEND_MESSAGE_QUEUING_PRIORITY == c_defaultSendMessageQueuingPriority);
-C_ASSERT(PARTY_MAX_SEND_MESSAGE_QUEUING_PRIORITY == c_maxSendMessageQueuingPriority);
-
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_REGIONS_CHANGED == static_cast<uint32_t>(PartyStateChangeType::RegionsChanged));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_DESTROY_LOCAL_USER_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::DestroyLocalUserCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_CREATE_NEW_NETWORK_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::CreateNewNetworkCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_CONNECT_TO_NETWORK_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::ConnectToNetworkCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_AUTHENTICATE_LOCAL_USER_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::AuthenticateLocalUserCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_NETWORK_CONFIGURATION_MADE_AVAILABLE == static_cast<uint32_t>(PartyStateChangeType::NetworkConfigurationMadeAvailable));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_NETWORK_DESCRIPTOR_CHANGED == static_cast<uint32_t>(PartyStateChangeType::NetworkDescriptorChanged));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_LOCAL_USER_REMOVED == static_cast<uint32_t>(PartyStateChangeType::LocalUserRemoved));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_REMOVE_LOCAL_USER_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::RemoveLocalUserCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_LOCAL_USER_KICKED == static_cast<uint32_t>(PartyStateChangeType::LocalUserKicked));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_CREATE_ENDPOINT_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::CreateEndpointCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_DESTROY_ENDPOINT_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::DestroyEndpointCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_ENDPOINT_CREATED == static_cast<uint32_t>(PartyStateChangeType::EndpointCreated));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_ENDPOINT_DESTROYED == static_cast<uint32_t>(PartyStateChangeType::EndpointDestroyed));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_REMOTE_DEVICE_CREATED == static_cast<uint32_t>(PartyStateChangeType::RemoteDeviceCreated));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_REMOTE_DEVICE_DESTROYED == static_cast<uint32_t>(PartyStateChangeType::RemoteDeviceDestroyed));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_REMOTE_DEVICE_JOINED_NETWORK == static_cast<uint32_t>(PartyStateChangeType::RemoteDeviceJoinedNetwork));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_REMOTE_DEVICE_LEFT_NETWORK == static_cast<uint32_t>(PartyStateChangeType::RemoteDeviceLeftNetwork));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_DEVICE_PROPERTIES_CHANGED == static_cast<uint32_t>(PartyStateChangeType::DevicePropertiesChanged));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_LEAVE_NETWORK_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::LeaveNetworkCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_NETWORK_DESTROYED == static_cast<uint32_t>(PartyStateChangeType::NetworkDestroyed));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_ENDPOINT_MESSAGE_RECEIVED == static_cast<uint32_t>(PartyStateChangeType::EndpointMessageReceived));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_DATA_BUFFERS_RETURNED == static_cast<uint32_t>(PartyStateChangeType::DataBuffersReturned));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_ENDPOINT_PROPERTIES_CHANGED == static_cast<uint32_t>(PartyStateChangeType::EndpointPropertiesChanged));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SynchronizeMessagesBetweenEndpointsCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_CREATE_INVITATION_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::CreateInvitationCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_REVOKE_INVITATION_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::RevokeInvitationCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_INVITATION_CREATED == static_cast<uint32_t>(PartyStateChangeType::InvitationCreated));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_INVITATION_DESTROYED == static_cast<uint32_t>(PartyStateChangeType::InvitationDestroyed));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_NETWORK_PROPERTIES_CHANGED == static_cast<uint32_t>(PartyStateChangeType::NetworkPropertiesChanged));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_KICK_DEVICE_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::KickDeviceCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_KICK_USER_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::KickUserCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_CREATE_CHAT_CONTROL_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::CreateChatControlCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_DESTROY_CHAT_CONTROL_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::DestroyChatControlCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_CHAT_CONTROL_CREATED == static_cast<uint32_t>(PartyStateChangeType::ChatControlCreated));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_CHAT_CONTROL_DESTROYED == static_cast<uint32_t>(PartyStateChangeType::ChatControlDestroyed));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SetChatAudioEncoderBitrateCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_CHAT_TEXT_RECEIVED == static_cast<uint32_t>(PartyStateChangeType::ChatTextReceived));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_VOICE_CHAT_TRANSCRIPTION_RECEIVED == static_cast<uint32_t>(PartyStateChangeType::VoiceChatTranscriptionReceived));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_SET_CHAT_AUDIO_INPUT_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SetChatAudioInputCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_SET_CHAT_AUDIO_OUTPUT_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SetChatAudioOutputCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_LOCAL_CHAT_AUDIO_INPUT_CHANGED == static_cast<uint32_t>(PartyStateChangeType::LocalChatAudioInputChanged));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED == static_cast<uint32_t>(PartyStateChangeType::LocalChatAudioOutputChanged));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SetTextToSpeechProfileCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SynthesizeTextToSpeechCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_SET_LANGUAGE_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SetLanguageCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_SET_TRANSCRIPTION_OPTIONS_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SetTranscriptionOptionsCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_SET_TEXT_CHAT_OPTIONS_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SetTextChatOptionsCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_CHAT_CONTROL_PROPERTIES_CHANGED == static_cast<uint32_t>(PartyStateChangeType::ChatControlPropertiesChanged));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_CHAT_CONTROL_JOINED_NETWORK == static_cast<uint32_t>(PartyStateChangeType::ChatControlJoinedNetwork));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_CHAT_CONTROL_LEFT_NETWORK == static_cast<uint32_t>(PartyStateChangeType::ChatControlLeftNetwork));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_CONNECT_CHAT_CONTROL_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::ConnectChatControlCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_DISCONNECT_CHAT_CONTROL_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::DisconnectChatControlCompleted));
-C_ASSERT(PARTY_STATE_CHANGE_TYPE_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::PopulateAvailableTextToSpeechProfilesCompleted));
-
-C_ASSERT(PARTY_STATE_CHANGE_RESULT_SUCCEEDED == static_cast<uint32_t>(PartyStateChangeResult::Succeeded));
-C_ASSERT(PARTY_STATE_CHANGE_RESULT_UNKNOWN_ERROR == static_cast<uint32_t>(PartyStateChangeResult::UnknownError));
-C_ASSERT(PARTY_STATE_CHANGE_RESULT_CANCELED_BY_TITLE == static_cast<uint32_t>(PartyStateChangeResult::CanceledByTitle));
-C_ASSERT(PARTY_STATE_CHANGE_RESULT_INTERNET_CONNECTIVITY_ERROR == static_cast<uint32_t>(PartyStateChangeResult::InternetConnectivityError));
-C_ASSERT(PARTY_STATE_CHANGE_RESULT_PARTY_SERVICE_ERROR == static_cast<uint32_t>(PartyStateChangeResult::PartyServiceError));
-C_ASSERT(PARTY_STATE_CHANGE_RESULT_NO_SERVERS_AVAILABLE == static_cast<uint32_t>(PartyStateChangeResult::NoServersAvailable));
-C_ASSERT(PARTY_STATE_CHANGE_RESULT_USER_NOT_AUTHORIZED == static_cast<uint32_t>(PartyStateChangeResult::UserNotAuthorized));
-C_ASSERT(PARTY_STATE_CHANGE_RESULT_USER_CREATE_NETWORK_THROTTLED == static_cast<uint32_t>(PartyStateChangeResult::UserCreateNetworkThrottled));
-C_ASSERT(PARTY_STATE_CHANGE_RESULT_TITLE_NOT_ENABLED_FOR_PARTY == static_cast<uint32_t>(PartyStateChangeResult::TitleNotEnabledForParty));
-C_ASSERT(PARTY_STATE_CHANGE_RESULT_TITLE_CREATE_NETWORK_THROTTLED == static_cast<uint32_t>(PartyStateChangeResult::TitleCreateNetworkThrottled));
-C_ASSERT(PARTY_STATE_CHANGE_RESULT_NETWORK_LIMIT_REACHED == static_cast<uint32_t>(PartyStateChangeResult::NetworkLimitReached));
-C_ASSERT(PARTY_STATE_CHANGE_RESULT_NETWORK_NO_LONGER_EXISTS == static_cast<uint32_t>(PartyStateChangeResult::NetworkNoLongerExists));
-C_ASSERT(PARTY_STATE_CHANGE_RESULT_NETWORK_NOT_JOINABLE == static_cast<uint32_t>(PartyStateChangeResult::NetworkNotJoinable));
-C_ASSERT(PARTY_STATE_CHANGE_RESULT_VERSION_MISMATCH == static_cast<uint32_t>(PartyStateChangeResult::VersionMismatch));
-C_ASSERT(PARTY_STATE_CHANGE_RESULT_LEAVE_NETWORK_CALLED == static_cast<uint32_t>(PartyStateChangeResult::LeaveNetworkCalled));
-
-C_ASSERT(PARTY_LOCAL_USER_REMOVED_REASON_AUTHENTICATION_FAILED == static_cast<uint32_t>(PartyLocalUserRemovedReason::AuthenticationFailed));
-C_ASSERT(PARTY_LOCAL_USER_REMOVED_REASON_REMOVE_LOCAL_USER == static_cast<uint32_t>(PartyLocalUserRemovedReason::RemoveLocalUser));
-C_ASSERT(PARTY_LOCAL_USER_REMOVED_REASON_DESTROY_LOCAL_USER == static_cast<uint32_t>(PartyLocalUserRemovedReason::DestroyLocalUser));
-C_ASSERT(PARTY_LOCAL_USER_REMOVED_REASON_DESTROY_NETWORK == static_cast<uint32_t>(PartyLocalUserRemovedReason::DestroyNetwork));
-
-C_ASSERT(PARTY_DESTROYED_REASON_REQUESTED == static_cast<uint32_t>(PartyDestroyedReason::Requested));
-C_ASSERT(PARTY_DESTROYED_REASON_DISCONNECTED == static_cast<uint32_t>(PartyDestroyedReason::Disconnected));
-C_ASSERT(PARTY_DESTROYED_REASON_KICKED == static_cast<uint32_t>(PartyDestroyedReason::Kicked));
-C_ASSERT(PARTY_DESTROYED_REASON_DEVICE_LOST_AUTHENTICATION == static_cast<uint32_t>(PartyDestroyedReason::DeviceLostAuthentication));
-C_ASSERT(PARTY_DESTROYED_REASON_CREATION_FAILED == static_cast<uint32_t>(PartyDestroyedReason::CreationFailed));
-
-C_ASSERT(PARTY_THREAD_ID_AUDIO == static_cast<uint32_t>(PartyThreadId::Audio));
-C_ASSERT(PARTY_THREAD_ID_NETWORKING == static_cast<uint32_t>(PartyThreadId::Networking));
-
-C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_DEFAULT == static_cast<uint32_t>(PartySendMessageOptions::Default));
-C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_GUARANTEED_DELIVERY == static_cast<uint32_t>(PartySendMessageOptions::GuaranteedDelivery));
-C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_BEST_EFFORT_DELIVERY == static_cast<uint32_t>(PartySendMessageOptions::BestEffortDelivery));
-C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_SEQUENTIAL_DELIVERY == static_cast<uint32_t>(PartySendMessageOptions::SequentialDelivery));
-C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_NONSEQUENTIAL_DELIVERY == static_cast<uint32_t>(PartySendMessageOptions::NonsequentialDelivery));
-C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_COPY_DATA_BUFFERS == static_cast<uint32_t>(PartySendMessageOptions::CopyDataBuffers));
-C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_DONT_COPY_DATA_BUFFERS == static_cast<uint32_t>(PartySendMessageOptions::DontCopyDataBuffers));
-C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_COALESCE_OPPORTUNISTICALLY == static_cast<uint32_t>(PartySendMessageOptions::CoalesceOpportunistically));
-C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_ALWAYS_COALESCE_UNTIL_FLUSHED == static_cast<uint32_t>(PartySendMessageOptions::AlwaysCoalesceUntilFlushed));
-C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_REQUIRE_TIMELY_ACKNOWLEDGEMENT == static_cast<uint32_t>(PartySendMessageOptions::RequireTimelyAcknowledgement));
-C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_ALLOW_LAZY_ACKNOWLEDGEMENT == static_cast<uint32_t>(PartySendMessageOptions::AllowLazyAcknowledgement));
-
-C_ASSERT(PARTY_MESSAGE_RECEIVED_OPTIONS_NONE == static_cast<uint32_t>(PartyMessageReceivedOptions::None));
-C_ASSERT(PARTY_MESSAGE_RECEIVED_OPTIONS_GUARANTEED_DELIVERY == static_cast<uint32_t>(PartyMessageReceivedOptions::GuaranteedDelivery));
-C_ASSERT(PARTY_MESSAGE_RECEIVED_OPTIONS_SEQUENTIAL_DELIVERY == static_cast<uint32_t>(PartyMessageReceivedOptions::SequentialDelivery));
-C_ASSERT(PARTY_MESSAGE_RECEIVED_OPTIONS_REQUIRED_FRAGMENTATION == static_cast<uint32_t>(PartyMessageReceivedOptions::RequiredFragmentation));
-
-C_ASSERT(PARTY_CANCEL_MESSAGES_FILTER_EXPRESSION_NONE == static_cast<uint32_t>(PartyCancelMessagesFilterExpression::None));
-C_ASSERT(PARTY_CANCEL_MESSAGES_FILTER_EXPRESSION_IDENTITY_AND_MASK_EQUALS_MATCH_VALUE == static_cast<uint32_t>(PartyCancelMessagesFilterExpression::IdentityAndMaskEqualsMatchValue));
-C_ASSERT(PARTY_CANCEL_MESSAGES_FILTER_EXPRESSION_IDENTITY_AND_MASK_DOES_NOT_EQUAL_MATCH_VALUE == static_cast<uint32_t>(PartyCancelMessagesFilterExpression::IdentityAndMaskDoesNotEqualMatchValue));
-
-C_ASSERT(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_OPTIONS_NONE == static_cast<uint32_t>(PartySynchronizeMessagesBetweenEndpointsOptions::None));
-C_ASSERT(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_OPTIONS_SYNCHRONIZE_MESSAGES_WITH_SHARED_PROPERTIES == static_cast<uint32_t>(PartySynchronizeMessagesBetweenEndpointsOptions::SynchronizeMessagesWithSharedProperties));
-
-C_ASSERT(PARTY_NETWORK_STATISTIC_AVERAGE_RELAY_SERVER_ROUND_TRIP_LATENCY_IN_MILLISECONDS == static_cast<uint32_t>(PartyNetworkStatistic::AverageRelayServerRoundTripLatencyInMilliseconds));
-C_ASSERT(PARTY_NETWORK_STATISTIC_SENT_PROTOCOL_PACKETS == static_cast<uint32_t>(PartyNetworkStatistic::SentProtocolPackets));
-C_ASSERT(PARTY_NETWORK_STATISTIC_SENT_PROTOCOL_BYTES == static_cast<uint32_t>(PartyNetworkStatistic::SentProtocolBytes));
-C_ASSERT(PARTY_NETWORK_STATISTIC_RETRIED_PROTOCOL_PACKETS == static_cast<uint32_t>(PartyNetworkStatistic::RetriedProtocolPackets));
-C_ASSERT(PARTY_NETWORK_STATISTIC_RETRIED_PROTOCOL_BYTES == static_cast<uint32_t>(PartyNetworkStatistic::RetriedProtocolBytes));
-C_ASSERT(PARTY_NETWORK_STATISTIC_DROPPED_PROTOCOL_PACKETS == static_cast<uint32_t>(PartyNetworkStatistic::DroppedProtocolPackets));
-C_ASSERT(PARTY_NETWORK_STATISTIC_RECEIVED_PROTOCOL_PACKETS == static_cast<uint32_t>(PartyNetworkStatistic::ReceivedProtocolPackets));
-C_ASSERT(PARTY_NETWORK_STATISTIC_RECEIVED_PROTOCOL_BYTES == static_cast<uint32_t>(PartyNetworkStatistic::ReceivedProtocolBytes));
-C_ASSERT(PARTY_NETWORK_STATISTIC_CURRENTLY_QUEUED_SEND_MESSAGES == static_cast<uint32_t>(PartyNetworkStatistic::CurrentlyQueuedSendMessages));
-C_ASSERT(PARTY_NETWORK_STATISTIC_CURRENTLY_QUEUED_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyNetworkStatistic::CurrentlyQueuedSendMessageBytes));
-C_ASSERT(PARTY_NETWORK_STATISTIC_CURRENTLY_ACTIVE_SEND_MESSAGES == static_cast<uint32_t>(PartyNetworkStatistic::CurrentlyActiveSendMessages));
-C_ASSERT(PARTY_NETWORK_STATISTIC_CURRENTLY_ACTIVE_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyNetworkStatistic::CurrentlyActiveSendMessageBytes));
-C_ASSERT(PARTY_NETWORK_STATISTIC_TIMED_OUT_SEND_MESSAGES == static_cast<uint32_t>(PartyNetworkStatistic::TimedOutSendMessages));
-C_ASSERT(PARTY_NETWORK_STATISTIC_TIMED_OUT_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyNetworkStatistic::TimedOutSendMessageBytes));
-C_ASSERT(PARTY_NETWORK_STATISTIC_CANCELED_SEND_MESSAGES == static_cast<uint32_t>(PartyNetworkStatistic::CanceledSendMessages));
-C_ASSERT(PARTY_NETWORK_STATISTIC_CANCELED_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyNetworkStatistic::CanceledSendMessageBytes));
-
-C_ASSERT(PARTY_ENDPOINT_STATISTIC_CURRENTLY_QUEUED_SEND_MESSAGES == static_cast<uint32_t>(PartyEndpointStatistic::CurrentlyQueuedSendMessages));
-C_ASSERT(PARTY_ENDPOINT_STATISTIC_CURRENTLY_QUEUED_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyEndpointStatistic::CurrentlyQueuedSendMessageBytes));
-C_ASSERT(PARTY_ENDPOINT_STATISTIC_CURRENTLY_ACTIVE_SEND_MESSAGES == static_cast<uint32_t>(PartyEndpointStatistic::CurrentlyActiveSendMessages));
-C_ASSERT(PARTY_ENDPOINT_STATISTIC_CURRENTLY_ACTIVE_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyEndpointStatistic::CurrentlyActiveSendMessageBytes));
-C_ASSERT(PARTY_ENDPOINT_STATISTIC_TIMED_OUT_SEND_MESSAGES == static_cast<uint32_t>(PartyEndpointStatistic::TimedOutSendMessages));
-C_ASSERT(PARTY_ENDPOINT_STATISTIC_TIMED_OUT_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyEndpointStatistic::TimedOutSendMessageBytes));
-C_ASSERT(PARTY_ENDPOINT_STATISTIC_CANCELED_SEND_MESSAGES == static_cast<uint32_t>(PartyEndpointStatistic::CanceledSendMessages));
-C_ASSERT(PARTY_ENDPOINT_STATISTIC_CANCELED_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyEndpointStatistic::CanceledSendMessageBytes));
-
-C_ASSERT(PARTY_INVITATION_REVOCABILITY_CREATOR == static_cast<uint32_t>(PartyInvitationRevocability::Creator));
-C_ASSERT(PARTY_INVITATION_REVOCABILITY_ANYONE == static_cast<uint32_t>(PartyInvitationRevocability::Anyone));
-
-C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_NONE == static_cast<uint32_t>(PartyChatPermissionOptions::None));
-C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_SEND_AUDIO == static_cast<uint32_t>(PartyChatPermissionOptions::SendAudio));
-C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_RECEIVE_AUDIO == static_cast<uint32_t>(PartyChatPermissionOptions::ReceiveAudio));
-C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_RECEIVE_TEXT == static_cast<uint32_t>(PartyChatPermissionOptions::ReceiveText));
-
-C_ASSERT(PARTY_AUDIO_DEVICE_SELECTION_TYPE_NONE == static_cast<uint32_t>(PartyAudioDeviceSelectionType::None));
-C_ASSERT(PARTY_AUDIO_DEVICE_SELECTION_TYPE_SYSTEM_DEFAULT == static_cast<uint32_t>(PartyAudioDeviceSelectionType::SystemDefault));
-C_ASSERT(PARTY_AUDIO_DEVICE_SELECTION_TYPE_PLATFORM_USER_DEFAULT == static_cast<uint32_t>(PartyAudioDeviceSelectionType::PlatformUserDefault));
-C_ASSERT(PARTY_AUDIO_DEVICE_SELECTION_TYPE_MANUAL == static_cast<uint32_t>(PartyAudioDeviceSelectionType::Manual));
-
-C_ASSERT(PARTY_AUDIO_INPUT_STATE_NO_INPUT == static_cast<uint32_t>(PartyAudioInputState::NoInput));
-C_ASSERT(PARTY_AUDIO_INPUT_STATE_INITIALIZED == static_cast<uint32_t>(PartyAudioInputState::Initialized));
-C_ASSERT(PARTY_AUDIO_INPUT_STATE_NOT_FOUND == static_cast<uint32_t>(PartyAudioInputState::NotFound));
-C_ASSERT(PARTY_AUDIO_INPUT_STATE_USER_CONSENT_DENIED == static_cast<uint32_t>(PartyAudioInputState::UserConsentDenied));
-C_ASSERT(PARTY_AUDIO_INPUT_STATE_UNSUPPORTED_FORMAT == static_cast<uint32_t>(PartyAudioInputState::UnsupportedFormat));
-C_ASSERT(PARTY_AUDIO_INPUT_STATE_ALREADY_IN_USE == static_cast<uint32_t>(PartyAudioInputState::AlreadyInUse));
-C_ASSERT(PARTY_AUDIO_INPUT_STATE_UNKNOWN_ERROR == static_cast<uint32_t>(PartyAudioInputState::UnknownError));
-
-C_ASSERT(PARTY_AUDIO_OUTPUT_STATE_NO_OUTPUT == static_cast<uint32_t>(PartyAudioOutputState::NoOutput));
-C_ASSERT(PARTY_AUDIO_OUTPUT_STATE_INITIALIZED == static_cast<uint32_t>(PartyAudioOutputState::Initialized));
-C_ASSERT(PARTY_AUDIO_OUTPUT_STATE_NOT_FOUND == static_cast<uint32_t>(PartyAudioOutputState::NotFound));
-C_ASSERT(PARTY_AUDIO_OUTPUT_STATE_UNSUPPORTED_FORMAT == static_cast<uint32_t>(PartyAudioOutputState::UnsupportedFormat));
-C_ASSERT(PARTY_AUDIO_OUTPUT_STATE_ALREADY_IN_USE == static_cast<uint32_t>(PartyAudioOutputState::AlreadyInUse));
-C_ASSERT(PARTY_AUDIO_OUTPUT_STATE_UNKNOWN_ERROR == static_cast<uint32_t>(PartyAudioOutputState::UnknownError));
-
-C_ASSERT(PARTY_LOCAL_CHAT_CONTROL_CHAT_INDICATOR_SILENT == static_cast<uint32_t>(PartyLocalChatControlChatIndicator::Silent));
-C_ASSERT(PARTY_LOCAL_CHAT_CONTROL_CHAT_INDICATOR_TALKING == static_cast<uint32_t>(PartyLocalChatControlChatIndicator::Talking));
-C_ASSERT(PARTY_LOCAL_CHAT_CONTROL_CHAT_INDICATOR_AUDIO_INPUT_MUTED == static_cast<uint32_t>(PartyLocalChatControlChatIndicator::AudioInputMuted));
-C_ASSERT(PARTY_LOCAL_CHAT_CONTROL_CHAT_INDICATOR_NO_AUDIO_INPUT == static_cast<uint32_t>(PartyLocalChatControlChatIndicator::NoAudioInput));
-
-C_ASSERT(PARTY_CHAT_CONTROL_CHAT_INDICATOR_SILENT == static_cast<uint32_t>(PartyChatControlChatIndicator::Silent));
-C_ASSERT(PARTY_CHAT_CONTROL_CHAT_INDICATOR_TALKING == static_cast<uint32_t>(PartyChatControlChatIndicator::Talking));
-C_ASSERT(PARTY_CHAT_CONTROL_CHAT_INDICATOR_INCOMING_VOICE_DISABLED == static_cast<uint32_t>(PartyChatControlChatIndicator::IncomingVoiceDisabled));
-C_ASSERT(PARTY_CHAT_CONTROL_CHAT_INDICATOR_INCOMING_COMMUNICATIONS_MUTED == static_cast<uint32_t>(PartyChatControlChatIndicator::IncomingCommunicationsMuted));
-
-C_ASSERT(PARTY_GENDER_NEUTRAL == static_cast<uint32_t>(PartyGender::Neutral));
-C_ASSERT(PARTY_GENDER_FEMALE == static_cast<uint32_t>(PartyGender::Female));
-C_ASSERT(PARTY_GENDER_MALE == static_cast<uint32_t>(PartyGender::Male));
-
-C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_PHRASE_TYPE_HYPOTHESIS == static_cast<uint32_t>(PartyVoiceChatTranscriptionPhraseType::Hypothesis));
-C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_PHRASE_TYPE_FINAL == static_cast<uint32_t>(PartyVoiceChatTranscriptionPhraseType::Final));
-
-C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_NONE == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::None));
-C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_TRANSCRIBE_SELF == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::TranscribeSelf));
-C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_TRANSCRIBE_OTHER_CHAT_CONTROLS_WITH_MATCHING_LANGUAGES == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::TranscribeOtherChatControlsWithMatchingLanguages));
-C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_TRANSCRIBE_OTHER_CHAT_CONTROLS_WITH_NON_MATCHING_LANGUAGES == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::TranscribeOtherChatControlsWithNonMatchingLanguages));
-C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_DISABLE_HYPOTHESIS_PHRASES == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::DisableHypothesisPhrases));
-C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_TRANSLATE_TO_LOCAL_LANGUAGE == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::TranslateToLocalLanguage));
-
-C_ASSERT(PARTY_TEXT_CHAT_OPTIONS_NONE == static_cast<uint32_t>(PartyTextChatOptions::None));
-C_ASSERT(PARTY_TEXT_CHAT_OPTIONS_TRANSLATE_TO_LOCAL_LANGUAGE == static_cast<uint32_t>(PartyTextChatOptions::TranslateToLocalLanguage));
-
-C_ASSERT(PARTY_TRANSLATION_RECEIVED_OPTIONS_NONE == static_cast<uint32_t>(PartyTranslationReceivedOptions::None));
-C_ASSERT(PARTY_TRANSLATION_RECEIVED_OPTIONS_TRUNCATED == static_cast<uint32_t>(PartyTranslationReceivedOptions::Truncated));
-
-C_ASSERT(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_TYPE_NARRATION == static_cast<uint32_t>(PartySynthesizeTextToSpeechType::Narration));
-C_ASSERT(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_TYPE_VOICE_CHAT == static_cast<uint32_t>(PartySynthesizeTextToSpeechType::VoiceChat));
-
-C_ASSERT(sizeof(PARTY_NETWORK_DESCRIPTOR) == sizeof(PartyNetworkDescriptor));
-C_ASSERT(sizeof(PARTY_NETWORK_DESCRIPTOR::networkIdentifier) == sizeof(PartyNetworkDescriptor::networkIdentifier));
-C_ASSERT(offsetof(PARTY_NETWORK_DESCRIPTOR, networkIdentifier) == offsetof(PartyNetworkDescriptor, networkIdentifier));
-C_ASSERT(sizeof(PARTY_NETWORK_DESCRIPTOR::regionName) == sizeof(PartyNetworkDescriptor::regionName));
-C_ASSERT(offsetof(PARTY_NETWORK_DESCRIPTOR, regionName) == offsetof(PartyNetworkDescriptor, regionName));
-C_ASSERT(sizeof(PARTY_NETWORK_DESCRIPTOR::opaqueConnectionInformation) == sizeof(PartyNetworkDescriptor::opaqueConnectionInformation));
-C_ASSERT(offsetof(PARTY_NETWORK_DESCRIPTOR, opaqueConnectionInformation) == offsetof(PartyNetworkDescriptor, opaqueConnectionInformation));
-
-C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION) == sizeof(PartyNetworkConfiguration));
-C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION::maxUserCount) == sizeof(PartyNetworkConfiguration::maxUserCount));
-C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION, maxUserCount) == offsetof(PartyNetworkConfiguration, maxUserCount));
-C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION::maxDeviceCount) == sizeof(PartyNetworkConfiguration::maxDeviceCount));
-C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION, maxDeviceCount) == offsetof(PartyNetworkConfiguration, maxDeviceCount));
-C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION::maxUsersPerDeviceCount) == sizeof(PartyNetworkConfiguration::maxUsersPerDeviceCount));
-C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION, maxUsersPerDeviceCount) == offsetof(PartyNetworkConfiguration, maxUsersPerDeviceCount));
-C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION::maxDevicesPerUserCount) == sizeof(PartyNetworkConfiguration::maxDevicesPerUserCount));
-C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION, maxDevicesPerUserCount) == offsetof(PartyNetworkConfiguration, maxDevicesPerUserCount));
-C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION::maxEndpointsPerDeviceCount) == sizeof(PartyNetworkConfiguration::maxEndpointsPerDeviceCount));
-C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION, maxEndpointsPerDeviceCount) == offsetof(PartyNetworkConfiguration, maxEndpointsPerDeviceCount));
-
-C_ASSERT(sizeof(PARTY_REGION) == sizeof(PartyRegion));
-C_ASSERT(sizeof(PARTY_REGION::regionName) == sizeof(PartyRegion::regionName));
-C_ASSERT(offsetof(PARTY_REGION, regionName) == offsetof(PartyRegion, regionName));
-C_ASSERT(sizeof(PARTY_REGION::roundTripLatencyInMilliseconds) == sizeof(PartyRegion::roundTripLatencyInMilliseconds));
-C_ASSERT(offsetof(PARTY_REGION, roundTripLatencyInMilliseconds) == offsetof(PartyRegion, roundTripLatencyInMilliseconds));
-
-C_ASSERT(sizeof(PARTY_INVITATION_CONFIGURATION) == sizeof(PartyInvitationConfiguration));
-C_ASSERT(sizeof(PARTY_INVITATION_CONFIGURATION::identifier) == sizeof(PartyInvitationConfiguration::identifier));
-C_ASSERT(offsetof(PARTY_INVITATION_CONFIGURATION, identifier) == offsetof(PartyInvitationConfiguration, identifier));
-C_ASSERT(sizeof(PARTY_INVITATION_CONFIGURATION::revocability) == sizeof(PartyInvitationConfiguration::revocability));
-C_ASSERT(offsetof(PARTY_INVITATION_CONFIGURATION, revocability) == offsetof(PartyInvitationConfiguration, revocability));
-C_ASSERT(sizeof(PARTY_INVITATION_CONFIGURATION::entityIdCount) == sizeof(PartyInvitationConfiguration::entityIdCount));
-C_ASSERT(offsetof(PARTY_INVITATION_CONFIGURATION, entityIdCount) == offsetof(PartyInvitationConfiguration, entityIdCount));
-C_ASSERT(sizeof(PARTY_INVITATION_CONFIGURATION::entityIds) == sizeof(PartyInvitationConfiguration::entityIds));
-C_ASSERT(offsetof(PARTY_INVITATION_CONFIGURATION, entityIds) == offsetof(PartyInvitationConfiguration, entityIds));
-
-C_ASSERT(sizeof(PARTY_SEND_MESSAGE_QUEUING_CONFIGURATION) == sizeof(PartySendMessageQueuingConfiguration));
-C_ASSERT(sizeof(PARTY_SEND_MESSAGE_QUEUING_CONFIGURATION::priority) == sizeof(PartySendMessageQueuingConfiguration::priority));
-C_ASSERT(offsetof(PARTY_SEND_MESSAGE_QUEUING_CONFIGURATION, priority) == offsetof(PartySendMessageQueuingConfiguration, priority));
-C_ASSERT(sizeof(PARTY_SEND_MESSAGE_QUEUING_CONFIGURATION::identityForCancelFilters) == sizeof(PartySendMessageQueuingConfiguration::identityForCancelFilters));
-C_ASSERT(offsetof(PARTY_SEND_MESSAGE_QUEUING_CONFIGURATION, identityForCancelFilters) == offsetof(PartySendMessageQueuingConfiguration, identityForCancelFilters));
-C_ASSERT(sizeof(PARTY_SEND_MESSAGE_QUEUING_CONFIGURATION::timeoutInMilliseconds) == sizeof(PartySendMessageQueuingConfiguration::timeoutInMilliseconds));
-C_ASSERT(offsetof(PARTY_SEND_MESSAGE_QUEUING_CONFIGURATION, timeoutInMilliseconds) == offsetof(PartySendMessageQueuingConfiguration, timeoutInMilliseconds));
-
-C_ASSERT(sizeof(PARTY_DATA_BUFFER) == sizeof(PartyDataBuffer));
-C_ASSERT(sizeof(PARTY_DATA_BUFFER::buffer) == sizeof(PartyDataBuffer::buffer));
-C_ASSERT(offsetof(PARTY_DATA_BUFFER, buffer) == offsetof(PartyDataBuffer, buffer));
-C_ASSERT(sizeof(PARTY_DATA_BUFFER::bufferByteCount) == sizeof(PartyDataBuffer::bufferByteCount));
-C_ASSERT(offsetof(PARTY_DATA_BUFFER, bufferByteCount) == offsetof(PartyDataBuffer, bufferByteCount));
-
-C_ASSERT(sizeof(PARTY_TRANSLATION) == sizeof(PartyTranslation));
-C_ASSERT(sizeof(PARTY_TRANSLATION::result) == sizeof(PartyTranslation::result));
-C_ASSERT(offsetof(PARTY_TRANSLATION, result) == offsetof(PartyTranslation, result));
-C_ASSERT(sizeof(PARTY_TRANSLATION::errorDetail) == sizeof(PartyTranslation::errorDetail));
-C_ASSERT(offsetof(PARTY_TRANSLATION, errorDetail) == offsetof(PartyTranslation, errorDetail));
-C_ASSERT(sizeof(PARTY_TRANSLATION::languageCode) == sizeof(PartyTranslation::languageCode));
-C_ASSERT(offsetof(PARTY_TRANSLATION, languageCode) == offsetof(PartyTranslation, languageCode));
-C_ASSERT(sizeof(PARTY_TRANSLATION::options) == sizeof(PartyTranslation::options));
-C_ASSERT(offsetof(PARTY_TRANSLATION, options) == offsetof(PartyTranslation, options));
-C_ASSERT(sizeof(PARTY_TRANSLATION::translation) == sizeof(PartyTranslation::translation));
-C_ASSERT(offsetof(PARTY_TRANSLATION, translation) == offsetof(PartyTranslation, translation));
-
-C_ASSERT(sizeof(PARTY_STATE_CHANGE) == sizeof(PartyStateChange));
-C_ASSERT(sizeof(PARTY_STATE_CHANGE::stateChangeType) == sizeof(PartyStateChange::stateChangeType));
-C_ASSERT(offsetof(PARTY_STATE_CHANGE, stateChangeType) == offsetof(PartyStateChange, stateChangeType));
-
-C_ASSERT(sizeof(PARTY_REGIONS_CHANGED_STATE_CHANGE) == sizeof(PartyRegionsChangedStateChange));
-C_ASSERT(sizeof(PARTY_REGIONS_CHANGED_STATE_CHANGE::result) == sizeof(PartyRegionsChangedStateChange::result));
-C_ASSERT(offsetof(PARTY_REGIONS_CHANGED_STATE_CHANGE, result) == offsetof(PartyRegionsChangedStateChange, result));
-C_ASSERT(sizeof(PARTY_REGIONS_CHANGED_STATE_CHANGE::errorDetail) == sizeof(PartyRegionsChangedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_REGIONS_CHANGED_STATE_CHANGE, errorDetail) == offsetof(PartyRegionsChangedStateChange, errorDetail));
-
-C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE) == sizeof(PartyCreateNewNetworkCompletedStateChange));
-C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::result) == sizeof(PartyCreateNewNetworkCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, result) == offsetof(PartyCreateNewNetworkCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyCreateNewNetworkCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyCreateNewNetworkCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyCreateNewNetworkCompletedStateChange::localUser));
-C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyCreateNewNetworkCompletedStateChange, localUser));
-C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::networkConfiguration) == sizeof(PartyCreateNewNetworkCompletedStateChange::networkConfiguration));
-C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, networkConfiguration) == offsetof(PartyCreateNewNetworkCompletedStateChange, networkConfiguration));
-C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::regionCount) == sizeof(PartyCreateNewNetworkCompletedStateChange::regionCount));
-C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, regionCount) == offsetof(PartyCreateNewNetworkCompletedStateChange, regionCount));
-C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::regions) == sizeof(PartyCreateNewNetworkCompletedStateChange::regions));
-C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, regions) == offsetof(PartyCreateNewNetworkCompletedStateChange, regions));
-C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyCreateNewNetworkCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyCreateNewNetworkCompletedStateChange, asyncIdentifier));
-C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::networkDescriptor) == sizeof(PartyCreateNewNetworkCompletedStateChange::networkDescriptor));
-C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, networkDescriptor) == offsetof(PartyCreateNewNetworkCompletedStateChange, networkDescriptor));
-C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::appliedInitialInvitationIdentifier) == sizeof(PartyCreateNewNetworkCompletedStateChange::appliedInitialInvitationIdentifier));
-C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, appliedInitialInvitationIdentifier) == offsetof(PartyCreateNewNetworkCompletedStateChange, appliedInitialInvitationIdentifier));
-
-C_ASSERT(sizeof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE) == sizeof(PartyConnectToNetworkCompletedStateChange));
-C_ASSERT(sizeof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE::result) == sizeof(PartyConnectToNetworkCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE, result) == offsetof(PartyConnectToNetworkCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyConnectToNetworkCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyConnectToNetworkCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE::networkDescriptor) == sizeof(PartyConnectToNetworkCompletedStateChange::networkDescriptor));
-C_ASSERT(offsetof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE, networkDescriptor) == offsetof(PartyConnectToNetworkCompletedStateChange, networkDescriptor));
-C_ASSERT(sizeof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyConnectToNetworkCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyConnectToNetworkCompletedStateChange, asyncIdentifier));
-C_ASSERT(sizeof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE::network) == sizeof(PartyConnectToNetworkCompletedStateChange::network));
-C_ASSERT(offsetof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE, network) == offsetof(PartyConnectToNetworkCompletedStateChange, network));
-
-C_ASSERT(sizeof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE) == sizeof(PartyAuthenticateLocalUserCompletedStateChange));
-C_ASSERT(sizeof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE::result) == sizeof(PartyAuthenticateLocalUserCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE, result) == offsetof(PartyAuthenticateLocalUserCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyAuthenticateLocalUserCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyAuthenticateLocalUserCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE::network) == sizeof(PartyAuthenticateLocalUserCompletedStateChange::network));
-C_ASSERT(offsetof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE, network) == offsetof(PartyAuthenticateLocalUserCompletedStateChange, network));
-C_ASSERT(sizeof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyAuthenticateLocalUserCompletedStateChange::localUser));
-C_ASSERT(offsetof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyAuthenticateLocalUserCompletedStateChange, localUser));
-C_ASSERT(sizeof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE::invitationIdentifier) == sizeof(PartyAuthenticateLocalUserCompletedStateChange::invitationIdentifier));
-C_ASSERT(offsetof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE, invitationIdentifier) == offsetof(PartyAuthenticateLocalUserCompletedStateChange, invitationIdentifier));
-C_ASSERT(sizeof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyAuthenticateLocalUserCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyAuthenticateLocalUserCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION_MADE_AVAILABLE_STATE_CHANGE) == sizeof(PartyNetworkConfigurationMadeAvailableStateChange));
-C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION_MADE_AVAILABLE_STATE_CHANGE::network) == sizeof(PartyNetworkConfigurationMadeAvailableStateChange::network));
-C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION_MADE_AVAILABLE_STATE_CHANGE, network) == offsetof(PartyNetworkConfigurationMadeAvailableStateChange, network));
-C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION_MADE_AVAILABLE_STATE_CHANGE::networkConfiguration) == sizeof(PartyNetworkConfigurationMadeAvailableStateChange::networkConfiguration));
-C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION_MADE_AVAILABLE_STATE_CHANGE, networkConfiguration) == offsetof(PartyNetworkConfigurationMadeAvailableStateChange, networkConfiguration));
-
-C_ASSERT(sizeof(PARTY_NETWORK_DESCRIPTOR_CHANGED_STATE_CHANGE) == sizeof(PartyNetworkDescriptorChangedStateChange));
-C_ASSERT(sizeof(PARTY_NETWORK_DESCRIPTOR_CHANGED_STATE_CHANGE::network) == sizeof(PartyNetworkDescriptorChangedStateChange::network));
-C_ASSERT(offsetof(PARTY_NETWORK_DESCRIPTOR_CHANGED_STATE_CHANGE, network) == offsetof(PartyNetworkDescriptorChangedStateChange, network));
-
-C_ASSERT(sizeof(PARTY_LOCAL_USER_REMOVED_STATE_CHANGE) == sizeof(PartyLocalUserRemovedStateChange));
-C_ASSERT(sizeof(PARTY_LOCAL_USER_REMOVED_STATE_CHANGE::network) == sizeof(PartyLocalUserRemovedStateChange::network));
-C_ASSERT(offsetof(PARTY_LOCAL_USER_REMOVED_STATE_CHANGE, network) == offsetof(PartyLocalUserRemovedStateChange, network));
-C_ASSERT(sizeof(PARTY_LOCAL_USER_REMOVED_STATE_CHANGE::localUser) == sizeof(PartyLocalUserRemovedStateChange::localUser));
-C_ASSERT(offsetof(PARTY_LOCAL_USER_REMOVED_STATE_CHANGE, localUser) == offsetof(PartyLocalUserRemovedStateChange, localUser));
-C_ASSERT(sizeof(PARTY_LOCAL_USER_REMOVED_STATE_CHANGE::removedReason) == sizeof(PartyLocalUserRemovedStateChange::removedReason));
-C_ASSERT(offsetof(PARTY_LOCAL_USER_REMOVED_STATE_CHANGE, removedReason) == offsetof(PartyLocalUserRemovedStateChange, removedReason));
-
-C_ASSERT(sizeof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE) == sizeof(PartyRemoveLocalUserCompletedStateChange));
-C_ASSERT(sizeof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE::result) == sizeof(PartyRemoveLocalUserCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE, result) == offsetof(PartyRemoveLocalUserCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyRemoveLocalUserCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyRemoveLocalUserCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE::network) == sizeof(PartyRemoveLocalUserCompletedStateChange::network));
-C_ASSERT(offsetof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE, network) == offsetof(PartyRemoveLocalUserCompletedStateChange, network));
-C_ASSERT(sizeof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyRemoveLocalUserCompletedStateChange::localUser));
-C_ASSERT(offsetof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyRemoveLocalUserCompletedStateChange, localUser));
-C_ASSERT(sizeof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyRemoveLocalUserCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyRemoveLocalUserCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE) == sizeof(PartyDestroyLocalUserCompletedStateChange));
-C_ASSERT(sizeof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE::result) == sizeof(PartyDestroyLocalUserCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE, result) == offsetof(PartyDestroyLocalUserCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyDestroyLocalUserCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyDestroyLocalUserCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyDestroyLocalUserCompletedStateChange::localUser));
-C_ASSERT(offsetof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyDestroyLocalUserCompletedStateChange, localUser));
-C_ASSERT(sizeof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyDestroyLocalUserCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyDestroyLocalUserCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_LOCAL_USER_KICKED_STATE_CHANGE) == sizeof(PartyLocalUserKickedStateChange));
-C_ASSERT(sizeof(PARTY_LOCAL_USER_KICKED_STATE_CHANGE::network) == sizeof(PartyLocalUserKickedStateChange::network));
-C_ASSERT(offsetof(PARTY_LOCAL_USER_KICKED_STATE_CHANGE, network) == offsetof(PartyLocalUserKickedStateChange, network));
-C_ASSERT(sizeof(PARTY_LOCAL_USER_KICKED_STATE_CHANGE::localUser) == sizeof(PartyLocalUserKickedStateChange::localUser));
-C_ASSERT(offsetof(PARTY_LOCAL_USER_KICKED_STATE_CHANGE, localUser) == offsetof(PartyLocalUserKickedStateChange, localUser));
-
-C_ASSERT(sizeof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE) == sizeof(PartyCreateEndpointCompletedStateChange));
-C_ASSERT(sizeof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE::result) == sizeof(PartyCreateEndpointCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE, result) == offsetof(PartyCreateEndpointCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyCreateEndpointCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyCreateEndpointCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE::network) == sizeof(PartyCreateEndpointCompletedStateChange::network));
-C_ASSERT(offsetof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE, network) == offsetof(PartyCreateEndpointCompletedStateChange, network));
-C_ASSERT(sizeof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyCreateEndpointCompletedStateChange::localUser));
-C_ASSERT(offsetof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyCreateEndpointCompletedStateChange, localUser));
-C_ASSERT(sizeof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyCreateEndpointCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyCreateEndpointCompletedStateChange, asyncIdentifier));
-C_ASSERT(sizeof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE::localEndpoint) == sizeof(PartyCreateEndpointCompletedStateChange::localEndpoint));
-C_ASSERT(offsetof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE, localEndpoint) == offsetof(PartyCreateEndpointCompletedStateChange, localEndpoint));
-
-C_ASSERT(sizeof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE) == sizeof(PartyDestroyEndpointCompletedStateChange));
-C_ASSERT(sizeof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE::result) == sizeof(PartyDestroyEndpointCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE, result) == offsetof(PartyDestroyEndpointCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyDestroyEndpointCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyDestroyEndpointCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE::network) == sizeof(PartyDestroyEndpointCompletedStateChange::network));
-C_ASSERT(offsetof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE, network) == offsetof(PartyDestroyEndpointCompletedStateChange, network));
-C_ASSERT(sizeof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE::localEndpoint) == sizeof(PartyDestroyEndpointCompletedStateChange::localEndpoint));
-C_ASSERT(offsetof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE, localEndpoint) == offsetof(PartyDestroyEndpointCompletedStateChange, localEndpoint));
-C_ASSERT(sizeof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyDestroyEndpointCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyDestroyEndpointCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_ENDPOINT_CREATED_STATE_CHANGE) == sizeof(PartyEndpointCreatedStateChange));
-C_ASSERT(sizeof(PARTY_ENDPOINT_CREATED_STATE_CHANGE::network) == sizeof(PartyEndpointCreatedStateChange::network));
-C_ASSERT(offsetof(PARTY_ENDPOINT_CREATED_STATE_CHANGE, network) == offsetof(PartyEndpointCreatedStateChange, network));
-C_ASSERT(sizeof(PARTY_ENDPOINT_CREATED_STATE_CHANGE::endpoint) == sizeof(PartyEndpointCreatedStateChange::endpoint));
-C_ASSERT(offsetof(PARTY_ENDPOINT_CREATED_STATE_CHANGE, endpoint) == offsetof(PartyEndpointCreatedStateChange, endpoint));
-
-C_ASSERT(sizeof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE) == sizeof(PartyEndpointDestroyedStateChange));
-C_ASSERT(sizeof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE::network) == sizeof(PartyEndpointDestroyedStateChange::network));
-C_ASSERT(offsetof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE, network) == offsetof(PartyEndpointDestroyedStateChange, network));
-C_ASSERT(sizeof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE::endpoint) == sizeof(PartyEndpointDestroyedStateChange::endpoint));
-C_ASSERT(offsetof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE, endpoint) == offsetof(PartyEndpointDestroyedStateChange, endpoint));
-C_ASSERT(sizeof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE::reason) == sizeof(PartyEndpointDestroyedStateChange::reason));
-C_ASSERT(offsetof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE, reason) == offsetof(PartyEndpointDestroyedStateChange, reason));
-C_ASSERT(sizeof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE::errorDetail) == sizeof(PartyEndpointDestroyedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE, errorDetail) == offsetof(PartyEndpointDestroyedStateChange, errorDetail));
-
-C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_CREATED_STATE_CHANGE) == sizeof(PartyRemoteDeviceCreatedStateChange));
-C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_CREATED_STATE_CHANGE::device) == sizeof(PartyRemoteDeviceCreatedStateChange::device));
-C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_CREATED_STATE_CHANGE, device) == offsetof(PartyRemoteDeviceCreatedStateChange, device));
-
-C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_DESTROYED_STATE_CHANGE) == sizeof(PartyRemoteDeviceDestroyedStateChange));
-C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_DESTROYED_STATE_CHANGE::device) == sizeof(PartyRemoteDeviceDestroyedStateChange::device));
-C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_DESTROYED_STATE_CHANGE, device) == offsetof(PartyRemoteDeviceDestroyedStateChange, device));
-
-C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_JOINED_NETWORK_STATE_CHANGE) == sizeof(PartyRemoteDeviceJoinedNetworkStateChange));
-C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_JOINED_NETWORK_STATE_CHANGE::device) == sizeof(PartyRemoteDeviceJoinedNetworkStateChange::device));
-C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_JOINED_NETWORK_STATE_CHANGE, device) == offsetof(PartyRemoteDeviceJoinedNetworkStateChange, device));
-C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_JOINED_NETWORK_STATE_CHANGE::network) == sizeof(PartyRemoteDeviceJoinedNetworkStateChange::network));
-C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_JOINED_NETWORK_STATE_CHANGE, network) == offsetof(PartyRemoteDeviceJoinedNetworkStateChange, network));
-
-C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE) == sizeof(PartyRemoteDeviceLeftNetworkStateChange));
-C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE::reason) == sizeof(PartyRemoteDeviceLeftNetworkStateChange::reason));
-C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE, reason) == offsetof(PartyRemoteDeviceLeftNetworkStateChange, reason));
-C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE::errorDetail) == sizeof(PartyRemoteDeviceLeftNetworkStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE, errorDetail) == offsetof(PartyRemoteDeviceLeftNetworkStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE::device) == sizeof(PartyRemoteDeviceLeftNetworkStateChange::device));
-C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE, device) == offsetof(PartyRemoteDeviceLeftNetworkStateChange, device));
-C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE::network) == sizeof(PartyRemoteDeviceLeftNetworkStateChange::network));
-C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE, network) == offsetof(PartyRemoteDeviceLeftNetworkStateChange, network));
-
-C_ASSERT(sizeof(PARTY_DEVICE_PROPERTIES_CHANGED_STATE_CHANGE) == sizeof(PartyDevicePropertiesChangedStateChange));
-C_ASSERT(sizeof(PARTY_DEVICE_PROPERTIES_CHANGED_STATE_CHANGE::device) == sizeof(PartyDevicePropertiesChangedStateChange::device));
-C_ASSERT(offsetof(PARTY_DEVICE_PROPERTIES_CHANGED_STATE_CHANGE, device) == offsetof(PartyDevicePropertiesChangedStateChange, device));
-C_ASSERT(sizeof(PARTY_DEVICE_PROPERTIES_CHANGED_STATE_CHANGE::propertyCount) == sizeof(PartyDevicePropertiesChangedStateChange::propertyCount));
-C_ASSERT(offsetof(PARTY_DEVICE_PROPERTIES_CHANGED_STATE_CHANGE, propertyCount) == offsetof(PartyDevicePropertiesChangedStateChange, propertyCount));
-C_ASSERT(sizeof(PARTY_DEVICE_PROPERTIES_CHANGED_STATE_CHANGE::keys) == sizeof(PartyDevicePropertiesChangedStateChange::keys));
-C_ASSERT(offsetof(PARTY_DEVICE_PROPERTIES_CHANGED_STATE_CHANGE, keys) == offsetof(PartyDevicePropertiesChangedStateChange, keys));
-
-C_ASSERT(sizeof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE) == sizeof(PartyLeaveNetworkCompletedStateChange));
-C_ASSERT(sizeof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE::result) == sizeof(PartyLeaveNetworkCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE, result) == offsetof(PartyLeaveNetworkCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyLeaveNetworkCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyLeaveNetworkCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE::network) == sizeof(PartyLeaveNetworkCompletedStateChange::network));
-C_ASSERT(offsetof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE, network) == offsetof(PartyLeaveNetworkCompletedStateChange, network));
-C_ASSERT(sizeof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyLeaveNetworkCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyLeaveNetworkCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_NETWORK_DESTROYED_STATE_CHANGE) == sizeof(PartyNetworkDestroyedStateChange));
-C_ASSERT(sizeof(PARTY_NETWORK_DESTROYED_STATE_CHANGE::reason) == sizeof(PartyNetworkDestroyedStateChange::reason));
-C_ASSERT(offsetof(PARTY_NETWORK_DESTROYED_STATE_CHANGE, reason) == offsetof(PartyNetworkDestroyedStateChange, reason));
-C_ASSERT(sizeof(PARTY_NETWORK_DESTROYED_STATE_CHANGE::errorDetail) == sizeof(PartyNetworkDestroyedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_NETWORK_DESTROYED_STATE_CHANGE, errorDetail) == offsetof(PartyNetworkDestroyedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_NETWORK_DESTROYED_STATE_CHANGE::network) == sizeof(PartyNetworkDestroyedStateChange::network));
-C_ASSERT(offsetof(PARTY_NETWORK_DESTROYED_STATE_CHANGE, network) == offsetof(PartyNetworkDestroyedStateChange, network));
-
-C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE) == sizeof(PartyEndpointMessageReceivedStateChange));
-C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE::network) == sizeof(PartyEndpointMessageReceivedStateChange::network));
-C_ASSERT(offsetof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE, network) == offsetof(PartyEndpointMessageReceivedStateChange, network));
-C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE::senderEndpoint) == sizeof(PartyEndpointMessageReceivedStateChange::senderEndpoint));
-C_ASSERT(offsetof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE, senderEndpoint) == offsetof(PartyEndpointMessageReceivedStateChange, senderEndpoint));
-C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE::receiverEndpointCount) == sizeof(PartyEndpointMessageReceivedStateChange::receiverEndpointCount));
-C_ASSERT(offsetof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE, receiverEndpointCount) == offsetof(PartyEndpointMessageReceivedStateChange, receiverEndpointCount));
-C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE::receiverEndpoints) == sizeof(PartyEndpointMessageReceivedStateChange::receiverEndpoints));
-C_ASSERT(offsetof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE, receiverEndpoints) == offsetof(PartyEndpointMessageReceivedStateChange, receiverEndpoints));
-C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE::options) == sizeof(PartyEndpointMessageReceivedStateChange::options));
-C_ASSERT(offsetof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE, options) == offsetof(PartyEndpointMessageReceivedStateChange, options));
-C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE::messageSize) == sizeof(PartyEndpointMessageReceivedStateChange::messageSize));
-C_ASSERT(offsetof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE, messageSize) == offsetof(PartyEndpointMessageReceivedStateChange, messageSize));
-C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE::messageBuffer) == sizeof(PartyEndpointMessageReceivedStateChange::messageBuffer));
-C_ASSERT(offsetof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE, messageBuffer) == offsetof(PartyEndpointMessageReceivedStateChange, messageBuffer));
-
-C_ASSERT(sizeof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE) == sizeof(PartyDataBuffersReturnedStateChange));
-C_ASSERT(sizeof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE::network) == sizeof(PartyDataBuffersReturnedStateChange::network));
-C_ASSERT(offsetof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE, network) == offsetof(PartyDataBuffersReturnedStateChange, network));
-C_ASSERT(sizeof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE::localSenderEndpoint) == sizeof(PartyDataBuffersReturnedStateChange::localSenderEndpoint));
-C_ASSERT(offsetof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE, localSenderEndpoint) == offsetof(PartyDataBuffersReturnedStateChange, localSenderEndpoint));
-C_ASSERT(sizeof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE::dataBufferCount) == sizeof(PartyDataBuffersReturnedStateChange::dataBufferCount));
-C_ASSERT(offsetof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE, dataBufferCount) == offsetof(PartyDataBuffersReturnedStateChange, dataBufferCount));
-C_ASSERT(sizeof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE::dataBuffers) == sizeof(PartyDataBuffersReturnedStateChange::dataBuffers));
-C_ASSERT(offsetof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE, dataBuffers) == offsetof(PartyDataBuffersReturnedStateChange, dataBuffers));
-C_ASSERT(sizeof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE::messageIdentifier) == sizeof(PartyDataBuffersReturnedStateChange::messageIdentifier));
-C_ASSERT(offsetof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE, messageIdentifier) == offsetof(PartyDataBuffersReturnedStateChange, messageIdentifier));
-
-C_ASSERT(sizeof(PARTY_ENDPOINT_PROPERTIES_CHANGED_STATE_CHANGE) == sizeof(PartyEndpointPropertiesChangedStateChange));
-C_ASSERT(sizeof(PARTY_ENDPOINT_PROPERTIES_CHANGED_STATE_CHANGE::endpoint) == sizeof(PartyEndpointPropertiesChangedStateChange::endpoint));
-C_ASSERT(offsetof(PARTY_ENDPOINT_PROPERTIES_CHANGED_STATE_CHANGE, endpoint) == offsetof(PartyEndpointPropertiesChangedStateChange, endpoint));
-C_ASSERT(sizeof(PARTY_ENDPOINT_PROPERTIES_CHANGED_STATE_CHANGE::propertyCount) == sizeof(PartyEndpointPropertiesChangedStateChange::propertyCount));
-C_ASSERT(offsetof(PARTY_ENDPOINT_PROPERTIES_CHANGED_STATE_CHANGE, propertyCount) == offsetof(PartyEndpointPropertiesChangedStateChange, propertyCount));
-C_ASSERT(sizeof(PARTY_ENDPOINT_PROPERTIES_CHANGED_STATE_CHANGE::keys) == sizeof(PartyEndpointPropertiesChangedStateChange::keys));
-C_ASSERT(offsetof(PARTY_ENDPOINT_PROPERTIES_CHANGED_STATE_CHANGE, keys) == offsetof(PartyEndpointPropertiesChangedStateChange, keys));
-
-C_ASSERT(sizeof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE) == sizeof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange));
-C_ASSERT(sizeof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE::endpointCount) == sizeof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange::endpointCount));
-C_ASSERT(offsetof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE, endpointCount) == offsetof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange, endpointCount));
-C_ASSERT(sizeof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE::endpoints) == sizeof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange::endpoints));
-C_ASSERT(offsetof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE, endpoints) == offsetof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange, endpoints));
-C_ASSERT(sizeof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE::options) == sizeof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange::options));
-C_ASSERT(offsetof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE, options) == offsetof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange, options));
-C_ASSERT(sizeof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE) == sizeof(PartyCreateInvitationCompletedStateChange));
-C_ASSERT(sizeof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE::result) == sizeof(PartyCreateInvitationCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE, result) == offsetof(PartyCreateInvitationCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyCreateInvitationCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyCreateInvitationCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE::network) == sizeof(PartyCreateInvitationCompletedStateChange::network));
-C_ASSERT(offsetof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE, network) == offsetof(PartyCreateInvitationCompletedStateChange, network));
-C_ASSERT(sizeof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyCreateInvitationCompletedStateChange::localUser));
-C_ASSERT(offsetof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyCreateInvitationCompletedStateChange, localUser));
-C_ASSERT(sizeof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyCreateInvitationCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyCreateInvitationCompletedStateChange, asyncIdentifier));
-C_ASSERT(sizeof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE::invitation) == sizeof(PartyCreateInvitationCompletedStateChange::invitation));
-C_ASSERT(offsetof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE, invitation) == offsetof(PartyCreateInvitationCompletedStateChange, invitation));
-
-C_ASSERT(sizeof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE) == sizeof(PartyRevokeInvitationCompletedStateChange));
-C_ASSERT(sizeof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE::result) == sizeof(PartyRevokeInvitationCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE, result) == offsetof(PartyRevokeInvitationCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyRevokeInvitationCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyRevokeInvitationCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE::network) == sizeof(PartyRevokeInvitationCompletedStateChange::network));
-C_ASSERT(offsetof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE, network) == offsetof(PartyRevokeInvitationCompletedStateChange, network));
-C_ASSERT(sizeof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyRevokeInvitationCompletedStateChange::localUser));
-C_ASSERT(offsetof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyRevokeInvitationCompletedStateChange, localUser));
-C_ASSERT(sizeof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE::invitation) == sizeof(PartyRevokeInvitationCompletedStateChange::invitation));
-C_ASSERT(offsetof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE, invitation) == offsetof(PartyRevokeInvitationCompletedStateChange, invitation));
-C_ASSERT(sizeof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyRevokeInvitationCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyRevokeInvitationCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_INVITATION_CREATED_STATE_CHANGE) == sizeof(PartyInvitationCreatedStateChange));
-C_ASSERT(sizeof(PARTY_INVITATION_CREATED_STATE_CHANGE::network) == sizeof(PartyInvitationCreatedStateChange::network));
-C_ASSERT(offsetof(PARTY_INVITATION_CREATED_STATE_CHANGE, network) == offsetof(PartyInvitationCreatedStateChange, network));
-C_ASSERT(sizeof(PARTY_INVITATION_CREATED_STATE_CHANGE::invitation) == sizeof(PartyInvitationCreatedStateChange::invitation));
-C_ASSERT(offsetof(PARTY_INVITATION_CREATED_STATE_CHANGE, invitation) == offsetof(PartyInvitationCreatedStateChange, invitation));
-
-C_ASSERT(sizeof(PARTY_INVITATION_DESTROYED_STATE_CHANGE) == sizeof(PartyInvitationDestroyedStateChange));
-C_ASSERT(sizeof(PARTY_INVITATION_DESTROYED_STATE_CHANGE::network) == sizeof(PartyInvitationDestroyedStateChange::network));
-C_ASSERT(offsetof(PARTY_INVITATION_DESTROYED_STATE_CHANGE, network) == offsetof(PartyInvitationDestroyedStateChange, network));
-C_ASSERT(sizeof(PARTY_INVITATION_DESTROYED_STATE_CHANGE::invitation) == sizeof(PartyInvitationDestroyedStateChange::invitation));
-C_ASSERT(offsetof(PARTY_INVITATION_DESTROYED_STATE_CHANGE, invitation) == offsetof(PartyInvitationDestroyedStateChange, invitation));
-C_ASSERT(sizeof(PARTY_INVITATION_DESTROYED_STATE_CHANGE::reason) == sizeof(PartyInvitationDestroyedStateChange::reason));
-C_ASSERT(offsetof(PARTY_INVITATION_DESTROYED_STATE_CHANGE, reason) == offsetof(PartyInvitationDestroyedStateChange, reason));
-C_ASSERT(sizeof(PARTY_INVITATION_DESTROYED_STATE_CHANGE::errorDetail) == sizeof(PartyInvitationDestroyedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_INVITATION_DESTROYED_STATE_CHANGE, errorDetail) == offsetof(PartyInvitationDestroyedStateChange, errorDetail));
-
-C_ASSERT(sizeof(PARTY_NETWORK_PROPERTIES_CHANGED_STATE_CHANGE) == sizeof(PartyNetworkPropertiesChangedStateChange));
-C_ASSERT(sizeof(PARTY_NETWORK_PROPERTIES_CHANGED_STATE_CHANGE::network) == sizeof(PartyNetworkPropertiesChangedStateChange::network));
-C_ASSERT(offsetof(PARTY_NETWORK_PROPERTIES_CHANGED_STATE_CHANGE, network) == offsetof(PartyNetworkPropertiesChangedStateChange, network));
-C_ASSERT(sizeof(PARTY_NETWORK_PROPERTIES_CHANGED_STATE_CHANGE::propertyCount) == sizeof(PartyNetworkPropertiesChangedStateChange::propertyCount));
-C_ASSERT(offsetof(PARTY_NETWORK_PROPERTIES_CHANGED_STATE_CHANGE, propertyCount) == offsetof(PartyNetworkPropertiesChangedStateChange, propertyCount));
-C_ASSERT(sizeof(PARTY_NETWORK_PROPERTIES_CHANGED_STATE_CHANGE::keys) == sizeof(PartyNetworkPropertiesChangedStateChange::keys));
-C_ASSERT(offsetof(PARTY_NETWORK_PROPERTIES_CHANGED_STATE_CHANGE, keys) == offsetof(PartyNetworkPropertiesChangedStateChange, keys));
-
-C_ASSERT(sizeof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE) == sizeof(PartyKickDeviceCompletedStateChange));
-C_ASSERT(sizeof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE::result) == sizeof(PartyKickDeviceCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE, result) == offsetof(PartyKickDeviceCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyKickDeviceCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyKickDeviceCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE::network) == sizeof(PartyKickDeviceCompletedStateChange::network));
-C_ASSERT(offsetof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE, network) == offsetof(PartyKickDeviceCompletedStateChange, network));
-C_ASSERT(sizeof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE::kickedDevice) == sizeof(PartyKickDeviceCompletedStateChange::kickedDevice));
-C_ASSERT(offsetof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE, kickedDevice) == offsetof(PartyKickDeviceCompletedStateChange, kickedDevice));
-C_ASSERT(sizeof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyKickDeviceCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyKickDeviceCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE) == sizeof(PartyKickUserCompletedStateChange));
-C_ASSERT(sizeof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE::result) == sizeof(PartyKickUserCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE, result) == offsetof(PartyKickUserCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyKickUserCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyKickUserCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE::network) == sizeof(PartyKickUserCompletedStateChange::network));
-C_ASSERT(offsetof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE, network) == offsetof(PartyKickUserCompletedStateChange, network));
-C_ASSERT(sizeof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE::kickedEntityId) == sizeof(PartyKickUserCompletedStateChange::kickedEntityId));
-C_ASSERT(offsetof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE, kickedEntityId) == offsetof(PartyKickUserCompletedStateChange, kickedEntityId));
-C_ASSERT(sizeof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyKickUserCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyKickUserCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE) == sizeof(PartyCreateChatControlCompletedStateChange));
-C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE::result) == sizeof(PartyCreateChatControlCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE, result) == offsetof(PartyCreateChatControlCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyCreateChatControlCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyCreateChatControlCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE::localDevice) == sizeof(PartyCreateChatControlCompletedStateChange::localDevice));
-C_ASSERT(offsetof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE, localDevice) == offsetof(PartyCreateChatControlCompletedStateChange, localDevice));
-C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyCreateChatControlCompletedStateChange::localUser));
-C_ASSERT(offsetof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyCreateChatControlCompletedStateChange, localUser));
-C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE::languageCode) == sizeof(PartyCreateChatControlCompletedStateChange::languageCode));
-C_ASSERT(offsetof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE, languageCode) == offsetof(PartyCreateChatControlCompletedStateChange, languageCode));
-C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyCreateChatControlCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyCreateChatControlCompletedStateChange, asyncIdentifier));
-C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartyCreateChatControlCompletedStateChange::localChatControl));
-C_ASSERT(offsetof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartyCreateChatControlCompletedStateChange, localChatControl));
-
-C_ASSERT(sizeof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE) == sizeof(PartyDestroyChatControlCompletedStateChange));
-C_ASSERT(sizeof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE::result) == sizeof(PartyDestroyChatControlCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE, result) == offsetof(PartyDestroyChatControlCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyDestroyChatControlCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyDestroyChatControlCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE::localDevice) == sizeof(PartyDestroyChatControlCompletedStateChange::localDevice));
-C_ASSERT(offsetof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE, localDevice) == offsetof(PartyDestroyChatControlCompletedStateChange, localDevice));
-C_ASSERT(sizeof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartyDestroyChatControlCompletedStateChange::localChatControl));
-C_ASSERT(offsetof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartyDestroyChatControlCompletedStateChange, localChatControl));
-C_ASSERT(sizeof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyDestroyChatControlCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyDestroyChatControlCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_CREATED_STATE_CHANGE) == sizeof(PartyChatControlCreatedStateChange));
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_CREATED_STATE_CHANGE::chatControl) == sizeof(PartyChatControlCreatedStateChange::chatControl));
-C_ASSERT(offsetof(PARTY_CHAT_CONTROL_CREATED_STATE_CHANGE, chatControl) == offsetof(PartyChatControlCreatedStateChange, chatControl));
-
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_DESTROYED_STATE_CHANGE) == sizeof(PartyChatControlDestroyedStateChange));
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_DESTROYED_STATE_CHANGE::chatControl) == sizeof(PartyChatControlDestroyedStateChange::chatControl));
-C_ASSERT(offsetof(PARTY_CHAT_CONTROL_DESTROYED_STATE_CHANGE, chatControl) == offsetof(PartyChatControlDestroyedStateChange, chatControl));
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_DESTROYED_STATE_CHANGE::reason) == sizeof(PartyChatControlDestroyedStateChange::reason));
-C_ASSERT(offsetof(PARTY_CHAT_CONTROL_DESTROYED_STATE_CHANGE, reason) == offsetof(PartyChatControlDestroyedStateChange, reason));
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_DESTROYED_STATE_CHANGE::errorDetail) == sizeof(PartyChatControlDestroyedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_CHAT_CONTROL_DESTROYED_STATE_CHANGE, errorDetail) == offsetof(PartyChatControlDestroyedStateChange, errorDetail));
-
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE) == sizeof(PartySetChatAudioEncoderBitrateCompletedStateChange));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE::result) == sizeof(PartySetChatAudioEncoderBitrateCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE, result) == offsetof(PartySetChatAudioEncoderBitrateCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySetChatAudioEncoderBitrateCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySetChatAudioEncoderBitrateCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySetChatAudioEncoderBitrateCompletedStateChange::localChatControl));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySetChatAudioEncoderBitrateCompletedStateChange, localChatControl));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE::bitrate) == sizeof(PartySetChatAudioEncoderBitrateCompletedStateChange::bitrate));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE, bitrate) == offsetof(PartySetChatAudioEncoderBitrateCompletedStateChange, bitrate));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySetChatAudioEncoderBitrateCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySetChatAudioEncoderBitrateCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE) == sizeof(PartyChatTextReceivedStateChange));
-C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::senderChatControl) == sizeof(PartyChatTextReceivedStateChange::senderChatControl));
-C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, senderChatControl) == offsetof(PartyChatTextReceivedStateChange, senderChatControl));
-C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::receiverChatControlCount) == sizeof(PartyChatTextReceivedStateChange::receiverChatControlCount));
-C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, receiverChatControlCount) == offsetof(PartyChatTextReceivedStateChange, receiverChatControlCount));
-C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::receiverChatControls) == sizeof(PartyChatTextReceivedStateChange::receiverChatControls));
-C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, receiverChatControls) == offsetof(PartyChatTextReceivedStateChange, receiverChatControls));
-C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::chatText) == sizeof(PartyChatTextReceivedStateChange::chatText));
-C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, chatText) == offsetof(PartyChatTextReceivedStateChange, chatText));
-C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::dataSize) == sizeof(PartyChatTextReceivedStateChange::dataSize));
-C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, dataSize) == offsetof(PartyChatTextReceivedStateChange, dataSize));
-C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::data) == sizeof(PartyChatTextReceivedStateChange::data));
-C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, data) == offsetof(PartyChatTextReceivedStateChange, data));
-C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::translationCount) == sizeof(PartyChatTextReceivedStateChange::translationCount));
-C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, translationCount) == offsetof(PartyChatTextReceivedStateChange, translationCount));
-C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::translations) == sizeof(PartyChatTextReceivedStateChange::translations));
-C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, translations) == offsetof(PartyChatTextReceivedStateChange, translations));
-
-C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange));
-C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::result) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::result));
-C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, result) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, result));
-C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::errorDetail) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, errorDetail) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::senderChatControl) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::senderChatControl));
-C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, senderChatControl) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, senderChatControl));
-C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::receiverChatControlCount) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::receiverChatControlCount));
-C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, receiverChatControlCount) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, receiverChatControlCount));
-C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::receiverChatControls) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::receiverChatControls));
-C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, receiverChatControls) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, receiverChatControls));
-C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::transcription) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::transcription));
-C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, transcription) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, transcription));
-C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::type) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::type));
-C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, type) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, type));
-C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::translationCount) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::translationCount));
-C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, translationCount) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, translationCount));
-C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::translations) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::translations));
-C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, translations) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, translations));
-
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE) == sizeof(PartySetChatAudioInputCompletedStateChange));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE::result) == sizeof(PartySetChatAudioInputCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE, result) == offsetof(PartySetChatAudioInputCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySetChatAudioInputCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySetChatAudioInputCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySetChatAudioInputCompletedStateChange::localChatControl));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySetChatAudioInputCompletedStateChange, localChatControl));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE::audioDeviceSelectionType) == sizeof(PartySetChatAudioInputCompletedStateChange::audioDeviceSelectionType));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE, audioDeviceSelectionType) == offsetof(PartySetChatAudioInputCompletedStateChange, audioDeviceSelectionType));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE::audioDeviceSelectionContext) == sizeof(PartySetChatAudioInputCompletedStateChange::audioDeviceSelectionContext));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE, audioDeviceSelectionContext) == offsetof(PartySetChatAudioInputCompletedStateChange, audioDeviceSelectionContext));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySetChatAudioInputCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySetChatAudioInputCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE) == sizeof(PartySetChatAudioOutputCompletedStateChange));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE::result) == sizeof(PartySetChatAudioOutputCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE, result) == offsetof(PartySetChatAudioOutputCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySetChatAudioOutputCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySetChatAudioOutputCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySetChatAudioOutputCompletedStateChange::localChatControl));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySetChatAudioOutputCompletedStateChange, localChatControl));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE::audioDeviceSelectionType) == sizeof(PartySetChatAudioOutputCompletedStateChange::audioDeviceSelectionType));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE, audioDeviceSelectionType) == offsetof(PartySetChatAudioOutputCompletedStateChange, audioDeviceSelectionType));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE::audioDeviceSelectionContext) == sizeof(PartySetChatAudioOutputCompletedStateChange::audioDeviceSelectionContext));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE, audioDeviceSelectionContext) == offsetof(PartySetChatAudioOutputCompletedStateChange, audioDeviceSelectionContext));
-C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySetChatAudioOutputCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySetChatAudioOutputCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_INPUT_CHANGED_STATE_CHANGE) == sizeof(PartyLocalChatAudioInputChangedStateChange));
-C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_INPUT_CHANGED_STATE_CHANGE::localChatControl) == sizeof(PartyLocalChatAudioInputChangedStateChange::localChatControl));
-C_ASSERT(offsetof(PARTY_LOCAL_CHAT_AUDIO_INPUT_CHANGED_STATE_CHANGE, localChatControl) == offsetof(PartyLocalChatAudioInputChangedStateChange, localChatControl));
-C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_INPUT_CHANGED_STATE_CHANGE::state) == sizeof(PartyLocalChatAudioInputChangedStateChange::state));
-C_ASSERT(offsetof(PARTY_LOCAL_CHAT_AUDIO_INPUT_CHANGED_STATE_CHANGE, state) == offsetof(PartyLocalChatAudioInputChangedStateChange, state));
-C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_INPUT_CHANGED_STATE_CHANGE::errorDetail) == sizeof(PartyLocalChatAudioInputChangedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_LOCAL_CHAT_AUDIO_INPUT_CHANGED_STATE_CHANGE, errorDetail) == offsetof(PartyLocalChatAudioInputChangedStateChange, errorDetail));
-
-C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED_STATE_CHANGE) == sizeof(PartyLocalChatAudioOutputChangedStateChange));
-C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED_STATE_CHANGE::localChatControl) == sizeof(PartyLocalChatAudioOutputChangedStateChange::localChatControl));
-C_ASSERT(offsetof(PARTY_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED_STATE_CHANGE, localChatControl) == offsetof(PartyLocalChatAudioOutputChangedStateChange, localChatControl));
-C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED_STATE_CHANGE::state) == sizeof(PartyLocalChatAudioOutputChangedStateChange::state));
-C_ASSERT(offsetof(PARTY_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED_STATE_CHANGE, state) == offsetof(PartyLocalChatAudioOutputChangedStateChange, state));
-C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED_STATE_CHANGE::errorDetail) == sizeof(PartyLocalChatAudioOutputChangedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED_STATE_CHANGE, errorDetail) == offsetof(PartyLocalChatAudioOutputChangedStateChange, errorDetail));
-
-C_ASSERT(sizeof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE) == sizeof(PartySetTextToSpeechProfileCompletedStateChange));
-C_ASSERT(sizeof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE::result) == sizeof(PartySetTextToSpeechProfileCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE, result) == offsetof(PartySetTextToSpeechProfileCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySetTextToSpeechProfileCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySetTextToSpeechProfileCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySetTextToSpeechProfileCompletedStateChange::localChatControl));
-C_ASSERT(offsetof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySetTextToSpeechProfileCompletedStateChange, localChatControl));
-C_ASSERT(sizeof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE::type) == sizeof(PartySetTextToSpeechProfileCompletedStateChange::type));
-C_ASSERT(offsetof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE, type) == offsetof(PartySetTextToSpeechProfileCompletedStateChange, type));
-C_ASSERT(sizeof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE::profileIdentifier) == sizeof(PartySetTextToSpeechProfileCompletedStateChange::profileIdentifier));
-C_ASSERT(offsetof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE, profileIdentifier) == offsetof(PartySetTextToSpeechProfileCompletedStateChange, profileIdentifier));
-C_ASSERT(sizeof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySetTextToSpeechProfileCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySetTextToSpeechProfileCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE) == sizeof(PartySynthesizeTextToSpeechCompletedStateChange));
-C_ASSERT(sizeof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE::result) == sizeof(PartySynthesizeTextToSpeechCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE, result) == offsetof(PartySynthesizeTextToSpeechCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySynthesizeTextToSpeechCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySynthesizeTextToSpeechCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySynthesizeTextToSpeechCompletedStateChange::localChatControl));
-C_ASSERT(offsetof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySynthesizeTextToSpeechCompletedStateChange, localChatControl));
-C_ASSERT(sizeof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE::type) == sizeof(PartySynthesizeTextToSpeechCompletedStateChange::type));
-C_ASSERT(offsetof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE, type) == offsetof(PartySynthesizeTextToSpeechCompletedStateChange, type));
-C_ASSERT(sizeof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE::textToSynthesize) == sizeof(PartySynthesizeTextToSpeechCompletedStateChange::textToSynthesize));
-C_ASSERT(offsetof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE, textToSynthesize) == offsetof(PartySynthesizeTextToSpeechCompletedStateChange, textToSynthesize));
-C_ASSERT(sizeof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySynthesizeTextToSpeechCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySynthesizeTextToSpeechCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE) == sizeof(PartySetLanguageCompletedStateChange));
-C_ASSERT(sizeof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE::result) == sizeof(PartySetLanguageCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE, result) == offsetof(PartySetLanguageCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySetLanguageCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySetLanguageCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySetLanguageCompletedStateChange::localChatControl));
-C_ASSERT(offsetof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySetLanguageCompletedStateChange, localChatControl));
-C_ASSERT(sizeof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE::languageCode) == sizeof(PartySetLanguageCompletedStateChange::languageCode));
-C_ASSERT(offsetof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE, languageCode) == offsetof(PartySetLanguageCompletedStateChange, languageCode));
-C_ASSERT(sizeof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySetLanguageCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySetLanguageCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE) == sizeof(PartySetTranscriptionOptionsCompletedStateChange));
-C_ASSERT(sizeof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE::result) == sizeof(PartySetTranscriptionOptionsCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE, result) == offsetof(PartySetTranscriptionOptionsCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySetTranscriptionOptionsCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySetTranscriptionOptionsCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySetTranscriptionOptionsCompletedStateChange::localChatControl));
-C_ASSERT(offsetof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySetTranscriptionOptionsCompletedStateChange, localChatControl));
-C_ASSERT(sizeof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE::options) == sizeof(PartySetTranscriptionOptionsCompletedStateChange::options));
-C_ASSERT(offsetof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE, options) == offsetof(PartySetTranscriptionOptionsCompletedStateChange, options));
-C_ASSERT(sizeof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySetTranscriptionOptionsCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySetTranscriptionOptionsCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE) == sizeof(PartySetTextChatOptionsCompletedStateChange));
-C_ASSERT(sizeof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE::result) == sizeof(PartySetTextChatOptionsCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE, result) == offsetof(PartySetTextChatOptionsCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySetTextChatOptionsCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySetTextChatOptionsCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySetTextChatOptionsCompletedStateChange::localChatControl));
-C_ASSERT(offsetof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySetTextChatOptionsCompletedStateChange, localChatControl));
-C_ASSERT(sizeof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE::options) == sizeof(PartySetTextChatOptionsCompletedStateChange::options));
-C_ASSERT(offsetof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE, options) == offsetof(PartySetTextChatOptionsCompletedStateChange, options));
-C_ASSERT(sizeof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySetTextChatOptionsCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySetTextChatOptionsCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_PROPERTIES_CHANGED_STATE_CHANGE) == sizeof(PartyChatControlPropertiesChangedStateChange));
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_PROPERTIES_CHANGED_STATE_CHANGE::chatControl) == sizeof(PartyChatControlPropertiesChangedStateChange::chatControl));
-C_ASSERT(offsetof(PARTY_CHAT_CONTROL_PROPERTIES_CHANGED_STATE_CHANGE, chatControl) == offsetof(PartyChatControlPropertiesChangedStateChange, chatControl));
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_PROPERTIES_CHANGED_STATE_CHANGE::propertyCount) == sizeof(PartyChatControlPropertiesChangedStateChange::propertyCount));
-C_ASSERT(offsetof(PARTY_CHAT_CONTROL_PROPERTIES_CHANGED_STATE_CHANGE, propertyCount) == offsetof(PartyChatControlPropertiesChangedStateChange, propertyCount));
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_PROPERTIES_CHANGED_STATE_CHANGE::keys) == sizeof(PartyChatControlPropertiesChangedStateChange::keys));
-C_ASSERT(offsetof(PARTY_CHAT_CONTROL_PROPERTIES_CHANGED_STATE_CHANGE, keys) == offsetof(PartyChatControlPropertiesChangedStateChange, keys));
-
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_JOINED_NETWORK_STATE_CHANGE) == sizeof(PartyChatControlJoinedNetworkStateChange));
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_JOINED_NETWORK_STATE_CHANGE::network) == sizeof(PartyChatControlJoinedNetworkStateChange::network));
-C_ASSERT(offsetof(PARTY_CHAT_CONTROL_JOINED_NETWORK_STATE_CHANGE, network) == offsetof(PartyChatControlJoinedNetworkStateChange, network));
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_JOINED_NETWORK_STATE_CHANGE::chatControl) == sizeof(PartyChatControlJoinedNetworkStateChange::chatControl));
-C_ASSERT(offsetof(PARTY_CHAT_CONTROL_JOINED_NETWORK_STATE_CHANGE, chatControl) == offsetof(PartyChatControlJoinedNetworkStateChange, chatControl));
-
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE) == sizeof(PartyChatControlLeftNetworkStateChange));
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE::reason) == sizeof(PartyChatControlLeftNetworkStateChange::reason));
-C_ASSERT(offsetof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE, reason) == offsetof(PartyChatControlLeftNetworkStateChange, reason));
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE::errorDetail) == sizeof(PartyChatControlLeftNetworkStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE, errorDetail) == offsetof(PartyChatControlLeftNetworkStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE::network) == sizeof(PartyChatControlLeftNetworkStateChange::network));
-C_ASSERT(offsetof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE, network) == offsetof(PartyChatControlLeftNetworkStateChange, network));
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE::chatControl) == sizeof(PartyChatControlLeftNetworkStateChange::chatControl));
-C_ASSERT(offsetof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE, chatControl) == offsetof(PartyChatControlLeftNetworkStateChange, chatControl));
-
-C_ASSERT(sizeof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE) == sizeof(PartyConnectChatControlCompletedStateChange));
-C_ASSERT(sizeof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::result) == sizeof(PartyConnectChatControlCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, result) == offsetof(PartyConnectChatControlCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyConnectChatControlCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyConnectChatControlCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::network) == sizeof(PartyConnectChatControlCompletedStateChange::network));
-C_ASSERT(offsetof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, network) == offsetof(PartyConnectChatControlCompletedStateChange, network));
-C_ASSERT(sizeof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartyConnectChatControlCompletedStateChange::localChatControl));
-C_ASSERT(offsetof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartyConnectChatControlCompletedStateChange, localChatControl));
-C_ASSERT(sizeof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyConnectChatControlCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyConnectChatControlCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE) == sizeof(PartyDisconnectChatControlCompletedStateChange));
-C_ASSERT(sizeof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::result) == sizeof(PartyDisconnectChatControlCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, result) == offsetof(PartyDisconnectChatControlCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyDisconnectChatControlCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyDisconnectChatControlCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::network) == sizeof(PartyDisconnectChatControlCompletedStateChange::network));
-C_ASSERT(offsetof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, network) == offsetof(PartyDisconnectChatControlCompletedStateChange, network));
-C_ASSERT(sizeof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartyDisconnectChatControlCompletedStateChange::localChatControl));
-C_ASSERT(offsetof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartyDisconnectChatControlCompletedStateChange, localChatControl));
-C_ASSERT(sizeof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyDisconnectChatControlCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyDisconnectChatControlCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE) == sizeof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange));
-C_ASSERT(sizeof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE::result) == sizeof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange::result));
-C_ASSERT(offsetof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE, result) == offsetof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange, result));
-C_ASSERT(sizeof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange::errorDetail));
-C_ASSERT(offsetof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange, errorDetail));
-C_ASSERT(sizeof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange::localChatControl));
-C_ASSERT(offsetof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange, localChatControl));
-C_ASSERT(sizeof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange::asyncIdentifier));
-C_ASSERT(offsetof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange, asyncIdentifier));
-
-C_ASSERT(sizeof(PARTY_ENDPOINT_HANDLE) == sizeof(PartyEndpoint*));
-C_ASSERT(sizeof(PARTY_ENDPOINT_HANDLE) == sizeof(PartyLocalEndpoint*));
-C_ASSERT(sizeof(PARTY_DEVICE_HANDLE) == sizeof(PartyDevice*));
-C_ASSERT(sizeof(PARTY_DEVICE_HANDLE) == sizeof(PartyLocalDevice*));
-C_ASSERT(sizeof(PARTY_INVITATION_HANDLE) == sizeof(PartyInvitation*));
-C_ASSERT(sizeof(PARTY_NETWORK_HANDLE) == sizeof(PartyNetwork*));
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_HANDLE) == sizeof(PartyChatControl*));
-C_ASSERT(sizeof(PARTY_CHAT_CONTROL_HANDLE) == sizeof(PartyLocalChatControl*));
-C_ASSERT(sizeof(PARTY_LOCAL_USER_HANDLE) == sizeof(PartyLocalUser*));
-
-C_ASSERT(sizeof(PartyStateChangeType) == sizeof(uint32_t));
+PARTY_C_ASSERT(PARTY_MAX_NETWORK_CONFIGURATION_MAX_DEVICE_COUNT == c_maxNetworkConfigurationMaxDeviceCount);
+PARTY_C_ASSERT(PARTY_MAX_NETWORK_CONFIGURATION_MAX_ENDPOINTS_PER_DEVICE_COUNT == c_maxNetworkConfigurationMaxEndpointsPerDeviceCount);
+PARTY_C_ASSERT(PARTY_MAX_LOCAL_USERS_PER_DEVICE_COUNT == c_maxLocalUsersPerDeviceCount);
+PARTY_C_ASSERT(PARTY_OPAQUE_CONNECTION_INFORMATION_BYTE_COUNT == c_opaqueConnectionInformationByteCount);
+PARTY_C_ASSERT(PARTY_MAX_INVITATION_IDENTIFIER_STRING_LENGTH == c_maxInvitationIdentifierStringLength);
+PARTY_C_ASSERT(PARTY_MAX_INVITATION_ENTITY_ID_COUNT == c_maxInvitationEntityIdCount);
+PARTY_C_ASSERT(PARTY_MAX_ENTITY_ID_STRING_LENGTH == c_maxEntityIdStringLength);
+PARTY_C_ASSERT(PARTY_NETWORK_IDENTIFIER_STRING_LENGTH == c_networkIdentifierStringLength);
+PARTY_C_ASSERT(PARTY_MAX_REGION_NAME_STRING_LENGTH == c_maxRegionNameStringLength);
+PARTY_C_ASSERT(PARTY_MAX_SERIALIZED_NETWORK_DESCRIPTOR_STRING_LENGTH == c_maxSerializedNetworkDescriptorStringLength);
+PARTY_C_ASSERT(PARTY_MAX_AUDIO_DEVICE_IDENTIFIER_STRING_LENGTH == c_maxAudioDeviceIdentifierStringLength);
+PARTY_C_ASSERT(PARTY_MAX_LANGUAGE_CODE_STRING_LENGTH == c_maxLanguageCodeStringLength);
+PARTY_C_ASSERT(PARTY_MAX_CHAT_TEXT_MESSAGE_STRING_LENGTH == c_maxChatTextMessageStringLength);
+PARTY_C_ASSERT(PARTY_MAX_CHAT_TRANSCRIPTION_MESSAGE_STRING_LENGTH == c_maxChatTranscriptionMessageStringLength);
+PARTY_C_ASSERT(PARTY_MAX_TEXT_TO_SPEECH_PROFILE_IDENTIFIER_STRING_LENGTH == c_maxTextToSpeechProfileIdentifierStringLength);
+PARTY_C_ASSERT(PARTY_MAX_TEXT_TO_SPEECH_PROFILE_NAME_STRING_LENGTH == c_maxTextToSpeechProfileNameStringLength);
+PARTY_C_ASSERT(PARTY_MAX_TEXT_TO_SPEECH_INPUT_STRING_LENGTH == c_maxTextToSpeechInputStringLength);
+PARTY_C_ASSERT(PARTY_ANY_PROCESSOR == c_anyProcessor);
+PARTY_C_ASSERT(PARTY_MIN_SEND_MESSAGE_QUEUING_PRIORITY == c_minSendMessageQueuingPriority);
+PARTY_C_ASSERT(PARTY_CHAT_SEND_MESSAGE_QUEUING_PRIORITY == c_chatSendMessageQueuingPriority);
+PARTY_C_ASSERT(PARTY_DEFAULT_SEND_MESSAGE_QUEUING_PRIORITY == c_defaultSendMessageQueuingPriority);
+PARTY_C_ASSERT(PARTY_MAX_SEND_MESSAGE_QUEUING_PRIORITY == c_maxSendMessageQueuingPriority);
+
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_REGIONS_CHANGED == static_cast<uint32_t>(PartyStateChangeType::RegionsChanged));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_DESTROY_LOCAL_USER_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::DestroyLocalUserCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CREATE_NEW_NETWORK_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::CreateNewNetworkCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CONNECT_TO_NETWORK_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::ConnectToNetworkCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_AUTHENTICATE_LOCAL_USER_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::AuthenticateLocalUserCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_NETWORK_CONFIGURATION_MADE_AVAILABLE == static_cast<uint32_t>(PartyStateChangeType::NetworkConfigurationMadeAvailable));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_NETWORK_DESCRIPTOR_CHANGED == static_cast<uint32_t>(PartyStateChangeType::NetworkDescriptorChanged));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_LOCAL_USER_REMOVED == static_cast<uint32_t>(PartyStateChangeType::LocalUserRemoved));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_REMOVE_LOCAL_USER_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::RemoveLocalUserCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_LOCAL_USER_KICKED == static_cast<uint32_t>(PartyStateChangeType::LocalUserKicked));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CREATE_ENDPOINT_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::CreateEndpointCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_DESTROY_ENDPOINT_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::DestroyEndpointCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_ENDPOINT_CREATED == static_cast<uint32_t>(PartyStateChangeType::EndpointCreated));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_ENDPOINT_DESTROYED == static_cast<uint32_t>(PartyStateChangeType::EndpointDestroyed));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_REMOTE_DEVICE_CREATED == static_cast<uint32_t>(PartyStateChangeType::RemoteDeviceCreated));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_REMOTE_DEVICE_DESTROYED == static_cast<uint32_t>(PartyStateChangeType::RemoteDeviceDestroyed));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_REMOTE_DEVICE_JOINED_NETWORK == static_cast<uint32_t>(PartyStateChangeType::RemoteDeviceJoinedNetwork));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_REMOTE_DEVICE_LEFT_NETWORK == static_cast<uint32_t>(PartyStateChangeType::RemoteDeviceLeftNetwork));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_DEVICE_PROPERTIES_CHANGED == static_cast<uint32_t>(PartyStateChangeType::DevicePropertiesChanged));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_LEAVE_NETWORK_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::LeaveNetworkCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_NETWORK_DESTROYED == static_cast<uint32_t>(PartyStateChangeType::NetworkDestroyed));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_ENDPOINT_MESSAGE_RECEIVED == static_cast<uint32_t>(PartyStateChangeType::EndpointMessageReceived));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_DATA_BUFFERS_RETURNED == static_cast<uint32_t>(PartyStateChangeType::DataBuffersReturned));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_ENDPOINT_PROPERTIES_CHANGED == static_cast<uint32_t>(PartyStateChangeType::EndpointPropertiesChanged));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SynchronizeMessagesBetweenEndpointsCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CREATE_INVITATION_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::CreateInvitationCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_REVOKE_INVITATION_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::RevokeInvitationCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_INVITATION_CREATED == static_cast<uint32_t>(PartyStateChangeType::InvitationCreated));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_INVITATION_DESTROYED == static_cast<uint32_t>(PartyStateChangeType::InvitationDestroyed));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_NETWORK_PROPERTIES_CHANGED == static_cast<uint32_t>(PartyStateChangeType::NetworkPropertiesChanged));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_KICK_DEVICE_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::KickDeviceCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_KICK_USER_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::KickUserCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CREATE_CHAT_CONTROL_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::CreateChatControlCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_DESTROY_CHAT_CONTROL_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::DestroyChatControlCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CHAT_CONTROL_CREATED == static_cast<uint32_t>(PartyStateChangeType::ChatControlCreated));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CHAT_CONTROL_DESTROYED == static_cast<uint32_t>(PartyStateChangeType::ChatControlDestroyed));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SetChatAudioEncoderBitrateCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CHAT_TEXT_RECEIVED == static_cast<uint32_t>(PartyStateChangeType::ChatTextReceived));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_VOICE_CHAT_TRANSCRIPTION_RECEIVED == static_cast<uint32_t>(PartyStateChangeType::VoiceChatTranscriptionReceived));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_SET_CHAT_AUDIO_INPUT_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SetChatAudioInputCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_SET_CHAT_AUDIO_OUTPUT_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SetChatAudioOutputCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_LOCAL_CHAT_AUDIO_INPUT_CHANGED == static_cast<uint32_t>(PartyStateChangeType::LocalChatAudioInputChanged));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED == static_cast<uint32_t>(PartyStateChangeType::LocalChatAudioOutputChanged));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SetTextToSpeechProfileCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SynthesizeTextToSpeechCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_SET_LANGUAGE_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SetLanguageCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_SET_TRANSCRIPTION_OPTIONS_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SetTranscriptionOptionsCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_SET_TEXT_CHAT_OPTIONS_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::SetTextChatOptionsCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CHAT_CONTROL_PROPERTIES_CHANGED == static_cast<uint32_t>(PartyStateChangeType::ChatControlPropertiesChanged));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CHAT_CONTROL_JOINED_NETWORK == static_cast<uint32_t>(PartyStateChangeType::ChatControlJoinedNetwork));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CHAT_CONTROL_LEFT_NETWORK == static_cast<uint32_t>(PartyStateChangeType::ChatControlLeftNetwork));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CONNECT_CHAT_CONTROL_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::ConnectChatControlCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_DISCONNECT_CHAT_CONTROL_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::DisconnectChatControlCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::PopulateAvailableTextToSpeechProfilesCompleted));
+
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_SUCCEEDED == static_cast<uint32_t>(PartyStateChangeResult::Succeeded));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_UNKNOWN_ERROR == static_cast<uint32_t>(PartyStateChangeResult::UnknownError));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_CANCELED_BY_TITLE == static_cast<uint32_t>(PartyStateChangeResult::CanceledByTitle));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_INTERNET_CONNECTIVITY_ERROR == static_cast<uint32_t>(PartyStateChangeResult::InternetConnectivityError));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_PARTY_SERVICE_ERROR == static_cast<uint32_t>(PartyStateChangeResult::PartyServiceError));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_NO_SERVERS_AVAILABLE == static_cast<uint32_t>(PartyStateChangeResult::NoServersAvailable));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_USER_NOT_AUTHORIZED == static_cast<uint32_t>(PartyStateChangeResult::UserNotAuthorized));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_USER_CREATE_NETWORK_THROTTLED == static_cast<uint32_t>(PartyStateChangeResult::UserCreateNetworkThrottled));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_TITLE_NOT_ENABLED_FOR_PARTY == static_cast<uint32_t>(PartyStateChangeResult::TitleNotEnabledForParty));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_TITLE_CREATE_NETWORK_THROTTLED == static_cast<uint32_t>(PartyStateChangeResult::TitleCreateNetworkThrottled));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_NETWORK_LIMIT_REACHED == static_cast<uint32_t>(PartyStateChangeResult::NetworkLimitReached));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_NETWORK_NO_LONGER_EXISTS == static_cast<uint32_t>(PartyStateChangeResult::NetworkNoLongerExists));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_NETWORK_NOT_JOINABLE == static_cast<uint32_t>(PartyStateChangeResult::NetworkNotJoinable));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_VERSION_MISMATCH == static_cast<uint32_t>(PartyStateChangeResult::VersionMismatch));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_LEAVE_NETWORK_CALLED == static_cast<uint32_t>(PartyStateChangeResult::LeaveNetworkCalled));
+
+PARTY_C_ASSERT(PARTY_LOCAL_USER_REMOVED_REASON_AUTHENTICATION_FAILED == static_cast<uint32_t>(PartyLocalUserRemovedReason::AuthenticationFailed));
+PARTY_C_ASSERT(PARTY_LOCAL_USER_REMOVED_REASON_REMOVE_LOCAL_USER == static_cast<uint32_t>(PartyLocalUserRemovedReason::RemoveLocalUser));
+PARTY_C_ASSERT(PARTY_LOCAL_USER_REMOVED_REASON_DESTROY_LOCAL_USER == static_cast<uint32_t>(PartyLocalUserRemovedReason::DestroyLocalUser));
+PARTY_C_ASSERT(PARTY_LOCAL_USER_REMOVED_REASON_DESTROY_NETWORK == static_cast<uint32_t>(PartyLocalUserRemovedReason::DestroyNetwork));
+
+PARTY_C_ASSERT(PARTY_DESTROYED_REASON_REQUESTED == static_cast<uint32_t>(PartyDestroyedReason::Requested));
+PARTY_C_ASSERT(PARTY_DESTROYED_REASON_DISCONNECTED == static_cast<uint32_t>(PartyDestroyedReason::Disconnected));
+PARTY_C_ASSERT(PARTY_DESTROYED_REASON_KICKED == static_cast<uint32_t>(PartyDestroyedReason::Kicked));
+PARTY_C_ASSERT(PARTY_DESTROYED_REASON_DEVICE_LOST_AUTHENTICATION == static_cast<uint32_t>(PartyDestroyedReason::DeviceLostAuthentication));
+PARTY_C_ASSERT(PARTY_DESTROYED_REASON_CREATION_FAILED == static_cast<uint32_t>(PartyDestroyedReason::CreationFailed));
+
+PARTY_C_ASSERT(PARTY_THREAD_ID_AUDIO == static_cast<uint32_t>(PartyThreadId::Audio));
+PARTY_C_ASSERT(PARTY_THREAD_ID_NETWORKING == static_cast<uint32_t>(PartyThreadId::Networking));
+
+PARTY_C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_DEFAULT == static_cast<uint32_t>(PartySendMessageOptions::Default));
+PARTY_C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_GUARANTEED_DELIVERY == static_cast<uint32_t>(PartySendMessageOptions::GuaranteedDelivery));
+PARTY_C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_BEST_EFFORT_DELIVERY == static_cast<uint32_t>(PartySendMessageOptions::BestEffortDelivery));
+PARTY_C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_SEQUENTIAL_DELIVERY == static_cast<uint32_t>(PartySendMessageOptions::SequentialDelivery));
+PARTY_C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_NONSEQUENTIAL_DELIVERY == static_cast<uint32_t>(PartySendMessageOptions::NonsequentialDelivery));
+PARTY_C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_COPY_DATA_BUFFERS == static_cast<uint32_t>(PartySendMessageOptions::CopyDataBuffers));
+PARTY_C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_DONT_COPY_DATA_BUFFERS == static_cast<uint32_t>(PartySendMessageOptions::DontCopyDataBuffers));
+PARTY_C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_COALESCE_OPPORTUNISTICALLY == static_cast<uint32_t>(PartySendMessageOptions::CoalesceOpportunistically));
+PARTY_C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_ALWAYS_COALESCE_UNTIL_FLUSHED == static_cast<uint32_t>(PartySendMessageOptions::AlwaysCoalesceUntilFlushed));
+PARTY_C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_REQUIRE_TIMELY_ACKNOWLEDGEMENT == static_cast<uint32_t>(PartySendMessageOptions::RequireTimelyAcknowledgement));
+PARTY_C_ASSERT(PARTY_SEND_MESSAGE_OPTIONS_ALLOW_LAZY_ACKNOWLEDGEMENT == static_cast<uint32_t>(PartySendMessageOptions::AllowLazyAcknowledgement));
+
+PARTY_C_ASSERT(PARTY_MESSAGE_RECEIVED_OPTIONS_NONE == static_cast<uint32_t>(PartyMessageReceivedOptions::None));
+PARTY_C_ASSERT(PARTY_MESSAGE_RECEIVED_OPTIONS_GUARANTEED_DELIVERY == static_cast<uint32_t>(PartyMessageReceivedOptions::GuaranteedDelivery));
+PARTY_C_ASSERT(PARTY_MESSAGE_RECEIVED_OPTIONS_SEQUENTIAL_DELIVERY == static_cast<uint32_t>(PartyMessageReceivedOptions::SequentialDelivery));
+PARTY_C_ASSERT(PARTY_MESSAGE_RECEIVED_OPTIONS_REQUIRED_FRAGMENTATION == static_cast<uint32_t>(PartyMessageReceivedOptions::RequiredFragmentation));
+
+PARTY_C_ASSERT(PARTY_CANCEL_MESSAGES_FILTER_EXPRESSION_NONE == static_cast<uint32_t>(PartyCancelMessagesFilterExpression::None));
+PARTY_C_ASSERT(PARTY_CANCEL_MESSAGES_FILTER_EXPRESSION_IDENTITY_AND_MASK_EQUALS_MATCH_VALUE == static_cast<uint32_t>(PartyCancelMessagesFilterExpression::IdentityAndMaskEqualsMatchValue));
+PARTY_C_ASSERT(PARTY_CANCEL_MESSAGES_FILTER_EXPRESSION_IDENTITY_AND_MASK_DOES_NOT_EQUAL_MATCH_VALUE == static_cast<uint32_t>(PartyCancelMessagesFilterExpression::IdentityAndMaskDoesNotEqualMatchValue));
+
+PARTY_C_ASSERT(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_OPTIONS_NONE == static_cast<uint32_t>(PartySynchronizeMessagesBetweenEndpointsOptions::None));
+PARTY_C_ASSERT(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_OPTIONS_SYNCHRONIZE_MESSAGES_WITH_SHARED_PROPERTIES == static_cast<uint32_t>(PartySynchronizeMessagesBetweenEndpointsOptions::SynchronizeMessagesWithSharedProperties));
+
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_AVERAGE_RELAY_SERVER_ROUND_TRIP_LATENCY_IN_MILLISECONDS == static_cast<uint32_t>(PartyNetworkStatistic::AverageRelayServerRoundTripLatencyInMilliseconds));
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_SENT_PROTOCOL_PACKETS == static_cast<uint32_t>(PartyNetworkStatistic::SentProtocolPackets));
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_SENT_PROTOCOL_BYTES == static_cast<uint32_t>(PartyNetworkStatistic::SentProtocolBytes));
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_RETRIED_PROTOCOL_PACKETS == static_cast<uint32_t>(PartyNetworkStatistic::RetriedProtocolPackets));
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_RETRIED_PROTOCOL_BYTES == static_cast<uint32_t>(PartyNetworkStatistic::RetriedProtocolBytes));
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_DROPPED_PROTOCOL_PACKETS == static_cast<uint32_t>(PartyNetworkStatistic::DroppedProtocolPackets));
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_RECEIVED_PROTOCOL_PACKETS == static_cast<uint32_t>(PartyNetworkStatistic::ReceivedProtocolPackets));
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_RECEIVED_PROTOCOL_BYTES == static_cast<uint32_t>(PartyNetworkStatistic::ReceivedProtocolBytes));
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_CURRENTLY_QUEUED_SEND_MESSAGES == static_cast<uint32_t>(PartyNetworkStatistic::CurrentlyQueuedSendMessages));
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_CURRENTLY_QUEUED_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyNetworkStatistic::CurrentlyQueuedSendMessageBytes));
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_CURRENTLY_ACTIVE_SEND_MESSAGES == static_cast<uint32_t>(PartyNetworkStatistic::CurrentlyActiveSendMessages));
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_CURRENTLY_ACTIVE_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyNetworkStatistic::CurrentlyActiveSendMessageBytes));
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_TIMED_OUT_SEND_MESSAGES == static_cast<uint32_t>(PartyNetworkStatistic::TimedOutSendMessages));
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_TIMED_OUT_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyNetworkStatistic::TimedOutSendMessageBytes));
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_CANCELED_SEND_MESSAGES == static_cast<uint32_t>(PartyNetworkStatistic::CanceledSendMessages));
+PARTY_C_ASSERT(PARTY_NETWORK_STATISTIC_CANCELED_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyNetworkStatistic::CanceledSendMessageBytes));
+
+PARTY_C_ASSERT(PARTY_ENDPOINT_STATISTIC_CURRENTLY_QUEUED_SEND_MESSAGES == static_cast<uint32_t>(PartyEndpointStatistic::CurrentlyQueuedSendMessages));
+PARTY_C_ASSERT(PARTY_ENDPOINT_STATISTIC_CURRENTLY_QUEUED_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyEndpointStatistic::CurrentlyQueuedSendMessageBytes));
+PARTY_C_ASSERT(PARTY_ENDPOINT_STATISTIC_CURRENTLY_ACTIVE_SEND_MESSAGES == static_cast<uint32_t>(PartyEndpointStatistic::CurrentlyActiveSendMessages));
+PARTY_C_ASSERT(PARTY_ENDPOINT_STATISTIC_CURRENTLY_ACTIVE_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyEndpointStatistic::CurrentlyActiveSendMessageBytes));
+PARTY_C_ASSERT(PARTY_ENDPOINT_STATISTIC_TIMED_OUT_SEND_MESSAGES == static_cast<uint32_t>(PartyEndpointStatistic::TimedOutSendMessages));
+PARTY_C_ASSERT(PARTY_ENDPOINT_STATISTIC_TIMED_OUT_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyEndpointStatistic::TimedOutSendMessageBytes));
+PARTY_C_ASSERT(PARTY_ENDPOINT_STATISTIC_CANCELED_SEND_MESSAGES == static_cast<uint32_t>(PartyEndpointStatistic::CanceledSendMessages));
+PARTY_C_ASSERT(PARTY_ENDPOINT_STATISTIC_CANCELED_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyEndpointStatistic::CanceledSendMessageBytes));
+
+PARTY_C_ASSERT(PARTY_INVITATION_REVOCABILITY_CREATOR == static_cast<uint32_t>(PartyInvitationRevocability::Creator));
+PARTY_C_ASSERT(PARTY_INVITATION_REVOCABILITY_ANYONE == static_cast<uint32_t>(PartyInvitationRevocability::Anyone));
+
+PARTY_C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_NONE == static_cast<uint32_t>(PartyChatPermissionOptions::None));
+PARTY_C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_SEND_AUDIO == static_cast<uint32_t>(PartyChatPermissionOptions::SendAudio));
+PARTY_C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_RECEIVE_AUDIO == static_cast<uint32_t>(PartyChatPermissionOptions::ReceiveAudio));
+PARTY_C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_RECEIVE_TEXT == static_cast<uint32_t>(PartyChatPermissionOptions::ReceiveText));
+
+PARTY_C_ASSERT(PARTY_AUDIO_DEVICE_SELECTION_TYPE_NONE == static_cast<uint32_t>(PartyAudioDeviceSelectionType::None));
+PARTY_C_ASSERT(PARTY_AUDIO_DEVICE_SELECTION_TYPE_SYSTEM_DEFAULT == static_cast<uint32_t>(PartyAudioDeviceSelectionType::SystemDefault));
+PARTY_C_ASSERT(PARTY_AUDIO_DEVICE_SELECTION_TYPE_PLATFORM_USER_DEFAULT == static_cast<uint32_t>(PartyAudioDeviceSelectionType::PlatformUserDefault));
+PARTY_C_ASSERT(PARTY_AUDIO_DEVICE_SELECTION_TYPE_MANUAL == static_cast<uint32_t>(PartyAudioDeviceSelectionType::Manual));
+
+PARTY_C_ASSERT(PARTY_AUDIO_INPUT_STATE_NO_INPUT == static_cast<uint32_t>(PartyAudioInputState::NoInput));
+PARTY_C_ASSERT(PARTY_AUDIO_INPUT_STATE_INITIALIZED == static_cast<uint32_t>(PartyAudioInputState::Initialized));
+PARTY_C_ASSERT(PARTY_AUDIO_INPUT_STATE_NOT_FOUND == static_cast<uint32_t>(PartyAudioInputState::NotFound));
+PARTY_C_ASSERT(PARTY_AUDIO_INPUT_STATE_USER_CONSENT_DENIED == static_cast<uint32_t>(PartyAudioInputState::UserConsentDenied));
+PARTY_C_ASSERT(PARTY_AUDIO_INPUT_STATE_UNSUPPORTED_FORMAT == static_cast<uint32_t>(PartyAudioInputState::UnsupportedFormat));
+PARTY_C_ASSERT(PARTY_AUDIO_INPUT_STATE_ALREADY_IN_USE == static_cast<uint32_t>(PartyAudioInputState::AlreadyInUse));
+PARTY_C_ASSERT(PARTY_AUDIO_INPUT_STATE_UNKNOWN_ERROR == static_cast<uint32_t>(PartyAudioInputState::UnknownError));
+
+PARTY_C_ASSERT(PARTY_AUDIO_OUTPUT_STATE_NO_OUTPUT == static_cast<uint32_t>(PartyAudioOutputState::NoOutput));
+PARTY_C_ASSERT(PARTY_AUDIO_OUTPUT_STATE_INITIALIZED == static_cast<uint32_t>(PartyAudioOutputState::Initialized));
+PARTY_C_ASSERT(PARTY_AUDIO_OUTPUT_STATE_NOT_FOUND == static_cast<uint32_t>(PartyAudioOutputState::NotFound));
+PARTY_C_ASSERT(PARTY_AUDIO_OUTPUT_STATE_UNSUPPORTED_FORMAT == static_cast<uint32_t>(PartyAudioOutputState::UnsupportedFormat));
+PARTY_C_ASSERT(PARTY_AUDIO_OUTPUT_STATE_ALREADY_IN_USE == static_cast<uint32_t>(PartyAudioOutputState::AlreadyInUse));
+PARTY_C_ASSERT(PARTY_AUDIO_OUTPUT_STATE_UNKNOWN_ERROR == static_cast<uint32_t>(PartyAudioOutputState::UnknownError));
+
+PARTY_C_ASSERT(PARTY_LOCAL_CHAT_CONTROL_CHAT_INDICATOR_SILENT == static_cast<uint32_t>(PartyLocalChatControlChatIndicator::Silent));
+PARTY_C_ASSERT(PARTY_LOCAL_CHAT_CONTROL_CHAT_INDICATOR_TALKING == static_cast<uint32_t>(PartyLocalChatControlChatIndicator::Talking));
+PARTY_C_ASSERT(PARTY_LOCAL_CHAT_CONTROL_CHAT_INDICATOR_AUDIO_INPUT_MUTED == static_cast<uint32_t>(PartyLocalChatControlChatIndicator::AudioInputMuted));
+PARTY_C_ASSERT(PARTY_LOCAL_CHAT_CONTROL_CHAT_INDICATOR_NO_AUDIO_INPUT == static_cast<uint32_t>(PartyLocalChatControlChatIndicator::NoAudioInput));
+
+PARTY_C_ASSERT(PARTY_CHAT_CONTROL_CHAT_INDICATOR_SILENT == static_cast<uint32_t>(PartyChatControlChatIndicator::Silent));
+PARTY_C_ASSERT(PARTY_CHAT_CONTROL_CHAT_INDICATOR_TALKING == static_cast<uint32_t>(PartyChatControlChatIndicator::Talking));
+PARTY_C_ASSERT(PARTY_CHAT_CONTROL_CHAT_INDICATOR_INCOMING_VOICE_DISABLED == static_cast<uint32_t>(PartyChatControlChatIndicator::IncomingVoiceDisabled));
+PARTY_C_ASSERT(PARTY_CHAT_CONTROL_CHAT_INDICATOR_INCOMING_COMMUNICATIONS_MUTED == static_cast<uint32_t>(PartyChatControlChatIndicator::IncomingCommunicationsMuted));
+
+PARTY_C_ASSERT(PARTY_GENDER_NEUTRAL == static_cast<uint32_t>(PartyGender::Neutral));
+PARTY_C_ASSERT(PARTY_GENDER_FEMALE == static_cast<uint32_t>(PartyGender::Female));
+PARTY_C_ASSERT(PARTY_GENDER_MALE == static_cast<uint32_t>(PartyGender::Male));
+
+PARTY_C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_PHRASE_TYPE_HYPOTHESIS == static_cast<uint32_t>(PartyVoiceChatTranscriptionPhraseType::Hypothesis));
+PARTY_C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_PHRASE_TYPE_FINAL == static_cast<uint32_t>(PartyVoiceChatTranscriptionPhraseType::Final));
+
+PARTY_C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_NONE == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::None));
+PARTY_C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_TRANSCRIBE_SELF == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::TranscribeSelf));
+PARTY_C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_TRANSCRIBE_OTHER_CHAT_CONTROLS_WITH_MATCHING_LANGUAGES == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::TranscribeOtherChatControlsWithMatchingLanguages));
+PARTY_C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_TRANSCRIBE_OTHER_CHAT_CONTROLS_WITH_NON_MATCHING_LANGUAGES == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::TranscribeOtherChatControlsWithNonMatchingLanguages));
+PARTY_C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_DISABLE_HYPOTHESIS_PHRASES == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::DisableHypothesisPhrases));
+PARTY_C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_TRANSLATE_TO_LOCAL_LANGUAGE == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::TranslateToLocalLanguage));
+
+PARTY_C_ASSERT(PARTY_TEXT_CHAT_OPTIONS_NONE == static_cast<uint32_t>(PartyTextChatOptions::None));
+PARTY_C_ASSERT(PARTY_TEXT_CHAT_OPTIONS_TRANSLATE_TO_LOCAL_LANGUAGE == static_cast<uint32_t>(PartyTextChatOptions::TranslateToLocalLanguage));
+
+PARTY_C_ASSERT(PARTY_TRANSLATION_RECEIVED_OPTIONS_NONE == static_cast<uint32_t>(PartyTranslationReceivedOptions::None));
+PARTY_C_ASSERT(PARTY_TRANSLATION_RECEIVED_OPTIONS_TRUNCATED == static_cast<uint32_t>(PartyTranslationReceivedOptions::Truncated));
+
+PARTY_C_ASSERT(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_TYPE_NARRATION == static_cast<uint32_t>(PartySynthesizeTextToSpeechType::Narration));
+PARTY_C_ASSERT(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_TYPE_VOICE_CHAT == static_cast<uint32_t>(PartySynthesizeTextToSpeechType::VoiceChat));
+
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_DESCRIPTOR) == sizeof(PartyNetworkDescriptor));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_DESCRIPTOR::networkIdentifier) == sizeof(PartyNetworkDescriptor::networkIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_DESCRIPTOR, networkIdentifier) == offsetof(PartyNetworkDescriptor, networkIdentifier));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_DESCRIPTOR::regionName) == sizeof(PartyNetworkDescriptor::regionName));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_DESCRIPTOR, regionName) == offsetof(PartyNetworkDescriptor, regionName));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_DESCRIPTOR::opaqueConnectionInformation) == sizeof(PartyNetworkDescriptor::opaqueConnectionInformation));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_DESCRIPTOR, opaqueConnectionInformation) == offsetof(PartyNetworkDescriptor, opaqueConnectionInformation));
+
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION) == sizeof(PartyNetworkConfiguration));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION::maxUserCount) == sizeof(PartyNetworkConfiguration::maxUserCount));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION, maxUserCount) == offsetof(PartyNetworkConfiguration, maxUserCount));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION::maxDeviceCount) == sizeof(PartyNetworkConfiguration::maxDeviceCount));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION, maxDeviceCount) == offsetof(PartyNetworkConfiguration, maxDeviceCount));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION::maxUsersPerDeviceCount) == sizeof(PartyNetworkConfiguration::maxUsersPerDeviceCount));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION, maxUsersPerDeviceCount) == offsetof(PartyNetworkConfiguration, maxUsersPerDeviceCount));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION::maxDevicesPerUserCount) == sizeof(PartyNetworkConfiguration::maxDevicesPerUserCount));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION, maxDevicesPerUserCount) == offsetof(PartyNetworkConfiguration, maxDevicesPerUserCount));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION::maxEndpointsPerDeviceCount) == sizeof(PartyNetworkConfiguration::maxEndpointsPerDeviceCount));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION, maxEndpointsPerDeviceCount) == offsetof(PartyNetworkConfiguration, maxEndpointsPerDeviceCount));
+
+PARTY_C_ASSERT(sizeof(PARTY_REGION) == sizeof(PartyRegion));
+PARTY_C_ASSERT(sizeof(PARTY_REGION::regionName) == sizeof(PartyRegion::regionName));
+PARTY_C_ASSERT(offsetof(PARTY_REGION, regionName) == offsetof(PartyRegion, regionName));
+PARTY_C_ASSERT(sizeof(PARTY_REGION::roundTripLatencyInMilliseconds) == sizeof(PartyRegion::roundTripLatencyInMilliseconds));
+PARTY_C_ASSERT(offsetof(PARTY_REGION, roundTripLatencyInMilliseconds) == offsetof(PartyRegion, roundTripLatencyInMilliseconds));
+
+PARTY_C_ASSERT(sizeof(PARTY_INVITATION_CONFIGURATION) == sizeof(PartyInvitationConfiguration));
+PARTY_C_ASSERT(sizeof(PARTY_INVITATION_CONFIGURATION::identifier) == sizeof(PartyInvitationConfiguration::identifier));
+PARTY_C_ASSERT(offsetof(PARTY_INVITATION_CONFIGURATION, identifier) == offsetof(PartyInvitationConfiguration, identifier));
+PARTY_C_ASSERT(sizeof(PARTY_INVITATION_CONFIGURATION::revocability) == sizeof(PartyInvitationConfiguration::revocability));
+PARTY_C_ASSERT(offsetof(PARTY_INVITATION_CONFIGURATION, revocability) == offsetof(PartyInvitationConfiguration, revocability));
+PARTY_C_ASSERT(sizeof(PARTY_INVITATION_CONFIGURATION::entityIdCount) == sizeof(PartyInvitationConfiguration::entityIdCount));
+PARTY_C_ASSERT(offsetof(PARTY_INVITATION_CONFIGURATION, entityIdCount) == offsetof(PartyInvitationConfiguration, entityIdCount));
+PARTY_C_ASSERT(sizeof(PARTY_INVITATION_CONFIGURATION::entityIds) == sizeof(PartyInvitationConfiguration::entityIds));
+PARTY_C_ASSERT(offsetof(PARTY_INVITATION_CONFIGURATION, entityIds) == offsetof(PartyInvitationConfiguration, entityIds));
+
+PARTY_C_ASSERT(sizeof(PARTY_SEND_MESSAGE_QUEUING_CONFIGURATION) == sizeof(PartySendMessageQueuingConfiguration));
+PARTY_C_ASSERT(sizeof(PARTY_SEND_MESSAGE_QUEUING_CONFIGURATION::priority) == sizeof(PartySendMessageQueuingConfiguration::priority));
+PARTY_C_ASSERT(offsetof(PARTY_SEND_MESSAGE_QUEUING_CONFIGURATION, priority) == offsetof(PartySendMessageQueuingConfiguration, priority));
+PARTY_C_ASSERT(sizeof(PARTY_SEND_MESSAGE_QUEUING_CONFIGURATION::identityForCancelFilters) == sizeof(PartySendMessageQueuingConfiguration::identityForCancelFilters));
+PARTY_C_ASSERT(offsetof(PARTY_SEND_MESSAGE_QUEUING_CONFIGURATION, identityForCancelFilters) == offsetof(PartySendMessageQueuingConfiguration, identityForCancelFilters));
+PARTY_C_ASSERT(sizeof(PARTY_SEND_MESSAGE_QUEUING_CONFIGURATION::timeoutInMilliseconds) == sizeof(PartySendMessageQueuingConfiguration::timeoutInMilliseconds));
+PARTY_C_ASSERT(offsetof(PARTY_SEND_MESSAGE_QUEUING_CONFIGURATION, timeoutInMilliseconds) == offsetof(PartySendMessageQueuingConfiguration, timeoutInMilliseconds));
+
+PARTY_C_ASSERT(sizeof(PARTY_DATA_BUFFER) == sizeof(PartyDataBuffer));
+PARTY_C_ASSERT(sizeof(PARTY_DATA_BUFFER::buffer) == sizeof(PartyDataBuffer::buffer));
+PARTY_C_ASSERT(offsetof(PARTY_DATA_BUFFER, buffer) == offsetof(PartyDataBuffer, buffer));
+PARTY_C_ASSERT(sizeof(PARTY_DATA_BUFFER::bufferByteCount) == sizeof(PartyDataBuffer::bufferByteCount));
+PARTY_C_ASSERT(offsetof(PARTY_DATA_BUFFER, bufferByteCount) == offsetof(PartyDataBuffer, bufferByteCount));
+
+PARTY_C_ASSERT(sizeof(PARTY_TRANSLATION) == sizeof(PartyTranslation));
+PARTY_C_ASSERT(sizeof(PARTY_TRANSLATION::result) == sizeof(PartyTranslation::result));
+PARTY_C_ASSERT(offsetof(PARTY_TRANSLATION, result) == offsetof(PartyTranslation, result));
+PARTY_C_ASSERT(sizeof(PARTY_TRANSLATION::errorDetail) == sizeof(PartyTranslation::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_TRANSLATION, errorDetail) == offsetof(PartyTranslation, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_TRANSLATION::languageCode) == sizeof(PartyTranslation::languageCode));
+PARTY_C_ASSERT(offsetof(PARTY_TRANSLATION, languageCode) == offsetof(PartyTranslation, languageCode));
+PARTY_C_ASSERT(sizeof(PARTY_TRANSLATION::options) == sizeof(PartyTranslation::options));
+PARTY_C_ASSERT(offsetof(PARTY_TRANSLATION, options) == offsetof(PartyTranslation, options));
+PARTY_C_ASSERT(sizeof(PARTY_TRANSLATION::translation) == sizeof(PartyTranslation::translation));
+PARTY_C_ASSERT(offsetof(PARTY_TRANSLATION, translation) == offsetof(PartyTranslation, translation));
+
+PARTY_C_ASSERT(sizeof(PARTY_STATE_CHANGE) == sizeof(PartyStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_STATE_CHANGE::stateChangeType) == sizeof(PartyStateChange::stateChangeType));
+PARTY_C_ASSERT(offsetof(PARTY_STATE_CHANGE, stateChangeType) == offsetof(PartyStateChange, stateChangeType));
+
+PARTY_C_ASSERT(sizeof(PARTY_REGIONS_CHANGED_STATE_CHANGE) == sizeof(PartyRegionsChangedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_REGIONS_CHANGED_STATE_CHANGE::result) == sizeof(PartyRegionsChangedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_REGIONS_CHANGED_STATE_CHANGE, result) == offsetof(PartyRegionsChangedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_REGIONS_CHANGED_STATE_CHANGE::errorDetail) == sizeof(PartyRegionsChangedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_REGIONS_CHANGED_STATE_CHANGE, errorDetail) == offsetof(PartyRegionsChangedStateChange, errorDetail));
+
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE) == sizeof(PartyCreateNewNetworkCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::result) == sizeof(PartyCreateNewNetworkCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, result) == offsetof(PartyCreateNewNetworkCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyCreateNewNetworkCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyCreateNewNetworkCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyCreateNewNetworkCompletedStateChange::localUser));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyCreateNewNetworkCompletedStateChange, localUser));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::networkConfiguration) == sizeof(PartyCreateNewNetworkCompletedStateChange::networkConfiguration));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, networkConfiguration) == offsetof(PartyCreateNewNetworkCompletedStateChange, networkConfiguration));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::regionCount) == sizeof(PartyCreateNewNetworkCompletedStateChange::regionCount));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, regionCount) == offsetof(PartyCreateNewNetworkCompletedStateChange, regionCount));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::regions) == sizeof(PartyCreateNewNetworkCompletedStateChange::regions));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, regions) == offsetof(PartyCreateNewNetworkCompletedStateChange, regions));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyCreateNewNetworkCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyCreateNewNetworkCompletedStateChange, asyncIdentifier));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::networkDescriptor) == sizeof(PartyCreateNewNetworkCompletedStateChange::networkDescriptor));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, networkDescriptor) == offsetof(PartyCreateNewNetworkCompletedStateChange, networkDescriptor));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE::appliedInitialInvitationIdentifier) == sizeof(PartyCreateNewNetworkCompletedStateChange::appliedInitialInvitationIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_NEW_NETWORK_COMPLETED_STATE_CHANGE, appliedInitialInvitationIdentifier) == offsetof(PartyCreateNewNetworkCompletedStateChange, appliedInitialInvitationIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE) == sizeof(PartyConnectToNetworkCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE::result) == sizeof(PartyConnectToNetworkCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE, result) == offsetof(PartyConnectToNetworkCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyConnectToNetworkCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyConnectToNetworkCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE::networkDescriptor) == sizeof(PartyConnectToNetworkCompletedStateChange::networkDescriptor));
+PARTY_C_ASSERT(offsetof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE, networkDescriptor) == offsetof(PartyConnectToNetworkCompletedStateChange, networkDescriptor));
+PARTY_C_ASSERT(sizeof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyConnectToNetworkCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyConnectToNetworkCompletedStateChange, asyncIdentifier));
+PARTY_C_ASSERT(sizeof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE::network) == sizeof(PartyConnectToNetworkCompletedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_CONNECT_TO_NETWORK_COMPLETED_STATE_CHANGE, network) == offsetof(PartyConnectToNetworkCompletedStateChange, network));
+
+PARTY_C_ASSERT(sizeof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE) == sizeof(PartyAuthenticateLocalUserCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE::result) == sizeof(PartyAuthenticateLocalUserCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE, result) == offsetof(PartyAuthenticateLocalUserCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyAuthenticateLocalUserCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyAuthenticateLocalUserCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE::network) == sizeof(PartyAuthenticateLocalUserCompletedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE, network) == offsetof(PartyAuthenticateLocalUserCompletedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyAuthenticateLocalUserCompletedStateChange::localUser));
+PARTY_C_ASSERT(offsetof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyAuthenticateLocalUserCompletedStateChange, localUser));
+PARTY_C_ASSERT(sizeof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE::invitationIdentifier) == sizeof(PartyAuthenticateLocalUserCompletedStateChange::invitationIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE, invitationIdentifier) == offsetof(PartyAuthenticateLocalUserCompletedStateChange, invitationIdentifier));
+PARTY_C_ASSERT(sizeof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyAuthenticateLocalUserCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_AUTHENTICATE_LOCAL_USER_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyAuthenticateLocalUserCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION_MADE_AVAILABLE_STATE_CHANGE) == sizeof(PartyNetworkConfigurationMadeAvailableStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION_MADE_AVAILABLE_STATE_CHANGE::network) == sizeof(PartyNetworkConfigurationMadeAvailableStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION_MADE_AVAILABLE_STATE_CHANGE, network) == offsetof(PartyNetworkConfigurationMadeAvailableStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION_MADE_AVAILABLE_STATE_CHANGE::networkConfiguration) == sizeof(PartyNetworkConfigurationMadeAvailableStateChange::networkConfiguration));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION_MADE_AVAILABLE_STATE_CHANGE, networkConfiguration) == offsetof(PartyNetworkConfigurationMadeAvailableStateChange, networkConfiguration));
+
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_DESCRIPTOR_CHANGED_STATE_CHANGE) == sizeof(PartyNetworkDescriptorChangedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_DESCRIPTOR_CHANGED_STATE_CHANGE::network) == sizeof(PartyNetworkDescriptorChangedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_DESCRIPTOR_CHANGED_STATE_CHANGE, network) == offsetof(PartyNetworkDescriptorChangedStateChange, network));
+
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_USER_REMOVED_STATE_CHANGE) == sizeof(PartyLocalUserRemovedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_USER_REMOVED_STATE_CHANGE::network) == sizeof(PartyLocalUserRemovedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_LOCAL_USER_REMOVED_STATE_CHANGE, network) == offsetof(PartyLocalUserRemovedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_USER_REMOVED_STATE_CHANGE::localUser) == sizeof(PartyLocalUserRemovedStateChange::localUser));
+PARTY_C_ASSERT(offsetof(PARTY_LOCAL_USER_REMOVED_STATE_CHANGE, localUser) == offsetof(PartyLocalUserRemovedStateChange, localUser));
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_USER_REMOVED_STATE_CHANGE::removedReason) == sizeof(PartyLocalUserRemovedStateChange::removedReason));
+PARTY_C_ASSERT(offsetof(PARTY_LOCAL_USER_REMOVED_STATE_CHANGE, removedReason) == offsetof(PartyLocalUserRemovedStateChange, removedReason));
+
+PARTY_C_ASSERT(sizeof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE) == sizeof(PartyRemoveLocalUserCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE::result) == sizeof(PartyRemoveLocalUserCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE, result) == offsetof(PartyRemoveLocalUserCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyRemoveLocalUserCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyRemoveLocalUserCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE::network) == sizeof(PartyRemoveLocalUserCompletedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE, network) == offsetof(PartyRemoveLocalUserCompletedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyRemoveLocalUserCompletedStateChange::localUser));
+PARTY_C_ASSERT(offsetof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyRemoveLocalUserCompletedStateChange, localUser));
+PARTY_C_ASSERT(sizeof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyRemoveLocalUserCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_REMOVE_LOCAL_USER_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyRemoveLocalUserCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE) == sizeof(PartyDestroyLocalUserCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE::result) == sizeof(PartyDestroyLocalUserCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE, result) == offsetof(PartyDestroyLocalUserCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyDestroyLocalUserCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyDestroyLocalUserCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyDestroyLocalUserCompletedStateChange::localUser));
+PARTY_C_ASSERT(offsetof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyDestroyLocalUserCompletedStateChange, localUser));
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyDestroyLocalUserCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_DESTROY_LOCAL_USER_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyDestroyLocalUserCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_USER_KICKED_STATE_CHANGE) == sizeof(PartyLocalUserKickedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_USER_KICKED_STATE_CHANGE::network) == sizeof(PartyLocalUserKickedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_LOCAL_USER_KICKED_STATE_CHANGE, network) == offsetof(PartyLocalUserKickedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_USER_KICKED_STATE_CHANGE::localUser) == sizeof(PartyLocalUserKickedStateChange::localUser));
+PARTY_C_ASSERT(offsetof(PARTY_LOCAL_USER_KICKED_STATE_CHANGE, localUser) == offsetof(PartyLocalUserKickedStateChange, localUser));
+
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE) == sizeof(PartyCreateEndpointCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE::result) == sizeof(PartyCreateEndpointCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE, result) == offsetof(PartyCreateEndpointCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyCreateEndpointCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyCreateEndpointCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE::network) == sizeof(PartyCreateEndpointCompletedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE, network) == offsetof(PartyCreateEndpointCompletedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyCreateEndpointCompletedStateChange::localUser));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyCreateEndpointCompletedStateChange, localUser));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyCreateEndpointCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyCreateEndpointCompletedStateChange, asyncIdentifier));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE::localEndpoint) == sizeof(PartyCreateEndpointCompletedStateChange::localEndpoint));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_ENDPOINT_COMPLETED_STATE_CHANGE, localEndpoint) == offsetof(PartyCreateEndpointCompletedStateChange, localEndpoint));
+
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE) == sizeof(PartyDestroyEndpointCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE::result) == sizeof(PartyDestroyEndpointCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE, result) == offsetof(PartyDestroyEndpointCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyDestroyEndpointCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyDestroyEndpointCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE::network) == sizeof(PartyDestroyEndpointCompletedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE, network) == offsetof(PartyDestroyEndpointCompletedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE::localEndpoint) == sizeof(PartyDestroyEndpointCompletedStateChange::localEndpoint));
+PARTY_C_ASSERT(offsetof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE, localEndpoint) == offsetof(PartyDestroyEndpointCompletedStateChange, localEndpoint));
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyDestroyEndpointCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_DESTROY_ENDPOINT_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyDestroyEndpointCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_CREATED_STATE_CHANGE) == sizeof(PartyEndpointCreatedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_CREATED_STATE_CHANGE::network) == sizeof(PartyEndpointCreatedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_CREATED_STATE_CHANGE, network) == offsetof(PartyEndpointCreatedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_CREATED_STATE_CHANGE::endpoint) == sizeof(PartyEndpointCreatedStateChange::endpoint));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_CREATED_STATE_CHANGE, endpoint) == offsetof(PartyEndpointCreatedStateChange, endpoint));
+
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE) == sizeof(PartyEndpointDestroyedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE::network) == sizeof(PartyEndpointDestroyedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE, network) == offsetof(PartyEndpointDestroyedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE::endpoint) == sizeof(PartyEndpointDestroyedStateChange::endpoint));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE, endpoint) == offsetof(PartyEndpointDestroyedStateChange, endpoint));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE::reason) == sizeof(PartyEndpointDestroyedStateChange::reason));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE, reason) == offsetof(PartyEndpointDestroyedStateChange, reason));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE::errorDetail) == sizeof(PartyEndpointDestroyedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_DESTROYED_STATE_CHANGE, errorDetail) == offsetof(PartyEndpointDestroyedStateChange, errorDetail));
+
+PARTY_C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_CREATED_STATE_CHANGE) == sizeof(PartyRemoteDeviceCreatedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_CREATED_STATE_CHANGE::device) == sizeof(PartyRemoteDeviceCreatedStateChange::device));
+PARTY_C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_CREATED_STATE_CHANGE, device) == offsetof(PartyRemoteDeviceCreatedStateChange, device));
+
+PARTY_C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_DESTROYED_STATE_CHANGE) == sizeof(PartyRemoteDeviceDestroyedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_DESTROYED_STATE_CHANGE::device) == sizeof(PartyRemoteDeviceDestroyedStateChange::device));
+PARTY_C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_DESTROYED_STATE_CHANGE, device) == offsetof(PartyRemoteDeviceDestroyedStateChange, device));
+
+PARTY_C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_JOINED_NETWORK_STATE_CHANGE) == sizeof(PartyRemoteDeviceJoinedNetworkStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_JOINED_NETWORK_STATE_CHANGE::device) == sizeof(PartyRemoteDeviceJoinedNetworkStateChange::device));
+PARTY_C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_JOINED_NETWORK_STATE_CHANGE, device) == offsetof(PartyRemoteDeviceJoinedNetworkStateChange, device));
+PARTY_C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_JOINED_NETWORK_STATE_CHANGE::network) == sizeof(PartyRemoteDeviceJoinedNetworkStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_JOINED_NETWORK_STATE_CHANGE, network) == offsetof(PartyRemoteDeviceJoinedNetworkStateChange, network));
+
+PARTY_C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE) == sizeof(PartyRemoteDeviceLeftNetworkStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE::reason) == sizeof(PartyRemoteDeviceLeftNetworkStateChange::reason));
+PARTY_C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE, reason) == offsetof(PartyRemoteDeviceLeftNetworkStateChange, reason));
+PARTY_C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE::errorDetail) == sizeof(PartyRemoteDeviceLeftNetworkStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE, errorDetail) == offsetof(PartyRemoteDeviceLeftNetworkStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE::device) == sizeof(PartyRemoteDeviceLeftNetworkStateChange::device));
+PARTY_C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE, device) == offsetof(PartyRemoteDeviceLeftNetworkStateChange, device));
+PARTY_C_ASSERT(sizeof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE::network) == sizeof(PartyRemoteDeviceLeftNetworkStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_REMOTE_DEVICE_LEFT_NETWORK_STATE_CHANGE, network) == offsetof(PartyRemoteDeviceLeftNetworkStateChange, network));
+
+PARTY_C_ASSERT(sizeof(PARTY_DEVICE_PROPERTIES_CHANGED_STATE_CHANGE) == sizeof(PartyDevicePropertiesChangedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_DEVICE_PROPERTIES_CHANGED_STATE_CHANGE::device) == sizeof(PartyDevicePropertiesChangedStateChange::device));
+PARTY_C_ASSERT(offsetof(PARTY_DEVICE_PROPERTIES_CHANGED_STATE_CHANGE, device) == offsetof(PartyDevicePropertiesChangedStateChange, device));
+PARTY_C_ASSERT(sizeof(PARTY_DEVICE_PROPERTIES_CHANGED_STATE_CHANGE::propertyCount) == sizeof(PartyDevicePropertiesChangedStateChange::propertyCount));
+PARTY_C_ASSERT(offsetof(PARTY_DEVICE_PROPERTIES_CHANGED_STATE_CHANGE, propertyCount) == offsetof(PartyDevicePropertiesChangedStateChange, propertyCount));
+PARTY_C_ASSERT(sizeof(PARTY_DEVICE_PROPERTIES_CHANGED_STATE_CHANGE::keys) == sizeof(PartyDevicePropertiesChangedStateChange::keys));
+PARTY_C_ASSERT(offsetof(PARTY_DEVICE_PROPERTIES_CHANGED_STATE_CHANGE, keys) == offsetof(PartyDevicePropertiesChangedStateChange, keys));
+
+PARTY_C_ASSERT(sizeof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE) == sizeof(PartyLeaveNetworkCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE::result) == sizeof(PartyLeaveNetworkCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE, result) == offsetof(PartyLeaveNetworkCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyLeaveNetworkCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyLeaveNetworkCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE::network) == sizeof(PartyLeaveNetworkCompletedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE, network) == offsetof(PartyLeaveNetworkCompletedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyLeaveNetworkCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_LEAVE_NETWORK_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyLeaveNetworkCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_DESTROYED_STATE_CHANGE) == sizeof(PartyNetworkDestroyedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_DESTROYED_STATE_CHANGE::reason) == sizeof(PartyNetworkDestroyedStateChange::reason));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_DESTROYED_STATE_CHANGE, reason) == offsetof(PartyNetworkDestroyedStateChange, reason));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_DESTROYED_STATE_CHANGE::errorDetail) == sizeof(PartyNetworkDestroyedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_DESTROYED_STATE_CHANGE, errorDetail) == offsetof(PartyNetworkDestroyedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_DESTROYED_STATE_CHANGE::network) == sizeof(PartyNetworkDestroyedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_DESTROYED_STATE_CHANGE, network) == offsetof(PartyNetworkDestroyedStateChange, network));
+
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE) == sizeof(PartyEndpointMessageReceivedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE::network) == sizeof(PartyEndpointMessageReceivedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE, network) == offsetof(PartyEndpointMessageReceivedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE::senderEndpoint) == sizeof(PartyEndpointMessageReceivedStateChange::senderEndpoint));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE, senderEndpoint) == offsetof(PartyEndpointMessageReceivedStateChange, senderEndpoint));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE::receiverEndpointCount) == sizeof(PartyEndpointMessageReceivedStateChange::receiverEndpointCount));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE, receiverEndpointCount) == offsetof(PartyEndpointMessageReceivedStateChange, receiverEndpointCount));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE::receiverEndpoints) == sizeof(PartyEndpointMessageReceivedStateChange::receiverEndpoints));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE, receiverEndpoints) == offsetof(PartyEndpointMessageReceivedStateChange, receiverEndpoints));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE::options) == sizeof(PartyEndpointMessageReceivedStateChange::options));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE, options) == offsetof(PartyEndpointMessageReceivedStateChange, options));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE::messageSize) == sizeof(PartyEndpointMessageReceivedStateChange::messageSize));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE, messageSize) == offsetof(PartyEndpointMessageReceivedStateChange, messageSize));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE::messageBuffer) == sizeof(PartyEndpointMessageReceivedStateChange::messageBuffer));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_MESSAGE_RECEIVED_STATE_CHANGE, messageBuffer) == offsetof(PartyEndpointMessageReceivedStateChange, messageBuffer));
+
+PARTY_C_ASSERT(sizeof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE) == sizeof(PartyDataBuffersReturnedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE::network) == sizeof(PartyDataBuffersReturnedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE, network) == offsetof(PartyDataBuffersReturnedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE::localSenderEndpoint) == sizeof(PartyDataBuffersReturnedStateChange::localSenderEndpoint));
+PARTY_C_ASSERT(offsetof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE, localSenderEndpoint) == offsetof(PartyDataBuffersReturnedStateChange, localSenderEndpoint));
+PARTY_C_ASSERT(sizeof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE::dataBufferCount) == sizeof(PartyDataBuffersReturnedStateChange::dataBufferCount));
+PARTY_C_ASSERT(offsetof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE, dataBufferCount) == offsetof(PartyDataBuffersReturnedStateChange, dataBufferCount));
+PARTY_C_ASSERT(sizeof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE::dataBuffers) == sizeof(PartyDataBuffersReturnedStateChange::dataBuffers));
+PARTY_C_ASSERT(offsetof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE, dataBuffers) == offsetof(PartyDataBuffersReturnedStateChange, dataBuffers));
+PARTY_C_ASSERT(sizeof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE::messageIdentifier) == sizeof(PartyDataBuffersReturnedStateChange::messageIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_DATA_BUFFERS_RETURNED_STATE_CHANGE, messageIdentifier) == offsetof(PartyDataBuffersReturnedStateChange, messageIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_PROPERTIES_CHANGED_STATE_CHANGE) == sizeof(PartyEndpointPropertiesChangedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_PROPERTIES_CHANGED_STATE_CHANGE::endpoint) == sizeof(PartyEndpointPropertiesChangedStateChange::endpoint));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_PROPERTIES_CHANGED_STATE_CHANGE, endpoint) == offsetof(PartyEndpointPropertiesChangedStateChange, endpoint));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_PROPERTIES_CHANGED_STATE_CHANGE::propertyCount) == sizeof(PartyEndpointPropertiesChangedStateChange::propertyCount));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_PROPERTIES_CHANGED_STATE_CHANGE, propertyCount) == offsetof(PartyEndpointPropertiesChangedStateChange, propertyCount));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_PROPERTIES_CHANGED_STATE_CHANGE::keys) == sizeof(PartyEndpointPropertiesChangedStateChange::keys));
+PARTY_C_ASSERT(offsetof(PARTY_ENDPOINT_PROPERTIES_CHANGED_STATE_CHANGE, keys) == offsetof(PartyEndpointPropertiesChangedStateChange, keys));
+
+PARTY_C_ASSERT(sizeof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE) == sizeof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE::endpointCount) == sizeof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange::endpointCount));
+PARTY_C_ASSERT(offsetof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE, endpointCount) == offsetof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange, endpointCount));
+PARTY_C_ASSERT(sizeof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE::endpoints) == sizeof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange::endpoints));
+PARTY_C_ASSERT(offsetof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE, endpoints) == offsetof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange, endpoints));
+PARTY_C_ASSERT(sizeof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE::options) == sizeof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange::options));
+PARTY_C_ASSERT(offsetof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE, options) == offsetof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange, options));
+PARTY_C_ASSERT(sizeof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_SYNCHRONIZE_MESSAGES_BETWEEN_ENDPOINTS_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySynchronizeMessagesBetweenEndpointsCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE) == sizeof(PartyCreateInvitationCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE::result) == sizeof(PartyCreateInvitationCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE, result) == offsetof(PartyCreateInvitationCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyCreateInvitationCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyCreateInvitationCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE::network) == sizeof(PartyCreateInvitationCompletedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE, network) == offsetof(PartyCreateInvitationCompletedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyCreateInvitationCompletedStateChange::localUser));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyCreateInvitationCompletedStateChange, localUser));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyCreateInvitationCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyCreateInvitationCompletedStateChange, asyncIdentifier));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE::invitation) == sizeof(PartyCreateInvitationCompletedStateChange::invitation));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_INVITATION_COMPLETED_STATE_CHANGE, invitation) == offsetof(PartyCreateInvitationCompletedStateChange, invitation));
+
+PARTY_C_ASSERT(sizeof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE) == sizeof(PartyRevokeInvitationCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE::result) == sizeof(PartyRevokeInvitationCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE, result) == offsetof(PartyRevokeInvitationCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyRevokeInvitationCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyRevokeInvitationCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE::network) == sizeof(PartyRevokeInvitationCompletedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE, network) == offsetof(PartyRevokeInvitationCompletedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyRevokeInvitationCompletedStateChange::localUser));
+PARTY_C_ASSERT(offsetof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyRevokeInvitationCompletedStateChange, localUser));
+PARTY_C_ASSERT(sizeof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE::invitation) == sizeof(PartyRevokeInvitationCompletedStateChange::invitation));
+PARTY_C_ASSERT(offsetof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE, invitation) == offsetof(PartyRevokeInvitationCompletedStateChange, invitation));
+PARTY_C_ASSERT(sizeof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyRevokeInvitationCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_REVOKE_INVITATION_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyRevokeInvitationCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_INVITATION_CREATED_STATE_CHANGE) == sizeof(PartyInvitationCreatedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_INVITATION_CREATED_STATE_CHANGE::network) == sizeof(PartyInvitationCreatedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_INVITATION_CREATED_STATE_CHANGE, network) == offsetof(PartyInvitationCreatedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_INVITATION_CREATED_STATE_CHANGE::invitation) == sizeof(PartyInvitationCreatedStateChange::invitation));
+PARTY_C_ASSERT(offsetof(PARTY_INVITATION_CREATED_STATE_CHANGE, invitation) == offsetof(PartyInvitationCreatedStateChange, invitation));
+
+PARTY_C_ASSERT(sizeof(PARTY_INVITATION_DESTROYED_STATE_CHANGE) == sizeof(PartyInvitationDestroyedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_INVITATION_DESTROYED_STATE_CHANGE::network) == sizeof(PartyInvitationDestroyedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_INVITATION_DESTROYED_STATE_CHANGE, network) == offsetof(PartyInvitationDestroyedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_INVITATION_DESTROYED_STATE_CHANGE::invitation) == sizeof(PartyInvitationDestroyedStateChange::invitation));
+PARTY_C_ASSERT(offsetof(PARTY_INVITATION_DESTROYED_STATE_CHANGE, invitation) == offsetof(PartyInvitationDestroyedStateChange, invitation));
+PARTY_C_ASSERT(sizeof(PARTY_INVITATION_DESTROYED_STATE_CHANGE::reason) == sizeof(PartyInvitationDestroyedStateChange::reason));
+PARTY_C_ASSERT(offsetof(PARTY_INVITATION_DESTROYED_STATE_CHANGE, reason) == offsetof(PartyInvitationDestroyedStateChange, reason));
+PARTY_C_ASSERT(sizeof(PARTY_INVITATION_DESTROYED_STATE_CHANGE::errorDetail) == sizeof(PartyInvitationDestroyedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_INVITATION_DESTROYED_STATE_CHANGE, errorDetail) == offsetof(PartyInvitationDestroyedStateChange, errorDetail));
+
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_PROPERTIES_CHANGED_STATE_CHANGE) == sizeof(PartyNetworkPropertiesChangedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_PROPERTIES_CHANGED_STATE_CHANGE::network) == sizeof(PartyNetworkPropertiesChangedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_PROPERTIES_CHANGED_STATE_CHANGE, network) == offsetof(PartyNetworkPropertiesChangedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_PROPERTIES_CHANGED_STATE_CHANGE::propertyCount) == sizeof(PartyNetworkPropertiesChangedStateChange::propertyCount));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_PROPERTIES_CHANGED_STATE_CHANGE, propertyCount) == offsetof(PartyNetworkPropertiesChangedStateChange, propertyCount));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_PROPERTIES_CHANGED_STATE_CHANGE::keys) == sizeof(PartyNetworkPropertiesChangedStateChange::keys));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_PROPERTIES_CHANGED_STATE_CHANGE, keys) == offsetof(PartyNetworkPropertiesChangedStateChange, keys));
+
+PARTY_C_ASSERT(sizeof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE) == sizeof(PartyKickDeviceCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE::result) == sizeof(PartyKickDeviceCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE, result) == offsetof(PartyKickDeviceCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyKickDeviceCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyKickDeviceCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE::network) == sizeof(PartyKickDeviceCompletedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE, network) == offsetof(PartyKickDeviceCompletedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE::kickedDevice) == sizeof(PartyKickDeviceCompletedStateChange::kickedDevice));
+PARTY_C_ASSERT(offsetof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE, kickedDevice) == offsetof(PartyKickDeviceCompletedStateChange, kickedDevice));
+PARTY_C_ASSERT(sizeof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyKickDeviceCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_KICK_DEVICE_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyKickDeviceCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE) == sizeof(PartyKickUserCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE::result) == sizeof(PartyKickUserCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE, result) == offsetof(PartyKickUserCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyKickUserCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyKickUserCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE::network) == sizeof(PartyKickUserCompletedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE, network) == offsetof(PartyKickUserCompletedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE::kickedEntityId) == sizeof(PartyKickUserCompletedStateChange::kickedEntityId));
+PARTY_C_ASSERT(offsetof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE, kickedEntityId) == offsetof(PartyKickUserCompletedStateChange, kickedEntityId));
+PARTY_C_ASSERT(sizeof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyKickUserCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_KICK_USER_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyKickUserCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE) == sizeof(PartyCreateChatControlCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE::result) == sizeof(PartyCreateChatControlCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE, result) == offsetof(PartyCreateChatControlCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyCreateChatControlCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyCreateChatControlCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE::localDevice) == sizeof(PartyCreateChatControlCompletedStateChange::localDevice));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE, localDevice) == offsetof(PartyCreateChatControlCompletedStateChange, localDevice));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE::localUser) == sizeof(PartyCreateChatControlCompletedStateChange::localUser));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE, localUser) == offsetof(PartyCreateChatControlCompletedStateChange, localUser));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE::languageCode) == sizeof(PartyCreateChatControlCompletedStateChange::languageCode));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE, languageCode) == offsetof(PartyCreateChatControlCompletedStateChange, languageCode));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyCreateChatControlCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyCreateChatControlCompletedStateChange, asyncIdentifier));
+PARTY_C_ASSERT(sizeof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartyCreateChatControlCompletedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_CREATE_CHAT_CONTROL_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartyCreateChatControlCompletedStateChange, localChatControl));
+
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE) == sizeof(PartyDestroyChatControlCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE::result) == sizeof(PartyDestroyChatControlCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE, result) == offsetof(PartyDestroyChatControlCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyDestroyChatControlCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyDestroyChatControlCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE::localDevice) == sizeof(PartyDestroyChatControlCompletedStateChange::localDevice));
+PARTY_C_ASSERT(offsetof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE, localDevice) == offsetof(PartyDestroyChatControlCompletedStateChange, localDevice));
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartyDestroyChatControlCompletedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartyDestroyChatControlCompletedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyDestroyChatControlCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_DESTROY_CHAT_CONTROL_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyDestroyChatControlCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_CREATED_STATE_CHANGE) == sizeof(PartyChatControlCreatedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_CREATED_STATE_CHANGE::chatControl) == sizeof(PartyChatControlCreatedStateChange::chatControl));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_CONTROL_CREATED_STATE_CHANGE, chatControl) == offsetof(PartyChatControlCreatedStateChange, chatControl));
+
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_DESTROYED_STATE_CHANGE) == sizeof(PartyChatControlDestroyedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_DESTROYED_STATE_CHANGE::chatControl) == sizeof(PartyChatControlDestroyedStateChange::chatControl));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_CONTROL_DESTROYED_STATE_CHANGE, chatControl) == offsetof(PartyChatControlDestroyedStateChange, chatControl));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_DESTROYED_STATE_CHANGE::reason) == sizeof(PartyChatControlDestroyedStateChange::reason));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_CONTROL_DESTROYED_STATE_CHANGE, reason) == offsetof(PartyChatControlDestroyedStateChange, reason));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_DESTROYED_STATE_CHANGE::errorDetail) == sizeof(PartyChatControlDestroyedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_CONTROL_DESTROYED_STATE_CHANGE, errorDetail) == offsetof(PartyChatControlDestroyedStateChange, errorDetail));
+
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE) == sizeof(PartySetChatAudioEncoderBitrateCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE::result) == sizeof(PartySetChatAudioEncoderBitrateCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE, result) == offsetof(PartySetChatAudioEncoderBitrateCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySetChatAudioEncoderBitrateCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySetChatAudioEncoderBitrateCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySetChatAudioEncoderBitrateCompletedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySetChatAudioEncoderBitrateCompletedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE::bitrate) == sizeof(PartySetChatAudioEncoderBitrateCompletedStateChange::bitrate));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE, bitrate) == offsetof(PartySetChatAudioEncoderBitrateCompletedStateChange, bitrate));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySetChatAudioEncoderBitrateCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_ENCODER_BITRATE_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySetChatAudioEncoderBitrateCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE) == sizeof(PartyChatTextReceivedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::senderChatControl) == sizeof(PartyChatTextReceivedStateChange::senderChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, senderChatControl) == offsetof(PartyChatTextReceivedStateChange, senderChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::receiverChatControlCount) == sizeof(PartyChatTextReceivedStateChange::receiverChatControlCount));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, receiverChatControlCount) == offsetof(PartyChatTextReceivedStateChange, receiverChatControlCount));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::receiverChatControls) == sizeof(PartyChatTextReceivedStateChange::receiverChatControls));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, receiverChatControls) == offsetof(PartyChatTextReceivedStateChange, receiverChatControls));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::languageCode) == sizeof(PartyChatTextReceivedStateChange::languageCode));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, languageCode) == offsetof(PartyChatTextReceivedStateChange, languageCode));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::chatText) == sizeof(PartyChatTextReceivedStateChange::chatText));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, chatText) == offsetof(PartyChatTextReceivedStateChange, chatText));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::dataSize) == sizeof(PartyChatTextReceivedStateChange::dataSize));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, dataSize) == offsetof(PartyChatTextReceivedStateChange, dataSize));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::data) == sizeof(PartyChatTextReceivedStateChange::data));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, data) == offsetof(PartyChatTextReceivedStateChange, data));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::translationCount) == sizeof(PartyChatTextReceivedStateChange::translationCount));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, translationCount) == offsetof(PartyChatTextReceivedStateChange, translationCount));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE::translations) == sizeof(PartyChatTextReceivedStateChange::translations));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_TEXT_RECEIVED_STATE_CHANGE, translations) == offsetof(PartyChatTextReceivedStateChange, translations));
+
+PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::result) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, result) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::errorDetail) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, errorDetail) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::senderChatControl) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::senderChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, senderChatControl) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, senderChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::receiverChatControlCount) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::receiverChatControlCount));
+PARTY_C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, receiverChatControlCount) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, receiverChatControlCount));
+PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::receiverChatControls) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::receiverChatControls));
+PARTY_C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, receiverChatControls) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, receiverChatControls));
+PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::languageCode) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::languageCode));
+PARTY_C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, languageCode) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, languageCode));
+PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::transcription) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::transcription));
+PARTY_C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, transcription) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, transcription));
+PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::type) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::type));
+PARTY_C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, type) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, type));
+PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::translationCount) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::translationCount));
+PARTY_C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, translationCount) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, translationCount));
+PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::translations) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::translations));
+PARTY_C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, translations) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, translations));
+
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE) == sizeof(PartySetChatAudioInputCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE::result) == sizeof(PartySetChatAudioInputCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE, result) == offsetof(PartySetChatAudioInputCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySetChatAudioInputCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySetChatAudioInputCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySetChatAudioInputCompletedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySetChatAudioInputCompletedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE::audioDeviceSelectionType) == sizeof(PartySetChatAudioInputCompletedStateChange::audioDeviceSelectionType));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE, audioDeviceSelectionType) == offsetof(PartySetChatAudioInputCompletedStateChange, audioDeviceSelectionType));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE::audioDeviceSelectionContext) == sizeof(PartySetChatAudioInputCompletedStateChange::audioDeviceSelectionContext));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE, audioDeviceSelectionContext) == offsetof(PartySetChatAudioInputCompletedStateChange, audioDeviceSelectionContext));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySetChatAudioInputCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_INPUT_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySetChatAudioInputCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE) == sizeof(PartySetChatAudioOutputCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE::result) == sizeof(PartySetChatAudioOutputCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE, result) == offsetof(PartySetChatAudioOutputCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySetChatAudioOutputCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySetChatAudioOutputCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySetChatAudioOutputCompletedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySetChatAudioOutputCompletedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE::audioDeviceSelectionType) == sizeof(PartySetChatAudioOutputCompletedStateChange::audioDeviceSelectionType));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE, audioDeviceSelectionType) == offsetof(PartySetChatAudioOutputCompletedStateChange, audioDeviceSelectionType));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE::audioDeviceSelectionContext) == sizeof(PartySetChatAudioOutputCompletedStateChange::audioDeviceSelectionContext));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE, audioDeviceSelectionContext) == offsetof(PartySetChatAudioOutputCompletedStateChange, audioDeviceSelectionContext));
+PARTY_C_ASSERT(sizeof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySetChatAudioOutputCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_SET_CHAT_AUDIO_OUTPUT_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySetChatAudioOutputCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_INPUT_CHANGED_STATE_CHANGE) == sizeof(PartyLocalChatAudioInputChangedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_INPUT_CHANGED_STATE_CHANGE::localChatControl) == sizeof(PartyLocalChatAudioInputChangedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_LOCAL_CHAT_AUDIO_INPUT_CHANGED_STATE_CHANGE, localChatControl) == offsetof(PartyLocalChatAudioInputChangedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_INPUT_CHANGED_STATE_CHANGE::state) == sizeof(PartyLocalChatAudioInputChangedStateChange::state));
+PARTY_C_ASSERT(offsetof(PARTY_LOCAL_CHAT_AUDIO_INPUT_CHANGED_STATE_CHANGE, state) == offsetof(PartyLocalChatAudioInputChangedStateChange, state));
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_INPUT_CHANGED_STATE_CHANGE::errorDetail) == sizeof(PartyLocalChatAudioInputChangedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_LOCAL_CHAT_AUDIO_INPUT_CHANGED_STATE_CHANGE, errorDetail) == offsetof(PartyLocalChatAudioInputChangedStateChange, errorDetail));
+
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED_STATE_CHANGE) == sizeof(PartyLocalChatAudioOutputChangedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED_STATE_CHANGE::localChatControl) == sizeof(PartyLocalChatAudioOutputChangedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED_STATE_CHANGE, localChatControl) == offsetof(PartyLocalChatAudioOutputChangedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED_STATE_CHANGE::state) == sizeof(PartyLocalChatAudioOutputChangedStateChange::state));
+PARTY_C_ASSERT(offsetof(PARTY_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED_STATE_CHANGE, state) == offsetof(PartyLocalChatAudioOutputChangedStateChange, state));
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED_STATE_CHANGE::errorDetail) == sizeof(PartyLocalChatAudioOutputChangedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_LOCAL_CHAT_AUDIO_OUTPUT_CHANGED_STATE_CHANGE, errorDetail) == offsetof(PartyLocalChatAudioOutputChangedStateChange, errorDetail));
+
+PARTY_C_ASSERT(sizeof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE) == sizeof(PartySetTextToSpeechProfileCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE::result) == sizeof(PartySetTextToSpeechProfileCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE, result) == offsetof(PartySetTextToSpeechProfileCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySetTextToSpeechProfileCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySetTextToSpeechProfileCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySetTextToSpeechProfileCompletedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySetTextToSpeechProfileCompletedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE::type) == sizeof(PartySetTextToSpeechProfileCompletedStateChange::type));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE, type) == offsetof(PartySetTextToSpeechProfileCompletedStateChange, type));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE::profileIdentifier) == sizeof(PartySetTextToSpeechProfileCompletedStateChange::profileIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE, profileIdentifier) == offsetof(PartySetTextToSpeechProfileCompletedStateChange, profileIdentifier));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySetTextToSpeechProfileCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TEXT_TO_SPEECH_PROFILE_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySetTextToSpeechProfileCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE) == sizeof(PartySynthesizeTextToSpeechCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE::result) == sizeof(PartySynthesizeTextToSpeechCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE, result) == offsetof(PartySynthesizeTextToSpeechCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySynthesizeTextToSpeechCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySynthesizeTextToSpeechCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySynthesizeTextToSpeechCompletedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySynthesizeTextToSpeechCompletedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE::type) == sizeof(PartySynthesizeTextToSpeechCompletedStateChange::type));
+PARTY_C_ASSERT(offsetof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE, type) == offsetof(PartySynthesizeTextToSpeechCompletedStateChange, type));
+PARTY_C_ASSERT(sizeof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE::textToSynthesize) == sizeof(PartySynthesizeTextToSpeechCompletedStateChange::textToSynthesize));
+PARTY_C_ASSERT(offsetof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE, textToSynthesize) == offsetof(PartySynthesizeTextToSpeechCompletedStateChange, textToSynthesize));
+PARTY_C_ASSERT(sizeof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySynthesizeTextToSpeechCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySynthesizeTextToSpeechCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE) == sizeof(PartySetLanguageCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE::result) == sizeof(PartySetLanguageCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE, result) == offsetof(PartySetLanguageCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySetLanguageCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySetLanguageCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySetLanguageCompletedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySetLanguageCompletedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE::languageCode) == sizeof(PartySetLanguageCompletedStateChange::languageCode));
+PARTY_C_ASSERT(offsetof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE, languageCode) == offsetof(PartySetLanguageCompletedStateChange, languageCode));
+PARTY_C_ASSERT(sizeof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySetLanguageCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_SET_LANGUAGE_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySetLanguageCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE) == sizeof(PartySetTranscriptionOptionsCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE::result) == sizeof(PartySetTranscriptionOptionsCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE, result) == offsetof(PartySetTranscriptionOptionsCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySetTranscriptionOptionsCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySetTranscriptionOptionsCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySetTranscriptionOptionsCompletedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySetTranscriptionOptionsCompletedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE::options) == sizeof(PartySetTranscriptionOptionsCompletedStateChange::options));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE, options) == offsetof(PartySetTranscriptionOptionsCompletedStateChange, options));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySetTranscriptionOptionsCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TRANSCRIPTION_OPTIONS_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySetTranscriptionOptionsCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE) == sizeof(PartySetTextChatOptionsCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE::result) == sizeof(PartySetTextChatOptionsCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE, result) == offsetof(PartySetTextChatOptionsCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartySetTextChatOptionsCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartySetTextChatOptionsCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartySetTextChatOptionsCompletedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartySetTextChatOptionsCompletedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE::options) == sizeof(PartySetTextChatOptionsCompletedStateChange::options));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE, options) == offsetof(PartySetTextChatOptionsCompletedStateChange, options));
+PARTY_C_ASSERT(sizeof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartySetTextChatOptionsCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_SET_TEXT_CHAT_OPTIONS_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartySetTextChatOptionsCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_PROPERTIES_CHANGED_STATE_CHANGE) == sizeof(PartyChatControlPropertiesChangedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_PROPERTIES_CHANGED_STATE_CHANGE::chatControl) == sizeof(PartyChatControlPropertiesChangedStateChange::chatControl));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_CONTROL_PROPERTIES_CHANGED_STATE_CHANGE, chatControl) == offsetof(PartyChatControlPropertiesChangedStateChange, chatControl));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_PROPERTIES_CHANGED_STATE_CHANGE::propertyCount) == sizeof(PartyChatControlPropertiesChangedStateChange::propertyCount));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_CONTROL_PROPERTIES_CHANGED_STATE_CHANGE, propertyCount) == offsetof(PartyChatControlPropertiesChangedStateChange, propertyCount));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_PROPERTIES_CHANGED_STATE_CHANGE::keys) == sizeof(PartyChatControlPropertiesChangedStateChange::keys));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_CONTROL_PROPERTIES_CHANGED_STATE_CHANGE, keys) == offsetof(PartyChatControlPropertiesChangedStateChange, keys));
+
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_JOINED_NETWORK_STATE_CHANGE) == sizeof(PartyChatControlJoinedNetworkStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_JOINED_NETWORK_STATE_CHANGE::network) == sizeof(PartyChatControlJoinedNetworkStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_CONTROL_JOINED_NETWORK_STATE_CHANGE, network) == offsetof(PartyChatControlJoinedNetworkStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_JOINED_NETWORK_STATE_CHANGE::chatControl) == sizeof(PartyChatControlJoinedNetworkStateChange::chatControl));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_CONTROL_JOINED_NETWORK_STATE_CHANGE, chatControl) == offsetof(PartyChatControlJoinedNetworkStateChange, chatControl));
+
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE) == sizeof(PartyChatControlLeftNetworkStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE::reason) == sizeof(PartyChatControlLeftNetworkStateChange::reason));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE, reason) == offsetof(PartyChatControlLeftNetworkStateChange, reason));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE::errorDetail) == sizeof(PartyChatControlLeftNetworkStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE, errorDetail) == offsetof(PartyChatControlLeftNetworkStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE::network) == sizeof(PartyChatControlLeftNetworkStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE, network) == offsetof(PartyChatControlLeftNetworkStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE::chatControl) == sizeof(PartyChatControlLeftNetworkStateChange::chatControl));
+PARTY_C_ASSERT(offsetof(PARTY_CHAT_CONTROL_LEFT_NETWORK_STATE_CHANGE, chatControl) == offsetof(PartyChatControlLeftNetworkStateChange, chatControl));
+
+PARTY_C_ASSERT(sizeof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE) == sizeof(PartyConnectChatControlCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::result) == sizeof(PartyConnectChatControlCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, result) == offsetof(PartyConnectChatControlCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyConnectChatControlCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyConnectChatControlCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::network) == sizeof(PartyConnectChatControlCompletedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, network) == offsetof(PartyConnectChatControlCompletedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartyConnectChatControlCompletedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartyConnectChatControlCompletedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyConnectChatControlCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_CONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyConnectChatControlCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE) == sizeof(PartyDisconnectChatControlCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::result) == sizeof(PartyDisconnectChatControlCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, result) == offsetof(PartyDisconnectChatControlCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyDisconnectChatControlCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyDisconnectChatControlCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::network) == sizeof(PartyDisconnectChatControlCompletedStateChange::network));
+PARTY_C_ASSERT(offsetof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, network) == offsetof(PartyDisconnectChatControlCompletedStateChange, network));
+PARTY_C_ASSERT(sizeof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartyDisconnectChatControlCompletedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartyDisconnectChatControlCompletedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyDisconnectChatControlCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_DISCONNECT_CHAT_CONTROL_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyDisconnectChatControlCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE) == sizeof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE::result) == sizeof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE, result) == offsetof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_HANDLE) == sizeof(PartyEndpoint*));
+PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_HANDLE) == sizeof(PartyLocalEndpoint*));
+PARTY_C_ASSERT(sizeof(PARTY_DEVICE_HANDLE) == sizeof(PartyDevice*));
+PARTY_C_ASSERT(sizeof(PARTY_DEVICE_HANDLE) == sizeof(PartyLocalDevice*));
+PARTY_C_ASSERT(sizeof(PARTY_INVITATION_HANDLE) == sizeof(PartyInvitation*));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_HANDLE) == sizeof(PartyNetwork*));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_HANDLE) == sizeof(PartyChatControl*));
+PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_HANDLE) == sizeof(PartyLocalChatControl*));
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_USER_HANDLE) == sizeof(PartyLocalUser*));
+
+PARTY_C_ASSERT(sizeof(PartyStateChangeType) == sizeof(uint32_t));
 
 // END GENERATED SECTION
 
-#pragma pop_macro("C_ASSERT")
+#pragma pop_macro("PARTY_C_ASSERT")
 
 #ifdef PARTY_SAL_SUPPORT
 #pragma prefast(pop)

@@ -1,1 +1,0 @@
-Copy libparty into this folder.

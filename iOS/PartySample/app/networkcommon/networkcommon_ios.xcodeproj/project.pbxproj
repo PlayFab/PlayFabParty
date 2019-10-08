@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		54AC8EB523022E2D000B97E7 /* libparty.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54AC8EB423022E2D000B97E7 /* libparty.a */; };
 		D3AADB8B22C060F20026C332 /* Managers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3AADB8422C060F10026C332 /* Managers.cpp */; };
 		D3AADB8C22C060F20026C332 /* PlayFabManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3AADB8522C060F10026C332 /* PlayFabManager.cpp */; };
 		D3AADB8D22C060F20026C332 /* LanguageOptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3AADB8722C060F10026C332 /* LanguageOptions.cpp */; };
@@ -29,7 +28,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		54AC8EB423022E2D000B97E7 /* libparty.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libparty.a; path = ../../../../build/apple/libparty.a; sourceTree = "<group>"; };
 		D39257CE22B1DDAC004D4A62 /* libnetworkcommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libnetworkcommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3AADB7C22C060EA0026C332 /* PlayFabManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayFabManager.h; sourceTree = "<group>"; };
 		D3AADB7D22C060EA0026C332 /* NetworkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
@@ -53,7 +51,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54AC8EB523022E2D000B97E7 /* libparty.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,7 +60,6 @@
 		9FAF901E22B3AA02008A1154 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				54AC8EB423022E2D000B97E7 /* libparty.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -157,6 +153,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = D39257C522B1DDAC004D4A62;
 			productRefGroup = D39257CF22B1DDAC004D4A62 /* Products */;

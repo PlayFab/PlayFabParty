@@ -15,6 +15,9 @@ std::condition_variable g_cv;
 bool g_isSpinDone = false;
 bool g_isRunning = false;
 bool g_shouldShutdown = false;
+bool g_reconnecting = false;
+constexpr uint32_t c_maxReconnectAttempts = 10;
+uint32_t g_reconnectsRemaining = 0;
 bool g_initializeCompleted = false;
 
 JavaVM* g_jvm;
@@ -396,16 +399,29 @@ DoLeave(
 }
 
 void
-OnDisconnect()
+OnDisconnect(
+        bool disconnectWasExpected
+        )
 {
-    ResetChat(PartyString("Dropped out due to network issues."));
-    DoLeave("Dropped out due to network issues.");
+    if(!disconnectWasExpected)
+    {
+        if(!g_reconnecting && g_reconnectsRemaining == 0)
+        {
+            g_reconnecting = true;
+            g_reconnectsRemaining = c_maxReconnectAttempts;
+        }
+    }
+    else
+    {
+        g_shouldShutdown = true;
+    }
+
 }
 
 extern "C"
 {
     JNIEXPORT void JNICALL
-    Java_com_microsoft_playfab_party_sdk_NetworkManager_setLanguage(
+    Java_com_microsoft_playfab_partysample_sdk_NetworkManager_setLanguage(
             JNIEnv* env,
             jobject thiz,
             jint idx
@@ -415,7 +431,7 @@ extern "C"
     }
 
     JNIEXPORT jboolean JNICALL
-    Java_com_microsoft_playfab_party_sdk_NetworkManager_initialize(
+    Java_com_microsoft_playfab_partysample_sdk_NetworkManager_initialize(
         JNIEnv* env,
         jobject thiz,
         jstring playerId
@@ -435,14 +451,14 @@ extern "C"
 
         g_isRunning = true;
         Managers::Initialize<NetworkStateChangeManager>();
-        Managers::Get<NetworkManager>()->SetOnLocalUserRemoved(OnDisconnect);
+        Managers::Get<NetworkManager>()->SetOnNetworkDestroyed(OnDisconnect);
         InitializePartyNetwork();
 
         return true;
     }
 
     JNIEXPORT jboolean JNICALL
-    Java_com_microsoft_playfab_party_sdk_NetworkManager_createAndConnectToNetwork(
+    Java_com_microsoft_playfab_partysample_sdk_NetworkManager_createAndConnectToNetwork(
         JNIEnv* env,
         jobject thiz,
         jstring type,
@@ -487,46 +503,64 @@ extern "C"
         }
     }
 
-    JNIEXPORT jboolean JNICALL
-    Java_com_microsoft_playfab_party_sdk_NetworkManager_joinNetwork(
-        JNIEnv* env,
-        jobject thiz,
-        jstring networkId
-        )
+    bool joinNetwork(bool rejoining)
     {
         if (g_isRunning && g_initializeCompleted)
         {
-            Managers::Get<NetworkManager>()->Initialize(g_playfabTitleId.c_str());
-            const char* networkNameCStr = env->GetStringUTFChars(networkId, NULL);
-            g_networkName = networkNameCStr;
-            env->ReleaseStringUTFChars(networkId, networkNameCStr);
-            g_isSpinDone = false;
-            Managers::Get<PlayFabManager>()->GetDescriptor(
-                    g_networkName,
-                    [](std::string networkDescriptor)
-                    {
-                        SendSysLogToUI("OnGetDescriptorForConnectTo : %s", networkDescriptor.c_str());
-                        g_networkDescriptor = networkDescriptor;
-                        ReleaseSpin();
-                    }
-            );
+            if (!rejoining)
+            {
+                Managers::Get<NetworkManager>()->Initialize(g_playfabTitleId.c_str());
+                g_isSpinDone = false;
+                Managers::Get<PlayFabManager>()->GetDescriptor(
+                        g_networkName,
+                        [rejoining](std::string networkDescriptor)
+                        {
+                            if (!rejoining)
+                            {
+                                SendSysLogToUI("OnGetDescriptorForConnectTo : %s",
+                                               networkDescriptor.c_str());
+                            }
+                            g_networkDescriptor = networkDescriptor;
+                            ReleaseSpin();
+                        }
+                );
 
-            HoldSpin();
+                HoldSpin();
+            }
             // When network connection is not stable, waiting for ConnectToNetwork callback will cost longer time.
             // To avoid App UI busy waiting, return to UI after ConnectToNetwork returns.
             Managers::Get<NetworkManager>()->ConnectToNetwork(
-                g_networkName.c_str(),
-                g_networkDescriptor.c_str(),
-                []()
-                {
-                    OnNetworkConnected(g_networkName);
-                    SendSysLogToUI("OnConnectToNetwork succeeded");
-                },
-                [](PartyError error)
-                {
-                    SendSysLogToUI("OnConnectToNetworkFailed %s", GetErrorMessage(error));
-                    ResetChat(GetErrorMessage(error));
-                });
+                    g_networkName.c_str(),
+                    g_networkDescriptor.c_str(),
+                    [rejoining]()
+                    {
+                        g_reconnectsRemaining = 0;
+                        g_reconnecting = false;
+
+                        if (rejoining)
+                        {
+                            SendSysLogToUI("Connection re-established.");
+                        }
+                        else
+                        {
+                            SendSysLogToUI("ConnectToNetwork succeeded.");
+                        }
+
+                        OnNetworkConnected(g_networkName);
+                    },
+                    [rejoining](PartyError error)
+                    {
+                        if (!rejoining || g_reconnectsRemaining == 0)
+                        {
+                            ResetChat(GetErrorMessage(error));
+                            SendSysLogToUI("OnConnectToNetworkFailed %s", GetErrorMessage(error));
+                        }
+                        else
+                        {
+                            SendSysLogToUI("OnConnectToNetworkFailed %s", GetErrorMessage(error));
+                            SendSysLogToUI("Rejoining failed. Trying again (%i)...", g_reconnectsRemaining);
+                        }
+                    });
 
             return true;
         }
@@ -537,8 +571,27 @@ extern "C"
         }
     }
 
+    JNIEXPORT jboolean JNICALL
+    Java_com_microsoft_playfab_partysample_sdk_NetworkManager_joinNetwork(
+        JNIEnv* env,
+        jobject thiz,
+        jstring networkId
+        )
+    {
+        if (g_isRunning && g_initializeCompleted) {
+            const char *networkNameCStr = env->GetStringUTFChars(networkId, NULL);
+            g_networkName = networkNameCStr;
+            env->ReleaseStringUTFChars(networkId, networkNameCStr);
+            return joinNetwork(false);
+        }
+        else {
+            SendSysLogToUI("Please waiting for initialization done.");
+            return false;
+        }
+    }
+
     JNIEXPORT void JNICALL
-    Java_com_microsoft_playfab_party_sdk_NetworkManager_leaveNetwork(
+    Java_com_microsoft_playfab_partysample_sdk_NetworkManager_leaveNetwork(
         JNIEnv* env,
         jobject thiz
         )
@@ -548,7 +601,7 @@ extern "C"
     }
 
     JNIEXPORT void JNICALL
-    Java_com_microsoft_playfab_party_sdk_NetworkManager_doWork(
+    Java_com_microsoft_playfab_partysample_sdk_NetworkManager_doWork(
         JNIEnv* env,
         jobject thiz
         )
@@ -565,11 +618,26 @@ extern "C"
             g_shouldShutdown = false;
             Managers::Get<NetworkManager>()->Shutdown();
             ReleaseSpin();
-        };
+        }
+        else if(Managers::Get<NetworkManager>()->IsConnecting() == false)
+        {
+            if (g_reconnectsRemaining > 0)
+            {
+                SendSysLogToUI("Trying to reconnect with %i attempts remaining...", g_reconnectsRemaining);
+                --g_reconnectsRemaining;
+                joinNetwork(true);
+            }
+            else if (g_reconnecting)
+            {
+                SendSysLogToUI("Failed attempting to reconnect after %i attempts!", c_maxReconnectAttempts);
+                g_reconnecting = false;
+                g_shouldShutdown = true;
+            }
+        }
     }
 
     JNIEXPORT void JNICALL
-    Java_com_microsoft_playfab_party_sdk_NetworkManager_sendTextMessage(
+    Java_com_microsoft_playfab_partysample_sdk_NetworkManager_sendTextMessage(
         JNIEnv* env,
         jobject thiz,
         jstring message,
@@ -587,7 +655,7 @@ extern "C"
     }
 
     JNIEXPORT void JNICALL
-    Java_com_microsoft_playfab_party_sdk_NetworkManager_getPlayerState(
+    Java_com_microsoft_playfab_partysample_sdk_NetworkManager_getPlayerState(
         JNIEnv* env,
         jobject thiz
         )
@@ -599,7 +667,7 @@ extern "C"
     }
 
     JNIEXPORT void JNICALL
-    Java_com_microsoft_playfab_party_sdk_NetworkManager_setPlayFabTitleID (
+    Java_com_microsoft_playfab_partysample_sdk_NetworkManager_setPlayFabTitleID (
         JNIEnv* env,
         jobject thiz,
         jstring titleID

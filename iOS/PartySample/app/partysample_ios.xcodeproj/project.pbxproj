@@ -17,12 +17,12 @@
 		13630CBB222C7B5D008E0A00 /* SimpleClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13630CBA222C7B5D008E0A00 /* SimpleClient.mm */; };
 		13630CC0222C84CC008E0A00 /* SimpleClientImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 13630CBE222C84CC008E0A00 /* SimpleClientImpl.cpp */; };
 		13CF09A32235DC0C00FB676F /* UserSelectViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13CF09A22235DC0C00FB676F /* UserSelectViewController.mm */; };
+		54E38C13232AAB0B00E48B07 /* libplayfabxplatcppsdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E38C12232AAB0B00E48B07 /* libplayfabxplatcppsdk.a */; };
+		54E38C15232AABF900E48B07 /* PlayFabParty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E38C14232AABF900E48B07 /* PlayFabParty.framework */; };
+		54E38C16232AABF900E48B07 /* PlayFabParty.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 54E38C14232AABF900E48B07 /* PlayFabParty.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A3B691CD228BE58200C34ED4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3B691CC228BE58200C34ED4 /* AudioToolbox.framework */; };
 		D392581922B1E123004D4A62 /* NetworkStateChangeManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D392581822B1E123004D4A62 /* NetworkStateChangeManager.cpp */; };
 		D3AADB9322C061820026C332 /* libnetworkcommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3AADB7A22C0603A0026C332 /* libnetworkcommon.a */; };
-		D3AADB9622C061E20026C332 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3AADB9422C061E20026C332 /* libcrypto.a */; };
-		D3AADB9722C061E20026C332 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3AADB9522C061E20026C332 /* libssl.a */; };
-		D3AADBDF22C0698B0026C332 /* partysample_ios.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D3AADBDE22C0698B0026C332 /* partysample_ios.xcconfig */; };
 		D3F6F31322AF88820010B66F /* JoinViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = D3F6F31222AF88820010B66F /* JoinViewController.mm */; };
 		D3F6F31622AFAF710010B66F /* SelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F6F31522AFAF710010B66F /* SelectViewController.m */; };
 		D3F89B7C22DF075300302E99 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F89B7B22DF075300302E99 /* AVFoundation.framework */; };
@@ -45,6 +45,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		54E38C17232AABF900E48B07 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				54E38C16232AABF900E48B07 /* PlayFabParty.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		13198239222E6CC700C10CE8 /* ChatEventHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatEventHandler.h; sourceTree = "<group>"; };
 		135415B9222B9E5400A23E16 /* partysample_ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = partysample_ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,6 +80,8 @@
 		13CF09A12235DC0C00FB676F /* UserSelectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserSelectViewController.h; sourceTree = "<group>"; };
 		13CF09A22235DC0C00FB676F /* UserSelectViewController.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = UserSelectViewController.mm; sourceTree = "<group>"; };
 		13CF09A52235FA6C00FB676F /* Config.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = Config.h; sourceTree = "<group>"; };
+		54E38C12232AAB0B00E48B07 /* libplayfabxplatcppsdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = ../../bin/Release/libplayfabxplatcppsdk.a; sourceTree = "<group>"; };
+		54E38C14232AABF900E48B07 /* PlayFabParty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ../../bin/Release/PlayFabParty.framework; sourceTree = "<group>"; };
 		A3B691CC228BE58200C34ED4 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D37E1EAC22B1104F00E3107E /* INetworkMessageHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = INetworkMessageHandler.h; sourceTree = "<group>"; };
 		D39257C222B1D773004D4A62 /* NetworkStateChangeManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkStateChangeManager.h; sourceTree = "<group>"; };
@@ -86,11 +102,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54E38C13232AAB0B00E48B07 /* libplayfabxplatcppsdk.a in Frameworks */,
 				D3F89B7C22DF075300302E99 /* AVFoundation.framework in Frameworks */,
-				D3AADB9622C061E20026C332 /* libcrypto.a in Frameworks */,
-				D3AADB9722C061E20026C332 /* libssl.a in Frameworks */,
 				D3AADB9322C061820026C332 /* libnetworkcommon.a in Frameworks */,
 				A3B691CD228BE58200C34ED4 /* AudioToolbox.framework in Frameworks */,
+				54E38C15232AABF900E48B07 /* PlayFabParty.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,9 +161,9 @@
 		135415E4222B9F0600A23E16 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				54E38C14232AABF900E48B07 /* PlayFabParty.framework */,
+				54E38C12232AAB0B00E48B07 /* libplayfabxplatcppsdk.a */,
 				D3F89B7B22DF075300302E99 /* AVFoundation.framework */,
-				D3AADB9422C061E20026C332 /* libcrypto.a */,
-				D3AADB9522C061E20026C332 /* libssl.a */,
 				A3B691CC228BE58200C34ED4 /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
@@ -194,6 +210,7 @@
 				135415B5222B9E5400A23E16 /* Sources */,
 				135415B6222B9E5400A23E16 /* Frameworks */,
 				135415B7222B9E5400A23E16 /* Resources */,
+				54E38C17232AABF900E48B07 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -211,7 +228,7 @@
 		135415B1222B9E5400A23E16 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "GameCloudStudios, Inc.";
 				TargetAttributes = {
 					135415B8222B9E5400A23E16 = {
@@ -259,7 +276,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				135415CC222B9E5600A23E16 /* LaunchScreen.storyboard in Resources */,
-				D3AADBDF22C0698B0026C332 /* partysample_ios.xcconfig in Resources */,
 				135415C9222B9E5600A23E16 /* Assets.xcassets in Resources */,
 				135415C4222B9E5400A23E16 /* Main.storyboard in Resources */,
 			);
@@ -374,9 +390,10 @@
 					../PartySampleNetworkCommon/lib,
 					../../../include,
 					../../ext/playfabxplatsdk/src/cppsdk/include,
+					"$(CONFIGURATION_BUILD_DIR)/PlayFabParty.framework/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LIBRARY_SEARCH_PATHS = ../../ext/openssl/bin/iOS;
+				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -438,9 +455,10 @@
 					../PartySampleNetworkCommon/lib,
 					../../../include,
 					../../ext/playfabxplatsdk/src/cppsdk/include,
+					"$(CONFIGURATION_BUILD_DIR)/PlayFabParty.framework/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LIBRARY_SEARCH_PATHS = ../../ext/openssl/bin/iOS;
+				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -454,14 +472,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 7M8HRBX646;
+				DEVELOPMENT_TEAM = PFBTS56N7Z;
+				FRAMEWORK_SEARCH_PATHS = ../../bin/Release;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					/inc,
 					../PartySampleNetworkCommon/inc,
 					../PartySampleNetworkCommon/lib,
 					../../../include,
 					../../ext/playfabxplatsdk/src/cppsdk/include,
+					"$(CONFIGURATION_BUILD_DIR)/PlayFabParty.framework/Headers",
 				);
 				INFOPLIST_FILE = src/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -469,10 +490,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = ../../ext/openssl/bin/iOS;
-				PRODUCT_BUNDLE_IDENTIFIER = com.augmentum.playfab;
+				LIBRARY_SEARCH_PATHS = ../../bin/Release;
+				PRODUCT_BUNDLE_IDENTIFIER = com.playfab.party.partysample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Play Fab Development";
+				PROVISIONING_PROFILE_SPECIFIER = "PlayFab Party Dev";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -483,14 +504,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 7M8HRBX646;
+				DEVELOPMENT_TEAM = PFBTS56N7Z;
+				FRAMEWORK_SEARCH_PATHS = ../../bin/Release;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					/inc,
 					../PartySampleNetworkCommon/inc,
 					../PartySampleNetworkCommon/lib,
 					../../../include,
 					../../ext/playfabxplatsdk/src/cppsdk/include,
+					"$(CONFIGURATION_BUILD_DIR)/PlayFabParty.framework/Headers",
 				);
 				INFOPLIST_FILE = src/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -498,10 +522,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = ../../ext/openssl/bin/iOS;
-				PRODUCT_BUNDLE_IDENTIFIER = com.augmentum.playfab;
+				LIBRARY_SEARCH_PATHS = ../../bin/Release;
+				PRODUCT_BUNDLE_IDENTIFIER = com.playfab.party.partysample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Play Fab Development";
+				PROVISIONING_PROFILE_SPECIFIER = "PlayFab Party Dev";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
