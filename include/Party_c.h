@@ -1946,8 +1946,8 @@ PartyDeserializeNetworkDescriptor(
 PartyError
 PARTY_API
 PartySetMemoryCallbacks(
-    _In_opt_ PARTY_MEM_ALLOC_FUNC allocateMemoryCallback,
-    _In_opt_ PARTY_MEM_FREE_FUNC freeMemoryCallback
+    _In_ PARTY_MEM_ALLOC_FUNC allocateMemoryCallback,
+    _In_ PARTY_MEM_FREE_FUNC freeMemoryCallback
     );
 
 PartyError

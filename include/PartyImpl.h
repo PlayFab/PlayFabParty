@@ -1402,8 +1402,8 @@ PartyError PartyManager::DeserializeNetworkDescriptor(
 }
 
 PartyError PartyManager::SetMemoryCallbacks(
-    _In_opt_ PartyAllocateMemoryCallback allocateMemoryCallback,
-    _In_opt_ PartyFreeMemoryCallback freeMemoryCallback
+    _In_ PartyAllocateMemoryCallback allocateMemoryCallback,
+    _In_ PartyFreeMemoryCallback freeMemoryCallback
     ) party_no_throw
 {
     return PartySetMemoryCallbacks(allocateMemoryCallback, freeMemoryCallback);

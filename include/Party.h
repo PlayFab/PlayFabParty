@@ -8824,24 +8824,20 @@ public:
     /// This method allows the title to install custom memory allocation routines in order to service all requests by
     /// the Party library for new memory buffers instead of using its default allocation routines.
     /// <para>
-    /// The <paramref name="allocateMemoryCallback" /> and <paramref name="freeMemoryCallback" /> parameters can be null
-    /// pointers to restore the default routines. Both callback pointers must be null or both must be non-null. Mixing
-    /// custom and default routines is not permitted.
+    /// The <paramref name="allocateMemoryCallback" /> and <paramref name="freeMemoryCallback" /> parameters must both
+    /// be non-null.
     /// </para>
     /// <para>
-    /// This method must be called prior to the <see cref="Initialize()" /> method. The callbacks cannot change while
-    /// any allocations are outstanding. It also must be only called by one thread at a time as it isn't multithreading
+    /// To use this method, it must be called before any other Party method except for
+    /// PartyManager::GetMemoryCallbacks(). This method cannot be called again for the lifetime of this process.
     /// safe.
-    /// </para>
-    /// <para>
-    /// The configured callbacks are persisted until changed, including across calls to <see cref="Cleanup()" />.
     /// </para>
     /// </remarks>
     /// <param name="allocateMemoryCallback">
-    /// A pointer to the custom allocation callback to use, or nullptr to restore the default.
+    /// A pointer to the custom allocation callback to use.
     /// </param>
     /// <param name="freeMemoryCallback">
-    /// A pointer to the custom freeing callback to use, or nullptr to restore the default.
+    /// A pointer to the custom freeing callback to use.
     /// </param>
     /// <returns>
     /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
@@ -8851,8 +8847,8 @@ public:
     /// <seealso cref="PartyFreeMemoryCallback" />
     /// <seealso cref="PartyManager::GetMemoryCallbacks" />
     static PartyError SetMemoryCallbacks(
-        _In_opt_ PartyAllocateMemoryCallback allocateMemoryCallback,
-        _In_opt_ PartyFreeMemoryCallback freeMemoryCallback
+        _In_ PartyAllocateMemoryCallback allocateMemoryCallback,
+        _In_ PartyFreeMemoryCallback freeMemoryCallback
         ) party_no_throw;
 
     /// <summary>
