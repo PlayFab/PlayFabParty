@@ -17,9 +17,9 @@
 		13630CBB222C7B5D008E0A00 /* SimpleClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13630CBA222C7B5D008E0A00 /* SimpleClient.mm */; };
 		13630CC0222C84CC008E0A00 /* SimpleClientImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 13630CBE222C84CC008E0A00 /* SimpleClientImpl.cpp */; };
 		13CF09A32235DC0C00FB676F /* UserSelectViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13CF09A22235DC0C00FB676F /* UserSelectViewController.mm */; };
+		54A5262C234D425500D429C3 /* PlayFabParty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A5262B234D425500D429C3 /* PlayFabParty.framework */; };
+		54A5262D234D425500D429C3 /* PlayFabParty.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 54A5262B234D425500D429C3 /* PlayFabParty.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		54E38C13232AAB0B00E48B07 /* libplayfabxplatcppsdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E38C12232AAB0B00E48B07 /* libplayfabxplatcppsdk.a */; };
-		54E38C15232AABF900E48B07 /* PlayFabParty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E38C14232AABF900E48B07 /* PlayFabParty.framework */; };
-		54E38C16232AABF900E48B07 /* PlayFabParty.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 54E38C14232AABF900E48B07 /* PlayFabParty.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A3B691CD228BE58200C34ED4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3B691CC228BE58200C34ED4 /* AudioToolbox.framework */; };
 		D392581922B1E123004D4A62 /* NetworkStateChangeManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D392581822B1E123004D4A62 /* NetworkStateChangeManager.cpp */; };
 		D3AADB9322C061820026C332 /* libnetworkcommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3AADB7A22C0603A0026C332 /* libnetworkcommon.a */; };
@@ -46,13 +46,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		54E38C17232AABF900E48B07 /* Embed Frameworks */ = {
+		54A5262E234D425500D429C3 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				54E38C16232AABF900E48B07 /* PlayFabParty.framework in Embed Frameworks */,
+				54A5262D234D425500D429C3 /* PlayFabParty.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -80,6 +80,7 @@
 		13CF09A12235DC0C00FB676F /* UserSelectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserSelectViewController.h; sourceTree = "<group>"; };
 		13CF09A22235DC0C00FB676F /* UserSelectViewController.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = UserSelectViewController.mm; sourceTree = "<group>"; };
 		13CF09A52235FA6C00FB676F /* Config.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = Config.h; sourceTree = "<group>"; };
+		54A5262B234D425500D429C3 /* PlayFabParty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ../../bin/Release/PlayFabParty.framework; sourceTree = "<group>"; };
 		54E38C12232AAB0B00E48B07 /* libplayfabxplatcppsdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = ../../bin/Release/libplayfabxplatcppsdk.a; sourceTree = "<group>"; };
 		54E38C14232AABF900E48B07 /* PlayFabParty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ../../bin/Release/PlayFabParty.framework; sourceTree = "<group>"; };
 		A3B691CC228BE58200C34ED4 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -106,7 +107,7 @@
 				D3F89B7C22DF075300302E99 /* AVFoundation.framework in Frameworks */,
 				D3AADB9322C061820026C332 /* libnetworkcommon.a in Frameworks */,
 				A3B691CD228BE58200C34ED4 /* AudioToolbox.framework in Frameworks */,
-				54E38C15232AABF900E48B07 /* PlayFabParty.framework in Frameworks */,
+				54A5262C234D425500D429C3 /* PlayFabParty.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,6 +162,7 @@
 		135415E4222B9F0600A23E16 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				54A5262B234D425500D429C3 /* PlayFabParty.framework */,
 				54E38C14232AABF900E48B07 /* PlayFabParty.framework */,
 				54E38C12232AAB0B00E48B07 /* libplayfabxplatcppsdk.a */,
 				D3F89B7B22DF075300302E99 /* AVFoundation.framework */,
@@ -210,7 +212,7 @@
 				135415B5222B9E5400A23E16 /* Sources */,
 				135415B6222B9E5400A23E16 /* Frameworks */,
 				135415B7222B9E5400A23E16 /* Resources */,
-				54E38C17232AABF900E48B07 /* Embed Frameworks */,
+				54A5262E234D425500D429C3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -349,7 +351,7 @@
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -419,7 +421,7 @@
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;

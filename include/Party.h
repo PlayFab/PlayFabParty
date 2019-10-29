@@ -34,6 +34,8 @@ class PartyNetwork;
 class PartyChatControl;
 class PartyLocalChatControl;
 class PartyTextToSpeechProfile;
+class PartyAudioManipulationSourceStream;
+class PartyAudioManipulationSinkStream;
 
 /// <summary>
 /// Convenience type for a constant array of PartyEndpoint pointers.
@@ -424,7 +426,7 @@ enum class PartyStateChangeType : uint32_t
     EndpointMessageReceived,
 
     /// <summary>
-    /// The PartyDataBuffer set provided to SendMessage has been returned.
+    /// The PartyDataBuffer set provided to SendMessage is no longer in use by the library.
     /// </summary>
     /// <remarks>
     /// The PartyStateChange object should be cast to a <see cref="PartyDataBuffersReturnedStateChange" /> object for
@@ -724,6 +726,39 @@ enum class PartyStateChangeType : uint32_t
     /// <see cref="PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange" /> object for more information.
     /// </remarks>
     PopulateAvailableTextToSpeechProfilesCompleted,
+
+    /// <summary>
+    /// The operation started by a previous call to
+    /// <see cref="PartyChatControl::ConfigureAudioManipulationVoiceStream()" /> completed.
+    /// </summary>
+    /// <remarks>
+    /// The PartyStateChange object should be cast to a
+    /// <see cref="PartyConfigureAudioManipulationVoiceStreamCompletedStateChange" /> object for more information.
+    /// </remarks>
+    /// <nyi />
+    ConfigureAudioManipulationVoiceStreamCompleted,
+
+    /// <summary>
+    /// The operation started by a previous call to
+    /// <see cref="PartyLocalChatControl::ConfigureAudioManipulationCaptureStream()" /> completed.
+    /// </summary>
+    /// <remarks>
+    /// The PartyStateChange object should be cast to a
+    /// <see cref="PartyConfigureAudioManipulationCaptureStreamCompletedStateChange" /> object for more information.
+    /// </remarks>
+    /// <nyi />
+    ConfigureAudioManipulationCaptureStreamCompleted,
+
+    /// <summary>
+    /// The operation started by a previous call to
+    /// <see cref="PartyLocalChatControl::ConfigureAudioManipulationRenderStream()" /> completed.
+    /// </summary>
+    /// <remarks>
+    /// The PartyStateChange object should be cast to a
+    /// <see cref="PartyConfigureAudioManipulationRenderStreamCompletedStateChange" /> object for more information.
+    /// </remarks>
+    /// <nyi />
+    ConfigureAudioManipulationRenderStreamCompleted,
 };
 
 /// <summary>
@@ -778,15 +813,6 @@ enum class PartyStateChangeResult
     /// The title has not been enabled to use PlayFab Party. PlayFab Party must be enabled in the PlayFab Game Manager.
     /// </summary>
     TitleNotEnabledForParty,
-
-    /// <summary>
-    /// The title has created too many networks.
-    /// </summary>
-    /// <remarks>
-    /// The title scale configuration in the PlayFab Party portal has been reached and will not allow additional
-    /// networks to be created.
-    /// </remarks>
-    TitleCreateNetworkThrottled,
 
     /// <summary>
     /// The network rejected this operation because it would violate a limit in the network's configuration. See
@@ -884,12 +910,40 @@ enum class PartyDestroyedReason
 };
 
 /// <summary>
+/// Additional options that can be set to fine-tune Party library functionality.
+/// </summary>
+/// <seealso cref="PartyManager::SetOption" />
+/// <seealso cref="PartyManager::GetOption" />
+/// <seealso cref="PartyLocalUdpSocketBindAddressConfiguration" />
+enum class PartyOption : uint32_t
+{
+    /// <summary>
+    /// An option used to configure how the Party library binds to a UDP socket.
+    /// </summary>
+    /// <remarks>
+    /// It is safe to override or query for this option prior to initializing the Party library. Overriding the local
+    /// UDP socket bind address configuration will take effect the next time the Party library is initialized.
+    /// <para>
+    /// To override this option, call <see cref="PartyManager::SetOption" /> passing null for the object parameter, this
+    /// value for the option parameter, and an optional pointer to a PartyLocalUdpSocketBindAddressConfiguration
+    /// structure for the value.
+    /// </para>
+    /// <para>
+    /// To query this option, call <see cref="PartyManager::GetOption" /> passing null for the object parameter, this
+    /// value for the option parameter, and a pointer to an output PartyLocalUdpSocketBindAddressConfiguration structure
+    /// for the value.
+    /// </para>
+    /// </remarks>
+    LocalUdpSocketBindAddress,
+};
+
+/// <summary>
 /// Types of threads that Party library uses for internal purposes.
 /// </summary>
 /// <remarks>
 /// Party library internal audio threads are high priority, frequently-running threads with real-time requirements.
 /// <para>
-/// On Windows, these audio threads interact directly with XAudio2 every 20-40 milliseconds. The Party library's
+/// On Windows, these audio threads interact directly with XAudio2 every 40 milliseconds. The Party library's
 /// instance(s) of XAudio2 will be initialized with a processor affinity that corresponds to the processor affinity
 /// configured for the audio thread type via <see cref="PartyManager::SetThreadAffinityMask()" />. If no processor
 /// affinity is specified for the audio thread type, the instance(s) of XAudio2 will be initialized with a processor
@@ -2220,6 +2274,86 @@ enum class PartySynthesizeTextToSpeechType
 };
 
 /// <summary>
+/// Types of Party audio samples.
+/// </summary>
+/// <nyi />
+enum class PartyAudioSampleType
+{
+    /// <summary>
+    /// Integer PCM format.
+    /// </summary>
+    Integer,
+
+    /// <summary>
+    /// IEEE floating-point PCM format.
+    /// </summary>
+    Float
+};
+
+/// <summary>
+/// Additional options to control how the Party library binds to the UDP socket specified by the
+/// <see cref="PartyLocalUdpSocketBindAddressConfiguration" /> structure.
+/// </summary>
+/// <seealso cref="PartyLocalUdpSocketBindAddressConfiguration" />
+enum class PartyLocalUdpSocketBindAddressOptions
+{
+    /// <summary>
+    /// No flags are specified.
+    /// </summary>
+    None = 0x0,
+
+    /// <summary>
+    /// In the Microsoft Game Core version of the Party library, when the <em>port</em> field of the
+    /// <see cref="PartyLocalUdpSocketBindAddressConfiguration" /> structure is 0, this flag informs the Party library
+    /// to not use the Game Core preferred UDP multiplayer port. In other versions of the Party library or if the
+    /// <em>port</em> port is non-zero, this flag must not be set.
+    /// </summary>
+    ExcludeGameCorePreferredUdpMultiplayerPort = 0x1,
+};
+
+/// <summary>
+/// The configuration used by the Party library to bind to a UDP socket.
+/// </summary>
+/// <remarks>
+/// This structure can be used together with <see cref="PartyOption::LocalUdpSocketBindAddress" /> to either override or
+/// query the Party library's current configuration via <see cref="PartyManager::SetOption()" /> and
+/// <see cref="PartyManager::GetOption()" /> respectively.
+/// </remarks>
+/// <seealso cref="PartyOption::LocalUdpSocketBindAddress" />
+/// <seealso cref="PartyLocalUdpSocketBindAddressOptions" />
+/// <seealso cref="PartyManager::SetOption" />
+/// <seealso cref="PartyManager::GetOption" />
+struct PartyLocalUdpSocketBindAddressConfiguration
+{
+    /// <summary>
+    /// Optional flags describing how to interpret this UDP socket configuration.
+    /// </summary>
+    PartyLocalUdpSocketBindAddressOptions options;
+
+    /// <summary>
+    /// The specific port number to which the local UDP socket will be bound the next time Party is initialized.
+    /// </summary>
+    /// <remarks>
+    /// In the Microsoft Game Core version of the Party library, a port value of 0 means that the Party library will
+    /// select the Game Core preferred local UDP multiplayer port unless the
+    /// PartyLocalUdpSocketBindAddressOptions::ExcludeGameCorePreferredUdpMultiplayerPort option flag is specified in
+    /// the <em>options</em> field. On all other versions of the Party library, a port value of 0 means the Party
+    /// library will let the system dynamically select a port that's available on all local IP address interfaces.
+    /// <para>
+    /// If this port value cannot be bound to when the Party library is initialized,
+    /// <see cref="PartyManager::Initialize()" /> will synchronously return an error. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </para>
+    /// <para>
+    /// The port should be specified in native host byte order. If your application also directly uses or is porting
+    /// from its own socket API calls, be aware that this natural byte ordering may therefore differ from the
+    /// network byte order used by socket address port numbers.
+    /// </para>
+    /// </remarks>
+    uint16_t port;
+};
+
+/// <summary>
 /// A descriptor containing the data required for a device to connect to a network.
 /// </summary>
 struct PartyNetworkDescriptor
@@ -2505,6 +2639,23 @@ struct PartyDataBuffer
 };
 
 /// <summary>
+/// A data buffer that can be modified by the app.
+/// </summary>
+/// <nyi />
+struct PartyMutableDataBuffer
+{
+    /// <summary>
+    /// The data buffer.
+    /// </summary>
+    _Field_size_bytes_(bufferByteCount) void * buffer;
+
+    /// <summary>
+    /// The size of the buffer in bytes.
+    /// </summary>
+    uint32_t bufferByteCount;
+};
+
+/// <summary>
 /// A translation.
 /// </summary>
 struct PartyTranslation
@@ -2555,6 +2706,88 @@ struct PartyTranslation
     /// terminated, even when truncated.
     /// </remarks>
     PartyString translation;
+};
+
+/// <summary>
+/// The format information needed to interpret Party audio data.
+/// </summary>
+/// <nyi />
+struct PartyAudioFormat
+{
+    /// <summary>
+    /// Specifies the sample frequency at which each channel should be played or recorded.
+    /// </summary>
+    uint32_t samplesPerSecond;
+
+    /// <summary>
+    /// Overrides the assignment of channels in a multichannel audio stream to speaker positions.
+    /// </summary>
+    uint32_t channelMask;
+
+    /// <summary>
+    /// Specifies the number of channels of audio data.
+    /// </summary>
+    uint16_t channelCount;
+
+    /// <summary>
+    /// Specifies the number of bits per sample. If this value is not byte-divisible, it will be assumed that the
+    /// containing sample type is padded with bits to make it byte-divisble.
+    /// </summary>
+    uint16_t bitsPerSample;
+
+    /// <summary>
+    /// Specifies the sample type.
+    /// </summary>
+    PartyAudioSampleType sampleType;
+
+    /// <summary>
+    /// A flag representing whether the multichannel audio data is interleaved for multi-channel formats.
+    /// </summary>
+    PartyBool interleaved;
+};
+
+/// <summary>
+/// The configuration information needed to set up an audio source stream.
+/// </summary>
+/// <seealso cref="PartyChatControl::ConfigureAudioManipulationVoiceStream" />
+/// <nyi />
+struct PartyAudioManipulationSourceStreamConfiguration
+{
+    /// <summary>
+    /// The format of the audio that should be produced by the source stream.
+    /// </summary>
+    PartyAudioFormat format;
+
+    /// <summary>
+    /// The maximum total size of audio buffers that can concurrently exist for this queue, in milliseconds.
+    /// </summary>
+    /// <remarks>
+    /// This defines the limit for the total amount of audio internally queued by the source stream, but not yet
+    /// retrieved via
+    /// <seealso cref="PartyAudioManipulationSourceStream::GetNextBuffer" />,
+    /// plus the total amount of audio retrieved by the app, but not yet returned to the library via
+    /// <seealso cref="PartyAudioManipulationSourceStream::ReturnBuffer" />.
+    /// When this total is reached, the source stream will stop producing additional buffers.
+    /// <para>
+    /// Because the library processes audio in 40 millisecond intervals, the effective maximum is the nearest multiple
+    /// of 40 less than the specified maximum.
+    /// </para>
+    /// </remarks>
+    uint32_t maxTotalAudioBufferSizeInMilliseconds;
+};
+
+/// <summary>
+/// The configuration information needed to set up an audio sink stream.
+/// </summary>
+/// <seealso cref="PartyLocalChatControl::ConfigureAudioManipulationCaptureStream" />
+/// <seealso cref="PartyLocalChatControl::ConfigureAudioManipulationRenderStream" />
+/// <nyi />
+struct PartyAudioManipulationSinkStreamConfiguration
+{
+    /// <summary>
+    /// The format of the audio that will be submitted to the sink stream.
+    /// </summary>
+    PartyAudioFormat format;
 };
 
 /// <summary>
@@ -3270,7 +3503,7 @@ struct PartyEndpointMessageReceivedStateChange : PartyStateChange
 /// <remarks>
 /// This state change is only returned if the corresponding call to <see cref="PartyLocalEndpoint::SendMessage()" />
 /// included the <see cref="PartySendMessageOptions::DontCopyDataBuffers" /> option. This state change is returned once
-/// the data buffers passed with this call are no longer in use by the PartyManager instance.
+/// the data buffers passed with this call are no longer in use by the library.
 /// </remarks>
 /// <seealso cref="PartyLocalEndpoint::SendMessage" />
 struct PartyDataBuffersReturnedStateChange : PartyStateChange
@@ -4512,6 +4745,129 @@ struct PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange : PartySta
     /// The chat control provided to the call associated with this state change.
     /// </summary>
     PartyLocalChatControl * localChatControl;
+
+    /// <summary>
+    /// The async identifier provided to the call associated with this state change.
+    /// </summary>
+    void * asyncIdentifier;
+};
+
+/// <summary>
+/// Information specific to the <em>ConfigureAudioManipulationVoiceStreamCompleted</em> type of state change.
+/// </summary>
+/// <seealso cref="PartyChatControl::ConfigureAudioManipulationVoiceStream" />
+/// <nyi />
+struct PartyConfigureAudioManipulationVoiceStreamCompletedStateChange : PartyStateChange
+{
+    /// <summary>
+    /// Indicates that the operation Succeeded or the reason that it failed.
+    /// </summary>
+    /// <remarks>
+    /// On success, the source stream provided by <see cref="PartyChatControl::GetAudioManipulationVoiceStream()" />
+    /// will be updated.
+    /// </remarks>
+    PartyStateChangeResult result;
+
+    /// <summary>
+    /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
+    /// </summary>
+    /// <remarks>
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
+    /// </remarks>
+    PartyError errorDetail;
+
+    /// <summary>
+    /// The chat control used in the call associated with this state change.
+    /// </summary>
+    PartyChatControl * chatControl;
+
+    /// <summary>
+    /// The configuration provided to the call associated with this state change.
+    /// </summary>
+    PartyAudioManipulationSourceStreamConfiguration * configuration;
+
+    /// <summary>
+    /// The async identifier provided to the call associated with this state change.
+    /// </summary>
+    void * asyncIdentifier;
+};
+
+/// <summary>
+/// Information specific to the <em>ConfigureAudioManipulationCaptureStreamCompleted</em> type of state change.
+/// </summary>
+/// <seealso cref="PartyLocalChatControl::ConfigureAudioManipulationCaptureStream" />
+/// <nyi />
+struct PartyConfigureAudioManipulationCaptureStreamCompletedStateChange : PartyStateChange
+{
+    /// <summary>
+    /// Indicates that the operation Succeeded or the reason that it failed.
+    /// </summary>
+    /// <remarks>
+    /// On success, the sink stream provided by
+    /// <see cref="PartyLocalChatControl::GetAudioManipulationCaptureStream()" /> will be updated.
+    /// </remarks>
+    PartyStateChangeResult result;
+
+    /// <summary>
+    /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
+    /// </summary>
+    /// <remarks>
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
+    /// </remarks>
+    PartyError errorDetail;
+
+    /// <summary>
+    /// The chat control used in to the call associated with this state change.
+    /// </summary>
+    PartyLocalChatControl * localChatControl;
+
+    /// <summary>
+    /// The configuration provided to the call associated with this state change.
+    /// </summary>
+    PartyAudioManipulationSinkStreamConfiguration * configuration;
+
+    /// <summary>
+    /// The async identifier provided to the call associated with this state change.
+    /// </summary>
+    void * asyncIdentifier;
+};
+
+/// <summary>
+/// Information specific to the <em>ConfigureAudioManipulationRenderStreamCompleted</em> type of state change.
+/// </summary>
+/// <seealso cref="PartyLocalChatControl::ConfigureAudioManipulationRenderStream" />
+/// <nyi />
+struct PartyConfigureAudioManipulationRenderStreamCompletedStateChange : PartyStateChange
+{
+    /// <summary>
+    /// Indicates that the operation Succeeded or the reason that it failed.
+    /// </summary>
+    /// <remarks>
+    /// On success, the sink stream provided by <see cref="PartyLocalChatControl::GetAudioManipulationRenderStream()" />
+    /// will be updated.
+    /// </remarks>
+    PartyStateChangeResult result;
+
+    /// <summary>
+    /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
+    /// </summary>
+    /// <remarks>
+    /// The human-readable form of this error detail can be retrieved via
+    /// <see cref="PartyManager::GetErrorMessage()" />.
+    /// </remarks>
+    PartyError errorDetail;
+
+    /// <summary>
+    /// The chat control used in the call associated with this state change.
+    /// </summary>
+    PartyLocalChatControl * localChatControl;
+
+    /// <summary>
+    /// The configuration provided to the call associated with this state change.
+    /// </summary>
+    PartyAudioManipulationSinkStreamConfiguration * configuration;
 
     /// <summary>
     /// The async identifier provided to the call associated with this state change.
@@ -5888,7 +6244,7 @@ public:
     PartyError CreateInvitation(
         const PartyLocalUser * localUser,
         _In_opt_ const PartyInvitationConfiguration * invitationConfiguration,
-        void* asyncIdentifier,
+        void * asyncIdentifier,
         _Outptr_opt_ PartyInvitation ** invitation
         ) party_no_throw;
 
@@ -5935,7 +6291,7 @@ public:
     PartyError RevokeInvitation(
         const PartyLocalUser * localUser,
         PartyInvitation * invitation,
-        void* asyncIdentifier
+        void * asyncIdentifier
         ) party_no_throw;
 
     /// <summary>
@@ -6617,6 +6973,255 @@ private:
 };
 
 /// <summary>
+/// The management class for obtaining audio from an audio source stream.
+/// </summary>
+/// <nyi />
+class PartyAudioManipulationSourceStream
+{
+public:
+    /// <summary>
+    /// Retrieves the format of the buffers that will be provided by
+    /// <see cref="PartyAudioManipulationSourceStream::GetNextBuffer" />. This is the format specified in the
+    /// configuration provided to <see cref="PartyChatControl::ConfigureAudioManipulationVoiceStream" />.
+    /// </summary>
+    /// <param name="format">
+    /// The format of the buffers that will be provided by
+    /// <see cref="PartyAudioManipulationSourceStream::GetNextBuffer" />.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    PartyError GetFormat(
+        _Out_ PartyAudioFormat * format
+        ) const party_no_throw;
+
+    /// <summary>
+    /// Retrieves the total number of buffers available to retrieve from this stream via
+    /// <see cref="PartyAudioManipulationSourceStream::GetNextBuffer" />.
+    /// </summary>
+    /// <remarks>
+    /// This can be useful if the caller prefers to send audio through their pipeline in batches of buffers. Because
+    /// this buffer count is limited by the max audio queue size specified via
+    /// <see cref="PartyChatControl::ConfigurePartyAudioManipulationSourceStream" />, callers should give their audio
+    /// processing pipeline ample time to process the buffers and return them to
+    /// <see cref="PartyAudioManipulationSourceStream::ReturnBuffer" /> to prevent dropped audio.
+    /// </remarks>
+    /// <param name="count">
+    /// The output count of available buffers.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    PartyError GetAvailableBufferCount(
+        _Out_ uint32_t * count
+        ) const party_no_throw;
+
+    /// <summary>
+    /// Gets the next buffer available in the stream.
+    /// </summary>
+    /// <remarks>
+    /// When voice activity is detected, a new buffer will be available every 40 ms. Otherwise, no buffers will be
+    /// available. Buffers retrieved by this method must be returned to the library via
+    /// <see cref="PartyAudioManipulationSourceStream::ReturnBuffer" /> when they are done being used.
+    /// <para>
+    /// The total number of buffers instantaneously available can be retrieved via
+    /// <see cref="PartyAudioManipulationSourceStream::GetAvailableBufferCount" />. Multiple buffers can be retrieved in
+    /// succession before any are returned.
+    /// </para>
+    /// <para>
+    /// Each buffer will be in the format specified by <see cref="PartyAudioManipulationSourceStream::GetFormat()" />.
+    /// </para>
+    /// <para>
+    /// A mutable data buffer is provided so that the app can optionally modify the audio in place.
+    /// </para>
+    /// </remarks>
+    /// <param name="buffer">
+    /// The output buffer. If no buffer is available, the PartyMutableDataBuffer's <em>bufferByteCount</em> field will
+    /// be 0 and its <em>buffer</em> field will be nullptr.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <seealso cref="PartyAudioManipulationSourceStream::GetFormat" />
+    /// <seealso cref="PartyAudioManipulationSourceStream::ReturnBuffer" />
+    PartyError GetNextBuffer(
+        _Out_ PartyMutableDataBuffer * buffer
+        ) party_no_throw;
+
+    /// <summary>
+    /// Tells the library it can reclaim memory associated with this buffer.
+    /// </summary>
+    /// <param name="buffer">
+    /// The buffer to return, which is the <em>buffer</em> field of a PartyDataBuffer previously retrieved from this
+    /// source stream <see cref="PartyAudioManipulationSourceStream::GetNextBuffer" />.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <seealso cref="PartyAudioManipulationSourceStream::GetNextBuffer" />
+    PartyError ReturnBuffer(
+        _Post_invalid_ void * buffer
+        ) party_no_throw;
+
+    /// <summary>
+    /// Retrieves the app's private, custom pointer-sized context value previously associated with this stream object.
+    /// </summary>
+    /// <remarks>
+    /// If no custom context has been set yet, the value pointed to by <paramref name="customContext" /> is set to
+    /// nullptr.
+    /// </remarks>
+    /// <param name="customContext">
+    /// The output custom context.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <seealso cref="PartyAudioManipulationSourceStream::SetCustomContext" />
+    PartyError GetCustomContext(
+        _Outptr_result_maybenull_ void ** customContext
+        ) const party_no_throw;
+
+    /// <summary>
+    /// Configures an optional, custom pointer-sized context value with this stream object.
+    /// </summary>
+    /// <remarks>
+    /// The custom context is typically used as a "shortcut" that simplifies accessing local, title-specific memory
+    /// associated with the network without requiring a mapping lookup. The value is retrieved using the
+    /// <see cref="GetCustomContext()" /> method.
+    /// <para>
+    /// Any configured value is treated as opaque by the library, and is only valid on the local device; it is not
+    /// transmitted over the network.
+    /// </para>
+    /// </remarks>
+    /// <param name="customContext">
+    /// An arbitrary, pointer-sized value to store with the network object.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <seealso cref="PartyAudioManipulationSourceStream::GetCustomContext" />
+    PartyError SetCustomContext(
+        _In_opt_ void * customContext
+        ) party_no_throw;
+
+private:
+    PartyAudioManipulationSourceStream() = delete;
+    PartyAudioManipulationSourceStream(const PartyAudioManipulationSourceStream&) = delete;
+    PartyAudioManipulationSourceStream(PartyAudioManipulationSourceStream&&) = delete;
+    PartyAudioManipulationSourceStream& operator=(const PartyAudioManipulationSourceStream&) = delete;
+    PartyAudioManipulationSourceStream& operator=(PartyAudioManipulationSourceStream&&) = delete;
+    ~PartyAudioManipulationSourceStream() = delete;
+};
+
+/// <summary>
+/// The management class for submitting audio to an audio sink stream.
+/// </summary>
+/// <nyi />
+class PartyAudioManipulationSinkStream
+{
+public:
+    /// <summary>
+    /// Retrieves the format of the buffers that will be submitted to
+    /// <see cref="PartyAudioManipulationSinkStream::SubmitBuffer" />. This is the format specified in the configuration
+    /// function used to set up this stream.
+    /// </summary>
+    /// <param name="format">
+    /// The format of the buffers that will be submitted to
+    /// <see cref="PartyAudioManipulationSinkStream::SubmitBuffer" />.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <seealso cref="PartyLocalChatControl::ConfigureAudioManipulationCaptureStream" />
+    /// <seealso cref="PartyLocalChatControl::ConfigureAudioManipulationRenderStream" />
+    PartyError GetFormat(
+        _Out_ PartyAudioFormat * format
+        ) const party_no_throw;
+
+    /// <summary>
+    /// Submits audio to be processed by this sink. Depending on the type of sink, this audio may be transmitted to
+    /// other chat controls or rendered to the audio output.
+    /// </summary>
+    /// <remarks>
+    /// Every 40ms, the next 40 ms of audio from this stream will be processed. To prevent audio hiccups, buffers for
+    /// audio that should be heard continuously should be submitted to this stream at a constant rate.
+    /// <para>
+    /// The buffer is copied to an allocated buffer before PartyAudioManipulationSinkStream::SubmitBuffer() returns and
+    /// can be immediately freed afterwards.
+    /// </remarks>
+    /// <param name="buffer">
+    /// The audio buffer. Typically this audio buffer is generated by retrieving the next buffer available from each
+    /// incoming source stream, and then processing and mixing each buffer based on game logic. This buffer must have
+    /// the format format specified by <see cref="PartyAudioManipulationSinkStream::GetFormat" />.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    PartyError SubmitBuffer(
+        const PartyDataBuffer * buffer
+        ) party_no_throw;
+
+    /// <summary>
+    /// Retrieves the app's private, custom pointer-sized context value previously associated with this stream object.
+    /// </summary>
+    /// <remarks>
+    /// If no custom context has been set yet, the value pointed to by <paramref name="customContext" /> is set to
+    /// nullptr.
+    /// </remarks>
+    /// <param name="customContext">
+    /// The output custom context.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <seealso cref="PartyAudioManipulationSinkStream::SetCustomContext" />
+    PartyError GetCustomContext(
+        _Outptr_result_maybenull_ void ** customContext
+        ) const party_no_throw;
+
+    /// <summary>
+    /// Configures an optional, custom pointer-sized context value with this stream object.
+    /// </summary>
+    /// <remarks>
+    /// The custom context is typically used as a "shortcut" that simplifies accessing local, title-specific memory
+    /// associated with the network without requiring a mapping lookup. The value is retrieved using the
+    /// <see cref="GetCustomContext()" /> method.
+    /// <para>
+    /// Any configured value is treated as opaque by the library, and is only valid on the local device; it is not
+    /// transmitted over the network.
+    /// </para>
+    /// </remarks>
+    /// <param name="customContext">
+    /// An arbitrary, pointer-sized value to store with the network object.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <seealso cref="PartyAudioManipulationSinkStream::GetCustomContext" />
+    PartyError SetCustomContext(
+        _In_opt_ void * customContext
+        ) party_no_throw;
+
+private:
+    PartyAudioManipulationSinkStream() = delete;
+    PartyAudioManipulationSinkStream(const PartyAudioManipulationSinkStream&) = delete;
+    PartyAudioManipulationSinkStream(PartyAudioManipulationSinkStream&&) = delete;
+    PartyAudioManipulationSinkStream& operator=(const PartyAudioManipulationSinkStream&) = delete;
+    PartyAudioManipulationSinkStream& operator=(PartyAudioManipulationSinkStream&&) = delete;
+    ~PartyAudioManipulationSinkStream() = delete;
+};
+
+/// <summary>
 /// The management class for chat operations.
 /// </summary>
 /// <seealso cref="PartyLocalChatControl" />
@@ -6788,6 +7393,82 @@ public:
     /// <seealso cref="PartyChatControl::GetCustomContext" />
     PartyError SetCustomContext(
         _In_opt_ void * customContext
+        ) party_no_throw;
+
+    /// <summary>
+    /// Queues an asynchronous operation to configure the audio manipulation voice stream associated with this chat
+    /// control.
+    /// </summary>
+    /// <remarks>
+    /// If the configuration is non-null, an audio manipulation voice stream will be created for this chat control. Such
+    /// a stream redirects output for the voice audio associated with this chat control; instead of the library
+    /// automatically handling the voice audio and routing it, the app can use the source stream to retrieve the voice
+    /// audio and route it via game logic. If the configuration is null, and a voice stream has previously been
+    /// configured, the voice stream will be destroyed.
+    /// <para>
+    /// Upon completion of the asynchronous operation, when a non-null configuration was specified, a voice stream for
+    /// this chat control can be queried via <see cref="PartyChatControl::GetAudioManipulationVoiceStream()" />.
+    /// Completion is indicated by a <see cref="PartyConfigureAudioManipulationVoiceStreamCompletedStateChange" />.
+    /// </para>
+    /// </remarks>
+    /// <param name="configuration">
+    /// The stream configuration.
+    /// </param>
+    /// <param name="asyncIdentifier">
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
+    PartyError ConfigureAudioManipulationVoiceStream(
+        _In_opt_ PartyAudioManipulationSourceStreamConfiguration * configuration,
+        _In_opt_ void * asyncIdentifier
+        ) party_no_throw;
+
+    /// <summary>
+    /// Retrieves the audio manipulation voice stream associated with this chat control.
+    /// </summary>
+    /// <remarks>
+    /// If this is a local chat control, the stream represents the voice audio detected by the the local audio input.
+    /// Audio provided by this stream will have already been preprocessed with Voice Activity Detection (VAD) and
+    /// Automatic Gain Control (AGC). Audio will only be provided when voice activity is detected. Typically, the app
+    /// will retrieve audio from this stream via PartyAudioManipulationSourceStream::GetNextBuffer(), process the audio
+    /// using app logic, and then submit the audio back to the library. The audio is submitted back to the library by
+    /// retrieving the voice sink stream via PartyLocalChatControl::GetAudioManipulationCaptureStream() and then
+    /// submitting the buffer via <see cref="PartyAudioManipulationSinkStream::SubmitBuffer()" />.
+    /// <para>
+    /// Audio generated via <see cref="PartyLocalChatControl::SynthesizeTextToSpeech()" /> of type
+    /// <see cref="PartySynthesizeTextToSpeechType::VoiceChat" /> will be provided via this source stream, because such
+    /// audio acts as the associated user's voice.
+    /// </para>
+    /// <para>
+    /// Audio retrieved via this stream will not have been transcribed via speech-to-text for voice chat transcription.
+    /// Audio that is submitted to a sink stream via PartyAudioManipulationSinkStream::SubmitBuffer() will be
+    /// transcribed, if transcription options configured via
+    /// <see cref="PartyLocalChatControl::SetTranscriptionOptions" /> indicates that audio associated the sink's chat
+    /// control should be.
+    /// </para>
+    /// <para>
+    /// If this a remote chat control, the stream represents the chat control's incoming voice audio. Typically, the app
+    /// will retrieve audio from the voice streams associated with all remote chat controls via
+    /// PartyAudioManipulationSourceStream::GetNextBuffer(), process and mix each buffer into a single audio stream, and
+    /// then submit the mixed stream to be rendered by each appropriate sink stream. Each render stream can be retrieved
+    /// via PartyLocalChatControl::GetAudioManipulationRenderStream().
+    /// </para>
+    /// </remarks>
+    /// <param name="sourceStream">
+    /// The source stream.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
+    PartyError GetAudioManipulationVoiceStream(
+        _Outptr_ PartyAudioManipulationSourceStream ** sourceStream
         ) party_no_throw;
 
 private:
@@ -7716,6 +8397,117 @@ public:
         _In_reads_(propertyCount) const PartyDataBuffer * values
         ) party_no_throw;
 
+    /// <summary>
+    /// Queues an asynchronous operation to configure the audio manipulation capture stream.
+    /// </summary>
+    /// <remarks>
+    /// If the configuration is non-null, a capture stream will be created for this chat control. Such a stream acts as
+    /// the voice input for this chat control that is sent to all other chat controls to which this chat control is
+    /// configured to communicate. If the configuration is null, and a capture stream has previously been configured,
+    /// the capture will be destroyed.
+    /// <para>
+    /// Upon completion of the asynchronous operation, when a non-null configuration was specified, a capture stream for
+    /// this chat control can be queried via <see cref="PartyLocalChatControl::GetAudioManipulationCaptureStream()" />.
+    /// Completion is indicated by a
+    /// <see cref="PartyConfigureInputAudioManipulationSourceStreamCompletedStateChange" />.
+    /// </para>
+    /// </remarks>
+    /// <param name="configuration">
+    /// The stream configuration.
+    /// </param>
+    /// <param name="asyncIdentifier">
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
+    PartyError ConfigureAudioManipulationCaptureStream(
+        _In_opt_ PartyAudioManipulationSinkStreamConfiguration * configuration,
+        _In_opt_ void * asyncIdentifier
+        ) party_no_throw;
+
+    /// <summary>
+    /// Retrieves the audio manipulation capture stream associated with this chat control.
+    /// </summary>
+    /// <remarks>
+    /// This stream represents acts as the associated chat control's audio input, i.e. the audio that will be treated as
+    /// the local chat control's voice and sent to other chat controls . Typically, the app will retrieve audio from the
+    /// voice manipulation stream stream via PartyAudioManipulationSourceStream::GetNextBuffer(), process the audio
+    /// using app logic, and then submit the audio back to the library via this stream.
+    /// <para>
+    /// Audio that is submitted to this stream via <see cref="PartyAudioManipulationSinkStream::SubmitBuffer()" /> will
+    /// be transcribed via speech-to-text, if transcription options configured via
+    /// <see cref="PartyLocalChatControl::SetTranscriptionOptions" /> indicates that audio associated the sink's chat
+    /// control should be.
+    /// </para>
+    /// </remarks>
+    /// <param name="stream">
+    /// The output stream.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
+    PartyError GetAudioManipulationCaptureStream(
+        _Outptr_ PartyAudioManipulationSinkStream ** stream
+        ) party_no_throw;
+
+    /// <summary>
+    /// Queues an asynchronous operation to configure the audio manipulation render stream.
+    /// </summary>
+    /// <remarks>
+    /// If the configuration is non-null, an audio manipulation render stream will be created for this chat control.
+    /// Such a stream acts as the render pipeline for audio that will be rendered to this chat control. If the
+    /// configuration is null, and a stream has previously been configured, the stream will be destroyed.
+    /// <para>
+    /// Upon completion of the asynchronous operation, when a non-null configuration was specified, a render stream for
+    /// this chat control can be queried via <see cref="PartyLocalChatControl::GetAudioManipulationRenderStream()" />.
+    /// Completion is indicated by a <see cref="PartyConfigureAudioManipulationRenderStreamCompletedStateChange" />.
+    /// </para>
+    /// </remarks>
+    /// <param name="configuration">
+    /// The stream configuration.
+    /// </param>
+    /// <param name="asyncIdentifier">
+    /// An optional, app-defined, pointer-sized context value that can be used to associate the completion state change
+    /// with this call.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
+    PartyError ConfigureAudioManipulationRenderStream(
+        _In_opt_ PartyAudioManipulationSinkStreamConfiguration * configuration,
+        _In_opt_ void * asyncIdentifier
+        ) party_no_throw;
+
+    /// <summary>
+    /// Retrieves the manipulation render stream associated with this chat control.
+    /// </summary>
+    /// <remarks>
+    /// This stream represents the audio that will be rendered to the chat control's audio output. Typically, the app
+    /// will retrieve audio from the voice streams associated with all remote chat controls via
+    /// PartyAudioManipulationSourceStream::GetNextBuffer(), process and mix each buffer into a single audio stream, and
+    /// then submit the mixed stream to be rendered by each appropriate render stream. Each render stream can be
+    /// retrieved via PartyLocalChatControl::GetAudioManipulationRenderStream().
+    /// </remarks>
+    /// <param name="stream">
+    /// The output stream.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <nyi />
+    PartyError GetAudioManipulationRenderStream(
+        _Outptr_ PartyAudioManipulationSinkStream ** stream
+        ) party_no_throw;
+
 private:
     PartyLocalChatControl() = delete;
     PartyLocalChatControl(const PartyLocalChatControl&) = delete;
@@ -7866,6 +8658,55 @@ public:
         ) party_no_throw;
 
     /// <summary>
+    /// Configures an option to fine-tune Party library functionality.
+    /// </summary>
+    /// <param name="object">
+    /// The Party library object that may be required as context for different <see cref="PartyOption" /> values.
+    /// </param>
+    /// <param name="option">
+    /// The Party library option to configure.
+    /// </param>
+    /// <param name="value">
+    /// A pointer to the value used to override <paramref name="option" />. If <paramref name="value" /> is null, the
+    /// option will be reset to its default value.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise.
+    /// </returns>
+    /// <seealso cref="PartyOption" />
+    /// <seealso cref="PartyManager::GetOption" />
+    static PartyError SetOption(
+        _In_opt_ void* object,
+        PartyOption option,
+        _In_opt_ const void* value
+        ) party_no_throw;
+
+    /// <summary>
+    /// Retrieves an option used to fine-tune Party library functionality.
+    /// </summary>
+    /// <param name="object">
+    /// The Party library object that may be required as context for different <see cref="PartyOption" /> values.
+    /// </param>
+    /// <param name="option">
+    /// The Party library option to retrieve.
+    /// </param>
+    /// <param name="value">
+    /// An output value to fill with the current <paramref name="option" /> setting. If this option has not yet been
+    /// overridden by a call to <see cref="PartyManager::SetOption()" />, this method will retrieve that option's
+    /// default value.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise.
+    /// </returns>
+    /// <seealso cref="PartyOption" />
+    /// <seealso cref="PartyManager::SetOption" />
+    static PartyError GetOption(
+        _In_opt_ const void* object,
+        PartyOption option,
+        _Out_ void* value
+        ) party_no_throw;
+
+    /// <summary>
     /// Get the human-readable form of an error.
     /// </summary>
     /// <remarks>
@@ -7983,24 +8824,20 @@ public:
     /// This method allows the title to install custom memory allocation routines in order to service all requests by
     /// the Party library for new memory buffers instead of using its default allocation routines.
     /// <para>
-    /// The <paramref name="allocateMemoryCallback" /> and <paramref name="freeMemoryCallback" /> parameters can be null
-    /// pointers to restore the default routines. Both callback pointers must be null or both must be non-null. Mixing
-    /// custom and default routines is not permitted.
+    /// The <paramref name="allocateMemoryCallback" /> and <paramref name="freeMemoryCallback" /> parameters must both
+    /// be non-null.
     /// </para>
     /// <para>
-    /// This method must be called prior to the <see cref="Initialize()" /> method. The callbacks cannot change while
-    /// any allocations are outstanding. It also must be only called by one thread at a time as it isn't multithreading
+    /// To use this method, it must be called before any other Party method except for
+    /// PartyManager::GetMemoryCallbacks(). This method cannot be called again for the lifetime of this process.
     /// safe.
-    /// </para>
-    /// <para>
-    /// The configured callbacks are persisted until changed, including across calls to <see cref="Cleanup()" />.
     /// </para>
     /// </remarks>
     /// <param name="allocateMemoryCallback">
-    /// A pointer to the custom allocation callback to use, or nullptr to restore the default.
+    /// A pointer to the custom allocation callback to use.
     /// </param>
     /// <param name="freeMemoryCallback">
-    /// A pointer to the custom freeing callback to use, or nullptr to restore the default.
+    /// A pointer to the custom freeing callback to use.
     /// </param>
     /// <returns>
     /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
@@ -8010,8 +8847,8 @@ public:
     /// <seealso cref="PartyFreeMemoryCallback" />
     /// <seealso cref="PartyManager::GetMemoryCallbacks" />
     static PartyError SetMemoryCallbacks(
-        _In_opt_ PartyAllocateMemoryCallback allocateMemoryCallback,
-        _In_opt_ PartyFreeMemoryCallback freeMemoryCallback
+        _In_ PartyAllocateMemoryCallback allocateMemoryCallback,
+        _In_ PartyFreeMemoryCallback freeMemoryCallback
         ) party_no_throw;
 
     /// <summary>
@@ -8118,6 +8955,17 @@ public:
     /// Every call to Initialize() should have a corresponding Cleanup() call.
     /// </para>
     /// <para>
+    /// Titles using the Microsoft Game Core version of the Party library will need to wait for the Game Core Networking
+    /// stack to be initialized prior to calling this method. Determining the status of the network stack can be done
+    /// using the Game Core XNetworkingGetConnectivityHint API.
+    /// </para>
+    /// <para>
+    /// Titles using the Microsoft Game Core version of the Party library must listen for app state notifications via
+    /// the RegisterAppStateChangeNotification API. When the app is suspended, the title must call
+    /// PartyManager::Cleanup(). When the app is resumed, the title must wait for the Game Core networking stack to
+    /// re-initialize and then re-initialize the Party library by calling PartyManager::Initialize().
+    /// </para>
+    /// <para>
     /// The provided <paramref name="titleId" /> must be the same Title ID used to acquire the PlayFab Entity IDs and
     /// Entity Tokens that will be passed to <see cref="CreateLocalUser()" />.
     /// </para>
@@ -8151,6 +8999,12 @@ public:
     /// <see cref="PartyNetwork::LeaveNetwork()" /> first on all networks returned from a call to
     /// <see cref="GetNetworks()" /> and wait for the corresponding <see cref="PartyLeaveNetworkCompletedStateChange" />
     /// to have the local users exit any existing PartyNetworks gracefully.
+    /// <para>
+    /// Titles using the Microsoft Game Core version of the Party library must listen for app state notifications via
+    /// the RegisterAppStateChangeNotification API. When the app is suspended, the title must call
+    /// PartyManager::Cleanup(). When the app is resumed, the title must wait for the Game Core networking stack to
+    /// re-initialize and then re-initialize the Party library by calling PartyManager::Initialize().
+    /// </para>
     /// <para>
     /// Every call to <see cref="Initialize()" /> should have a corresponding Cleanup() call.
     /// </para>
