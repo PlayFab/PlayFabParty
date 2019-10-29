@@ -573,7 +573,6 @@ PartyStateChangeResultToReasonString(
     case PartyStateChangeResult::CanceledByTitle: return "Operation canceled by title.";
     case PartyStateChangeResult::UserCreateNetworkThrottled: return "The PartyLocalUser specified in the call to PartyManager::CreateNewNetwork() has created too many networks and cannot create new networks at this time";
     case PartyStateChangeResult::TitleNotEnabledForParty: return "The title has not been configured properly in the Party portal";
-    case PartyStateChangeResult::TitleCreateNetworkThrottled: return "The title has created too many networks";
     case PartyStateChangeResult::NetworkLimitReached: return "The network is full and is not allowing new devices or users to join";
     case PartyStateChangeResult::NetworkNoLongerExists: return "The network no longer exists";
     case PartyStateChangeResult::NetworkNotJoinable: return "The network is not currently allowing new devices or users to join";

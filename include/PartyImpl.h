@@ -1036,6 +1036,46 @@ PartyError PartyLocalChatControl::SetSharedProperties(
         reinterpret_cast<const PARTY_DATA_BUFFER*>(values));
 }
 
+PartyError PartyLocalChatControl::ConfigureAudioManipulationCaptureStream(
+    _In_opt_ PartyAudioManipulationSinkStreamConfiguration * configuration,
+    _In_opt_ void* asyncIdentifier
+    ) party_no_throw
+{
+    return PartyChatControlConfigureAudioManipulationCaptureStream(
+        reinterpret_cast<PARTY_CHAT_CONTROL_HANDLE>(this),
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION*>(configuration),
+        asyncIdentifier);
+}
+
+PartyError PartyLocalChatControl::GetAudioManipulationCaptureStream(
+    _Outptr_ PartyAudioManipulationSinkStream** stream
+    ) party_no_throw
+{
+    return PartyChatControlGetAudioManipulationCaptureStream(
+        reinterpret_cast<PARTY_CHAT_CONTROL_HANDLE>(this),
+        const_cast<PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE*>(reinterpret_cast<const PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE*>(stream)));
+}
+
+PartyError PartyLocalChatControl::ConfigureAudioManipulationRenderStream(
+    _In_opt_ PartyAudioManipulationSinkStreamConfiguration * configuration,
+    _In_opt_ void* asyncIdentifier
+    ) party_no_throw
+{
+    return PartyChatControlConfigureAudioManipulationRenderStream(
+        reinterpret_cast<PARTY_CHAT_CONTROL_HANDLE>(this),
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION*>(configuration),
+        asyncIdentifier);
+}
+
+PartyError PartyLocalChatControl::GetAudioManipulationRenderStream(
+    _Outptr_ PartyAudioManipulationSinkStream** stream
+    ) party_no_throw
+{
+    return PartyChatControlGetAudioManipulationRenderStream(
+        reinterpret_cast<PARTY_CHAT_CONTROL_HANDLE>(this),
+        const_cast<PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE*>(reinterpret_cast<const PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE*>(stream)));
+}
+
 PartyError PartyChatControl::GetLocal(
     _Outptr_result_maybenull_ PartyLocalChatControl ** localChatControl
     ) const party_no_throw
@@ -1130,6 +1170,26 @@ PartyError PartyChatControl::GetCustomContext(
         customContext);
 }
 
+PartyError PartyChatControl::ConfigureAudioManipulationVoiceStream(
+    _In_opt_ PartyAudioManipulationSourceStreamConfiguration * configuration,
+    _In_opt_ void* asyncIdentifier
+    ) party_no_throw
+{
+    return PartyChatControlConfigureAudioManipulationVoiceStream(
+        reinterpret_cast<PARTY_CHAT_CONTROL_HANDLE>(this),
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_CONFIGURATION*>(configuration),
+        asyncIdentifier);
+}
+
+PartyError PartyChatControl::GetAudioManipulationVoiceStream(
+    _Outptr_ PartyAudioManipulationSourceStream** sourceStream
+    ) party_no_throw
+{
+    return PartyChatControlGetAudioManipulationVoiceStream(
+        reinterpret_cast<PARTY_CHAT_CONTROL_HANDLE>(this),
+        const_cast<PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE*>(reinterpret_cast<const PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE*>(sourceStream)));
+}
+
 PartyError PartyTextToSpeechProfile::GetIdentifier(
     _Outptr_ PartyString * identifier
     ) const party_no_throw
@@ -1184,6 +1244,96 @@ PartyError PartyTextToSpeechProfile::SetCustomContext(
         customContext);
 }
 
+PartyError PartyAudioManipulationSourceStream::GetFormat(
+    _Out_ PartyAudioFormat* format
+    ) const party_no_throw
+{
+    return PartyAudioManipulationSourceStreamGetFormat(
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE>(this),
+        reinterpret_cast<PARTY_AUDIO_FORMAT*>(format));
+}
+
+PartyError PartyAudioManipulationSourceStream::GetAvailableBufferCount(
+    _Out_ uint32_t* count
+    ) const party_no_throw
+{
+    return PartyAudioManipulationSourceStreamGetAvailableBufferCount(
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE>(this),
+        count);
+}
+
+PartyError PartyAudioManipulationSourceStream::GetNextBuffer(
+    _Out_ PartyMutableDataBuffer* buffer
+    ) party_no_throw
+{
+    return PartyAudioManipulationSourceStreamGetNextBuffer(
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE>(this),
+        reinterpret_cast<PARTY_MUTABLE_DATA_BUFFER*>(buffer));
+}
+
+PartyError PartyAudioManipulationSourceStream::ReturnBuffer(
+    _Post_invalid_ void * buffer
+    ) party_no_throw
+{
+    return PartyAudioManipulationSourceStreamReturnBuffer(
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE>(this),
+        buffer);
+}
+
+PartyError PartyAudioManipulationSourceStream::GetCustomContext(
+    _Outptr_result_maybenull_ void** customContext
+    ) const party_no_throw
+{
+    return PartyAudioManipulationSourceStreamGetCustomContext(
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE>(this),
+        customContext);
+}
+
+PartyError PartyAudioManipulationSourceStream::SetCustomContext(
+    _In_opt_ void* customContext
+    ) party_no_throw
+{
+    return PartyAudioManipulationSourceStreamSetCustomContext(
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE>(this),
+        customContext);
+}
+
+PartyError PartyAudioManipulationSinkStream::GetFormat(
+    _Out_ PartyAudioFormat* format
+    ) const party_no_throw
+{
+    return PartyAudioManipulationSinkStreamGetFormat(
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE>(this),
+        reinterpret_cast<PARTY_AUDIO_FORMAT*>(format));
+}
+
+PartyError PartyAudioManipulationSinkStream::SubmitBuffer(
+    const PartyDataBuffer* buffer
+    ) party_no_throw
+{
+    return PartyAudioManipulationSinkStreamSubmitBuffer(
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE>(this),
+        reinterpret_cast<const PARTY_DATA_BUFFER*>(buffer));
+}
+
+PartyError PartyAudioManipulationSinkStream::GetCustomContext(
+    _Outptr_result_maybenull_ void** customContext
+    ) const party_no_throw
+{
+    return PartyAudioManipulationSinkStreamGetCustomContext(
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE>(this),
+        customContext);
+}
+
+PartyError PartyAudioManipulationSinkStream::SetCustomContext(
+    _In_opt_ void* customContext
+    ) party_no_throw
+{
+    return PartyAudioManipulationSinkStreamSetCustomContext(
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE>(this),
+        customContext);
+}
+
 PartyManager::PartyManager() :
     _handle(nullptr)
 {
@@ -1197,6 +1347,30 @@ PartyManager& PartyManager::GetSingleton() party_no_throw
 {
     static PartyManager singleton;
     return singleton;
+}
+
+PartyError PartyManager::SetOption(
+    _In_opt_ void* object,
+    PartyOption option,
+    _In_opt_ const void* value
+    ) party_no_throw
+{
+    return PartySetOption(
+        object,
+        static_cast<PARTY_OPTION>(option),
+        value);
+}
+
+PartyError PartyManager::GetOption(
+    _In_opt_ const void* object,
+    PartyOption option,
+    _Out_ void* value
+    ) party_no_throw
+{
+    return PartyGetOption(
+        object,
+        static_cast<PARTY_OPTION>(option),
+        value);
 }
 
 PartyError PartyManager::GetErrorMessage(
@@ -1524,6 +1698,9 @@ PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CHAT_CONTROL_LEFT_NETWORK == static_cast<
 PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CONNECT_CHAT_CONTROL_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::ConnectChatControlCompleted));
 PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_DISCONNECT_CHAT_CONTROL_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::DisconnectChatControlCompleted));
 PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::PopulateAvailableTextToSpeechProfilesCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CONFIGURE_AUDIO_MANIPULATION_VOICE_STREAM_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::ConfigureAudioManipulationVoiceStreamCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CONFIGURE_AUDIO_MANIPULATION_CAPTURE_STREAM_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::ConfigureAudioManipulationCaptureStreamCompleted));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_TYPE_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED == static_cast<uint32_t>(PartyStateChangeType::ConfigureAudioManipulationRenderStreamCompleted));
 
 PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_SUCCEEDED == static_cast<uint32_t>(PartyStateChangeResult::Succeeded));
 PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_UNKNOWN_ERROR == static_cast<uint32_t>(PartyStateChangeResult::UnknownError));
@@ -1534,7 +1711,6 @@ PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_NO_SERVERS_AVAILABLE == static_cast<uin
 PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_USER_NOT_AUTHORIZED == static_cast<uint32_t>(PartyStateChangeResult::UserNotAuthorized));
 PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_USER_CREATE_NETWORK_THROTTLED == static_cast<uint32_t>(PartyStateChangeResult::UserCreateNetworkThrottled));
 PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_TITLE_NOT_ENABLED_FOR_PARTY == static_cast<uint32_t>(PartyStateChangeResult::TitleNotEnabledForParty));
-PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_TITLE_CREATE_NETWORK_THROTTLED == static_cast<uint32_t>(PartyStateChangeResult::TitleCreateNetworkThrottled));
 PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_NETWORK_LIMIT_REACHED == static_cast<uint32_t>(PartyStateChangeResult::NetworkLimitReached));
 PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_NETWORK_NO_LONGER_EXISTS == static_cast<uint32_t>(PartyStateChangeResult::NetworkNoLongerExists));
 PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_NETWORK_NOT_JOINABLE == static_cast<uint32_t>(PartyStateChangeResult::NetworkNotJoinable));
@@ -1551,6 +1727,8 @@ PARTY_C_ASSERT(PARTY_DESTROYED_REASON_DISCONNECTED == static_cast<uint32_t>(Part
 PARTY_C_ASSERT(PARTY_DESTROYED_REASON_KICKED == static_cast<uint32_t>(PartyDestroyedReason::Kicked));
 PARTY_C_ASSERT(PARTY_DESTROYED_REASON_DEVICE_LOST_AUTHENTICATION == static_cast<uint32_t>(PartyDestroyedReason::DeviceLostAuthentication));
 PARTY_C_ASSERT(PARTY_DESTROYED_REASON_CREATION_FAILED == static_cast<uint32_t>(PartyDestroyedReason::CreationFailed));
+
+PARTY_C_ASSERT(PARTY_OPTION_LOCAL_UDP_SOCKET_BIND_ADDRESS == static_cast<uint32_t>(PartyOption::LocalUdpSocketBindAddress));
 
 PARTY_C_ASSERT(PARTY_THREAD_ID_AUDIO == static_cast<uint32_t>(PartyThreadId::Audio));
 PARTY_C_ASSERT(PARTY_THREAD_ID_NETWORKING == static_cast<uint32_t>(PartyThreadId::Networking));
@@ -1666,6 +1844,17 @@ PARTY_C_ASSERT(PARTY_TRANSLATION_RECEIVED_OPTIONS_TRUNCATED == static_cast<uint3
 PARTY_C_ASSERT(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_TYPE_NARRATION == static_cast<uint32_t>(PartySynthesizeTextToSpeechType::Narration));
 PARTY_C_ASSERT(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_TYPE_VOICE_CHAT == static_cast<uint32_t>(PartySynthesizeTextToSpeechType::VoiceChat));
 
+PARTY_C_ASSERT(PARTY_AUDIO_SAMPLE_TYPE_INTEGER == static_cast<uint32_t>(PartyAudioSampleType::Integer));
+
+PARTY_C_ASSERT(PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_OPTIONS_NONE == static_cast<uint32_t>(PartyLocalUdpSocketBindAddressOptions::None));
+PARTY_C_ASSERT(PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_OPTIONS_EXCLUDE_GAME_CORE_PREFERRED_UDP_MULTIPLAYER_PORT == static_cast<uint32_t>(PartyLocalUdpSocketBindAddressOptions::ExcludeGameCorePreferredUdpMultiplayerPort));
+
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_CONFIGURATION) == sizeof(PartyLocalUdpSocketBindAddressConfiguration));
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_CONFIGURATION::options) == sizeof(PartyLocalUdpSocketBindAddressConfiguration::options));
+PARTY_C_ASSERT(offsetof(PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_CONFIGURATION, options) == offsetof(PartyLocalUdpSocketBindAddressConfiguration, options));
+PARTY_C_ASSERT(sizeof(PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_CONFIGURATION::port) == sizeof(PartyLocalUdpSocketBindAddressConfiguration::port));
+PARTY_C_ASSERT(offsetof(PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_CONFIGURATION, port) == offsetof(PartyLocalUdpSocketBindAddressConfiguration, port));
+
 PARTY_C_ASSERT(sizeof(PARTY_NETWORK_DESCRIPTOR) == sizeof(PartyNetworkDescriptor));
 PARTY_C_ASSERT(sizeof(PARTY_NETWORK_DESCRIPTOR::networkIdentifier) == sizeof(PartyNetworkDescriptor::networkIdentifier));
 PARTY_C_ASSERT(offsetof(PARTY_NETWORK_DESCRIPTOR, networkIdentifier) == offsetof(PartyNetworkDescriptor, networkIdentifier));
@@ -1716,6 +1905,12 @@ PARTY_C_ASSERT(offsetof(PARTY_DATA_BUFFER, buffer) == offsetof(PartyDataBuffer, 
 PARTY_C_ASSERT(sizeof(PARTY_DATA_BUFFER::bufferByteCount) == sizeof(PartyDataBuffer::bufferByteCount));
 PARTY_C_ASSERT(offsetof(PARTY_DATA_BUFFER, bufferByteCount) == offsetof(PartyDataBuffer, bufferByteCount));
 
+PARTY_C_ASSERT(sizeof(PARTY_MUTABLE_DATA_BUFFER) == sizeof(PartyMutableDataBuffer));
+PARTY_C_ASSERT(sizeof(PARTY_MUTABLE_DATA_BUFFER::buffer) == sizeof(PartyMutableDataBuffer::buffer));
+PARTY_C_ASSERT(offsetof(PARTY_MUTABLE_DATA_BUFFER, buffer) == offsetof(PartyMutableDataBuffer, buffer));
+PARTY_C_ASSERT(sizeof(PARTY_MUTABLE_DATA_BUFFER::bufferByteCount) == sizeof(PartyMutableDataBuffer::bufferByteCount));
+PARTY_C_ASSERT(offsetof(PARTY_MUTABLE_DATA_BUFFER, bufferByteCount) == offsetof(PartyMutableDataBuffer, bufferByteCount));
+
 PARTY_C_ASSERT(sizeof(PARTY_TRANSLATION) == sizeof(PartyTranslation));
 PARTY_C_ASSERT(sizeof(PARTY_TRANSLATION::result) == sizeof(PartyTranslation::result));
 PARTY_C_ASSERT(offsetof(PARTY_TRANSLATION, result) == offsetof(PartyTranslation, result));
@@ -1727,6 +1922,30 @@ PARTY_C_ASSERT(sizeof(PARTY_TRANSLATION::options) == sizeof(PartyTranslation::op
 PARTY_C_ASSERT(offsetof(PARTY_TRANSLATION, options) == offsetof(PartyTranslation, options));
 PARTY_C_ASSERT(sizeof(PARTY_TRANSLATION::translation) == sizeof(PartyTranslation::translation));
 PARTY_C_ASSERT(offsetof(PARTY_TRANSLATION, translation) == offsetof(PartyTranslation, translation));
+
+PARTY_C_ASSERT(sizeof(PARTY_AUDIO_FORMAT) == sizeof(PartyAudioFormat));
+PARTY_C_ASSERT(sizeof(PARTY_AUDIO_FORMAT::samplesPerSecond) == sizeof(PartyAudioFormat::samplesPerSecond));
+PARTY_C_ASSERT(offsetof(PARTY_AUDIO_FORMAT, samplesPerSecond) == offsetof(PartyAudioFormat, samplesPerSecond));
+PARTY_C_ASSERT(sizeof(PARTY_AUDIO_FORMAT::channelMask) == sizeof(PartyAudioFormat::channelMask));
+PARTY_C_ASSERT(offsetof(PARTY_AUDIO_FORMAT, channelMask) == offsetof(PartyAudioFormat, channelMask));
+PARTY_C_ASSERT(sizeof(PARTY_AUDIO_FORMAT::channelCount) == sizeof(PartyAudioFormat::channelCount));
+PARTY_C_ASSERT(offsetof(PARTY_AUDIO_FORMAT, channelCount) == offsetof(PartyAudioFormat, channelCount));
+PARTY_C_ASSERT(sizeof(PARTY_AUDIO_FORMAT::bitsPerSample) == sizeof(PartyAudioFormat::bitsPerSample));
+PARTY_C_ASSERT(offsetof(PARTY_AUDIO_FORMAT, bitsPerSample) == offsetof(PartyAudioFormat, bitsPerSample));
+PARTY_C_ASSERT(sizeof(PARTY_AUDIO_FORMAT::sampleType) == sizeof(PartyAudioFormat::sampleType));
+PARTY_C_ASSERT(offsetof(PARTY_AUDIO_FORMAT, sampleType) == offsetof(PartyAudioFormat, sampleType));
+PARTY_C_ASSERT(sizeof(PARTY_AUDIO_FORMAT::interleaved) == sizeof(PartyAudioFormat::interleaved));
+PARTY_C_ASSERT(offsetof(PARTY_AUDIO_FORMAT, interleaved) == offsetof(PartyAudioFormat, interleaved));
+
+PARTY_C_ASSERT(sizeof(PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_CONFIGURATION) == sizeof(PartyAudioManipulationSourceStreamConfiguration));
+PARTY_C_ASSERT(sizeof(PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_CONFIGURATION::format) == sizeof(PartyAudioManipulationSourceStreamConfiguration::format));
+PARTY_C_ASSERT(offsetof(PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_CONFIGURATION, format) == offsetof(PartyAudioManipulationSourceStreamConfiguration, format));
+PARTY_C_ASSERT(sizeof(PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_CONFIGURATION::maxTotalAudioBufferSizeInMilliseconds) == sizeof(PartyAudioManipulationSourceStreamConfiguration::maxTotalAudioBufferSizeInMilliseconds));
+PARTY_C_ASSERT(offsetof(PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_CONFIGURATION, maxTotalAudioBufferSizeInMilliseconds) == offsetof(PartyAudioManipulationSourceStreamConfiguration, maxTotalAudioBufferSizeInMilliseconds));
+
+PARTY_C_ASSERT(sizeof(PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION) == sizeof(PartyAudioManipulationSinkStreamConfiguration));
+PARTY_C_ASSERT(sizeof(PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION::format) == sizeof(PartyAudioManipulationSinkStreamConfiguration::format));
+PARTY_C_ASSERT(offsetof(PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION, format) == offsetof(PartyAudioManipulationSinkStreamConfiguration, format));
 
 PARTY_C_ASSERT(sizeof(PARTY_STATE_CHANGE) == sizeof(PartyStateChange));
 PARTY_C_ASSERT(sizeof(PARTY_STATE_CHANGE::stateChangeType) == sizeof(PartyStateChange::stateChangeType));
@@ -2304,6 +2523,42 @@ PARTY_C_ASSERT(offsetof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLET
 PARTY_C_ASSERT(sizeof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange::asyncIdentifier));
 PARTY_C_ASSERT(offsetof(PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange, asyncIdentifier));
 
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_VOICE_STREAM_COMPLETED_STATE_CHANGE) == sizeof(PartyConfigureAudioManipulationVoiceStreamCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_VOICE_STREAM_COMPLETED_STATE_CHANGE::result) == sizeof(PartyConfigureAudioManipulationVoiceStreamCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_VOICE_STREAM_COMPLETED_STATE_CHANGE, result) == offsetof(PartyConfigureAudioManipulationVoiceStreamCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_VOICE_STREAM_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyConfigureAudioManipulationVoiceStreamCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_VOICE_STREAM_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyConfigureAudioManipulationVoiceStreamCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_VOICE_STREAM_COMPLETED_STATE_CHANGE::chatControl) == sizeof(PartyConfigureAudioManipulationVoiceStreamCompletedStateChange::chatControl));
+PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_VOICE_STREAM_COMPLETED_STATE_CHANGE, chatControl) == offsetof(PartyConfigureAudioManipulationVoiceStreamCompletedStateChange, chatControl));
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_VOICE_STREAM_COMPLETED_STATE_CHANGE::configuration) == sizeof(PartyConfigureAudioManipulationVoiceStreamCompletedStateChange::configuration));
+PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_VOICE_STREAM_COMPLETED_STATE_CHANGE, configuration) == offsetof(PartyConfigureAudioManipulationVoiceStreamCompletedStateChange, configuration));
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_VOICE_STREAM_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyConfigureAudioManipulationVoiceStreamCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_VOICE_STREAM_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyConfigureAudioManipulationVoiceStreamCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_CAPTURE_STREAM_COMPLETED_STATE_CHANGE) == sizeof(PartyConfigureAudioManipulationCaptureStreamCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_CAPTURE_STREAM_COMPLETED_STATE_CHANGE::result) == sizeof(PartyConfigureAudioManipulationCaptureStreamCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_CAPTURE_STREAM_COMPLETED_STATE_CHANGE, result) == offsetof(PartyConfigureAudioManipulationCaptureStreamCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_CAPTURE_STREAM_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyConfigureAudioManipulationCaptureStreamCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_CAPTURE_STREAM_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyConfigureAudioManipulationCaptureStreamCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_CAPTURE_STREAM_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartyConfigureAudioManipulationCaptureStreamCompletedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_CAPTURE_STREAM_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartyConfigureAudioManipulationCaptureStreamCompletedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_CAPTURE_STREAM_COMPLETED_STATE_CHANGE::configuration) == sizeof(PartyConfigureAudioManipulationCaptureStreamCompletedStateChange::configuration));
+PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_CAPTURE_STREAM_COMPLETED_STATE_CHANGE, configuration) == offsetof(PartyConfigureAudioManipulationCaptureStreamCompletedStateChange, configuration));
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_CAPTURE_STREAM_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyConfigureAudioManipulationCaptureStreamCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_CAPTURE_STREAM_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyConfigureAudioManipulationCaptureStreamCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE) == sizeof(PartyConfigureAudioManipulationRenderStreamCompletedStateChange));
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE::result) == sizeof(PartyConfigureAudioManipulationRenderStreamCompletedStateChange::result));
+PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE, result) == offsetof(PartyConfigureAudioManipulationRenderStreamCompletedStateChange, result));
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE::errorDetail) == sizeof(PartyConfigureAudioManipulationRenderStreamCompletedStateChange::errorDetail));
+PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE, errorDetail) == offsetof(PartyConfigureAudioManipulationRenderStreamCompletedStateChange, errorDetail));
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE::localChatControl) == sizeof(PartyConfigureAudioManipulationRenderStreamCompletedStateChange::localChatControl));
+PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE, localChatControl) == offsetof(PartyConfigureAudioManipulationRenderStreamCompletedStateChange, localChatControl));
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE::configuration) == sizeof(PartyConfigureAudioManipulationRenderStreamCompletedStateChange::configuration));
+PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE, configuration) == offsetof(PartyConfigureAudioManipulationRenderStreamCompletedStateChange, configuration));
+PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyConfigureAudioManipulationRenderStreamCompletedStateChange::asyncIdentifier));
+PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyConfigureAudioManipulationRenderStreamCompletedStateChange, asyncIdentifier));
+
 PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_HANDLE) == sizeof(PartyEndpoint*));
 PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_HANDLE) == sizeof(PartyLocalEndpoint*));
 PARTY_C_ASSERT(sizeof(PARTY_DEVICE_HANDLE) == sizeof(PartyDevice*));
@@ -2313,6 +2568,8 @@ PARTY_C_ASSERT(sizeof(PARTY_NETWORK_HANDLE) == sizeof(PartyNetwork*));
 PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_HANDLE) == sizeof(PartyChatControl*));
 PARTY_C_ASSERT(sizeof(PARTY_CHAT_CONTROL_HANDLE) == sizeof(PartyLocalChatControl*));
 PARTY_C_ASSERT(sizeof(PARTY_LOCAL_USER_HANDLE) == sizeof(PartyLocalUser*));
+PARTY_C_ASSERT(sizeof(PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE) == sizeof(PartyAudioManipulationSourceStream*));
+PARTY_C_ASSERT(sizeof(PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE) == sizeof(PartyAudioManipulationSinkStream*));
 
 PARTY_C_ASSERT(sizeof(PartyStateChangeType) == sizeof(uint32_t));
 

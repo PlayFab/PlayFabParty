@@ -7,7 +7,7 @@ _Note: a registered PlayFab title is required to use PartySample app. Please ref
 ## Building
 Please use the latest Xcode.
 
-1. Download `PlayFabParty.framework-for-iOS-Release.zip` from a PlayFabParty's GitHub repository release.
+1. Download `PlayFabParty.framework-for-iOS-(arch)-(no/with-bitcode)-Release.zip` from a PlayFabParty's GitHub repository release.
 2. Unzip it and copy `PlayFabParty.framework` and `libplayfabxplatcppsdk.a` to folder `/iOS/bin/Release` in your cloned PlayFabParty repository.
 3. Navigate to `/iOS/PartySample/app` in your repository and open `partysample_ios.xcodeproj` in Xcode.
 4. Select `partysample_ios` project in the Project Navigator. Select `partysample_ios` target in the main panel. Please provide your iOS developer signing settings (Provisioning Profile, Team, Signing Certificate).

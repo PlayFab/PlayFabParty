@@ -15,6 +15,8 @@ typedef const struct PARTY_DEVICE* PARTY_DEVICE_HANDLE;
 typedef const struct PARTY_INVITATION* PARTY_INVITATION_HANDLE;
 typedef const struct PARTY_NETWORK* PARTY_NETWORK_HANDLE;
 typedef const struct PARTY_CHAT_CONTROL* PARTY_CHAT_CONTROL_HANDLE;
+typedef const struct PARTY_AUDIO_MANIPULATION_SOURCE_STREAM* PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE;
+typedef const struct PARTY_AUDIO_MANIPULATION_SINK_STREAM* PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE;
 typedef const struct PARTY_TEXT_TO_SPEECH_PROFILE* PARTY_TEXT_TO_SPEECH_PROFILE_HANDLE;
 typedef const struct PARTY* PARTY_HANDLE;
 typedef uint32_t PARTY_MEMORY_TYPE;
@@ -117,6 +119,9 @@ typedef enum PARTY_STATE_CHANGE_TYPE
     PARTY_STATE_CHANGE_TYPE_CONNECT_CHAT_CONTROL_COMPLETED,
     PARTY_STATE_CHANGE_TYPE_DISCONNECT_CHAT_CONTROL_COMPLETED,
     PARTY_STATE_CHANGE_TYPE_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED,
+    PARTY_STATE_CHANGE_TYPE_CONFIGURE_AUDIO_MANIPULATION_VOICE_STREAM_COMPLETED,
+    PARTY_STATE_CHANGE_TYPE_CONFIGURE_AUDIO_MANIPULATION_CAPTURE_STREAM_COMPLETED,
+    PARTY_STATE_CHANGE_TYPE_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED,
 } PARTY_STATE_CHANGE_TYPE;
 
 typedef enum PARTY_STATE_CHANGE_RESULT
@@ -130,7 +135,6 @@ typedef enum PARTY_STATE_CHANGE_RESULT
     PARTY_STATE_CHANGE_RESULT_USER_NOT_AUTHORIZED,
     PARTY_STATE_CHANGE_RESULT_USER_CREATE_NETWORK_THROTTLED,
     PARTY_STATE_CHANGE_RESULT_TITLE_NOT_ENABLED_FOR_PARTY,
-    PARTY_STATE_CHANGE_RESULT_TITLE_CREATE_NETWORK_THROTTLED,
     PARTY_STATE_CHANGE_RESULT_NETWORK_LIMIT_REACHED,
     PARTY_STATE_CHANGE_RESULT_NETWORK_NO_LONGER_EXISTS,
     PARTY_STATE_CHANGE_RESULT_NETWORK_NOT_JOINABLE,
@@ -154,6 +158,11 @@ typedef enum PARTY_DESTROYED_REASON
     PARTY_DESTROYED_REASON_DEVICE_LOST_AUTHENTICATION,
     PARTY_DESTROYED_REASON_CREATION_FAILED,
 } PARTY_DESTROYED_REASON;
+
+typedef enum PARTY_OPTION
+{
+    PARTY_OPTION_LOCAL_UDP_SOCKET_BIND_ADDRESS,
+} PARTY_OPTION;
 
 typedef enum PARTY_THREAD_ID
 {
@@ -329,6 +338,23 @@ typedef enum PARTY_SYNTHESIZE_TEXT_TO_SPEECH_TYPE
     PARTY_SYNTHESIZE_TEXT_TO_SPEECH_TYPE_VOICE_CHAT,
 } PARTY_SYNTHESIZE_TEXT_TO_SPEECH_TYPE;
 
+typedef enum PARTY_AUDIO_SAMPLE_TYPE
+{
+    PARTY_AUDIO_SAMPLE_TYPE_INTEGER,
+} PARTY_AUDIO_SAMPLE_TYPE;
+
+typedef enum PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_OPTIONS
+{
+    PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_OPTIONS_NONE = 0x0000,
+    PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_OPTIONS_EXCLUDE_GAME_CORE_PREFERRED_UDP_MULTIPLAYER_PORT = 0x0001,
+} PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_OPTIONS;
+
+typedef struct PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_CONFIGURATION
+{
+    PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_OPTIONS options;
+    uint16_t port;
+} PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_CONFIGURATION;
+
 typedef struct PARTY_NETWORK_DESCRIPTOR
 {
     char networkIdentifier[PARTY_NETWORK_IDENTIFIER_STRING_LENGTH + 1];
@@ -372,6 +398,12 @@ typedef struct PARTY_DATA_BUFFER
     uint32_t bufferByteCount;
 } PARTY_DATA_BUFFER;
 
+typedef struct PARTY_MUTABLE_DATA_BUFFER
+{
+    _Field_size_bytes_(bufferByteCount) void* buffer;
+    uint32_t bufferByteCount;
+} PARTY_MUTABLE_DATA_BUFFER;
+
 typedef struct PARTY_TRANSLATION
 {
     PARTY_STATE_CHANGE_RESULT result;
@@ -380,6 +412,27 @@ typedef struct PARTY_TRANSLATION
     PARTY_TRANSLATION_RECEIVED_OPTIONS options;
     PartyString translation;
 } PARTY_TRANSLATION;
+
+typedef struct PARTY_AUDIO_FORMAT
+{
+    uint32_t samplesPerSecond;
+    uint32_t channelMask;
+    uint16_t channelCount;
+    uint16_t bitsPerSample;
+    PARTY_AUDIO_SAMPLE_TYPE sampleType;
+    PartyBool interleaved;
+} PARTY_AUDIO_FORMAT;
+
+typedef struct PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_CONFIGURATION
+{
+    PARTY_AUDIO_FORMAT format;
+    uint32_t maxTotalAudioBufferSizeInMilliseconds;
+} PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_CONFIGURATION;
+
+typedef struct PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION
+{
+    PARTY_AUDIO_FORMAT format;
+} PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION;
 
 typedef struct PARTY_STATE_CHANGE
 {
@@ -887,6 +940,36 @@ typedef struct PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_
     PARTY_CHAT_CONTROL_HANDLE localChatControl;
     void* asyncIdentifier;
 } PARTY_POPULATE_AVAILABLE_TEXT_TO_SPEECH_PROFILES_COMPLETED_STATE_CHANGE;
+
+typedef struct PARTY_CONFIGURE_AUDIO_MANIPULATION_VOICE_STREAM_COMPLETED_STATE_CHANGE
+{
+    PARTY_STATE_CHANGE stateChange;
+    PARTY_STATE_CHANGE_RESULT result;
+    PartyError errorDetail;
+    PARTY_CHAT_CONTROL_HANDLE chatControl;
+    PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_CONFIGURATION* configuration;
+    void* asyncIdentifier;
+} PARTY_CONFIGURE_AUDIO_MANIPULATION_VOICE_STREAM_COMPLETED_STATE_CHANGE;
+
+typedef struct PARTY_CONFIGURE_AUDIO_MANIPULATION_CAPTURE_STREAM_COMPLETED_STATE_CHANGE
+{
+    PARTY_STATE_CHANGE stateChange;
+    PARTY_STATE_CHANGE_RESULT result;
+    PartyError errorDetail;
+    PARTY_CHAT_CONTROL_HANDLE localChatControl;
+    PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION* configuration;
+    void* asyncIdentifier;
+} PARTY_CONFIGURE_AUDIO_MANIPULATION_CAPTURE_STREAM_COMPLETED_STATE_CHANGE;
+
+typedef struct PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE
+{
+    PARTY_STATE_CHANGE stateChange;
+    PARTY_STATE_CHANGE_RESULT result;
+    PartyError errorDetail;
+    PARTY_CHAT_CONTROL_HANDLE localChatControl;
+    PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION* configuration;
+    void* asyncIdentifier;
+} PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE;
 
 // END GENERATED SECTION
 
@@ -1668,6 +1751,51 @@ PartyChatControlGetCustomContext(
 
 PartyError
 PARTY_API
+PartyChatControlConfigureAudioManipulationVoiceStream(
+    PARTY_CHAT_CONTROL_HANDLE chatControl,
+    _In_opt_ PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_CONFIGURATION* configuration,
+    _In_opt_ void* asyncIdentifier
+    );
+
+PartyError
+PARTY_API
+PartyChatControlGetAudioManipulationVoiceStream(
+    PARTY_CHAT_CONTROL_HANDLE chatControl,
+    _Outptr_ PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE* stream
+    );
+
+PartyError
+PARTY_API
+PartyChatControlConfigureAudioManipulationCaptureStream(
+    PARTY_CHAT_CONTROL_HANDLE chatControl,
+    _In_opt_ PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION* configuration,
+    _In_opt_ void* asyncIdentifier
+    );
+
+PartyError
+PARTY_API
+PartyChatControlGetAudioManipulationCaptureStream(
+    PARTY_CHAT_CONTROL_HANDLE chatControl,
+    _Outptr_ PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE* stream
+    );
+
+PartyError
+PARTY_API
+PartyChatControlConfigureAudioManipulationRenderStream(
+    PARTY_CHAT_CONTROL_HANDLE chatControl,
+    _In_opt_ PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION* configuration,
+    _In_opt_ void* asyncIdentifier
+    );
+
+PartyError
+PARTY_API
+PartyChatControlGetAudioManipulationRenderStream(
+    PARTY_CHAT_CONTROL_HANDLE chatControl,
+    _Outptr_ PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE* stream
+    );
+
+PartyError
+PARTY_API
 PartyTextToSpeechProfileGetIdentifier(
     PARTY_TEXT_TO_SPEECH_PROFILE_HANDLE profile,
     _Outptr_ PartyString* identifier
@@ -1706,6 +1834,92 @@ PARTY_API
 PartyTextToSpeechProfileSetCustomContext(
     PARTY_TEXT_TO_SPEECH_PROFILE_HANDLE profile,
     _In_opt_ void* customContext
+    );
+
+PartyError
+PARTY_API
+PartyAudioManipulationSourceStreamGetFormat(
+    PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE stream,
+    _Out_ PARTY_AUDIO_FORMAT * format
+    );
+
+PartyError
+PARTY_API
+PartyAudioManipulationSourceStreamGetAvailableBufferCount(
+    PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE stream,
+    _Out_ uint32_t* count
+    );
+
+PartyError
+PARTY_API
+PartyAudioManipulationSourceStreamGetNextBuffer(
+    PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE stream,
+    _Out_ PARTY_MUTABLE_DATA_BUFFER* buffer
+    );
+
+PartyError
+PARTY_API
+PartyAudioManipulationSourceStreamReturnBuffer(
+    PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE stream,
+    _Post_invalid_ void * buffer
+    );
+
+PartyError
+PARTY_API
+PartyAudioManipulationSourceStreamGetCustomContext(
+    PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE stream,
+    _Outptr_result_maybenull_ void** customContext
+    );
+
+PartyError
+PARTY_API
+PartyAudioManipulationSourceStreamSetCustomContext(
+    PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE stream,
+    _In_opt_ void* customContext
+    );
+
+PartyError
+PARTY_API
+PartyAudioManipulationSinkStreamGetFormat(
+    PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE stream,
+    _Out_ PARTY_AUDIO_FORMAT* format
+    );
+
+PartyError
+PARTY_API
+PartyAudioManipulationSinkStreamSubmitBuffer(
+    PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE stream,
+    const PARTY_DATA_BUFFER* buffer
+    );
+
+PartyError
+PARTY_API
+PartyAudioManipulationSinkStreamGetCustomContext(
+    PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE stream,
+    _Outptr_result_maybenull_ void** customContext
+    );
+
+PartyError
+PARTY_API
+PartyAudioManipulationSinkStreamSetCustomContext(
+    PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE stream,
+    _In_opt_ void* customContext
+    );
+
+PartyError
+PARTY_API
+PartySetOption(
+    _In_opt_ void* object,
+    PARTY_OPTION option,
+    _In_opt_ const void* value
+    );
+
+PartyError
+PARTY_API
+PartyGetOption(
+    _In_opt_ const void* object,
+    PARTY_OPTION option,
+    _Out_ void* value
     );
 
 PartyError
