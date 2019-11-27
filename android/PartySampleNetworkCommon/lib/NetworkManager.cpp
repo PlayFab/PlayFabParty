@@ -18,7 +18,8 @@ NetworkManager::NetworkManager() :
     m_populateProfilesCompleted(false),
     m_ttsProfileNeedsUpdate(false),
     m_languageCode("en-US"),
-    m_languageName("English (United States)")
+    m_languageName("English (United States)"),
+    m_renderVolume(1.f)
 {
 }
 
@@ -101,97 +102,6 @@ NetworkManager::Initialize(
             return;
         }
     }
-
-    // Only create local chat controls if they don't exist.
-    if (m_localChatControl == nullptr)
-    {
-        PartyLocalDevice* localDevice = nullptr;
-
-        // Retrieve the local device
-        err = partyManager.GetLocalDevice(&localDevice);
-
-        if (PARTY_FAILED(err))
-        {
-            DEBUGLOG("GetLocalDevice failed: %s\n", GetErrorMessage(err));
-            return;
-        }
-
-        // Create a chat control for the local user on the local device
-        err = localDevice->CreateChatControl(
-            m_localUser,                                // Local user object
-            m_languageCode,                             // Language id
-            nullptr,                                    // Async identifier
-            &m_localChatControl                         // OUT local chat control
-        );
-
-        if (PARTY_FAILED(err))
-        {
-            DEBUGLOG("CreateChatControl failed: %s\n", GetErrorMessage(err));
-            return;
-        }
-
-        // Use system default settings for the audio input device
-        err = m_localChatControl->SetAudioInput(
-            PartyAudioDeviceSelectionType::SystemDefault,   // Selection type
-            nullptr,                                        // Device id
-            nullptr                                         // Async identifier
-        );
-
-        if (PARTY_FAILED(err))
-        {
-            DEBUGLOG("SetAudioInput failed: %s\n", GetErrorMessage(err));
-            return;
-        }
-
-        // Use system default settings for the audio output device
-        err = m_localChatControl->SetAudioOutput(
-            PartyAudioDeviceSelectionType::SystemDefault,   // Selection type
-            nullptr,                                        // Device id
-            nullptr                                         // Async identifier
-        );
-
-        if (PARTY_FAILED(err))
-        {
-            DEBUGLOG("SetAudioOutput failed: %s\n", GetErrorMessage(err));
-        }
-
-        // Get the available list of text to speech profiles
-        err = m_localChatControl->PopulateAvailableTextToSpeechProfiles(nullptr);
-
-        if (PARTY_FAILED(err))
-        {
-            DEBUGLOG("Populating available TextToSpeechProfiles failed: %s \n", GetErrorMessage(err));
-        }
-
-        // Set transcription options for transcribing other users regardless of language, and ourselves.
-        PartyVoiceChatTranscriptionOptions transcriptionOptions =
-            PartyVoiceChatTranscriptionOptions::TranscribeOtherChatControlsWithMatchingLanguages |
-            PartyVoiceChatTranscriptionOptions::TranscribeOtherChatControlsWithNonMatchingLanguages |
-            PartyVoiceChatTranscriptionOptions::TranslateToLocalLanguage |
-            PartyVoiceChatTranscriptionOptions::TranscribeSelf;
-
-        // Set the transcription options on our chat control.
-        err = m_localChatControl->SetTranscriptionOptions(
-            transcriptionOptions,                       // Transcription options
-            nullptr                                     // Async identifier
-        );
-
-        if (PARTY_FAILED(err))
-        {
-            DEBUGLOG("SetTranscriptionOptions failed: %s\n", GetErrorMessage(err));
-        }
-
-        // Enable translation to local language in chat controls.
-        err = m_localChatControl->SetTextChatOptions(
-            PartyTextChatOptions::TranslateToLocalLanguage,
-            nullptr
-        );
-
-        if (PARTY_FAILED(err))
-        {
-            DEBUGLOG("SetTextChatOptions failed: %s\n", GetErrorMessage(err));
-        }
-    }
 }
 
 void 
@@ -214,6 +124,37 @@ NetworkManager::Shutdown()
     m_isTextToSpeechProfileSet = false;
     m_populateProfilesCompleted = false;
     m_ttsProfileNeedsUpdate = false;
+}
+
+// Note: This PlayFabParty sample integration sets all chatControl objects to the same volume
+// attenuation.  As such, it also caches the volume setting so that newly created chatControls
+// (ie when a new user joins the chat room) can have their volume set to match. Note that it is
+// also possible to set volume on a per chatControl (that is, per user) basis provided that you have
+// the UI implemented to do so.
+void
+NetworkManager::SetPlayerVolume(
+    float volumeZeroToOne
+    )
+{
+    if (m_renderVolume == volumeZeroToOne) {
+        return;
+    }
+
+    std::unique_lock<std::mutex> lock(m_networkLock);
+    m_renderVolume = volumeZeroToOne;
+    for (auto cc : m_chatControls)
+    {
+        if(cc.second == m_localChatControl)
+        {
+            continue;
+        }
+
+        PartyError err = m_localChatControl->SetAudioRenderVolume(cc.second, volumeZeroToOne);
+        if (PARTY_FAILED(err))
+        {
+            DEBUGLOG("SetAudioRenderVolume failed for chat control 0x%p: %s\n", cc.second, GetErrorMessage(err));
+        }
+    }
 }
 
 void 
@@ -316,17 +257,129 @@ NetworkManager::ConnectToNetwork(
     }
 }
 
-bool 
+PartyError
+NetworkManager::CreateChatControlIfNecessary()
+{
+    auto& partyManager = PartyManager::GetSingleton();
+
+    // Only create local chat controls if they don't exist.
+    if (m_localChatControl == nullptr)
+    {
+        PartyLocalDevice* localDevice = nullptr;
+
+        // Retrieve the local device
+        PartyError err = partyManager.GetLocalDevice(&localDevice);
+
+        if (PARTY_FAILED(err))
+        {
+            DEBUGLOG("GetLocalDevice failed: %s\n", GetErrorMessage(err));
+            return err;
+        }
+
+        // Create a chat control for the local user on the local device
+        err = localDevice->CreateChatControl(
+                m_localUser,                                // Local user object
+                m_languageCode,                             // Language id
+                nullptr,                                    // Async identifier
+                &m_localChatControl                         // OUT local chat control
+        );
+
+        if (PARTY_FAILED(err))
+        {
+            DEBUGLOG("CreateChatControl failed: %s\n", GetErrorMessage(err));
+            return err;
+        }
+
+        // Use system default settings for the audio input device
+        err = m_localChatControl->SetAudioInput(
+                PartyAudioDeviceSelectionType::SystemDefault,   // Selection type
+                nullptr,                                        // Device id
+                nullptr                                         // Async identifier
+        );
+
+        if (PARTY_FAILED(err))
+        {
+            DEBUGLOG("SetAudioInput failed: %s\n", GetErrorMessage(err));
+            return err;
+        }
+
+        // Use system default settings for the audio output device
+        err = m_localChatControl->SetAudioOutput(
+                PartyAudioDeviceSelectionType::SystemDefault,   // Selection type
+                nullptr,                                        // Device id
+                nullptr                                         // Async identifier
+        );
+
+        if (PARTY_FAILED(err))
+        {
+            DEBUGLOG("SetAudioOutput failed: %s\n", GetErrorMessage(err));
+            return err;
+        }
+
+        // Get the available list of text to speech profiles
+        err = m_localChatControl->PopulateAvailableTextToSpeechProfiles(nullptr);
+
+        if (PARTY_FAILED(err))
+        {
+            DEBUGLOG("Populating available TextToSpeechProfiles failed: %s \n", GetErrorMessage(err));
+            return err;
+        }
+
+        // Set transcription options for transcribing other users regardless of language, and ourselves.
+        PartyVoiceChatTranscriptionOptions transcriptionOptions =
+                PartyVoiceChatTranscriptionOptions::TranscribeOtherChatControlsWithMatchingLanguages |
+                PartyVoiceChatTranscriptionOptions::TranscribeOtherChatControlsWithNonMatchingLanguages |
+                PartyVoiceChatTranscriptionOptions::TranslateToLocalLanguage |
+                PartyVoiceChatTranscriptionOptions::TranscribeSelf;
+
+        // Set the transcription options on our chat control.
+        err = m_localChatControl->SetTranscriptionOptions(
+                transcriptionOptions,                       // Transcription options
+                nullptr                                     // Async identifier
+        );
+
+        if (PARTY_FAILED(err))
+        {
+            DEBUGLOG("SetTranscriptionOptions failed: %s\n", GetErrorMessage(err));
+            return err;
+        }
+
+        // Enable translation to local language in chat controls.
+        err = m_localChatControl->SetTextChatOptions(
+                PartyTextChatOptions::TranslateToLocalLanguage,
+                nullptr
+        );
+
+        if (PARTY_FAILED(err))
+        {
+            DEBUGLOG("SetTextChatOptions failed: %s\n", GetErrorMessage(err));
+            return err;
+        }
+    }
+
+    return c_partyErrorSuccess;
+}
+
+bool
 NetworkManager::InternalConnectToNetwork(
     const Party::PartyNetworkDescriptor& descriptor, 
     const char *networkId,
     std::function<void(PartyError)> errorCallback
     )
 {
+    // Before trying to connect to a chat network, we may need to
+    // create the chat controls in case they haven't already been set up
+    PartyError err = CreateChatControlIfNecessary();
+    if (PARTY_FAILED(err))
+    {
+        DEBUGLOG("ConnectToNetwork failed when trying to create chat controls!");
+        errorCallback(err);
+        return false;
+    }
+
     // This portion of connecting to the network is the same for
     // both creating a new and joining an existing network.
-
-    PartyError err = PartyManager::GetSingleton().ConnectToNetwork(
+    err = PartyManager::GetSingleton().ConnectToNetwork(
         &descriptor,                                // Network descriptor
         nullptr,                                    // Async identifier
         &m_network                                  // OUT network
@@ -555,6 +608,30 @@ NetworkManager::IsConnecting() const
 {
     return m_state == NetworkManagerState::WaitingForConnect ||
             m_state == NetworkManagerState::WaitingForNetwork;
+}
+
+void
+NetworkManager::ConnectAudioInput()
+{
+    assert(m_localChatControl != nullptr);
+
+    m_localChatControl->SetAudioInput(
+            PartyAudioDeviceSelectionType::SystemDefault,
+            nullptr,
+            nullptr
+            );
+}
+
+void
+NetworkManager::DisconnectAudioInput()
+{
+    assert(m_localChatControl != nullptr);
+
+    m_localChatControl->SetAudioInput(
+            PartyAudioDeviceSelectionType::None,
+            nullptr,
+            nullptr
+            );
 }
 
 // Convertss a State Change Result to a user friendly string message.
@@ -1078,6 +1155,12 @@ NetworkManager::DoWork()
                     if (PARTY_FAILED(err))
                     {
                         DEBUGLOG("Failed to SetPermissions on ChatControl: %s\n", GetErrorMessage(err));
+                    }
+
+                     err = m_localChatControl->SetAudioRenderVolume(result->chatControl, m_renderVolume);
+                    if (PARTY_FAILED(err))
+                    {
+                        DEBUGLOG("Failed to SetAudioRenderVolume on incoming remote ChatControl: %s\n", GetErrorMessage(err));
                     }
                 }
             }

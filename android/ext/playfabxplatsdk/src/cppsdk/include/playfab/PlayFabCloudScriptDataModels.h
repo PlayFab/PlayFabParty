@@ -10,7 +10,7 @@ namespace PlayFabInternal
     namespace CloudScriptModels
     {
         // CloudScript Enums
-        enum CloudScriptRevisionOption
+        enum class CloudScriptRevisionOption
         {
             CloudScriptRevisionOptionLive,
             CloudScriptRevisionOptionLatest,
@@ -19,17 +19,17 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const CloudScriptRevisionOption input, Json::Value& output)
         {
-            if (input == CloudScriptRevisionOptionLive) output = Json::Value("Live");
-            if (input == CloudScriptRevisionOptionLatest) output = Json::Value("Latest");
-            if (input == CloudScriptRevisionOptionSpecific) output = Json::Value("Specific");
+            if (input == CloudScriptRevisionOption::CloudScriptRevisionOptionLive) output = Json::Value("Live");
+            if (input == CloudScriptRevisionOption::CloudScriptRevisionOptionLatest) output = Json::Value("Latest");
+            if (input == CloudScriptRevisionOption::CloudScriptRevisionOptionSpecific) output = Json::Value("Specific");
         }
         inline void FromJsonEnum(const Json::Value& input, CloudScriptRevisionOption& output)
         {
             if (!input.isString()) return;
             const std::string& inputStr = input.asString();
-            if (inputStr == "Live") output = CloudScriptRevisionOptionLive;
-            if (inputStr == "Latest") output = CloudScriptRevisionOptionLatest;
-            if (inputStr == "Specific") output = CloudScriptRevisionOptionSpecific;
+            if (inputStr == "Live") output = CloudScriptRevisionOption::CloudScriptRevisionOptionLive;
+            if (inputStr == "Latest") output = CloudScriptRevisionOption::CloudScriptRevisionOptionLatest;
+            if (inputStr == "Specific") output = CloudScriptRevisionOption::CloudScriptRevisionOptionSpecific;
         }
 
         // CloudScript Classes
@@ -46,7 +46,7 @@ namespace PlayFabInternal
 
             ~EmptyResult() = default;
 
-            void FromJson(Json::Value&) override
+            void FromJson(const Json::Value&) override
             {
             }
 
@@ -76,7 +76,7 @@ namespace PlayFabInternal
 
             ~EntityKey() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Id"], Id);
                 FromJsonUtilS(input["Type"], Type);
@@ -113,7 +113,7 @@ namespace PlayFabInternal
 
             ~ScriptExecutionError() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Error"], Error);
                 FromJsonUtilS(input["Message"], Message);
@@ -152,7 +152,7 @@ namespace PlayFabInternal
 
             ~LogStatement() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 Data = input["Data"];
                 FromJsonUtilS(input["Level"], Level);
@@ -218,7 +218,7 @@ namespace PlayFabInternal
 
             ~ExecuteCloudScriptResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["APIRequestsIssued"], APIRequestsIssued);
                 FromJsonUtilO(input["Error"], Error);
@@ -284,7 +284,7 @@ namespace PlayFabInternal
 
             ~ExecuteEntityCloudScriptRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["FunctionName"], FunctionName);
@@ -332,7 +332,7 @@ namespace PlayFabInternal
 
             ~ExecuteFunctionRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["FunctionName"], FunctionName);
@@ -351,8 +351,48 @@ namespace PlayFabInternal
             }
         };
 
+        struct FunctionExecutionError : public PlayFabBaseModel
+        {
+            std::string Error;
+            std::string Message;
+            std::string StackTrace;
+
+            FunctionExecutionError() :
+                PlayFabBaseModel(),
+                Error(),
+                Message(),
+                StackTrace()
+            {}
+
+            FunctionExecutionError(const FunctionExecutionError& src) :
+                PlayFabBaseModel(),
+                Error(src.Error),
+                Message(src.Message),
+                StackTrace(src.StackTrace)
+            {}
+
+            ~FunctionExecutionError() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["Error"], Error);
+                FromJsonUtilS(input["Message"], Message);
+                FromJsonUtilS(input["StackTrace"], StackTrace);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_Error; ToJsonUtilS(Error, each_Error); output["Error"] = each_Error;
+                Json::Value each_Message; ToJsonUtilS(Message, each_Message); output["Message"] = each_Message;
+                Json::Value each_StackTrace; ToJsonUtilS(StackTrace, each_StackTrace); output["StackTrace"] = each_StackTrace;
+                return output;
+            }
+        };
+
         struct ExecuteFunctionResult : public PlayFabResultCommon
         {
+            Boxed<FunctionExecutionError> Error;
             Int32 ExecutionTimeMilliseconds;
             std::string FunctionName;
             Json::Value FunctionResult;
@@ -360,6 +400,7 @@ namespace PlayFabInternal
 
             ExecuteFunctionResult() :
                 PlayFabResultCommon(),
+                Error(),
                 ExecutionTimeMilliseconds(),
                 FunctionName(),
                 FunctionResult(),
@@ -368,6 +409,7 @@ namespace PlayFabInternal
 
             ExecuteFunctionResult(const ExecuteFunctionResult& src) :
                 PlayFabResultCommon(),
+                Error(src.Error),
                 ExecutionTimeMilliseconds(src.ExecutionTimeMilliseconds),
                 FunctionName(src.FunctionName),
                 FunctionResult(src.FunctionResult),
@@ -376,8 +418,9 @@ namespace PlayFabInternal
 
             ~ExecuteFunctionResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilO(input["Error"], Error);
                 FromJsonUtilP(input["ExecutionTimeMilliseconds"], ExecutionTimeMilliseconds);
                 FromJsonUtilS(input["FunctionName"], FunctionName);
                 FunctionResult = input["FunctionResult"];
@@ -387,6 +430,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_Error; ToJsonUtilO(Error, each_Error); output["Error"] = each_Error;
                 Json::Value each_ExecutionTimeMilliseconds; ToJsonUtilP(ExecutionTimeMilliseconds, each_ExecutionTimeMilliseconds); output["ExecutionTimeMilliseconds"] = each_ExecutionTimeMilliseconds;
                 Json::Value each_FunctionName; ToJsonUtilS(FunctionName, each_FunctionName); output["FunctionName"] = each_FunctionName;
                 output["FunctionResult"] = FunctionResult;
@@ -414,7 +458,7 @@ namespace PlayFabInternal
 
             ~FunctionModel() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["FunctionName"], FunctionName);
                 FromJsonUtilS(input["FunctionUrl"], FunctionUrl);
@@ -445,7 +489,7 @@ namespace PlayFabInternal
 
             ~ListFunctionsRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
             }
@@ -474,7 +518,7 @@ namespace PlayFabInternal
 
             ~ListFunctionsResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Functions"], Functions);
             }
@@ -509,7 +553,7 @@ namespace PlayFabInternal
 
             ~RegisterHttpFunctionRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["FunctionName"], FunctionName);
@@ -545,7 +589,7 @@ namespace PlayFabInternal
 
             ~UnregisterFunctionRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["FunctionName"], FunctionName);
