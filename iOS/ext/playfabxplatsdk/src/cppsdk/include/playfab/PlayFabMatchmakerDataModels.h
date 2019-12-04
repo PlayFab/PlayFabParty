@@ -10,7 +10,7 @@ namespace PlayFabInternal
     namespace MatchmakerModels
     {
         // Matchmaker Enums
-        enum Region
+        enum class Region
         {
             RegionUSCentral,
             RegionUSEast,
@@ -23,25 +23,25 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const Region input, Json::Value& output)
         {
-            if (input == RegionUSCentral) output = Json::Value("USCentral");
-            if (input == RegionUSEast) output = Json::Value("USEast");
-            if (input == RegionEUWest) output = Json::Value("EUWest");
-            if (input == RegionSingapore) output = Json::Value("Singapore");
-            if (input == RegionJapan) output = Json::Value("Japan");
-            if (input == RegionBrazil) output = Json::Value("Brazil");
-            if (input == RegionAustralia) output = Json::Value("Australia");
+            if (input == Region::RegionUSCentral) output = Json::Value("USCentral");
+            if (input == Region::RegionUSEast) output = Json::Value("USEast");
+            if (input == Region::RegionEUWest) output = Json::Value("EUWest");
+            if (input == Region::RegionSingapore) output = Json::Value("Singapore");
+            if (input == Region::RegionJapan) output = Json::Value("Japan");
+            if (input == Region::RegionBrazil) output = Json::Value("Brazil");
+            if (input == Region::RegionAustralia) output = Json::Value("Australia");
         }
         inline void FromJsonEnum(const Json::Value& input, Region& output)
         {
             if (!input.isString()) return;
             const std::string& inputStr = input.asString();
-            if (inputStr == "USCentral") output = RegionUSCentral;
-            if (inputStr == "USEast") output = RegionUSEast;
-            if (inputStr == "EUWest") output = RegionEUWest;
-            if (inputStr == "Singapore") output = RegionSingapore;
-            if (inputStr == "Japan") output = RegionJapan;
-            if (inputStr == "Brazil") output = RegionBrazil;
-            if (inputStr == "Australia") output = RegionAustralia;
+            if (inputStr == "USCentral") output = Region::RegionUSCentral;
+            if (inputStr == "USEast") output = Region::RegionUSEast;
+            if (inputStr == "EUWest") output = Region::RegionEUWest;
+            if (inputStr == "Singapore") output = Region::RegionSingapore;
+            if (inputStr == "Japan") output = Region::RegionJapan;
+            if (inputStr == "Brazil") output = Region::RegionBrazil;
+            if (inputStr == "Australia") output = Region::RegionAustralia;
         }
 
         // Matchmaker Classes
@@ -61,7 +61,7 @@ namespace PlayFabInternal
 
             ~AuthUserRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["AuthorizationTicket"], AuthorizationTicket);
             }
@@ -93,7 +93,7 @@ namespace PlayFabInternal
 
             ~AuthUserResponse() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["Authorized"], Authorized);
                 FromJsonUtilS(input["PlayFabId"], PlayFabId);
@@ -166,7 +166,7 @@ namespace PlayFabInternal
 
             ~ItemInstance() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Annotation"], Annotation);
                 FromJsonUtilS(input["BundleContents"], BundleContents);
@@ -226,7 +226,7 @@ namespace PlayFabInternal
 
             ~PlayerJoinedRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["LobbyId"], LobbyId);
                 FromJsonUtilS(input["PlayFabId"], PlayFabId);
@@ -254,7 +254,7 @@ namespace PlayFabInternal
 
             ~PlayerJoinedResponse() = default;
 
-            void FromJson(Json::Value&) override
+            void FromJson(const Json::Value&) override
             {
             }
 
@@ -284,7 +284,7 @@ namespace PlayFabInternal
 
             ~PlayerLeftRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["LobbyId"], LobbyId);
                 FromJsonUtilS(input["PlayFabId"], PlayFabId);
@@ -312,7 +312,7 @@ namespace PlayFabInternal
 
             ~PlayerLeftResponse() = default;
 
-            void FromJson(Json::Value&) override
+            void FromJson(const Json::Value&) override
             {
             }
 
@@ -351,13 +351,13 @@ namespace PlayFabInternal
 
             ~StartGameRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Build"], Build);
                 FromJsonUtilS(input["CustomCommandLineData"], CustomCommandLineData);
                 FromJsonUtilS(input["ExternalMatchmakerEventEndpoint"], ExternalMatchmakerEventEndpoint);
                 FromJsonUtilS(input["GameMode"], GameMode);
-                FromJsonEnum(input["pfRegion"], pfRegion);
+                FromJsonEnum(input["Region"], pfRegion);
             }
 
             Json::Value ToJson() const override
@@ -400,7 +400,7 @@ namespace PlayFabInternal
 
             ~StartGameResponse() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["GameID"], GameID);
                 FromJsonUtilS(input["ServerIPV4Address"], ServerIPV4Address);
@@ -440,7 +440,7 @@ namespace PlayFabInternal
 
             ~UserInfoRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["MinCatalogVersion"], MinCatalogVersion);
                 FromJsonUtilS(input["PlayFabId"], PlayFabId);
@@ -477,7 +477,7 @@ namespace PlayFabInternal
 
             ~VirtualCurrencyRechargeTime() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["RechargeMax"], RechargeMax);
                 FromJsonUtilT(input["RechargeTime"], RechargeTime);
@@ -531,7 +531,7 @@ namespace PlayFabInternal
 
             ~UserInfoResponse() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Inventory"], Inventory);
                 FromJsonUtilP(input["IsDeveloper"], IsDeveloper);

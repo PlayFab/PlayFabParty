@@ -16,6 +16,7 @@ bool g_isSpinDone = false;
 bool g_isRunning = false;
 bool g_shouldShutdown = false;
 bool g_reconnecting = false;
+bool g_connected = false;
 constexpr uint32_t c_maxReconnectAttempts = 10;
 uint32_t g_reconnectsRemaining = 0;
 bool g_initializeCompleted = false;
@@ -145,6 +146,7 @@ OnNetworkConnected(
     std::string network
     )
 {
+    g_connected = true;
     RunJavaMethod(
         "onNetworkCreated",
         "(Ljava/lang/String;)V",
@@ -266,12 +268,13 @@ OnPlayerStateChange(
         });
 }
 
+template <typename TSignInCallback>
 void
-InitializePartyNetwork()
+SignInToPlayFab(TSignInCallback onComplete)
 {
     Managers::Get<PlayFabManager>()->Initialize(g_playfabTitleId.c_str());
     Managers::Get<PlayFabManager>()->SignIn(
-        [](
+        [onComplete](
             bool isSuccess,
             std::string message
             )
@@ -279,17 +282,25 @@ InitializePartyNetwork()
 
             if (isSuccess)
             {
-                SendSysLogToUI("Sign: OK");
+                SendSysLogToUI("PlayFab SignIn: OK");
                 std::map<const std::string, const std::string>* map = Managers::Get<NetworkStateChangeManager>()->GetUserMap();
                 map->emplace(Managers::Get<PlayFabManager>()->EntityId(), Managers::Get<PlayFabManager>()->displayName());
                 g_initializeCompleted = true;
+                onComplete(true);
             }
             else
             {
                 SendSysLogToUI("SignIn Failed! error=\"%s\"", message.c_str());
+                onComplete(false);
             }
         },
         g_customId);
+}
+
+void
+InitializePlayFabParty()
+{
+    Managers::Get<NetworkManager>()->Initialize(g_playfabTitleId.c_str());
 }
 
 void
@@ -403,6 +414,7 @@ OnDisconnect(
         bool disconnectWasExpected
         )
 {
+    g_connected = false;
     if(!disconnectWasExpected)
     {
         if(!g_reconnecting && g_reconnectsRemaining == 0)
@@ -420,6 +432,27 @@ OnDisconnect(
 
 extern "C"
 {
+
+    JNIEXPORT void JNICALL
+    Java_com_microsoft_playfab_partysample_demo_PartySampleFocusService_disconnectAudioInput(
+        JNIEnv *env,
+        jobject thiz
+        )
+    {
+        SendSysLogToUI("Lost Focus! Disconnecting Audio Input/Output Devices");
+        Managers::Get<NetworkManager>()->DisconnectAudioInput();
+    }
+
+    JNIEXPORT void JNICALL
+    Java_com_microsoft_playfab_partysample_demo_PartySampleFocusService_connectAudioInput(
+        JNIEnv *env,
+        jobject thiz
+        )
+    {
+        SendSysLogToUI("Gained Focus! Restoring Audio Input/Output Devices (if any)");
+        Managers::Get<NetworkManager>()->ConnectAudioInput();
+    }
+
     JNIEXPORT void JNICALL
     Java_com_microsoft_playfab_partysample_sdk_NetworkManager_setLanguage(
             JNIEnv* env,
@@ -452,9 +485,29 @@ extern "C"
         g_isRunning = true;
         Managers::Initialize<NetworkStateChangeManager>();
         Managers::Get<NetworkManager>()->SetOnNetworkDestroyed(OnDisconnect);
-        InitializePartyNetwork();
+        SignInToPlayFab([](bool success)
+        {
+            if (success)
+            {
+                InitializePlayFabParty();
+            }
+            else
+            {
+                SendSysLogToUI("Failed PlayFab Sign-In!");
+            }
+        });
 
         return true;
+    }
+
+    JNIEXPORT void JNICALL
+    Java_com_microsoft_playfab_partysample_sdk_NetworkManager_setPlayerVolume(
+        JNIEnv* env,
+        jobject thiz,
+        jfloat volumeZeroToOne
+        )
+    {
+        Managers::Get<NetworkManager>()->SetPlayerVolume(volumeZeroToOne);
     }
 
     JNIEXPORT jboolean JNICALL
@@ -467,7 +520,7 @@ extern "C"
     {
         if (g_isRunning && g_initializeCompleted)
         {
-            Managers::Get<NetworkManager>()->Initialize(g_playfabTitleId.c_str());
+
             const char* networkNameCStr = env->GetStringUTFChars(type, NULL);
             g_networkName = networkNameCStr;
             env->ReleaseStringUTFChars(type, networkNameCStr);
@@ -484,6 +537,8 @@ extern "C"
                             SendSysLogToUI("set network descriptor succeeded");
                             ReleaseSpin();
                         });
+
+                        OnNetworkConnected(g_networkName);
                     },
                     [](PartyError error)
                     {
@@ -501,6 +556,15 @@ extern "C"
             SendSysLogToUI("Please waiting for initialization done.");
             return false;
         }
+    }
+
+    JNIEXPORT jboolean JNICALL
+    Java_com_microsoft_playfab_partysample_sdk_NetworkManager_connectedToNetwork(
+        JNIEnv* env,
+        jobject thiz
+        )
+    {
+        return g_connected;
     }
 
     bool joinNetwork(bool rejoining)
@@ -617,6 +681,7 @@ extern "C"
         {
             g_shouldShutdown = false;
             Managers::Get<NetworkManager>()->Shutdown();
+            Managers::Get<NetworkManager>()->Initialize(g_playfabTitleId.c_str());
             ReleaseSpin();
         }
         else if(Managers::Get<NetworkManager>()->IsConnecting() == false)

@@ -63,14 +63,17 @@ public:
     
     void
     SendTextMessage(
-        std::string
-        text
+        std::string text
         );
     
     void
     SetLanguageCode(
-        int
-        languageIndex
+        int languageIndex
+        );
+    
+    void
+    SetVolume(
+        float volume
         );
     
     const char**

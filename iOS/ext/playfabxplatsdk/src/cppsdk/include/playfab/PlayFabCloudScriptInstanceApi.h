@@ -8,7 +8,6 @@
 #include <playfab/PlayFabCloudScriptDataModels.h>
 #include <memory>
 
-#ifndef PLAYFAB_PLATFORM_PLAYSTATION // Issue 32699
 namespace PlayFabInternal
 {
     /// <summary>
@@ -39,23 +38,22 @@ namespace PlayFabInternal
         void ForgetAllCredentials();
 
         // ------------ Generated API calls
-        void ExecuteEntityCloudScript(CloudScriptModels::ExecuteEntityCloudScriptRequest& request, ProcessApiCallback<CloudScriptModels::ExecuteCloudScriptResult> callback, ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        void ExecuteFunction(CloudScriptModels::ExecuteFunctionRequest& request, ProcessApiCallback<CloudScriptModels::ExecuteFunctionResult> callback, ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        void ListFunctions(CloudScriptModels::ListFunctionsRequest& request, ProcessApiCallback<CloudScriptModels::ListFunctionsResult> callback, ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        void RegisterHttpFunction(CloudScriptModels::RegisterHttpFunctionRequest& request, ProcessApiCallback<CloudScriptModels::EmptyResult> callback, ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        void UnregisterFunction(CloudScriptModels::UnregisterFunctionRequest& request, ProcessApiCallback<CloudScriptModels::EmptyResult> callback, ErrorCallback errorCallback = nullptr, void* customData = nullptr);
+        void ExecuteEntityCloudScript(CloudScriptModels::ExecuteEntityCloudScriptRequest& request, const ProcessApiCallback<CloudScriptModels::ExecuteCloudScriptResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
+        void ExecuteFunction(CloudScriptModels::ExecuteFunctionRequest& request, const ProcessApiCallback<CloudScriptModels::ExecuteFunctionResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
+        void ListFunctions(CloudScriptModels::ListFunctionsRequest& request, const ProcessApiCallback<CloudScriptModels::ListFunctionsResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
+        void RegisterHttpFunction(CloudScriptModels::RegisterHttpFunctionRequest& request, const ProcessApiCallback<CloudScriptModels::EmptyResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
+        void UnregisterFunction(CloudScriptModels::UnregisterFunctionRequest& request, const ProcessApiCallback<CloudScriptModels::EmptyResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
 
         // ------------ Generated result handlers
-        void OnExecuteEntityCloudScriptResult(int httpCode, std::string result, std::shared_ptr<CallRequestContainerBase> reqContainer);
-        void OnExecuteFunctionResult(int httpCode, std::string result, std::shared_ptr<CallRequestContainerBase> reqContainer);
-        void OnListFunctionsResult(int httpCode, std::string result, std::shared_ptr<CallRequestContainerBase> reqContainer);
-        void OnRegisterHttpFunctionResult(int httpCode, std::string result, std::shared_ptr<CallRequestContainerBase> reqContainer);
-        void OnUnregisterFunctionResult(int httpCode, std::string result, std::shared_ptr<CallRequestContainerBase> reqContainer);
-        bool ValidateResult(PlayFabResultCommon& resultCommon, CallRequestContainer& container);
+        void OnExecuteEntityCloudScriptResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
+        void OnExecuteFunctionResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
+        void OnListFunctionsResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
+        void OnRegisterHttpFunctionResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
+        void OnUnregisterFunctionResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
+        bool ValidateResult(PlayFabResultCommon& resultCommon, const CallRequestContainer& container);
     private:
         std::shared_ptr<PlayFabAuthenticationContext> GetOrCreateAuthenticationContext();
     };
 }
 
-#endif
 #endif

@@ -47,11 +47,10 @@ namespace PlayFabInternal
     {
     public:
         PlayFabEvent();
-        void SetNamespace(const std::string& eventName); // Sets the event namespace
         void SetName(const std::string& eventName); // Sets the event name
         const std::string& GetName() const; // Gets the event name
-        const std::string& GetNamespace() const; // Gets the event namespace
-        void SetEntity(const PlayFabInternal::EventsModels::EntityKey& entity); // Sets which Entity the event is about
+        void SetNamespace(const std::string& eventNamespace); // Sets the event namespace
+        void SetEntity(const EventsModels::EntityKey& entity); // Set EntityToken
         void SetProperty(const std::string& name, const std::string& value); // Sets a value of a string property by name
         void SetProperty(const std::string& name, const bool value); // Sets a value of a bool property by name
         void SetProperty(const std::string& name, const int8_t value); // Sets a value of a int8_t property by name
@@ -102,6 +101,7 @@ namespace PlayFabInternal
     public:
         std::shared_ptr<const PlayFabEvent> event; // a pointer to the user's event object itself
         PlayFabEmitEventCallback callback; // user's callback function to return the final result of emit event operation after event is completely sent out or any error occurred
+        std::function<void(std::shared_ptr<const IPlayFabEvent>, std::shared_ptr<const IPlayFabEmitEventResponse>)> stdCallback; // same as EventCallback but can be used with member variables if needed.
     };
 
     /// <summary>

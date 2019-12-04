@@ -5,7 +5,7 @@
 
 namespace PlayFabInternal
 {
-    enum PlayFabErrorCode
+    enum  class PlayFabErrorCode
     {
         PlayFabErrorHostnameNotFound = 1,
         PlayFabErrorConnectionTimeout,
@@ -454,6 +454,8 @@ namespace PlayFabInternal
         PlayFabErrorEconomyServiceInternalError = 1451,
         PlayFabErrorQueryRateLimitExceeded = 1452,
         PlayFabErrorEntityAPIKeyCreationDisabledForEntity = 1453,
+        PlayFabErrorForbiddenByEntityPolicy = 1454,
+        PlayFabErrorUpdateInventoryRateLimitExceeded = 1455,
         PlayFabErrorStudioCreationRateLimited = 1456,
         PlayFabErrorStudioCreationInProgress = 1457,
         PlayFabErrorDuplicateStudioName = 1458,
@@ -472,6 +474,23 @@ namespace PlayFabInternal
         PlayFabErrorCloudScriptAzureFunctionsArgumentSizeExceeded = 1471,
         PlayFabErrorCloudScriptAzureFunctionsReturnSizeExceeded = 1472,
         PlayFabErrorCloudScriptAzureFunctionsHTTPRequestError = 1473,
+        PlayFabErrorVirtualCurrencyBetaGetError = 1474,
+        PlayFabErrorVirtualCurrencyBetaCreateError = 1475,
+        PlayFabErrorVirtualCurrencyBetaInitialDepositSaveError = 1476,
+        PlayFabErrorVirtualCurrencyBetaSaveError = 1477,
+        PlayFabErrorVirtualCurrencyBetaDeleteError = 1478,
+        PlayFabErrorVirtualCurrencyBetaRestoreError = 1479,
+        PlayFabErrorVirtualCurrencyBetaSaveConflict = 1480,
+        PlayFabErrorVirtualCurrencyBetaUpdateError = 1481,
+        PlayFabErrorInsightsManagementDatabaseNotFound = 1482,
+        PlayFabErrorInsightsManagementOperationNotFound = 1483,
+        PlayFabErrorInsightsManagementErrorPendingOperationExists = 1484,
+        PlayFabErrorInsightsManagementSetPerformanceLevelInvalidParameter = 1485,
+        PlayFabErrorInsightsManagementSetStorageRetentionInvalidParameter = 1486,
+        PlayFabErrorInsightsManagementGetStorageUsageInvalidParameter = 1487,
+        PlayFabErrorInsightsManagementGetOperationStatusInvalidParameter = 1488,
+        PlayFabErrorDuplicatePurchaseTransactionId = 1489,
+        PlayFabErrorEvaluationModePlayerCountExceeded = 1490,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,
@@ -508,18 +527,17 @@ namespace PlayFabInternal
         PlayFabErrorCatalogConfigInvalid = 4010,
         PlayFabErrorCatalogUnauthorized = 4011,
         PlayFabErrorCatalogItemTypeInvalid = 4012,
+        PlayFabErrorCatalogBadRequest = 4013,
+        PlayFabErrorCatalogTooManyRequests = 4014,
         PlayFabErrorExportInvalidStatusUpdate = 5000,
         PlayFabErrorExportInvalidPrefix = 5001,
         PlayFabErrorExportBlobContainerDoesNotExist = 5002,
-        PlayFabErrorExportEventNameNotFound = 5003,
-        PlayFabErrorExportExportTitleIdNotFound = 5004,
+        PlayFabErrorExportNotFound = 5004,
         PlayFabErrorExportCouldNotUpdate = 5005,
         PlayFabErrorExportInvalidStorageType = 5006,
         PlayFabErrorExportAmazonBucketDoesNotExist = 5007,
         PlayFabErrorExportInvalidBlobStorage = 5008,
         PlayFabErrorExportKustoException = 5009,
-        PlayFabErrorExportKustoExceptionPartialErrorOnNewExport = 5010,
-        PlayFabErrorExportKustoExceptionEdit = 5011,
         PlayFabErrorExportKustoConnectionFailed = 5012,
         PlayFabErrorExportUnknownError = 5013,
         PlayFabErrorExportCantEditPendingExport = 5014,
@@ -527,6 +545,19 @@ namespace PlayFabInternal
         PlayFabErrorExportLimitEvents = 5016,
         PlayFabErrorTitleNotEnabledForParty = 6000,
         PlayFabErrorPartyVersionNotFound = 6001,
+        PlayFabErrorMultiplayerServerBuildReferencedByMatchmakingQueue = 6002,
+        PlayFabErrorExperimentationExperimentStopped = 7000,
+        PlayFabErrorExperimentationExperimentRunning = 7001,
+        PlayFabErrorExperimentationExperimentNotFound = 7002,
+        PlayFabErrorExperimentationExperimentNeverStarted = 7003,
+        PlayFabErrorExperimentationExperimentDeleted = 7004,
+        PlayFabErrorExperimentationClientTimeout = 7005,
+        PlayFabErrorExperimentationExceededVariantNameLength = 7006,
+        PlayFabErrorExperimentationExceededMaxVariantLength = 7007,
+        PlayFabErrorExperimentInvalidId = 7008,
+        PlayFabErrorExperimentationNoScorecard = 7009,
+        PlayFabErrorMaxActionDepthExceeded = 8000,
+        PlayFabErrorSnapshotNotFound = 11000,
     };
 
     /// <summary>
@@ -547,7 +578,7 @@ namespace PlayFabInternal
         std::string UrlPath;
         Json::Value Request;
 
-        void FromJson(Json::Value& input) override;
+        void FromJson(const Json::Value& input) override;
         Json::Value ToJson() const override;
 
         std::string GenerateErrorReport() const;

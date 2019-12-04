@@ -158,7 +158,7 @@ PartyError PartyEndpoint::GetLocal(
     {
         if (isLocal != 0)
         {
-            *localEndpoint = const_cast<PartyLocalEndpoint *>(reinterpret_cast<const PartyLocalEndpoint *>(this));
+            *localEndpoint = const_cast<PartyLocalEndpoint *>(static_cast<const PartyLocalEndpoint *>(this));
         }
         else
         {
@@ -298,7 +298,7 @@ PartyError PartyDevice::GetLocal(
     {
         if (isLocal != 0)
         {
-            *localDevice = const_cast<PartyLocalDevice *>(reinterpret_cast<const PartyLocalDevice *>(this));
+            *localDevice = const_cast<PartyLocalDevice *>(static_cast<const PartyLocalDevice *>(this));
         }
         else
         {
@@ -1049,7 +1049,7 @@ PartyError PartyLocalChatControl::ConfigureAudioManipulationCaptureStream(
 
 PartyError PartyLocalChatControl::GetAudioManipulationCaptureStream(
     _Outptr_ PartyAudioManipulationSinkStream** stream
-    ) party_no_throw
+    ) const party_no_throw
 {
     return PartyChatControlGetAudioManipulationCaptureStream(
         reinterpret_cast<PARTY_CHAT_CONTROL_HANDLE>(this),
@@ -1069,7 +1069,7 @@ PartyError PartyLocalChatControl::ConfigureAudioManipulationRenderStream(
 
 PartyError PartyLocalChatControl::GetAudioManipulationRenderStream(
     _Outptr_ PartyAudioManipulationSinkStream** stream
-    ) party_no_throw
+    ) const party_no_throw
 {
     return PartyChatControlGetAudioManipulationRenderStream(
         reinterpret_cast<PARTY_CHAT_CONTROL_HANDLE>(this),
@@ -1090,7 +1090,7 @@ PartyError PartyChatControl::GetLocal(
     {
         if (isLocal != 0)
         {
-            *localChatControl = const_cast<PartyLocalChatControl *>(reinterpret_cast<const PartyLocalChatControl *>(this));
+            *localChatControl = const_cast<PartyLocalChatControl *>(static_cast<const PartyLocalChatControl *>(this));
         }
         else
         {
@@ -1183,7 +1183,7 @@ PartyError PartyChatControl::ConfigureAudioManipulationVoiceStream(
 
 PartyError PartyChatControl::GetAudioManipulationVoiceStream(
     _Outptr_ PartyAudioManipulationSourceStream** sourceStream
-    ) party_no_throw
+    ) const party_no_throw
 {
     return PartyChatControlGetAudioManipulationVoiceStream(
         reinterpret_cast<PARTY_CHAT_CONTROL_HANDLE>(this),
@@ -1845,6 +1845,7 @@ PARTY_C_ASSERT(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_TYPE_NARRATION == static_cast<uin
 PARTY_C_ASSERT(PARTY_SYNTHESIZE_TEXT_TO_SPEECH_TYPE_VOICE_CHAT == static_cast<uint32_t>(PartySynthesizeTextToSpeechType::VoiceChat));
 
 PARTY_C_ASSERT(PARTY_AUDIO_SAMPLE_TYPE_INTEGER == static_cast<uint32_t>(PartyAudioSampleType::Integer));
+PARTY_C_ASSERT(PARTY_AUDIO_SAMPLE_TYPE_FLOAT == static_cast<uint32_t>(PartyAudioSampleType::Float));
 
 PARTY_C_ASSERT(PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_OPTIONS_NONE == static_cast<uint32_t>(PartyLocalUdpSocketBindAddressOptions::None));
 PARTY_C_ASSERT(PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_OPTIONS_EXCLUDE_GAME_CORE_PREFERRED_UDP_MULTIPLAYER_PORT == static_cast<uint32_t>(PartyLocalUdpSocketBindAddressOptions::ExcludeGameCorePreferredUdpMultiplayerPort));
