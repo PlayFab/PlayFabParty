@@ -10,7 +10,7 @@ namespace PlayFabInternal
     namespace DataModels
     {
         // Data Enums
-        enum OperationTypes
+        enum class OperationTypes
         {
             OperationTypesCreated,
             OperationTypesUpdated,
@@ -20,19 +20,19 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const OperationTypes input, Json::Value& output)
         {
-            if (input == OperationTypesCreated) output = Json::Value("Created");
-            if (input == OperationTypesUpdated) output = Json::Value("Updated");
-            if (input == OperationTypesDeleted) output = Json::Value("Deleted");
-            if (input == OperationTypesNone) output = Json::Value("None");
+            if (input == OperationTypes::OperationTypesCreated) output = Json::Value("Created");
+            if (input == OperationTypes::OperationTypesUpdated) output = Json::Value("Updated");
+            if (input == OperationTypes::OperationTypesDeleted) output = Json::Value("Deleted");
+            if (input == OperationTypes::OperationTypesNone) output = Json::Value("None");
         }
         inline void FromJsonEnum(const Json::Value& input, OperationTypes& output)
         {
             if (!input.isString()) return;
             const std::string& inputStr = input.asString();
-            if (inputStr == "Created") output = OperationTypesCreated;
-            if (inputStr == "Updated") output = OperationTypesUpdated;
-            if (inputStr == "Deleted") output = OperationTypesDeleted;
-            if (inputStr == "None") output = OperationTypesNone;
+            if (inputStr == "Created") output = OperationTypes::OperationTypesCreated;
+            if (inputStr == "Updated") output = OperationTypes::OperationTypesUpdated;
+            if (inputStr == "Deleted") output = OperationTypes::OperationTypesDeleted;
+            if (inputStr == "None") output = OperationTypes::OperationTypesNone;
         }
 
         // Data Classes
@@ -55,7 +55,7 @@ namespace PlayFabInternal
 
             ~EntityKey() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Id"], Id);
                 FromJsonUtilS(input["Type"], Type);
@@ -92,7 +92,7 @@ namespace PlayFabInternal
 
             ~AbortFileUploadsRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["FileNames"], FileNames);
@@ -128,7 +128,7 @@ namespace PlayFabInternal
 
             ~AbortFileUploadsResponse() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
@@ -165,7 +165,7 @@ namespace PlayFabInternal
 
             ~DeleteFilesRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["FileNames"], FileNames);
@@ -201,7 +201,7 @@ namespace PlayFabInternal
 
             ~DeleteFilesResponse() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
@@ -235,7 +235,7 @@ namespace PlayFabInternal
 
             ~FinalizeFileUploadsRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["FileNames"], FileNames);
@@ -278,7 +278,7 @@ namespace PlayFabInternal
 
             ~GetFileMetadata() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Checksum"], Checksum);
                 FromJsonUtilS(input["DownloadUrl"], DownloadUrl);
@@ -321,7 +321,7 @@ namespace PlayFabInternal
 
             ~FinalizeFileUploadsResponse() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Metadata"], Metadata);
@@ -354,7 +354,7 @@ namespace PlayFabInternal
 
             ~GetFilesRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
             }
@@ -389,7 +389,7 @@ namespace PlayFabInternal
 
             ~GetFilesResponse() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Metadata"], Metadata);
@@ -425,7 +425,7 @@ namespace PlayFabInternal
 
             ~GetObjectsRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilP(input["EscapeObject"], EscapeObject);
@@ -462,7 +462,7 @@ namespace PlayFabInternal
 
             ~ObjectResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 DataObject = input["DataObject"];
                 FromJsonUtilS(input["EscapedDataObject"], EscapedDataObject);
@@ -501,7 +501,7 @@ namespace PlayFabInternal
 
             ~GetObjectsResponse() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Objects"], Objects);
@@ -537,7 +537,7 @@ namespace PlayFabInternal
 
             ~InitiateFileUploadMetadata() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["FileName"], FileName);
                 FromJsonUtilS(input["UploadUrl"], UploadUrl);
@@ -574,7 +574,7 @@ namespace PlayFabInternal
 
             ~InitiateFileUploadsRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["FileNames"], FileNames);
@@ -613,7 +613,7 @@ namespace PlayFabInternal
 
             ~InitiateFileUploadsResponse() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
@@ -655,7 +655,7 @@ namespace PlayFabInternal
 
             ~SetObject() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 DataObject = input["DataObject"];
                 FromJsonUtilP(input["DeleteObject"], DeleteObject);
@@ -696,7 +696,7 @@ namespace PlayFabInternal
 
             ~SetObjectInfo() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["ObjectName"], ObjectName);
                 FromJsonUtilS(input["OperationReason"], OperationReason);
@@ -735,7 +735,7 @@ namespace PlayFabInternal
 
             ~SetObjectsRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilP(input["ExpectedProfileVersion"], ExpectedProfileVersion);
@@ -771,7 +771,7 @@ namespace PlayFabInternal
 
             ~SetObjectsResponse() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
                 FromJsonUtilO(input["SetResults"], SetResults);
