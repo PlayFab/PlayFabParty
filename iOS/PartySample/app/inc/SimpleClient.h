@@ -26,6 +26,7 @@
 -(void) sendTextAsVoice:(NSString*) text;
 -(void) sendTextMessage:(NSString*) text;
 -(void) setLanguageCode:(int) languageIndex;
+-(void) setVolume:(float) volume;
 -(NSArray *) getLanguageOptions;
 -(int) getDefaultLanguageIndex;
 

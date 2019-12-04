@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		135415BE222B9E5400A23E16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 135415BD222B9E5400A23E16 /* AppDelegate.m */; };
-		135415C1222B9E5400A23E16 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 135415C0222B9E5400A23E16 /* ViewController.m */; };
+		135415C1222B9E5400A23E16 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 135415C0222B9E5400A23E16 /* ChatViewController.m */; };
 		135415C4222B9E5400A23E16 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 135415C2222B9E5400A23E16 /* Main.storyboard */; };
 		135415C9222B9E5600A23E16 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 135415C8222B9E5600A23E16 /* Assets.xcassets */; };
 		135415CC222B9E5600A23E16 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 135415CA222B9E5600A23E16 /* LaunchScreen.storyboard */; };
@@ -64,8 +64,8 @@
 		135415B9222B9E5400A23E16 /* partysample_ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = partysample_ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		135415BC222B9E5400A23E16 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		135415BD222B9E5400A23E16 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		135415BF222B9E5400A23E16 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		135415C0222B9E5400A23E16 /* ViewController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = ViewController.m; sourceTree = "<group>"; };
+		135415BF222B9E5400A23E16 /* ChatViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
+		135415C0222B9E5400A23E16 /* ChatViewController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = ChatViewController.m; sourceTree = "<group>"; };
 		135415C3222B9E5400A23E16 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		135415C8222B9E5600A23E16 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		135415CB222B9E5600A23E16 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -143,8 +143,8 @@
 				13630CB4222C79F7008E0A00 /* Config.cpp */,
 				135415BC222B9E5400A23E16 /* AppDelegate.h */,
 				135415BD222B9E5400A23E16 /* AppDelegate.m */,
-				135415BF222B9E5400A23E16 /* ViewController.h */,
-				135415C0222B9E5400A23E16 /* ViewController.m */,
+				135415BF222B9E5400A23E16 /* ChatViewController.h */,
+				135415C0222B9E5400A23E16 /* ChatViewController.m */,
 				135415C2222B9E5400A23E16 /* Main.storyboard */,
 				135415C8222B9E5600A23E16 /* Assets.xcassets */,
 				135415CA222B9E5600A23E16 /* LaunchScreen.storyboard */,
@@ -294,7 +294,7 @@
 				13630CC0222C84CC008E0A00 /* SimpleClientImpl.cpp in Sources */,
 				D392581922B1E123004D4A62 /* NetworkStateChangeManager.cpp in Sources */,
 				D3F6F31322AF88820010B66F /* JoinViewController.mm in Sources */,
-				135415C1222B9E5400A23E16 /* ViewController.m in Sources */,
+				135415C1222B9E5400A23E16 /* ChatViewController.m in Sources */,
 				13630CBB222C7B5D008E0A00 /* SimpleClient.mm in Sources */,
 				135415BE222B9E5400A23E16 /* AppDelegate.m in Sources */,
 				13CF09A32235DC0C00FB676F /* UserSelectViewController.mm in Sources */,

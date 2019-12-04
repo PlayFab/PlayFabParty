@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "ChatEventHandler.h"
 
-@interface ViewController : UIViewController <ChatEventHandler, UITableViewDelegate, UITableViewDataSource>
+@interface ChatViewController : UIViewController <ChatEventHandler, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) NSString *pfTitle;
 

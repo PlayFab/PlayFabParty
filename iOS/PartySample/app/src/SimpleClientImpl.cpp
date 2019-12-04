@@ -298,6 +298,14 @@ SimpleClientImpl::SetLanguageCode(
         );
 }
 
+void
+SimpleClientImpl::SetVolume(
+    float volume
+    )
+{
+    Managers::Get<NetworkManager>()->SetPlayerVolume(volume);
+}
+
 const char**
 SimpleClientImpl::GetLanguageOptions()
 {

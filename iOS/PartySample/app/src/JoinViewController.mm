@@ -1,6 +1,6 @@
 #import "JoinViewController.h"
 #include "Config.h"
-#import "ViewController.h"
+#import "ChatViewController.h"
 
 extern const char* c_pfTitleId;
 NSString *kTitleKey = @"TitleKey";
@@ -57,8 +57,8 @@ NSString *kTitleKey = @"TitleKey";
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(nullable id)sender
 {
-    if ([segue.destinationViewController isKindOfClass:[ViewController class]]) {
-        ViewController *destVC = (ViewController *)segue.destinationViewController;
+    if ([segue.destinationViewController isKindOfClass:[ChatViewController class]]) {
+        ChatViewController *destVC = (ChatViewController *)segue.destinationViewController;
         destVC.pfTitle = self.titleTextField.text;
 
         NSString *pfTitleId = [[NSUserDefaults standardUserDefaults] stringForKey: kTitleKey];

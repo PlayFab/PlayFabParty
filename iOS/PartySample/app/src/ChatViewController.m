@@ -5,7 +5,7 @@
 // Copyright (C) Microsoft Corporation. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "ChatViewController.h"
 #import "SimpleClient.h"
 #import "SelectViewController.h"
 
@@ -14,11 +14,11 @@ const NSString *kUserIdentify = @"com.microsoft.playfab.cofa.tool.key.user.ident
 const NSString *kUserIsMyID = @"com.microsoft.playfab.cofa.tool.key.user.ismyid";
 const NSString *kUserTalkStatus = @"com.microsoft.playfab.cofa.tool.key.user.talk.status";
 
-@interface ViewController ()
+@interface ChatViewController ()
 @property (strong, nonatomic) IBOutlet UIButton *createButton;
 @property (strong, nonatomic) IBOutlet UIButton *joinButton;
 @property (strong, nonatomic) IBOutlet UIButton *leaveButton;
-
+@property (strong, nonatomic) IBOutlet UISlider *volumeSlider;
 @property (strong, nonatomic) IBOutlet UIButton *selectLanguageCodeButton;
 @property (strong, nonatomic) IBOutlet UIButton *selectNetworkButton;
 
@@ -40,7 +40,7 @@ const NSString *kUserTalkStatus = @"com.microsoft.playfab.cofa.tool.key.user.tal
 
 @end
 
-@implementation ViewController {
+@implementation ChatViewController {
     bool m_isRunning;
     int m_language_index;
     NSTimer* m_timer;
@@ -116,6 +116,11 @@ SimpleClient* m_client;
     [m_client leaveNetwork];
     
     [self updateButtonStatus:NO];
+}
+
+- (IBAction)handleVolumeValueChanged:(UISlider*)sender
+{
+    [m_client setVolume:sender.value];
 }
 
 #pragma mark - private func
@@ -228,17 +233,18 @@ SimpleClient* m_client;
     self.languageCodeLabel.text = [m_client getLanguageOptions][select_index];
 }
 
-- (void)updateButtonStatus: (BOOL) isChating
+- (void)updateButtonStatus: (BOOL) isChatting
 {
-    _joinButton.enabled = !isChating;
-    _createButton.enabled = !isChating;
-    _selectLanguageCodeButton.enabled = !isChating;
-    _selectNetworkButton.enabled = !isChating;
+    _joinButton.enabled = !isChatting;
+    _createButton.enabled = !isChatting;
+    _selectLanguageCodeButton.enabled = !isChatting;
+    _selectNetworkButton.enabled = !isChatting;
     
-    _chatOption1Button.enabled = isChating;
-    _chatOption2Button.enabled = isChating;
-    _chatOption3Button.enabled = isChating;
-    _leaveButton.enabled = isChating;
+    _chatOption1Button.enabled = isChatting;
+    _chatOption2Button.enabled = isChatting;
+    _chatOption3Button.enabled = isChatting;
+    _leaveButton.enabled = isChatting;
+    _volumeSlider.enabled = isChatting;
 }
 
 #pragma mark - ChatEventHandler
