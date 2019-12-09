@@ -10,7 +10,7 @@ namespace PlayFabInternal
     namespace EconomyModels
     {
         // Economy Enums
-        enum ConcernCategory
+        enum class ConcernCategory
         {
             ConcernCategoryNone,
             ConcernCategoryOffensiveContent,
@@ -26,59 +26,62 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const ConcernCategory input, Json::Value& output)
         {
-            if (input == ConcernCategoryNone) output = Json::Value("None");
-            if (input == ConcernCategoryOffensiveContent) output = Json::Value("OffensiveContent");
-            if (input == ConcernCategoryChildExploitation) output = Json::Value("ChildExploitation");
-            if (input == ConcernCategoryMalwareOrVirus) output = Json::Value("MalwareOrVirus");
-            if (input == ConcernCategoryPrivacyConcerns) output = Json::Value("PrivacyConcerns");
-            if (input == ConcernCategoryMisleadingApp) output = Json::Value("MisleadingApp");
-            if (input == ConcernCategoryPoorPerformance) output = Json::Value("PoorPerformance");
-            if (input == ConcernCategoryReviewResponse) output = Json::Value("ReviewResponse");
-            if (input == ConcernCategorySpamAdvertising) output = Json::Value("SpamAdvertising");
-            if (input == ConcernCategoryProfanity) output = Json::Value("Profanity");
+            if (input == ConcernCategory::ConcernCategoryNone) output = Json::Value("None");
+            if (input == ConcernCategory::ConcernCategoryOffensiveContent) output = Json::Value("OffensiveContent");
+            if (input == ConcernCategory::ConcernCategoryChildExploitation) output = Json::Value("ChildExploitation");
+            if (input == ConcernCategory::ConcernCategoryMalwareOrVirus) output = Json::Value("MalwareOrVirus");
+            if (input == ConcernCategory::ConcernCategoryPrivacyConcerns) output = Json::Value("PrivacyConcerns");
+            if (input == ConcernCategory::ConcernCategoryMisleadingApp) output = Json::Value("MisleadingApp");
+            if (input == ConcernCategory::ConcernCategoryPoorPerformance) output = Json::Value("PoorPerformance");
+            if (input == ConcernCategory::ConcernCategoryReviewResponse) output = Json::Value("ReviewResponse");
+            if (input == ConcernCategory::ConcernCategorySpamAdvertising) output = Json::Value("SpamAdvertising");
+            if (input == ConcernCategory::ConcernCategoryProfanity) output = Json::Value("Profanity");
         }
         inline void FromJsonEnum(const Json::Value& input, ConcernCategory& output)
         {
             if (!input.isString()) return;
             const std::string& inputStr = input.asString();
-            if (inputStr == "None") output = ConcernCategoryNone;
-            if (inputStr == "OffensiveContent") output = ConcernCategoryOffensiveContent;
-            if (inputStr == "ChildExploitation") output = ConcernCategoryChildExploitation;
-            if (inputStr == "MalwareOrVirus") output = ConcernCategoryMalwareOrVirus;
-            if (inputStr == "PrivacyConcerns") output = ConcernCategoryPrivacyConcerns;
-            if (inputStr == "MisleadingApp") output = ConcernCategoryMisleadingApp;
-            if (inputStr == "PoorPerformance") output = ConcernCategoryPoorPerformance;
-            if (inputStr == "ReviewResponse") output = ConcernCategoryReviewResponse;
-            if (inputStr == "SpamAdvertising") output = ConcernCategorySpamAdvertising;
-            if (inputStr == "Profanity") output = ConcernCategoryProfanity;
+            if (inputStr == "None") output = ConcernCategory::ConcernCategoryNone;
+            if (inputStr == "OffensiveContent") output = ConcernCategory::ConcernCategoryOffensiveContent;
+            if (inputStr == "ChildExploitation") output = ConcernCategory::ConcernCategoryChildExploitation;
+            if (inputStr == "MalwareOrVirus") output = ConcernCategory::ConcernCategoryMalwareOrVirus;
+            if (inputStr == "PrivacyConcerns") output = ConcernCategory::ConcernCategoryPrivacyConcerns;
+            if (inputStr == "MisleadingApp") output = ConcernCategory::ConcernCategoryMisleadingApp;
+            if (inputStr == "PoorPerformance") output = ConcernCategory::ConcernCategoryPoorPerformance;
+            if (inputStr == "ReviewResponse") output = ConcernCategory::ConcernCategoryReviewResponse;
+            if (inputStr == "SpamAdvertising") output = ConcernCategory::ConcernCategorySpamAdvertising;
+            if (inputStr == "Profanity") output = ConcernCategory::ConcernCategoryProfanity;
         }
 
-        enum ContainerType
+        enum class ContainerType
         {
             ContainerTypeNone,
             ContainerTypeBundles,
             ContainerTypeStores,
-            ContainerTypeSubscriptions
+            ContainerTypeSubscriptions,
+            ContainerTypeRecipes
         };
 
         inline void ToJsonEnum(const ContainerType input, Json::Value& output)
         {
-            if (input == ContainerTypeNone) output = Json::Value("None");
-            if (input == ContainerTypeBundles) output = Json::Value("Bundles");
-            if (input == ContainerTypeStores) output = Json::Value("Stores");
-            if (input == ContainerTypeSubscriptions) output = Json::Value("Subscriptions");
+            if (input == ContainerType::ContainerTypeNone) output = Json::Value("None");
+            if (input == ContainerType::ContainerTypeBundles) output = Json::Value("Bundles");
+            if (input == ContainerType::ContainerTypeStores) output = Json::Value("Stores");
+            if (input == ContainerType::ContainerTypeSubscriptions) output = Json::Value("Subscriptions");
+            if (input == ContainerType::ContainerTypeRecipes) output = Json::Value("Recipes");
         }
         inline void FromJsonEnum(const Json::Value& input, ContainerType& output)
         {
             if (!input.isString()) return;
             const std::string& inputStr = input.asString();
-            if (inputStr == "None") output = ContainerTypeNone;
-            if (inputStr == "Bundles") output = ContainerTypeBundles;
-            if (inputStr == "Stores") output = ContainerTypeStores;
-            if (inputStr == "Subscriptions") output = ContainerTypeSubscriptions;
+            if (inputStr == "None") output = ContainerType::ContainerTypeNone;
+            if (inputStr == "Bundles") output = ContainerType::ContainerTypeBundles;
+            if (inputStr == "Stores") output = ContainerType::ContainerTypeStores;
+            if (inputStr == "Subscriptions") output = ContainerType::ContainerTypeSubscriptions;
+            if (inputStr == "Recipes") output = ContainerType::ContainerTypeRecipes;
         }
 
-        enum DisplayPropertyType
+        enum class DisplayPropertyType
         {
             DisplayPropertyTypeQueryDateTime,
             DisplayPropertyTypeQueryDouble,
@@ -88,22 +91,22 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const DisplayPropertyType input, Json::Value& output)
         {
-            if (input == DisplayPropertyTypeQueryDateTime) output = Json::Value("QueryDateTime");
-            if (input == DisplayPropertyTypeQueryDouble) output = Json::Value("QueryDouble");
-            if (input == DisplayPropertyTypeQueryString) output = Json::Value("QueryString");
-            if (input == DisplayPropertyTypeSearchString) output = Json::Value("SearchString");
+            if (input == DisplayPropertyType::DisplayPropertyTypeQueryDateTime) output = Json::Value("QueryDateTime");
+            if (input == DisplayPropertyType::DisplayPropertyTypeQueryDouble) output = Json::Value("QueryDouble");
+            if (input == DisplayPropertyType::DisplayPropertyTypeQueryString) output = Json::Value("QueryString");
+            if (input == DisplayPropertyType::DisplayPropertyTypeSearchString) output = Json::Value("SearchString");
         }
         inline void FromJsonEnum(const Json::Value& input, DisplayPropertyType& output)
         {
             if (!input.isString()) return;
             const std::string& inputStr = input.asString();
-            if (inputStr == "QueryDateTime") output = DisplayPropertyTypeQueryDateTime;
-            if (inputStr == "QueryDouble") output = DisplayPropertyTypeQueryDouble;
-            if (inputStr == "QueryString") output = DisplayPropertyTypeQueryString;
-            if (inputStr == "SearchString") output = DisplayPropertyTypeSearchString;
+            if (inputStr == "QueryDateTime") output = DisplayPropertyType::DisplayPropertyTypeQueryDateTime;
+            if (inputStr == "QueryDouble") output = DisplayPropertyType::DisplayPropertyTypeQueryDouble;
+            if (inputStr == "QueryString") output = DisplayPropertyType::DisplayPropertyTypeQueryString;
+            if (inputStr == "SearchString") output = DisplayPropertyType::DisplayPropertyTypeSearchString;
         }
 
-        enum ModerationStatus
+        enum class ModerationStatus
         {
             ModerationStatusUnknown,
             ModerationStatusAwaitingModeration,
@@ -113,22 +116,22 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const ModerationStatus input, Json::Value& output)
         {
-            if (input == ModerationStatusUnknown) output = Json::Value("Unknown");
-            if (input == ModerationStatusAwaitingModeration) output = Json::Value("AwaitingModeration");
-            if (input == ModerationStatusApproved) output = Json::Value("Approved");
-            if (input == ModerationStatusRejected) output = Json::Value("Rejected");
+            if (input == ModerationStatus::ModerationStatusUnknown) output = Json::Value("Unknown");
+            if (input == ModerationStatus::ModerationStatusAwaitingModeration) output = Json::Value("AwaitingModeration");
+            if (input == ModerationStatus::ModerationStatusApproved) output = Json::Value("Approved");
+            if (input == ModerationStatus::ModerationStatusRejected) output = Json::Value("Rejected");
         }
         inline void FromJsonEnum(const Json::Value& input, ModerationStatus& output)
         {
             if (!input.isString()) return;
             const std::string& inputStr = input.asString();
-            if (inputStr == "Unknown") output = ModerationStatusUnknown;
-            if (inputStr == "AwaitingModeration") output = ModerationStatusAwaitingModeration;
-            if (inputStr == "Approved") output = ModerationStatusApproved;
-            if (inputStr == "Rejected") output = ModerationStatusRejected;
+            if (inputStr == "Unknown") output = ModerationStatus::ModerationStatusUnknown;
+            if (inputStr == "AwaitingModeration") output = ModerationStatus::ModerationStatusAwaitingModeration;
+            if (inputStr == "Approved") output = ModerationStatus::ModerationStatusApproved;
+            if (inputStr == "Rejected") output = ModerationStatus::ModerationStatusRejected;
         }
 
-        enum PublishResult
+        enum class PublishResult
         {
             PublishResultUnknown,
             PublishResultPending,
@@ -139,21 +142,21 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const PublishResult input, Json::Value& output)
         {
-            if (input == PublishResultUnknown) output = Json::Value("Unknown");
-            if (input == PublishResultPending) output = Json::Value("Pending");
-            if (input == PublishResultSucceeded) output = Json::Value("Succeeded");
-            if (input == PublishResultFailed) output = Json::Value("Failed");
-            if (input == PublishResultCanceled) output = Json::Value("Canceled");
+            if (input == PublishResult::PublishResultUnknown) output = Json::Value("Unknown");
+            if (input == PublishResult::PublishResultPending) output = Json::Value("Pending");
+            if (input == PublishResult::PublishResultSucceeded) output = Json::Value("Succeeded");
+            if (input == PublishResult::PublishResultFailed) output = Json::Value("Failed");
+            if (input == PublishResult::PublishResultCanceled) output = Json::Value("Canceled");
         }
         inline void FromJsonEnum(const Json::Value& input, PublishResult& output)
         {
             if (!input.isString()) return;
             const std::string& inputStr = input.asString();
-            if (inputStr == "Unknown") output = PublishResultUnknown;
-            if (inputStr == "Pending") output = PublishResultPending;
-            if (inputStr == "Succeeded") output = PublishResultSucceeded;
-            if (inputStr == "Failed") output = PublishResultFailed;
-            if (inputStr == "Canceled") output = PublishResultCanceled;
+            if (inputStr == "Unknown") output = PublishResult::PublishResultUnknown;
+            if (inputStr == "Pending") output = PublishResult::PublishResultPending;
+            if (inputStr == "Succeeded") output = PublishResult::PublishResultSucceeded;
+            if (inputStr == "Failed") output = PublishResult::PublishResultFailed;
+            if (inputStr == "Canceled") output = PublishResult::PublishResultCanceled;
         }
 
         // Economy Classes
@@ -176,7 +179,7 @@ namespace PlayFabInternal
 
             ~CatalogAlternateId() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Type"], Type);
                 FromJsonUtilS(input["Value"], Value);
@@ -216,7 +219,7 @@ namespace PlayFabInternal
 
             ~CurrencyDetails() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["AlternateId"], AlternateId);
                 FromJsonUtilP(input["Amount"], Amount);
@@ -254,7 +257,7 @@ namespace PlayFabInternal
 
             ~EntityKey() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Id"], Id);
                 FromJsonUtilS(input["Type"], Type);
@@ -291,7 +294,7 @@ namespace PlayFabInternal
 
             ~AddVirtualCurrenciesRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Currencies"], Currencies);
                 FromJsonUtilO(input["Entity"], Entity);
@@ -330,7 +333,7 @@ namespace PlayFabInternal
 
             ~CurrencyResponseDto() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["Amount"], Amount);
                 FromJsonUtilP(input["ChangedAmount"], ChangedAmount);
@@ -366,7 +369,7 @@ namespace PlayFabInternal
 
             ~AddVirtualCurrenciesResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Currencies"], Currencies);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -400,7 +403,7 @@ namespace PlayFabInternal
 
             ~CatalogSpecificConfig() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["ContentTypes"], ContentTypes);
                 FromJsonUtilS(input["Tags"], Tags);
@@ -434,7 +437,7 @@ namespace PlayFabInternal
 
             ~DeepLinkFormat() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Format"], Format);
                 FromJsonUtilS(input["Platform"], Platform);
@@ -468,7 +471,7 @@ namespace PlayFabInternal
 
             ~DisplayPropertyIndexInfo() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Name"], Name);
                 FromJsonUtilE(input["Type"], Type);
@@ -505,7 +508,7 @@ namespace PlayFabInternal
 
             ~UserGeneratedContentSpecificConfig() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["ContentTypes"], ContentTypes);
                 FromJsonUtilP(input["Enabled"], Enabled);
@@ -553,7 +556,7 @@ namespace PlayFabInternal
 
             ~CatalogConfig() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Admins"], Admins);
                 FromJsonUtilO(input["Catalog"], Catalog);
@@ -607,7 +610,7 @@ namespace PlayFabInternal
 
             ~Content() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Id"], Id);
                 FromJsonUtilS(input["MaxClientVersion"], MaxClientVersion);
@@ -649,7 +652,7 @@ namespace PlayFabInternal
 
             ~DeepLink() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Platform"], Platform);
                 FromJsonUtilS(input["Url"], Url);
@@ -692,7 +695,7 @@ namespace PlayFabInternal
 
             ~Image() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Id"], Id);
                 FromJsonUtilS(input["Locales"], Locales);
@@ -732,7 +735,7 @@ namespace PlayFabInternal
 
             ~CatalogPriceAmount() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["Amount"], Amount);
                 FromJsonUtilS(input["CurrencyId"], CurrencyId);
@@ -763,7 +766,7 @@ namespace PlayFabInternal
 
             ~CatalogPriceInstance() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Amounts"], Amounts);
             }
@@ -780,12 +783,14 @@ namespace PlayFabInternal
         {
             Boxed<double> PayoutAmount;
             std::list<CatalogPriceInstance> Prices;
+            std::list<CatalogPriceInstance> RealPrices;
             Boxed<Int32> Sort;
 
             CatalogPrice() :
                 PlayFabBaseModel(),
                 PayoutAmount(),
                 Prices(),
+                RealPrices(),
                 Sort()
             {}
 
@@ -793,15 +798,17 @@ namespace PlayFabInternal
                 PlayFabBaseModel(),
                 PayoutAmount(src.PayoutAmount),
                 Prices(src.Prices),
+                RealPrices(src.RealPrices),
                 Sort(src.Sort)
             {}
 
             ~CatalogPrice() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["PayoutAmount"], PayoutAmount);
                 FromJsonUtilO(input["Prices"], Prices);
+                FromJsonUtilO(input["RealPrices"], RealPrices);
                 FromJsonUtilP(input["Sort"], Sort);
             }
 
@@ -810,6 +817,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_PayoutAmount; ToJsonUtilP(PayoutAmount, each_PayoutAmount); output["PayoutAmount"] = each_PayoutAmount;
                 Json::Value each_Prices; ToJsonUtilO(Prices, each_Prices); output["Prices"] = each_Prices;
+                Json::Value each_RealPrices; ToJsonUtilO(RealPrices, each_RealPrices); output["RealPrices"] = each_RealPrices;
                 Json::Value each_Sort; ToJsonUtilP(Sort, each_Sort); output["Sort"] = each_Sort;
                 return output;
             }
@@ -837,7 +845,7 @@ namespace PlayFabInternal
 
             ~CatalogItemReference() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["Amount"], Amount);
                 FromJsonUtilS(input["Id"], Id);
@@ -876,7 +884,7 @@ namespace PlayFabInternal
 
             ~ModerationState() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilT(input["LastModifiedDate"], LastModifiedDate);
                 FromJsonUtilS(input["Reason"], Reason);
@@ -915,7 +923,7 @@ namespace PlayFabInternal
 
             ~PayoutInfo() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["AccountSellerId"], AccountSellerId);
                 FromJsonUtilS(input["TaxCode"], TaxCode);
@@ -966,7 +974,7 @@ namespace PlayFabInternal
 
             ~Rating() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["Average"], Average);
                 FromJsonUtilP(input["Count1Star"], Count1Star);
@@ -1007,7 +1015,7 @@ namespace PlayFabInternal
 
             ~SubscriptionDetails() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["DurationInSeconds"], DurationInSeconds);
             }
@@ -1123,7 +1131,7 @@ namespace PlayFabInternal
 
             ~CatalogItemMetadata() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["AllowMultipleStacks"], AllowMultipleStacks);
                 FromJsonUtilO(input["AlternateIds"], AlternateIds);
@@ -1145,10 +1153,10 @@ namespace PlayFabInternal
                 FromJsonUtilO(input["ItemReferences"], ItemReferences);
                 FromJsonUtilT(input["LastModifiedDate"], LastModifiedDate);
                 FromJsonUtilO(input["Moderation"], Moderation);
-                FromJsonUtilO(input["pfPayoutInfo"], pfPayoutInfo);
+                FromJsonUtilO(input["PayoutInfo"], pfPayoutInfo);
                 FromJsonUtilS(input["Platforms"], Platforms);
                 FromJsonUtilO(input["Price"], Price);
-                FromJsonUtilO(input["pfRating"], pfRating);
+                FromJsonUtilO(input["Rating"], pfRating);
                 FromJsonUtilO(input["SourceEntityKey"], SourceEntityKey);
                 FromJsonUtilT(input["StartDate"], StartDate);
                 FromJsonUtilO(input["Subscription"], Subscription);
@@ -1234,7 +1242,7 @@ namespace PlayFabInternal
 
             ~CatalogSearchRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["Filter"], Filter);
@@ -1282,7 +1290,7 @@ namespace PlayFabInternal
 
             ~CatalogSearchResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["Count"], Count);
                 FromJsonUtilO(input["Items"], Items);
@@ -1346,7 +1354,7 @@ namespace PlayFabInternal
 
             ~InventoryItemDetails() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["AlternateId"], AlternateId);
                 FromJsonUtilS(input["Duration"], Duration);
@@ -1403,7 +1411,7 @@ namespace PlayFabInternal
 
             ~ConsumeInventoryItemsRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -1451,7 +1459,7 @@ namespace PlayFabInternal
 
             ~InventoryItemResponseDto() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["Amount"], Amount);
                 FromJsonUtilP(input["ChangedAmount"], ChangedAmount);
@@ -1493,7 +1501,7 @@ namespace PlayFabInternal
 
             ~ConsumeInventoryItemsResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["Items"], Items);
@@ -1504,6 +1512,369 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
                 Json::Value each_Items; ToJsonUtilO(Items, each_Items); output["Items"] = each_Items;
+                return output;
+            }
+        };
+
+        struct CraftRecipeIngredient : public PlayFabBaseModel
+        {
+            Int32 ExpectedAmount;
+            std::string IngredientId;
+
+            CraftRecipeIngredient() :
+                PlayFabBaseModel(),
+                ExpectedAmount(),
+                IngredientId()
+            {}
+
+            CraftRecipeIngredient(const CraftRecipeIngredient& src) :
+                PlayFabBaseModel(),
+                ExpectedAmount(src.ExpectedAmount),
+                IngredientId(src.IngredientId)
+            {}
+
+            ~CraftRecipeIngredient() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilP(input["ExpectedAmount"], ExpectedAmount);
+                FromJsonUtilS(input["IngredientId"], IngredientId);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_ExpectedAmount; ToJsonUtilP(ExpectedAmount, each_ExpectedAmount); output["ExpectedAmount"] = each_ExpectedAmount;
+                Json::Value each_IngredientId; ToJsonUtilS(IngredientId, each_IngredientId); output["IngredientId"] = each_IngredientId;
+                return output;
+            }
+        };
+
+        struct PurchaseStoreInfo : public PlayFabBaseModel
+        {
+            std::string FriendlyId;
+            std::string Id;
+
+            PurchaseStoreInfo() :
+                PlayFabBaseModel(),
+                FriendlyId(),
+                Id()
+            {}
+
+            PurchaseStoreInfo(const PurchaseStoreInfo& src) :
+                PlayFabBaseModel(),
+                FriendlyId(src.FriendlyId),
+                Id(src.Id)
+            {}
+
+            ~PurchaseStoreInfo() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["FriendlyId"], FriendlyId);
+                FromJsonUtilS(input["Id"], Id);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_FriendlyId; ToJsonUtilS(FriendlyId, each_FriendlyId); output["FriendlyId"] = each_FriendlyId;
+                Json::Value each_Id; ToJsonUtilS(Id, each_Id); output["Id"] = each_Id;
+                return output;
+            }
+        };
+
+        struct CraftRecipeByFriendlyIdRequest : public PlayFabRequestCommon
+        {
+            bool AutoConsume;
+            Boxed<EntityKey> Entity;
+            std::string IdempotencyId;
+            std::list<CraftRecipeIngredient> Ingredients;
+            std::map<std::string, std::string> Properties;
+            Int32 Quantity;
+            std::string RecipeFriendlyId;
+            bool ReturnInventory;
+            Boxed<PurchaseStoreInfo> Store;
+            std::string Uaid;
+
+            CraftRecipeByFriendlyIdRequest() :
+                PlayFabRequestCommon(),
+                AutoConsume(),
+                Entity(),
+                IdempotencyId(),
+                Ingredients(),
+                Properties(),
+                Quantity(),
+                RecipeFriendlyId(),
+                ReturnInventory(),
+                Store(),
+                Uaid()
+            {}
+
+            CraftRecipeByFriendlyIdRequest(const CraftRecipeByFriendlyIdRequest& src) :
+                PlayFabRequestCommon(),
+                AutoConsume(src.AutoConsume),
+                Entity(src.Entity),
+                IdempotencyId(src.IdempotencyId),
+                Ingredients(src.Ingredients),
+                Properties(src.Properties),
+                Quantity(src.Quantity),
+                RecipeFriendlyId(src.RecipeFriendlyId),
+                ReturnInventory(src.ReturnInventory),
+                Store(src.Store),
+                Uaid(src.Uaid)
+            {}
+
+            ~CraftRecipeByFriendlyIdRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilP(input["AutoConsume"], AutoConsume);
+                FromJsonUtilO(input["Entity"], Entity);
+                FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
+                FromJsonUtilO(input["Ingredients"], Ingredients);
+                FromJsonUtilS(input["Properties"], Properties);
+                FromJsonUtilP(input["Quantity"], Quantity);
+                FromJsonUtilS(input["RecipeFriendlyId"], RecipeFriendlyId);
+                FromJsonUtilP(input["ReturnInventory"], ReturnInventory);
+                FromJsonUtilO(input["Store"], Store);
+                FromJsonUtilS(input["Uaid"], Uaid);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_AutoConsume; ToJsonUtilP(AutoConsume, each_AutoConsume); output["AutoConsume"] = each_AutoConsume;
+                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
+                Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
+                Json::Value each_Ingredients; ToJsonUtilO(Ingredients, each_Ingredients); output["Ingredients"] = each_Ingredients;
+                Json::Value each_Properties; ToJsonUtilS(Properties, each_Properties); output["Properties"] = each_Properties;
+                Json::Value each_Quantity; ToJsonUtilP(Quantity, each_Quantity); output["Quantity"] = each_Quantity;
+                Json::Value each_RecipeFriendlyId; ToJsonUtilS(RecipeFriendlyId, each_RecipeFriendlyId); output["RecipeFriendlyId"] = each_RecipeFriendlyId;
+                Json::Value each_ReturnInventory; ToJsonUtilP(ReturnInventory, each_ReturnInventory); output["ReturnInventory"] = each_ReturnInventory;
+                Json::Value each_Store; ToJsonUtilO(Store, each_Store); output["Store"] = each_Store;
+                Json::Value each_Uaid; ToJsonUtilS(Uaid, each_Uaid); output["Uaid"] = each_Uaid;
+                return output;
+            }
+        };
+
+        struct CraftRecipeByIdRequest : public PlayFabRequestCommon
+        {
+            bool AutoConsume;
+            Boxed<EntityKey> Entity;
+            std::string IdempotencyId;
+            std::list<CraftRecipeIngredient> Ingredients;
+            std::map<std::string, std::string> Properties;
+            Int32 Quantity;
+            std::string RecipeId;
+            bool ReturnInventory;
+            Boxed<PurchaseStoreInfo> Store;
+            std::string Uaid;
+
+            CraftRecipeByIdRequest() :
+                PlayFabRequestCommon(),
+                AutoConsume(),
+                Entity(),
+                IdempotencyId(),
+                Ingredients(),
+                Properties(),
+                Quantity(),
+                RecipeId(),
+                ReturnInventory(),
+                Store(),
+                Uaid()
+            {}
+
+            CraftRecipeByIdRequest(const CraftRecipeByIdRequest& src) :
+                PlayFabRequestCommon(),
+                AutoConsume(src.AutoConsume),
+                Entity(src.Entity),
+                IdempotencyId(src.IdempotencyId),
+                Ingredients(src.Ingredients),
+                Properties(src.Properties),
+                Quantity(src.Quantity),
+                RecipeId(src.RecipeId),
+                ReturnInventory(src.ReturnInventory),
+                Store(src.Store),
+                Uaid(src.Uaid)
+            {}
+
+            ~CraftRecipeByIdRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilP(input["AutoConsume"], AutoConsume);
+                FromJsonUtilO(input["Entity"], Entity);
+                FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
+                FromJsonUtilO(input["Ingredients"], Ingredients);
+                FromJsonUtilS(input["Properties"], Properties);
+                FromJsonUtilP(input["Quantity"], Quantity);
+                FromJsonUtilS(input["RecipeId"], RecipeId);
+                FromJsonUtilP(input["ReturnInventory"], ReturnInventory);
+                FromJsonUtilO(input["Store"], Store);
+                FromJsonUtilS(input["Uaid"], Uaid);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_AutoConsume; ToJsonUtilP(AutoConsume, each_AutoConsume); output["AutoConsume"] = each_AutoConsume;
+                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
+                Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
+                Json::Value each_Ingredients; ToJsonUtilO(Ingredients, each_Ingredients); output["Ingredients"] = each_Ingredients;
+                Json::Value each_Properties; ToJsonUtilS(Properties, each_Properties); output["Properties"] = each_Properties;
+                Json::Value each_Quantity; ToJsonUtilP(Quantity, each_Quantity); output["Quantity"] = each_Quantity;
+                Json::Value each_RecipeId; ToJsonUtilS(RecipeId, each_RecipeId); output["RecipeId"] = each_RecipeId;
+                Json::Value each_ReturnInventory; ToJsonUtilP(ReturnInventory, each_ReturnInventory); output["ReturnInventory"] = each_ReturnInventory;
+                Json::Value each_Store; ToJsonUtilO(Store, each_Store); output["Store"] = each_Store;
+                Json::Value each_Uaid; ToJsonUtilS(Uaid, each_Uaid); output["Uaid"] = each_Uaid;
+                return output;
+            }
+        };
+
+        struct CraftRecipeResultItem : public PlayFabBaseModel
+        {
+            Int32 Amount;
+            Boxed<Int32> ChangedAmount;
+            std::string FriendlyId;
+            std::string InstanceId;
+            std::string ItemId;
+            std::string ItemType;
+            std::map<std::string, std::string> Properties;
+
+            CraftRecipeResultItem() :
+                PlayFabBaseModel(),
+                Amount(),
+                ChangedAmount(),
+                FriendlyId(),
+                InstanceId(),
+                ItemId(),
+                ItemType(),
+                Properties()
+            {}
+
+            CraftRecipeResultItem(const CraftRecipeResultItem& src) :
+                PlayFabBaseModel(),
+                Amount(src.Amount),
+                ChangedAmount(src.ChangedAmount),
+                FriendlyId(src.FriendlyId),
+                InstanceId(src.InstanceId),
+                ItemId(src.ItemId),
+                ItemType(src.ItemType),
+                Properties(src.Properties)
+            {}
+
+            ~CraftRecipeResultItem() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilP(input["Amount"], Amount);
+                FromJsonUtilP(input["ChangedAmount"], ChangedAmount);
+                FromJsonUtilS(input["FriendlyId"], FriendlyId);
+                FromJsonUtilS(input["InstanceId"], InstanceId);
+                FromJsonUtilS(input["ItemId"], ItemId);
+                FromJsonUtilS(input["ItemType"], ItemType);
+                FromJsonUtilS(input["Properties"], Properties);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_Amount; ToJsonUtilP(Amount, each_Amount); output["Amount"] = each_Amount;
+                Json::Value each_ChangedAmount; ToJsonUtilP(ChangedAmount, each_ChangedAmount); output["ChangedAmount"] = each_ChangedAmount;
+                Json::Value each_FriendlyId; ToJsonUtilS(FriendlyId, each_FriendlyId); output["FriendlyId"] = each_FriendlyId;
+                Json::Value each_InstanceId; ToJsonUtilS(InstanceId, each_InstanceId); output["InstanceId"] = each_InstanceId;
+                Json::Value each_ItemId; ToJsonUtilS(ItemId, each_ItemId); output["ItemId"] = each_ItemId;
+                Json::Value each_ItemType; ToJsonUtilS(ItemType, each_ItemType); output["ItemType"] = each_ItemType;
+                Json::Value each_Properties; ToJsonUtilS(Properties, each_Properties); output["Properties"] = each_Properties;
+                return output;
+            }
+        };
+
+        struct CraftRecipeResultIngredient : public PlayFabBaseModel
+        {
+            Int32 Amount;
+            Int32 ChangedAmount;
+            std::string IngredientId;
+
+            CraftRecipeResultIngredient() :
+                PlayFabBaseModel(),
+                Amount(),
+                ChangedAmount(),
+                IngredientId()
+            {}
+
+            CraftRecipeResultIngredient(const CraftRecipeResultIngredient& src) :
+                PlayFabBaseModel(),
+                Amount(src.Amount),
+                ChangedAmount(src.ChangedAmount),
+                IngredientId(src.IngredientId)
+            {}
+
+            ~CraftRecipeResultIngredient() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilP(input["Amount"], Amount);
+                FromJsonUtilP(input["ChangedAmount"], ChangedAmount);
+                FromJsonUtilS(input["IngredientId"], IngredientId);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_Amount; ToJsonUtilP(Amount, each_Amount); output["Amount"] = each_Amount;
+                Json::Value each_ChangedAmount; ToJsonUtilP(ChangedAmount, each_ChangedAmount); output["ChangedAmount"] = each_ChangedAmount;
+                Json::Value each_IngredientId; ToJsonUtilS(IngredientId, each_IngredientId); output["IngredientId"] = each_IngredientId;
+                return output;
+            }
+        };
+
+        struct CraftRecipeResult : public PlayFabResultCommon
+        {
+            std::list<CraftRecipeResultItem> CraftedItems;
+            std::string IdempotencyId;
+            std::list<CraftRecipeResultIngredient> Ingredients;
+            std::list<CraftRecipeResultItem> InventoryItems;
+            bool InventoryTooLarge;
+
+            CraftRecipeResult() :
+                PlayFabResultCommon(),
+                CraftedItems(),
+                IdempotencyId(),
+                Ingredients(),
+                InventoryItems(),
+                InventoryTooLarge()
+            {}
+
+            CraftRecipeResult(const CraftRecipeResult& src) :
+                PlayFabResultCommon(),
+                CraftedItems(src.CraftedItems),
+                IdempotencyId(src.IdempotencyId),
+                Ingredients(src.Ingredients),
+                InventoryItems(src.InventoryItems),
+                InventoryTooLarge(src.InventoryTooLarge)
+            {}
+
+            ~CraftRecipeResult() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilO(input["CraftedItems"], CraftedItems);
+                FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
+                FromJsonUtilO(input["Ingredients"], Ingredients);
+                FromJsonUtilO(input["InventoryItems"], InventoryItems);
+                FromJsonUtilP(input["InventoryTooLarge"], InventoryTooLarge);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_CraftedItems; ToJsonUtilO(CraftedItems, each_CraftedItems); output["CraftedItems"] = each_CraftedItems;
+                Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
+                Json::Value each_Ingredients; ToJsonUtilO(Ingredients, each_Ingredients); output["Ingredients"] = each_Ingredients;
+                Json::Value each_InventoryItems; ToJsonUtilO(InventoryItems, each_InventoryItems); output["InventoryItems"] = each_InventoryItems;
+                Json::Value each_InventoryTooLarge; ToJsonUtilP(InventoryTooLarge, each_InventoryTooLarge); output["InventoryTooLarge"] = each_InventoryTooLarge;
                 return output;
             }
         };
@@ -1530,7 +1901,7 @@ namespace PlayFabInternal
 
             ~CreateBundleRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["AllowOverwrite"], AllowOverwrite);
                 FromJsonUtilO(input["Bundle"], Bundle);
@@ -1566,7 +1937,7 @@ namespace PlayFabInternal
 
             ~CreateBundleResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Bundle"], Bundle);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -1600,7 +1971,7 @@ namespace PlayFabInternal
 
             ~CreateCurrencyRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Currency"], Currency);
                 FromJsonUtilO(input["Entity"], Entity);
@@ -1634,7 +2005,7 @@ namespace PlayFabInternal
 
             ~CreateCurrencyResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["CurrencyMetadata"], CurrencyMetadata);
                 FromJsonUtilO(input["Entity"], Entity);
@@ -1668,7 +2039,7 @@ namespace PlayFabInternal
 
             ~CreateDraftItemRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Item"], Item);
@@ -1699,7 +2070,7 @@ namespace PlayFabInternal
 
             ~CreateDraftItemResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Item"], Item);
             }
@@ -1740,7 +2111,7 @@ namespace PlayFabInternal
 
             ~ReviewSubmission() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["IsInstalled"], IsInstalled);
                 FromJsonUtilS(input["ItemVersion"], ItemVersion);
@@ -1783,7 +2154,7 @@ namespace PlayFabInternal
 
             ~CreateOrUpdateReviewRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["ItemId"], ItemId);
@@ -1813,13 +2184,86 @@ namespace PlayFabInternal
 
             ~CreateOrUpdateReviewResult() = default;
 
-            void FromJson(Json::Value&) override
+            void FromJson(const Json::Value&) override
             {
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                return output;
+            }
+        };
+
+        struct CreateRecipeRequest : public PlayFabRequestCommon
+        {
+            bool AllowOverwrite;
+            std::string IdempotencyId;
+            CatalogItemMetadata Recipe;
+
+            CreateRecipeRequest() :
+                PlayFabRequestCommon(),
+                AllowOverwrite(),
+                IdempotencyId(),
+                Recipe()
+            {}
+
+            CreateRecipeRequest(const CreateRecipeRequest& src) :
+                PlayFabRequestCommon(),
+                AllowOverwrite(src.AllowOverwrite),
+                IdempotencyId(src.IdempotencyId),
+                Recipe(src.Recipe)
+            {}
+
+            ~CreateRecipeRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilP(input["AllowOverwrite"], AllowOverwrite);
+                FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
+                FromJsonUtilO(input["Recipe"], Recipe);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_AllowOverwrite; ToJsonUtilP(AllowOverwrite, each_AllowOverwrite); output["AllowOverwrite"] = each_AllowOverwrite;
+                Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
+                Json::Value each_Recipe; ToJsonUtilO(Recipe, each_Recipe); output["Recipe"] = each_Recipe;
+                return output;
+            }
+        };
+
+        struct CreateRecipeResult : public PlayFabResultCommon
+        {
+            std::string IdempotencyId;
+            Boxed<CatalogItemMetadata> Recipe;
+
+            CreateRecipeResult() :
+                PlayFabResultCommon(),
+                IdempotencyId(),
+                Recipe()
+            {}
+
+            CreateRecipeResult(const CreateRecipeResult& src) :
+                PlayFabResultCommon(),
+                IdempotencyId(src.IdempotencyId),
+                Recipe(src.Recipe)
+            {}
+
+            ~CreateRecipeResult() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
+                FromJsonUtilO(input["Recipe"], Recipe);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
+                Json::Value each_Recipe; ToJsonUtilO(Recipe, each_Recipe); output["Recipe"] = each_Recipe;
                 return output;
             }
         };
@@ -1849,7 +2293,7 @@ namespace PlayFabInternal
 
             ~CreateStoreRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["AllowOverwrite"], AllowOverwrite);
                 FromJsonUtilO(input["Entity"], Entity);
@@ -1887,7 +2331,7 @@ namespace PlayFabInternal
 
             ~CreateStoreResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["Store"], Store);
@@ -1924,7 +2368,7 @@ namespace PlayFabInternal
 
             ~CreateSubscriptionRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["AllowOverwrite"], AllowOverwrite);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -1960,7 +2404,7 @@ namespace PlayFabInternal
 
             ~CreateSubscriptionResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["Subscription"], Subscription);
@@ -1994,7 +2438,7 @@ namespace PlayFabInternal
 
             ~UploadInfo() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["FileName"], FileName);
                 FromJsonUtilP(input["FileSize"], FileSize);
@@ -2031,7 +2475,7 @@ namespace PlayFabInternal
 
             ~CreateUploadUrlsRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Files"], Files);
@@ -2070,7 +2514,7 @@ namespace PlayFabInternal
 
             ~UploadUrlMetadata() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["FileName"], FileName);
                 FromJsonUtilS(input["Id"], Id);
@@ -2103,7 +2547,7 @@ namespace PlayFabInternal
 
             ~CreateUploadUrlsResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["UploadUrls"], UploadUrls);
             }
@@ -2138,7 +2582,7 @@ namespace PlayFabInternal
 
             ~DeleteBundleByFriendlyIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["FriendlyId"], FriendlyId);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -2177,7 +2621,7 @@ namespace PlayFabInternal
 
             ~DeleteBundleByIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Id"], Id);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -2210,7 +2654,7 @@ namespace PlayFabInternal
 
             ~DeleteBundleResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
             }
@@ -2242,7 +2686,7 @@ namespace PlayFabInternal
 
             ~DeleteItemRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["ItemId"], ItemId);
@@ -2270,13 +2714,120 @@ namespace PlayFabInternal
 
             ~DeleteItemResult() = default;
 
-            void FromJson(Json::Value&) override
+            void FromJson(const Json::Value&) override
             {
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                return output;
+            }
+        };
+
+        struct DeleteRecipeByFriendlyIdRequest : public PlayFabRequestCommon
+        {
+            std::string FriendlyId;
+            std::string IdempotencyId;
+            Boxed<EntityKey> SourceEntityKey;
+
+            DeleteRecipeByFriendlyIdRequest() :
+                PlayFabRequestCommon(),
+                FriendlyId(),
+                IdempotencyId(),
+                SourceEntityKey()
+            {}
+
+            DeleteRecipeByFriendlyIdRequest(const DeleteRecipeByFriendlyIdRequest& src) :
+                PlayFabRequestCommon(),
+                FriendlyId(src.FriendlyId),
+                IdempotencyId(src.IdempotencyId),
+                SourceEntityKey(src.SourceEntityKey)
+            {}
+
+            ~DeleteRecipeByFriendlyIdRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["FriendlyId"], FriendlyId);
+                FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
+                FromJsonUtilO(input["SourceEntityKey"], SourceEntityKey);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_FriendlyId; ToJsonUtilS(FriendlyId, each_FriendlyId); output["FriendlyId"] = each_FriendlyId;
+                Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
+                Json::Value each_SourceEntityKey; ToJsonUtilO(SourceEntityKey, each_SourceEntityKey); output["SourceEntityKey"] = each_SourceEntityKey;
+                return output;
+            }
+        };
+
+        struct DeleteRecipeByIdRequest : public PlayFabRequestCommon
+        {
+            std::string Id;
+            std::string IdempotencyId;
+            Boxed<EntityKey> SourceEntityKey;
+
+            DeleteRecipeByIdRequest() :
+                PlayFabRequestCommon(),
+                Id(),
+                IdempotencyId(),
+                SourceEntityKey()
+            {}
+
+            DeleteRecipeByIdRequest(const DeleteRecipeByIdRequest& src) :
+                PlayFabRequestCommon(),
+                Id(src.Id),
+                IdempotencyId(src.IdempotencyId),
+                SourceEntityKey(src.SourceEntityKey)
+            {}
+
+            ~DeleteRecipeByIdRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["Id"], Id);
+                FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
+                FromJsonUtilO(input["SourceEntityKey"], SourceEntityKey);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_Id; ToJsonUtilS(Id, each_Id); output["Id"] = each_Id;
+                Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
+                Json::Value each_SourceEntityKey; ToJsonUtilO(SourceEntityKey, each_SourceEntityKey); output["SourceEntityKey"] = each_SourceEntityKey;
+                return output;
+            }
+        };
+
+        struct DeleteRecipeResult : public PlayFabResultCommon
+        {
+            std::string IdempotencyId;
+
+            DeleteRecipeResult() :
+                PlayFabResultCommon(),
+                IdempotencyId()
+            {}
+
+            DeleteRecipeResult(const DeleteRecipeResult& src) :
+                PlayFabResultCommon(),
+                IdempotencyId(src.IdempotencyId)
+            {}
+
+            ~DeleteRecipeResult() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
                 return output;
             }
         };
@@ -2306,7 +2857,7 @@ namespace PlayFabInternal
 
             ~DeleteStoreByFriendlyIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["FriendlyId"], FriendlyId);
@@ -2350,7 +2901,7 @@ namespace PlayFabInternal
 
             ~DeleteStoreByIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["Id"], Id);
@@ -2385,7 +2936,7 @@ namespace PlayFabInternal
 
             ~DeleteStoreResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
             }
@@ -2420,7 +2971,7 @@ namespace PlayFabInternal
 
             ~DeleteSubscriptionByFriendlyIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["FriendlyId"], FriendlyId);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -2459,7 +3010,7 @@ namespace PlayFabInternal
 
             ~DeleteSubscriptionByIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Id"], Id);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -2492,7 +3043,7 @@ namespace PlayFabInternal
 
             ~DeleteSubscriptionResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
             }
@@ -2527,7 +3078,7 @@ namespace PlayFabInternal
 
             ~GetBundleByFriendlyIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["ExpandReferencedItems"], ExpandReferencedItems);
                 FromJsonUtilS(input["FriendlyId"], FriendlyId);
@@ -2566,7 +3117,7 @@ namespace PlayFabInternal
 
             ~GetBundleByIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["ExpandReferencedItems"], ExpandReferencedItems);
                 FromJsonUtilS(input["Id"], Id);
@@ -2605,7 +3156,7 @@ namespace PlayFabInternal
 
             ~GetBundleByMarketplaceOfferIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["ExpandReferencedItems"], ExpandReferencedItems);
                 FromJsonUtilO(input["MarketplaceOfferId"], MarketplaceOfferId);
@@ -2644,7 +3195,7 @@ namespace PlayFabInternal
 
             ~GetBundleResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Bundle"], Bundle);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -2674,7 +3225,7 @@ namespace PlayFabInternal
 
             ~GetCatalogConfigRequest() = default;
 
-            void FromJson(Json::Value&) override
+            void FromJson(const Json::Value&) override
             {
             }
 
@@ -2701,7 +3252,7 @@ namespace PlayFabInternal
 
             ~GetCatalogConfigResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Config"], Config);
             }
@@ -2733,7 +3284,7 @@ namespace PlayFabInternal
 
             ~GetCurrencyByIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["CurrencyId"], CurrencyId);
                 FromJsonUtilO(input["Entity"], Entity);
@@ -2764,7 +3315,7 @@ namespace PlayFabInternal
 
             ~GetCurrencyByIdResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Currency"], Currency);
             }
@@ -2796,7 +3347,7 @@ namespace PlayFabInternal
 
             ~GetDraftItemRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["ItemId"], ItemId);
@@ -2827,7 +3378,7 @@ namespace PlayFabInternal
 
             ~GetDraftItemResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Item"], Item);
             }
@@ -2862,7 +3413,7 @@ namespace PlayFabInternal
 
             ~GetDraftItemsRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["ContinuationToken"], ContinuationToken);
                 FromJsonUtilP(input["Count"], Count);
@@ -2901,7 +3452,7 @@ namespace PlayFabInternal
 
             ~GetDraftItemsResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["ContinuationToken"], ContinuationToken);
                 FromJsonUtilP(input["Count"], Count);
@@ -2943,7 +3494,7 @@ namespace PlayFabInternal
 
             ~GetInventoryItemsRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -2990,7 +3541,7 @@ namespace PlayFabInternal
 
             ~SubscriptionItemResponseDto() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilT(input["ExpirationDate"], ExpirationDate);
                 FromJsonUtilS(input["ItemIds"], ItemIds);
@@ -3036,7 +3587,7 @@ namespace PlayFabInternal
 
             ~GetInventoryItemsResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["Items"], Items);
@@ -3074,7 +3625,7 @@ namespace PlayFabInternal
 
             ~GetMyReviewRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["ItemId"], ItemId);
@@ -3141,7 +3692,7 @@ namespace PlayFabInternal
 
             ~Review() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["HelpfulNegative"], HelpfulNegative);
                 FromJsonUtilP(input["HelpfulnessVotes"], HelpfulnessVotes);
@@ -3194,9 +3745,9 @@ namespace PlayFabInternal
 
             ~GetMyReviewResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
-                FromJsonUtilO(input["pfReview"], pfReview);
+                FromJsonUtilO(input["Review"], pfReview);
             }
 
             Json::Value ToJson() const override
@@ -3226,7 +3777,7 @@ namespace PlayFabInternal
 
             ~GetPublishedItemRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["ItemId"], ItemId);
@@ -3257,7 +3808,7 @@ namespace PlayFabInternal
 
             ~GetPublishedItemResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Item"], Item);
             }
@@ -3266,6 +3817,162 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_Item; ToJsonUtilO(Item, each_Item); output["Item"] = each_Item;
+                return output;
+            }
+        };
+
+        struct GetRecipeByFriendlyIdRequest : public PlayFabRequestCommon
+        {
+            bool ExpandReferencedItems;
+            std::string FriendlyId;
+            Boxed<EntityKey> SourceEntityKey;
+
+            GetRecipeByFriendlyIdRequest() :
+                PlayFabRequestCommon(),
+                ExpandReferencedItems(),
+                FriendlyId(),
+                SourceEntityKey()
+            {}
+
+            GetRecipeByFriendlyIdRequest(const GetRecipeByFriendlyIdRequest& src) :
+                PlayFabRequestCommon(),
+                ExpandReferencedItems(src.ExpandReferencedItems),
+                FriendlyId(src.FriendlyId),
+                SourceEntityKey(src.SourceEntityKey)
+            {}
+
+            ~GetRecipeByFriendlyIdRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilP(input["ExpandReferencedItems"], ExpandReferencedItems);
+                FromJsonUtilS(input["FriendlyId"], FriendlyId);
+                FromJsonUtilO(input["SourceEntityKey"], SourceEntityKey);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_ExpandReferencedItems; ToJsonUtilP(ExpandReferencedItems, each_ExpandReferencedItems); output["ExpandReferencedItems"] = each_ExpandReferencedItems;
+                Json::Value each_FriendlyId; ToJsonUtilS(FriendlyId, each_FriendlyId); output["FriendlyId"] = each_FriendlyId;
+                Json::Value each_SourceEntityKey; ToJsonUtilO(SourceEntityKey, each_SourceEntityKey); output["SourceEntityKey"] = each_SourceEntityKey;
+                return output;
+            }
+        };
+
+        struct GetRecipeByIdRequest : public PlayFabRequestCommon
+        {
+            bool ExpandReferencedItems;
+            std::string Id;
+            Boxed<EntityKey> SourceEntityKey;
+
+            GetRecipeByIdRequest() :
+                PlayFabRequestCommon(),
+                ExpandReferencedItems(),
+                Id(),
+                SourceEntityKey()
+            {}
+
+            GetRecipeByIdRequest(const GetRecipeByIdRequest& src) :
+                PlayFabRequestCommon(),
+                ExpandReferencedItems(src.ExpandReferencedItems),
+                Id(src.Id),
+                SourceEntityKey(src.SourceEntityKey)
+            {}
+
+            ~GetRecipeByIdRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilP(input["ExpandReferencedItems"], ExpandReferencedItems);
+                FromJsonUtilS(input["Id"], Id);
+                FromJsonUtilO(input["SourceEntityKey"], SourceEntityKey);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_ExpandReferencedItems; ToJsonUtilP(ExpandReferencedItems, each_ExpandReferencedItems); output["ExpandReferencedItems"] = each_ExpandReferencedItems;
+                Json::Value each_Id; ToJsonUtilS(Id, each_Id); output["Id"] = each_Id;
+                Json::Value each_SourceEntityKey; ToJsonUtilO(SourceEntityKey, each_SourceEntityKey); output["SourceEntityKey"] = each_SourceEntityKey;
+                return output;
+            }
+        };
+
+        struct GetRecipeByMarketplaceOfferIdRequest : public PlayFabRequestCommon
+        {
+            bool ExpandReferencedItems;
+            Boxed<CatalogAlternateId> MarketplaceOfferId;
+            Boxed<EntityKey> SourceEntityKey;
+
+            GetRecipeByMarketplaceOfferIdRequest() :
+                PlayFabRequestCommon(),
+                ExpandReferencedItems(),
+                MarketplaceOfferId(),
+                SourceEntityKey()
+            {}
+
+            GetRecipeByMarketplaceOfferIdRequest(const GetRecipeByMarketplaceOfferIdRequest& src) :
+                PlayFabRequestCommon(),
+                ExpandReferencedItems(src.ExpandReferencedItems),
+                MarketplaceOfferId(src.MarketplaceOfferId),
+                SourceEntityKey(src.SourceEntityKey)
+            {}
+
+            ~GetRecipeByMarketplaceOfferIdRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilP(input["ExpandReferencedItems"], ExpandReferencedItems);
+                FromJsonUtilO(input["MarketplaceOfferId"], MarketplaceOfferId);
+                FromJsonUtilO(input["SourceEntityKey"], SourceEntityKey);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_ExpandReferencedItems; ToJsonUtilP(ExpandReferencedItems, each_ExpandReferencedItems); output["ExpandReferencedItems"] = each_ExpandReferencedItems;
+                Json::Value each_MarketplaceOfferId; ToJsonUtilO(MarketplaceOfferId, each_MarketplaceOfferId); output["MarketplaceOfferId"] = each_MarketplaceOfferId;
+                Json::Value each_SourceEntityKey; ToJsonUtilO(SourceEntityKey, each_SourceEntityKey); output["SourceEntityKey"] = each_SourceEntityKey;
+                return output;
+            }
+        };
+
+        struct GetRecipeResult : public PlayFabResultCommon
+        {
+            std::string IdempotencyId;
+            Boxed<CatalogItemMetadata> Recipe;
+            std::list<CatalogItemMetadata> ReferencedItems;
+
+            GetRecipeResult() :
+                PlayFabResultCommon(),
+                IdempotencyId(),
+                Recipe(),
+                ReferencedItems()
+            {}
+
+            GetRecipeResult(const GetRecipeResult& src) :
+                PlayFabResultCommon(),
+                IdempotencyId(src.IdempotencyId),
+                Recipe(src.Recipe),
+                ReferencedItems(src.ReferencedItems)
+            {}
+
+            ~GetRecipeResult() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
+                FromJsonUtilO(input["Recipe"], Recipe);
+                FromJsonUtilO(input["ReferencedItems"], ReferencedItems);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
+                Json::Value each_Recipe; ToJsonUtilO(Recipe, each_Recipe); output["Recipe"] = each_Recipe;
+                Json::Value each_ReferencedItems; ToJsonUtilO(ReferencedItems, each_ReferencedItems); output["ReferencedItems"] = each_ReferencedItems;
                 return output;
             }
         };
@@ -3298,7 +4005,7 @@ namespace PlayFabInternal
 
             ~GetReviewsRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["ItemId"], ItemId);
@@ -3344,7 +4051,7 @@ namespace PlayFabInternal
 
             ~GetReviewsResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["ContinuationToken"], ContinuationToken);
                 FromJsonUtilP(input["Count"], Count);
@@ -3385,7 +4092,7 @@ namespace PlayFabInternal
 
             ~GetStoreByFriendlyIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["ExpandReferencedItems"], ExpandReferencedItems);
                 FromJsonUtilS(input["FriendlyId"], FriendlyId);
@@ -3424,7 +4131,7 @@ namespace PlayFabInternal
 
             ~GetStoreByIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["ExpandReferencedItems"], ExpandReferencedItems);
                 FromJsonUtilS(input["Id"], Id);
@@ -3463,7 +4170,7 @@ namespace PlayFabInternal
 
             ~GetStoreResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["ReferencedItems"], ReferencedItems);
@@ -3502,7 +4209,7 @@ namespace PlayFabInternal
 
             ~GetSubscriptionByFriendlyIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["ExpandReferencedItems"], ExpandReferencedItems);
                 FromJsonUtilS(input["FriendlyId"], FriendlyId);
@@ -3541,7 +4248,7 @@ namespace PlayFabInternal
 
             ~GetSubscriptionByIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["ExpandReferencedItems"], ExpandReferencedItems);
                 FromJsonUtilS(input["Id"], Id);
@@ -3580,7 +4287,7 @@ namespace PlayFabInternal
 
             ~GetSubscriptionByMarketplaceOfferIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["ExpandReferencedItems"], ExpandReferencedItems);
                 FromJsonUtilO(input["MarketplaceOfferId"], MarketplaceOfferId);
@@ -3619,7 +4326,7 @@ namespace PlayFabInternal
 
             ~GetSubscriptionResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["ReferencedItems"], ReferencedItems);
@@ -3655,7 +4362,7 @@ namespace PlayFabInternal
 
             ~GetUgcItemModerationStateRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["ItemId"], ItemId);
@@ -3686,7 +4393,7 @@ namespace PlayFabInternal
 
             ~GetUgcItemModerationStateResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["State"], State);
             }
@@ -3718,7 +4425,7 @@ namespace PlayFabInternal
 
             ~GetVirtualCurrenciesRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -3752,7 +4459,7 @@ namespace PlayFabInternal
 
             ~GetVirtualCurrenciesResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Currencies"], Currencies);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -3789,7 +4496,7 @@ namespace PlayFabInternal
 
             ~GrantInventoryItemsRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -3825,7 +4532,7 @@ namespace PlayFabInternal
 
             ~GrantInventoryItemsResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["Items"], Items);
@@ -3862,7 +4569,7 @@ namespace PlayFabInternal
 
             ~HelpfulnessVoteRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilP(input["IsHelpful"], IsHelpful);
@@ -3892,7 +4599,7 @@ namespace PlayFabInternal
 
             ~HelpfulnessVoteResult() = default;
 
-            void FromJson(Json::Value&) override
+            void FromJson(const Json::Value&) override
             {
             }
 
@@ -3925,7 +4632,7 @@ namespace PlayFabInternal
 
             ~PublishItemRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["ETag"], ETag);
@@ -3955,7 +4662,7 @@ namespace PlayFabInternal
 
             ~PublishItemResult() = default;
 
-            void FromJson(Json::Value&) override
+            void FromJson(const Json::Value&) override
             {
             }
 
@@ -3985,7 +4692,7 @@ namespace PlayFabInternal
 
             ~PublishStatusRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["ItemId"], ItemId);
@@ -4000,27 +4707,60 @@ namespace PlayFabInternal
             }
         };
 
+        struct ScanResult : public PlayFabResultCommon
+        {
+            std::string Url;
+
+            ScanResult() :
+                PlayFabResultCommon(),
+                Url()
+            {}
+
+            ScanResult(const ScanResult& src) :
+                PlayFabResultCommon(),
+                Url(src.Url)
+            {}
+
+            ~ScanResult() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["Url"], Url);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_Url; ToJsonUtilS(Url, each_Url); output["Url"] = each_Url;
+                return output;
+            }
+        };
+
         struct PublishStatusResult : public PlayFabResultCommon
         {
+            std::list<ScanResult> FailedScanResults;
             Boxed<PublishResult> Result;
             std::string StatusMessage;
 
             PublishStatusResult() :
                 PlayFabResultCommon(),
+                FailedScanResults(),
                 Result(),
                 StatusMessage()
             {}
 
             PublishStatusResult(const PublishStatusResult& src) :
                 PlayFabResultCommon(),
+                FailedScanResults(src.FailedScanResults),
                 Result(src.Result),
                 StatusMessage(src.StatusMessage)
             {}
 
             ~PublishStatusResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilO(input["FailedScanResults"], FailedScanResults);
                 FromJsonUtilE(input["Result"], Result);
                 FromJsonUtilS(input["StatusMessage"], StatusMessage);
             }
@@ -4028,6 +4768,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_FailedScanResults; ToJsonUtilO(FailedScanResults, each_FailedScanResults); output["FailedScanResults"] = each_FailedScanResults;
                 Json::Value each_Result; ToJsonUtilE(Result, each_Result); output["Result"] = each_Result;
                 Json::Value each_StatusMessage; ToJsonUtilS(StatusMessage, each_StatusMessage); output["StatusMessage"] = each_StatusMessage;
                 return output;
@@ -4053,7 +4794,7 @@ namespace PlayFabInternal
 
             ~PurchaseItemCurrency() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["CurrencyId"], CurrencyId);
                 FromJsonUtilP(input["ExpectedPrice"], ExpectedPrice);
@@ -4064,40 +4805,6 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_CurrencyId; ToJsonUtilS(CurrencyId, each_CurrencyId); output["CurrencyId"] = each_CurrencyId;
                 Json::Value each_ExpectedPrice; ToJsonUtilP(ExpectedPrice, each_ExpectedPrice); output["ExpectedPrice"] = each_ExpectedPrice;
-                return output;
-            }
-        };
-
-        struct PurchaseStoreInfo : public PlayFabBaseModel
-        {
-            std::string FriendlyId;
-            std::string Id;
-
-            PurchaseStoreInfo() :
-                PlayFabBaseModel(),
-                FriendlyId(),
-                Id()
-            {}
-
-            PurchaseStoreInfo(const PurchaseStoreInfo& src) :
-                PlayFabBaseModel(),
-                FriendlyId(src.FriendlyId),
-                Id(src.Id)
-            {}
-
-            ~PurchaseStoreInfo() = default;
-
-            void FromJson(Json::Value& input) override
-            {
-                FromJsonUtilS(input["FriendlyId"], FriendlyId);
-                FromJsonUtilS(input["Id"], Id);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_FriendlyId; ToJsonUtilS(FriendlyId, each_FriendlyId); output["FriendlyId"] = each_FriendlyId;
-                Json::Value each_Id; ToJsonUtilS(Id, each_Id); output["Id"] = each_Id;
                 return output;
             }
         };
@@ -4145,7 +4852,7 @@ namespace PlayFabInternal
 
             ~PurchaseItemByFriendlyIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["AutoConsume"], AutoConsume);
                 FromJsonUtilO(input["Currencies"], Currencies);
@@ -4219,7 +4926,7 @@ namespace PlayFabInternal
 
             ~PurchaseItemByIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["AutoConsume"], AutoConsume);
                 FromJsonUtilO(input["Currencies"], Currencies);
@@ -4272,7 +4979,7 @@ namespace PlayFabInternal
 
             ~PurchaseItemResultCurrency() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["Amount"], Amount);
                 FromJsonUtilP(input["ChangedAmount"], ChangedAmount);
@@ -4323,7 +5030,7 @@ namespace PlayFabInternal
 
             ~PurchaseItemResultItem() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["Amount"], Amount);
                 FromJsonUtilP(input["ChangedAmount"], ChangedAmount);
@@ -4376,7 +5083,7 @@ namespace PlayFabInternal
 
             ~PurchaseItemResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Currencies"], Currencies);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -4422,7 +5129,7 @@ namespace PlayFabInternal
 
             ~ReportItemRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilE(input["Concern"], Concern);
                 FromJsonUtilO(input["Entity"], Entity);
@@ -4454,7 +5161,7 @@ namespace PlayFabInternal
 
             ~ReportItemResult() = default;
 
-            void FromJson(Json::Value&) override
+            void FromJson(const Json::Value&) override
             {
             }
 
@@ -4487,9 +5194,9 @@ namespace PlayFabInternal
 
             ~ReportReviewRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
-                FromJsonUtilE(input["pfConcernCategory"], pfConcernCategory);
+                FromJsonUtilE(input["ConcernCategory"], pfConcernCategory);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["ReviewId"], ReviewId);
             }
@@ -4517,7 +5224,7 @@ namespace PlayFabInternal
 
             ~ReportReviewResult() = default;
 
-            void FromJson(Json::Value&) override
+            void FromJson(const Json::Value&) override
             {
             }
 
@@ -4547,7 +5254,7 @@ namespace PlayFabInternal
 
             ~ReviewSummaryRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["ItemId"], ItemId);
@@ -4587,11 +5294,11 @@ namespace PlayFabInternal
 
             ~ReviewSummaryResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["LeastFavorableReview"], LeastFavorableReview);
                 FromJsonUtilO(input["MostFavorableReview"], MostFavorableReview);
-                FromJsonUtilO(input["pfRating"], pfRating);
+                FromJsonUtilO(input["Rating"], pfRating);
                 FromJsonUtilP(input["ReviewsCount"], ReviewsCount);
             }
 
@@ -4625,7 +5332,7 @@ namespace PlayFabInternal
 
             ~ReviewTakedown() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["ItemId"], ItemId);
                 FromJsonUtilS(input["ReviewId"], ReviewId);
@@ -4677,7 +5384,7 @@ namespace PlayFabInternal
 
             ~SearchBundlesRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["ExpandReferencedItems"], ExpandReferencedItems);
                 FromJsonUtilS(input["Filter"], Filter);
@@ -4723,7 +5430,7 @@ namespace PlayFabInternal
 
             ~SearchBundlesResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Bundles"], Bundles);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -4763,9 +5470,9 @@ namespace PlayFabInternal
 
             ~SearchForItemsContainingItemByFriendlyIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
-                FromJsonUtilE(input["pfContainerType"], pfContainerType);
+                FromJsonUtilE(input["ContainerType"], pfContainerType);
                 FromJsonUtilS(input["FriendlyIds"], FriendlyIds);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["SourceEntityKey"], SourceEntityKey);
@@ -4807,9 +5514,9 @@ namespace PlayFabInternal
 
             ~SearchForItemsContainingItemByIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
-                FromJsonUtilE(input["pfContainerType"], pfContainerType);
+                FromJsonUtilE(input["ContainerType"], pfContainerType);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilS(input["Ids"], Ids);
                 FromJsonUtilO(input["SourceEntityKey"], SourceEntityKey);
@@ -4830,6 +5537,7 @@ namespace PlayFabInternal
         {
             std::list<CatalogItemMetadata> Bundles;
             std::string IdempotencyId;
+            std::list<CatalogItemMetadata> Recipes;
             std::list<CatalogItemMetadata> Stores;
             std::list<CatalogItemMetadata> Subscriptions;
 
@@ -4837,6 +5545,7 @@ namespace PlayFabInternal
                 PlayFabResultCommon(),
                 Bundles(),
                 IdempotencyId(),
+                Recipes(),
                 Stores(),
                 Subscriptions()
             {}
@@ -4845,16 +5554,18 @@ namespace PlayFabInternal
                 PlayFabResultCommon(),
                 Bundles(src.Bundles),
                 IdempotencyId(src.IdempotencyId),
+                Recipes(src.Recipes),
                 Stores(src.Stores),
                 Subscriptions(src.Subscriptions)
             {}
 
             ~SearchForItemsContainingItemResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Bundles"], Bundles);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
+                FromJsonUtilO(input["Recipes"], Recipes);
                 FromJsonUtilO(input["Stores"], Stores);
                 FromJsonUtilO(input["Subscriptions"], Subscriptions);
             }
@@ -4864,6 +5575,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_Bundles; ToJsonUtilO(Bundles, each_Bundles); output["Bundles"] = each_Bundles;
                 Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
+                Json::Value each_Recipes; ToJsonUtilO(Recipes, each_Recipes); output["Recipes"] = each_Recipes;
                 Json::Value each_Stores; ToJsonUtilO(Stores, each_Stores); output["Stores"] = each_Stores;
                 Json::Value each_Subscriptions; ToJsonUtilO(Subscriptions, each_Subscriptions); output["Subscriptions"] = each_Subscriptions;
                 return output;
@@ -4907,7 +5619,7 @@ namespace PlayFabInternal
 
             ~SearchInStoreByFriendlyIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Filter"], Filter);
                 FromJsonUtilS(input["FriendlyId"], FriendlyId);
@@ -4971,7 +5683,7 @@ namespace PlayFabInternal
 
             ~SearchInStoreByIdRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Filter"], Filter);
                 FromJsonUtilS(input["Id"], Id);
@@ -5017,7 +5729,7 @@ namespace PlayFabInternal
 
             ~SearchInStoreResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["Items"], Items);
@@ -5028,6 +5740,104 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
                 Json::Value each_Items; ToJsonUtilO(Items, each_Items); output["Items"] = each_Items;
+                return output;
+            }
+        };
+
+        struct SearchRecipesRequest : public PlayFabRequestCommon
+        {
+            bool ExpandReferencedItems;
+            std::string Filter;
+            std::string IdempotencyId;
+            std::string OrderBy;
+            std::string Search;
+            Int32 Skip;
+            Boxed<EntityKey> SourceEntityKey;
+            Int32 Top;
+
+            SearchRecipesRequest() :
+                PlayFabRequestCommon(),
+                ExpandReferencedItems(),
+                Filter(),
+                IdempotencyId(),
+                OrderBy(),
+                Search(),
+                Skip(),
+                SourceEntityKey(),
+                Top()
+            {}
+
+            SearchRecipesRequest(const SearchRecipesRequest& src) :
+                PlayFabRequestCommon(),
+                ExpandReferencedItems(src.ExpandReferencedItems),
+                Filter(src.Filter),
+                IdempotencyId(src.IdempotencyId),
+                OrderBy(src.OrderBy),
+                Search(src.Search),
+                Skip(src.Skip),
+                SourceEntityKey(src.SourceEntityKey),
+                Top(src.Top)
+            {}
+
+            ~SearchRecipesRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilP(input["ExpandReferencedItems"], ExpandReferencedItems);
+                FromJsonUtilS(input["Filter"], Filter);
+                FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
+                FromJsonUtilS(input["OrderBy"], OrderBy);
+                FromJsonUtilS(input["Search"], Search);
+                FromJsonUtilP(input["Skip"], Skip);
+                FromJsonUtilO(input["SourceEntityKey"], SourceEntityKey);
+                FromJsonUtilP(input["Top"], Top);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_ExpandReferencedItems; ToJsonUtilP(ExpandReferencedItems, each_ExpandReferencedItems); output["ExpandReferencedItems"] = each_ExpandReferencedItems;
+                Json::Value each_Filter; ToJsonUtilS(Filter, each_Filter); output["Filter"] = each_Filter;
+                Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
+                Json::Value each_OrderBy; ToJsonUtilS(OrderBy, each_OrderBy); output["OrderBy"] = each_OrderBy;
+                Json::Value each_Search; ToJsonUtilS(Search, each_Search); output["Search"] = each_Search;
+                Json::Value each_Skip; ToJsonUtilP(Skip, each_Skip); output["Skip"] = each_Skip;
+                Json::Value each_SourceEntityKey; ToJsonUtilO(SourceEntityKey, each_SourceEntityKey); output["SourceEntityKey"] = each_SourceEntityKey;
+                Json::Value each_Top; ToJsonUtilP(Top, each_Top); output["Top"] = each_Top;
+                return output;
+            }
+        };
+
+        struct SearchRecipesResult : public PlayFabResultCommon
+        {
+            std::string IdempotencyId;
+            std::list<GetRecipeResult> Recipes;
+
+            SearchRecipesResult() :
+                PlayFabResultCommon(),
+                IdempotencyId(),
+                Recipes()
+            {}
+
+            SearchRecipesResult(const SearchRecipesResult& src) :
+                PlayFabResultCommon(),
+                IdempotencyId(src.IdempotencyId),
+                Recipes(src.Recipes)
+            {}
+
+            ~SearchRecipesResult() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
+                FromJsonUtilO(input["Recipes"], Recipes);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
+                Json::Value each_Recipes; ToJsonUtilO(Recipes, each_Recipes); output["Recipes"] = each_Recipes;
                 return output;
             }
         };
@@ -5069,7 +5879,7 @@ namespace PlayFabInternal
 
             ~SearchStoresRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["ExpandReferencedItems"], ExpandReferencedItems);
                 FromJsonUtilS(input["Filter"], Filter);
@@ -5115,7 +5925,7 @@ namespace PlayFabInternal
 
             ~SearchStoresResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["Stores"], Stores);
@@ -5167,7 +5977,7 @@ namespace PlayFabInternal
 
             ~SearchSubscriptionsRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["ExpandReferencedItems"], ExpandReferencedItems);
                 FromJsonUtilS(input["Filter"], Filter);
@@ -5213,7 +6023,7 @@ namespace PlayFabInternal
 
             ~SearchSubscriptionsResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["Subscriptions"], Subscriptions);
@@ -5250,7 +6060,7 @@ namespace PlayFabInternal
 
             ~SetInventoryItemsRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -5286,7 +6096,7 @@ namespace PlayFabInternal
 
             ~SetInventoryItemsResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["Items"], Items);
@@ -5326,7 +6136,7 @@ namespace PlayFabInternal
 
             ~SetUgcItemModerationStateRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["ItemId"], ItemId);
@@ -5358,7 +6168,7 @@ namespace PlayFabInternal
 
             ~SetUgcItemModerationStateResult() = default;
 
-            void FromJson(Json::Value&) override
+            void FromJson(const Json::Value&) override
             {
             }
 
@@ -5391,7 +6201,7 @@ namespace PlayFabInternal
 
             ~SetVirtualCurrenciesRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Currencies"], Currencies);
                 FromJsonUtilO(input["Entity"], Entity);
@@ -5427,7 +6237,7 @@ namespace PlayFabInternal
 
             ~SetVirtualCurrenciesResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Currencies"], Currencies);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -5464,7 +6274,7 @@ namespace PlayFabInternal
 
             ~SubtractVirtualCurrenciesRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Currencies"], Currencies);
                 FromJsonUtilO(input["Entity"], Entity);
@@ -5500,7 +6310,7 @@ namespace PlayFabInternal
 
             ~SubtractVirtualCurrenciesResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Currencies"], Currencies);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -5534,7 +6344,7 @@ namespace PlayFabInternal
 
             ~TakedownReviewsRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Reviews"], Reviews);
@@ -5562,7 +6372,7 @@ namespace PlayFabInternal
 
             ~TakedownReviewsResult() = default;
 
-            void FromJson(Json::Value&) override
+            void FromJson(const Json::Value&) override
             {
             }
 
@@ -5592,7 +6402,7 @@ namespace PlayFabInternal
 
             ~UpdateBundleRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Bundle"], Bundle);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -5626,7 +6436,7 @@ namespace PlayFabInternal
 
             ~UpdateBundleResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Bundle"], Bundle);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -5660,7 +6470,7 @@ namespace PlayFabInternal
 
             ~UpdateCatalogConfigRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Config"], Config);
                 FromJsonUtilO(input["Entity"], Entity);
@@ -5688,7 +6498,7 @@ namespace PlayFabInternal
 
             ~UpdateCatalogConfigResult() = default;
 
-            void FromJson(Json::Value&) override
+            void FromJson(const Json::Value&) override
             {
             }
 
@@ -5718,7 +6528,7 @@ namespace PlayFabInternal
 
             ~UpdateCurrencyRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Currency"], Currency);
                 FromJsonUtilO(input["Entity"], Entity);
@@ -5752,7 +6562,7 @@ namespace PlayFabInternal
 
             ~UpdateCurrencyResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Currency"], Currency);
                 FromJsonUtilO(input["Entity"], Entity);
@@ -5786,7 +6596,7 @@ namespace PlayFabInternal
 
             ~UpdateDraftItemRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Item"], Item);
@@ -5817,7 +6627,7 @@ namespace PlayFabInternal
 
             ~UpdateDraftItemResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Item"], Item);
             }
@@ -5852,7 +6662,7 @@ namespace PlayFabInternal
 
             ~UpdateInventoryItemsPropertiesRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -5891,7 +6701,7 @@ namespace PlayFabInternal
 
             ~UpdateInventoryPropertiesItemsResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["Items"], Items);
@@ -5904,6 +6714,74 @@ namespace PlayFabInternal
                 Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
                 Json::Value each_Items; ToJsonUtilO(Items, each_Items); output["Items"] = each_Items;
                 Json::Value each_Subscriptions; ToJsonUtilO(Subscriptions, each_Subscriptions); output["Subscriptions"] = each_Subscriptions;
+                return output;
+            }
+        };
+
+        struct UpdateRecipeRequest : public PlayFabRequestCommon
+        {
+            std::string IdempotencyId;
+            CatalogItemMetadata Recipe;
+
+            UpdateRecipeRequest() :
+                PlayFabRequestCommon(),
+                IdempotencyId(),
+                Recipe()
+            {}
+
+            UpdateRecipeRequest(const UpdateRecipeRequest& src) :
+                PlayFabRequestCommon(),
+                IdempotencyId(src.IdempotencyId),
+                Recipe(src.Recipe)
+            {}
+
+            ~UpdateRecipeRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
+                FromJsonUtilO(input["Recipe"], Recipe);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
+                Json::Value each_Recipe; ToJsonUtilO(Recipe, each_Recipe); output["Recipe"] = each_Recipe;
+                return output;
+            }
+        };
+
+        struct UpdateRecipeResult : public PlayFabResultCommon
+        {
+            std::string IdempotencyId;
+            Boxed<CatalogItemMetadata> Recipe;
+
+            UpdateRecipeResult() :
+                PlayFabResultCommon(),
+                IdempotencyId(),
+                Recipe()
+            {}
+
+            UpdateRecipeResult(const UpdateRecipeResult& src) :
+                PlayFabResultCommon(),
+                IdempotencyId(src.IdempotencyId),
+                Recipe(src.Recipe)
+            {}
+
+            ~UpdateRecipeResult() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
+                FromJsonUtilO(input["Recipe"], Recipe);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_IdempotencyId; ToJsonUtilS(IdempotencyId, each_IdempotencyId); output["IdempotencyId"] = each_IdempotencyId;
+                Json::Value each_Recipe; ToJsonUtilO(Recipe, each_Recipe); output["Recipe"] = each_Recipe;
                 return output;
             }
         };
@@ -5930,7 +6808,7 @@ namespace PlayFabInternal
 
             ~UpdateStoreRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
@@ -5966,7 +6844,7 @@ namespace PlayFabInternal
 
             ~UpdateStoreResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["Store"], Store);
@@ -6000,7 +6878,7 @@ namespace PlayFabInternal
 
             ~UpdateSubscriptionRequest() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["Subscription"], Subscription);
@@ -6034,7 +6912,7 @@ namespace PlayFabInternal
 
             ~UpdateSubscriptionResult() = default;
 
-            void FromJson(Json::Value& input) override
+            void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["IdempotencyId"], IdempotencyId);
                 FromJsonUtilO(input["Subscription"], Subscription);

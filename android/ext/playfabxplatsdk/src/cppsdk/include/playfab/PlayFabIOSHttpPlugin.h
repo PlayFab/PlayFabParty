@@ -29,8 +29,8 @@ namespace PlayFabInternal
         void WorkerThread();
         void ExecuteRequest(RequestTask& requestTask);
 
-        virtual std::string GetUrl(RequestTask& requestTask) const;
-        virtual void SetPredefinedHeaders(RequestTask& requestTask, void* urlRequest);
+        virtual std::string GetUrl(const RequestTask& requestTask) const;
+        virtual void SetPredefinedHeaders(const RequestTask& requestTask, void* urlRequest);
         virtual bool GetBinaryPayload(RequestTask& requestTask, void*& payload, size_t& payloadSize) const;
         virtual void ProcessResponse(RequestTask& requestTask, const int httpCode);
         virtual void HandleResults(RequestTask& requestTask);
@@ -43,16 +43,20 @@ namespace PlayFabInternal
 
             bool Initialize(std::unique_ptr<CallRequestContainerBase>& requestContainer);
             
-            enum State:int
+            enum class State:int
             {
                 None = 0,
-                Pending = RequestTask::None,
+                Pending = (int)RequestTask::State::None,
                 Requesting,
                 Finished
             };
             CallRequestContainer& RequestContainer()
             {
                 return *dynamic_cast<CallRequestContainer*>(requestContainer.get());
+            }
+            std::string GetRequestContainerUrl() const
+            {
+                return requestContainer->GetUrl();
             }
             void Cancel();
             std::atomic<State> state;

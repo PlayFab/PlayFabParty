@@ -250,6 +250,16 @@ SimpleClientEventHandler* clientEventHandler;
     m_impl->SetLanguageCode(languageIndex);
 }
 
+-(void) setVolume:(float)volume
+{
+    if (nullptr == m_impl)
+    {
+        return;
+    }
+
+    m_impl->SetVolume(volume);
+}
+
 -(NSArray *)getLanguageOptions
 {
     NSMutableArray *languageOptionArray = [[NSMutableArray alloc] init];

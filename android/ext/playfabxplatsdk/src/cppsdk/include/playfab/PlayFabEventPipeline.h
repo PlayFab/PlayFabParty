@@ -46,6 +46,8 @@ namespace PlayFabInternal
     public:
         virtual ~IPlayFabEventPipeline() {}
         virtual void Start() {} // Start pipeline's worker thread
+        // BUMBLELION: Added to keep the GameCore flavor from enqueuing playstream events after Cleanup is called
+        virtual void Stop() = 0;
         virtual void IntakeEvent(std::shared_ptr<const IPlayFabEmitEventRequest> request) = 0; // Intake an event. This method must be thread-safe.
     };
 
@@ -65,6 +67,8 @@ namespace PlayFabInternal
 
         std::shared_ptr<PlayFabEventPipelineSettings> GetSettings() const;
         virtual void Start() override;
+        // BUMBLELION: Added to keep the GameCore flavor from enqueuing playstream events after Cleanup is called
+        virtual void Stop() override;
         virtual void IntakeEvent(std::shared_ptr<const IPlayFabEmitEventRequest> request) override;
 
         void SetExceptionCallback(ExceptionCallback callback);
@@ -73,12 +77,13 @@ namespace PlayFabInternal
         virtual void SendBatch(size_t& batchCounter);
 
     private:
-        void WorkerThread();        
+        void WorkerThread();
         void WriteEventsApiCallback(const EventsModels::WriteEventsResponse& result, void* customData);
         void WriteEventsApiErrorCallback(const PlayFabError& error, void* customData);
+        void CallbackRequest(std::shared_ptr<const IPlayFabEmitEventRequest> request, std::shared_ptr<const IPlayFabEmitEventResponse> response);
 
     protected:
-        // PlayFab's public Events API (e.g. WriteEvents method) allows to pass only a pointer to some custom object (void* customData) that will be relayed back to its callbacks. 
+        // PlayFab's public Events API (e.g. WriteEvents method) allows to pass only a pointer to some custom object (void* customData) that will be relayed back to its callbacks.
         // This is the only reliable way to relate a particular Events API call with its particular callbacks since it is an asynchronous operation.
         // We are using that feature (custom pointer relay) because we need to know which batch it was when we receive a callback from the Events API.
         // To keep track of all batches currently in flight (i.e. those for which we called Events API) we need to have a container with controllable size

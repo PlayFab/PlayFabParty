@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1uS-rn-VQi">
-    <device id="retina6_5" orientation="landscape">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1uS-rn-VQi">
+    <device id="retina6_5" orientation="landscape" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Chat Demo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWm-A9-bnJ">
-                                <rect key="frame" x="54" y="10" width="156" height="36"/>
+                                <rect key="frame" x="54.000000000000014" y="10" width="156.33333333333337" height="36"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -148,10 +146,10 @@
             </objects>
             <point key="canvasLocation" x="39.508928571428569" y="-1313.0434782608697"/>
         </scene>
-        <!--View Controller-->
+        <!--Chat View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ChatViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -362,8 +360,17 @@
                                                     <constraint firstAttribute="height" constant="35" id="EBA-cr-3LL"/>
                                                 </constraints>
                                             </stackView>
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="CnK-en-AM5">
+                                                <rect key="frame" x="-2" y="145" width="392" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="29" id="eLT-cF-axY"/>
+                                                </constraints>
+                                                <connections>
+                                                    <action selector="handleVolumeValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="xQo-eO-PIP"/>
+                                                </connections>
+                                            </slider>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="lSK-4S-0ej">
-                                                <rect key="frame" x="0.0" y="145" width="388" height="240"/>
+                                                <rect key="frame" x="0.0" y="182" width="388" height="203"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <connections>
                                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="vGK-I6-Vcv"/>
@@ -373,25 +380,25 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstItem="lSK-4S-0ej" firstAttribute="top" secondItem="RYc-gb-Yx4" secondAttribute="bottom" constant="10" id="00Y-Gg-kpl"/>
                                             <constraint firstItem="bd2-xy-vub" firstAttribute="leading" secondItem="VK7-jJ-Ot9" secondAttribute="leading" id="0ql-M9-bCz"/>
                                             <constraint firstItem="RYc-gb-Yx4" firstAttribute="leading" secondItem="VK7-jJ-Ot9" secondAttribute="leading" id="1BH-oE-8qW"/>
+                                            <constraint firstItem="CnK-en-AM5" firstAttribute="trailing" secondItem="lSK-4S-0ej" secondAttribute="trailing" id="5Lm-q4-PiS"/>
+                                            <constraint firstItem="lSK-4S-0ej" firstAttribute="top" secondItem="CnK-en-AM5" secondAttribute="bottom" constant="8" id="6i8-PY-WOi"/>
+                                            <constraint firstItem="CnK-en-AM5" firstAttribute="leading" secondItem="lSK-4S-0ej" secondAttribute="leading" id="DsK-jc-DX0"/>
                                             <constraint firstItem="RYc-gb-Yx4" firstAttribute="leading" secondItem="VK7-jJ-Ot9" secondAttribute="leading" id="KNR-K8-tiu"/>
-                                            <constraint firstAttribute="trailing" secondItem="lSK-4S-0ej" secondAttribute="trailing" constant="8" id="MdB-Hc-9Ph"/>
-                                            <constraint firstAttribute="bottom" secondItem="lSK-4S-0ej" secondAttribute="bottom" constant="8" id="Nio-Rm-LhS"/>
                                             <constraint firstAttribute="trailing" secondItem="Vcc-U7-hKZ" secondAttribute="trailing" constant="8" id="Oty-NO-gfz"/>
-                                            <constraint firstItem="lSK-4S-0ej" firstAttribute="leading" secondItem="VK7-jJ-Ot9" secondAttribute="leading" id="QGY-yw-b0s"/>
                                             <constraint firstItem="Vcc-U7-hKZ" firstAttribute="top" secondItem="bd2-xy-vub" secondAttribute="bottom" constant="10" id="T56-so-50g"/>
                                             <constraint firstAttribute="trailing" secondItem="RYc-gb-Yx4" secondAttribute="trailing" constant="8" id="Ubd-Mg-mf0"/>
                                             <constraint firstItem="bd2-xy-vub" firstAttribute="top" secondItem="VK7-jJ-Ot9" secondAttribute="top" constant="10" id="b2T-Is-oHc"/>
-                                            <constraint firstAttribute="trailing" secondItem="lSK-4S-0ej" secondAttribute="trailing" constant="8" id="eWP-C1-pOq"/>
+                                            <constraint firstItem="CnK-en-AM5" firstAttribute="trailing" secondItem="RYc-gb-Yx4" secondAttribute="trailing" id="deM-QP-Wno"/>
+                                            <constraint firstItem="lSK-4S-0ej" firstAttribute="bottom" secondItem="VK7-jJ-Ot9" secondAttribute="bottomMargin" id="dvy-Fa-SCt"/>
                                             <constraint firstAttribute="trailing" secondItem="bd2-xy-vub" secondAttribute="trailing" constant="8" id="eat-PB-AHP"/>
                                             <constraint firstItem="Vcc-U7-hKZ" firstAttribute="leading" secondItem="VK7-jJ-Ot9" secondAttribute="leading" id="fjX-Vb-YTJ"/>
-                                            <constraint firstAttribute="bottom" secondItem="lSK-4S-0ej" secondAttribute="bottom" constant="8" id="g4P-8S-H3d"/>
+                                            <constraint firstItem="CnK-en-AM5" firstAttribute="leading" secondItem="RYc-gb-Yx4" secondAttribute="leading" id="jmO-nq-luQ"/>
+                                            <constraint firstItem="CnK-en-AM5" firstAttribute="top" secondItem="RYc-gb-Yx4" secondAttribute="bottom" constant="10" id="mq8-0H-ISQ"/>
                                             <constraint firstAttribute="trailing" secondItem="Vcc-U7-hKZ" secondAttribute="trailing" constant="8" id="nG6-q3-oo8"/>
                                             <constraint firstAttribute="trailing" secondItem="RYc-gb-Yx4" secondAttribute="trailing" constant="8" id="poT-rs-HKr"/>
                                             <constraint firstItem="RYc-gb-Yx4" firstAttribute="top" secondItem="Vcc-U7-hKZ" secondAttribute="bottom" constant="10" id="r5e-uI-Cu1"/>
-                                            <constraint firstItem="lSK-4S-0ej" firstAttribute="leading" secondItem="VK7-jJ-Ot9" secondAttribute="leading" id="tyt-LZ-qi9"/>
                                             <constraint firstItem="Vcc-U7-hKZ" firstAttribute="leading" secondItem="VK7-jJ-Ot9" secondAttribute="leading" id="znD-vJ-3Ez"/>
                                         </constraints>
                                     </view>
@@ -438,6 +445,7 @@
                         <outlet property="selectLanguageCodeButton" destination="04I-9y-nzX" id="szY-Lc-npJ"/>
                         <outlet property="selectNetworkButton" destination="gAj-D0-ezk" id="YKU-YL-jdS"/>
                         <outlet property="userListTableView" destination="lSK-4S-0ej" id="vby-LM-FVT"/>
+                        <outlet property="volumeSlider" destination="CnK-en-AM5" id="46W-Y6-gBd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

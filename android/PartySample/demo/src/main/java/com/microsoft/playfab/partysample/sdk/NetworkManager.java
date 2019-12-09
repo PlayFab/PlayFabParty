@@ -40,6 +40,10 @@ public class NetworkManager {
 
     public native void setPlayFabTitleID(String titleID);
 
+    public native void setPlayerVolume(float zeroToOne);
+
+    public native boolean connectedToNetwork();
+
     public void onNetworkCreated(String network) {
         Log.d(getClass().getSimpleName(), "onNetworkCreated: " + network);
         getMessageManager().sendNetworkCreatedMessage(network);

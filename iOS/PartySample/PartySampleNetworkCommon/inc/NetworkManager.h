@@ -47,6 +47,8 @@ namespace PartySample
         void LeaveNetwork(std::function<void(void)> callback = nullptr);
         // Disposes of the local user and chat controls.
         void Shutdown();
+        // Sets the volume
+        void SetPlayerVolume(float volumeZeroToOne);
 
         // Main update loop.
         void DoWork();
@@ -85,7 +87,17 @@ namespace PartySample
         // Check if network is currently trying to connect.
         bool IsConnecting() const;
 
+        // If Audio IO devices have been configured on ChatControls but disconnected
+        // this method will restore them.
+        void ConnectAudioInput();
+
+        // If Audio IO devices have been disconnected have been configured on ChatControls
+        // this method will disconnect them and cache information so they can be reconnected
+        // later if desired.
+        void DisconnectAudioInput();
+
     private:
+        PartyError CreateChatControlIfNecessary();
         bool InternalConnectToNetwork(const Party::PartyNetworkDescriptor& descriptor, const char *networkId, std::function<void(PartyError)> errorCallback);
         void setTextToSpeechProfile();
         bool isTranslationInTheLocalLanguage(Party::PartyTranslation translation);
@@ -111,6 +123,6 @@ namespace PartySample
         bool m_populateProfilesCompleted;
         std::atomic_bool m_ttsProfileNeedsUpdate;
         std::mutex m_networkLock;
+        float m_renderVolume;
     };
-
 }

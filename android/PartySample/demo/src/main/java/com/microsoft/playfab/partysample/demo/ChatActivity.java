@@ -2,8 +2,14 @@ package com.microsoft.playfab.partysample.demo;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +18,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -52,6 +60,7 @@ public class ChatActivity extends AppCompatActivity {
     private Button btnHeyTeam;
     private Button btnImScared;
     private Button btnGoodLuck;
+    private SeekBar seekBarVolume;
 
     private ConstraintLayout progressLayout;
     private TextView progressText;
@@ -74,6 +83,10 @@ public class ChatActivity extends AppCompatActivity {
     String networkType;
     boolean isCreate = false;
     String languageCode;
+    
+    //focus service management
+    boolean shouldRequestFocusWhenServiceConnects = false;
+    PartySampleFocusService focusService = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +105,7 @@ public class ChatActivity extends AppCompatActivity {
         btnHeyTeam = findViewById(R.id.btnHieyTeam);
         btnImScared = findViewById(R.id.btnImScared);
         btnGoodLuck = findViewById(R.id.btnGoodLuck);
+        seekBarVolume = findViewById(R.id.seekBar);
 
         ttsSwitch = findViewById(R.id.switchTTS);
 
@@ -132,6 +146,23 @@ public class ChatActivity extends AppCompatActivity {
             }
         };
 
+        seekBarVolume.setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                setPlayerVolume((float)progress / (float)seekBarVolume.getMax());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                //do nothing. we update volume on all changes.
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                //do nothing. we update volume on all changes.
+            }
+        });
+
+
         memberRecyclerView = findViewById(R.id.memberRecyclerView);
 
         memberRecyclerView.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
@@ -169,6 +200,112 @@ public class ChatActivity extends AppCompatActivity {
 
         partyInitializeTask = new PartyInitializeTask(this);
         partyInitializeTask.execute(NetworkManager.getInstance());
+    }
+
+    private void setPlayerVolume(float volumeZeroToOne) {
+        networkManager.setPlayerVolume(volumeZeroToOne);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP)
+        {
+            AudioManager myAudioMgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            final int direction = keyCode == KeyEvent. KEYCODE_VOLUME_UP ? AudioManager.ADJUST_RAISE : AudioManager.ADJUST_LOWER;
+            myAudioMgr.adjustStreamVolume(AudioManager.STREAM_MUSIC, direction, AudioManager.FLAG_SHOW_UI);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startFocusService();
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopFocusService();
+        super.onDestroy();
+    }
+
+    private void restoreFocus() {
+        // Request focus so other apps are notified that they need to tear down their audio devices.
+        MessageManager.getInstance().sendErrorMessage("Restoring focus...");
+        focusService.requestFocus();
+
+        // Note: it is important to wait a bit before trying to set up our own input devices so
+        // other applications have time to tear down their devices!
+        waitMillisecondsThenConnectAudioInput(1000);
+    }
+
+    private void waitMillisecondsThenConnectAudioInput(long millisecondsToWait) {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                focusService.connectAudioInput();
+            }
+        };
+        Timer timer = new Timer(true);
+        timer.schedule(task, millisecondsToWait);
+    }
+
+    // Note: There is a juggling act here between onServiceConnected and onResume.  A bound service
+    // is not guaranteed to keep it's binding to an activity when an application is backgrounded.
+    // As such, the onResume must either restore audio focus OR flag that the ServiceConnection should
+    // do it when it gets asynchronously reconnected.
+    @Override
+    protected void onResume() {
+        super.onResume();
+        final boolean needsFocus = networkManager.connectedToNetwork() && !focusService.hasFocus();
+        if(focusService == null) {
+            shouldRequestFocusWhenServiceConnects = needsFocus;
+        } else if (needsFocus) {
+            shouldRequestFocusWhenServiceConnects = false;
+            restoreFocus();
+        }
+    }
+
+    ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Toast.makeText(ChatActivity.this, "FocusService connected", Toast.LENGTH_SHORT).show();
+            PartySampleFocusService.LocalBinder binder = (PartySampleFocusService.LocalBinder)service;
+            focusService = binder.getServiceInstance();
+            if(shouldRequestFocusWhenServiceConnects) {
+                shouldRequestFocusWhenServiceConnects = false;
+                restoreFocus();
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Toast.makeText(ChatActivity.this, "FocusService disconnected", Toast.LENGTH_SHORT).show();
+            focusService = null;
+        }
+    };
+
+    private void startFocusService() {
+        //kill any stray focus service instances that might be running
+        stopFocusService();
+
+        //create and bind the focus service
+        Intent serviceIntent = new Intent(getBaseContext(), PartySampleFocusService.class);
+        bindService(serviceIntent, mServiceConnection, BIND_AUTO_CREATE);
+    }
+
+    private void stopFocusService() {
+        if(focusService != null) {
+            //destroy the bound service instance
+            focusService.abandonFocus();
+            unbindService(mServiceConnection);
+        } else {
+            //destroy any unbound service instances
+            Intent serviceIntent = new Intent(getBaseContext(), PartySampleFocusService.class);
+            stopService(serviceIntent);
+        }
     }
 
     @Override
@@ -307,6 +444,7 @@ public class ChatActivity extends AppCompatActivity {
         btnGoodLuck.setEnabled(isConnected);
         roomSpinner.setEnabled(!isConnected);
         languageSpinner.setEnabled(!isConnected);
+        seekBarVolume.setEnabled(isConnected);
     }
 
     public synchronized void updatePlayerState() {
@@ -424,10 +562,17 @@ public class ChatActivity extends AppCompatActivity {
             dialog.show();
         }
 
-        @Override
-        protected Integer doInBackground(String... params) {
-            String networkId = params[0];
-            String languageCode = params[1];
+        private Integer waitForMillisecondsThenCreateAndConnectToNetwork(
+            String networkId,
+            String languageCode,
+            long millisecondsToWait
+            )
+        {
+            try {
+                Thread.sleep(millisecondsToWait);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if(networkManager.createAndConnectToNetwork(networkId, languageCode))
             {
                 return 1;
@@ -436,6 +581,19 @@ public class ChatActivity extends AppCompatActivity {
             {
                 return 0;
             }
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            String networkId = params[0];
+            String languageCode = params[1];
+            MessageManager.getInstance().sendErrorMessage("Requesting focus...");
+            focusService.requestFocus();
+
+            // Note: When requesting focus it is important that we wait until focus requests
+            // have been handled by any other applications holding device resources so they have
+            // time to tear their devices down and free us to claim them.
+            return waitForMillisecondsThenCreateAndConnectToNetwork(networkId, languageCode, 1000);
         }
 
         @Override
