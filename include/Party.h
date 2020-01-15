@@ -2770,7 +2770,7 @@ struct PartyAudioManipulationSourceStreamConfiguration
     /// When this total is reached, the source stream will stop producing additional buffers.
     /// <para>
     /// Because the library processes audio in 40 millisecond intervals, the effective maximum is the nearest multiple
-    /// of 40 less than the specified maximum.
+    /// of 40 less than the specified maximum. The minimum is 40 milliseconds.
     /// </para>
     /// </remarks>
     uint32_t maxTotalAudioBufferSizeInMilliseconds;
@@ -2788,6 +2788,20 @@ struct PartyAudioManipulationSinkStreamConfiguration
     /// The format of the audio that will be submitted to the sink stream.
     /// </summary>
     PartyAudioFormat format;
+
+    /// <summary>
+    /// The maximum total size of audio buffers that can concurrently exist for this queue, in milliseconds.
+    /// </summary>
+    /// <remarks>
+    /// This defines the limit for the total amount of audio internally queued by the sink stream, but not yet processed
+    /// by the library. When this limit is reached, the sink stream will stop accepting additional buffers.
+    /// <para>
+    /// This value should be chosen based on how frequently the game will submit buffers to the sink stream and how
+    /// large those buffers will be. Because the library processes audio in 40 milliseconds intervals, the minimum is 40
+    /// milliseconds. Most games will find 200 milliseconds to be a reasonable value.
+    /// </para>
+    /// </remarks>
+    uint32_t maxTotalAudioBufferSizeInMilliseconds;
 };
 
 /// <summary>
@@ -6267,12 +6281,12 @@ public:
     /// <para>
     /// If a configuration is provided, the title may optionally specify the identifier on the configuration. If the
     /// identifier is nullptr or an empty string, the PlayFab Party library will generate an identifier for the title.
-    /// It is guaranteed that this generated identifer will be different from all identifiers that the PlayFab Party
+    /// It is guaranteed that this generated identifier will be different from all identifiers that the PlayFab Party
     /// library has already generated for invitations on this network across all devices. Titles may specify their own
     /// identifier by providing a non-null, non-empty value in the configuration. If the title specifies the identifier,
     /// it is the title's responsibility to ensure that this identifier does not collide with the identifiers of other
     /// invitations created on this network via <see cref="PartyManager::CreateNewNetwork()" /> or CreateInvitation() on
-    /// any device. If the title attempts to create an invitation with an identifer that would collide with a
+    /// any device. If the title attempts to create an invitation with an identifier that would collide with a
     /// pre-existing invitation, then the operation will fail asynchronously and the title will receive a
     /// PartyInvitationDestroyedStateChange followed by a <see cref="PartyCreateInvitationCompletedStateChange" /> with
     /// a failure result.
@@ -7567,11 +7581,11 @@ public:
     /// Retrieves the audio manipulation voice stream associated with this chat control.
     /// </summary>
     /// <remarks>
-    /// If this is a local chat control, the stream represents the voice audio detected by the the local audio input.
-    /// Audio provided by this stream will have already been preprocessed with Voice Activity Detection (VAD) and
-    /// Automatic Gain Control (AGC). Audio will only be provided when voice activity is detected. Typically, the app
-    /// will retrieve audio from this stream via PartyAudioManipulationSourceStream::GetNextBuffer(), process the audio
-    /// using app logic, and then submit the audio back to the library. The audio is submitted back to the library by
+    /// If this is a local chat control, the stream represents the voice audio detected by the local audio input. Audio
+    /// provided by this stream will have already been preprocessed with Voice Activity Detection (VAD) and Automatic
+    /// Gain Control (AGC). Audio will only be provided when voice activity is detected. Typically, the app will
+    /// retrieve audio from this stream via PartyAudioManipulationSourceStream::GetNextBuffer(), process the audio using
+    /// app logic, and then submit the audio back to the library. The audio is submitted back to the library by
     /// retrieving the voice sink stream via PartyLocalChatControl::GetAudioManipulationCaptureStream() and then
     /// submitting the buffer via <see cref="PartyAudioManipulationSinkStream::SubmitBuffer()" />.
     /// <para>
@@ -7653,7 +7667,7 @@ public:
     /// <para>
     /// This setting is local only. If a local chat control is configured to send audio to a remote chat control, no
     /// audio will be sent to the remote chat control unless the remote chat control has also been configured to receive
-    /// audio from the the local chat control in their instance of the library. Similarly, if a local chat control is
+    /// audio from the local chat control in their instance of the library. Similarly, if a local chat control is
     /// configured to receive audio from a remote chat control, no audio will be received from the remote chat control
     /// unless the remote chat control has also been configured to send audio to the local chat control in their
     /// instance of the library. Therefore, both chat controls must agree that the communication is allowed; one chat
@@ -8000,7 +8014,7 @@ public:
     /// calls to SynthesizeTextToSpeech() can succeed.
     /// <para>
     /// This method accepts a profile identifier to indicate the profile selection so that titles may either pass in the
-    /// result of <see cref="PartyTextToSpeechProfile::GetIdentifier()" /> or provide a profile identifer cached from a
+    /// result of <see cref="PartyTextToSpeechProfile::GetIdentifier()" /> or provide a profile identifier cached from a
     /// previous Party library session.
     /// </para>
     /// <para>
@@ -9124,7 +9138,7 @@ public:
     /// Every call to Initialize() should have a corresponding Cleanup() call.
     /// </para>
     /// <para>
-    /// It is recommended for apps using the Xbox One XDK version of the Party library to wait until the the platform is
+    /// It is recommended for apps using the Xbox One XDK version of the Party library to wait until the platform is
     /// ready for networking operations before calling this method. Please refer to the XDK documentation about
     /// networking and secure device associations best practices for more information.
     /// </para>
@@ -9412,7 +9426,7 @@ public:
     /// <para>
     /// If a configuration is provided, the title may optionally specify the identifier on the configuration. If the
     /// identifier is nullptr or an empty string, the PlayFab Party library will generate an identifier for the title.
-    /// It is guaranteed that this generated identifer will be different from all identifiers that the PlayFab Party
+    /// It is guaranteed that this generated identifier will be different from all identifiers that the PlayFab Party
     /// library will generate for all future invitations on this network across all devices. Titles may specify their
     /// own identifier by providing a non-null, non-empty value in the configuration. If the title specifies the
     /// identifier, it is the title's responsibility to ensure that this identifier does not collide with the
@@ -9518,8 +9532,12 @@ public:
     /// ` | --- | --- |
     /// ` | InternetConnectivityError | Retry with a small delay of no less than 10 seconds. For your app, it may be
     ///         more appropriate to display the error to the user immediately, rather than retrying automatically. |
-    /// ` | PartyServiceError | Retry with an exponential backoff. Start with a minimum delay of no less than 10
-    ///         seconds, doubling the delay with each retry. |
+    /// ` | NetworkLimitReached | Do not retry automatically. Instead, display a message to the user and wait for the
+    ///         user to initiate another attempt. |
+    /// ` | NetworkNotJoinable | Do not retry automatically. Instead, display a message to the user and wait for the
+    ///         user to initiate another attempt. |
+    /// ` | NetworkNoLongerExists | Do not retry. |
+    /// ` | VersionMismatch | Do not retry. |
     /// </para>
     /// </remarks>
     /// <param name="networkDescriptor">

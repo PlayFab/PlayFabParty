@@ -100,6 +100,7 @@ SimpleClient* m_client;
 
 - (IBAction)handleLeaveButtonClick:(UIButton*)sender
 {
+    NSString *userId = [m_client getSelectedUserName];
     NSDictionary* myUser;
     for (NSDictionary* user in self.remoteUsers)
     {

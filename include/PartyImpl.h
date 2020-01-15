@@ -1947,6 +1947,8 @@ PARTY_C_ASSERT(offsetof(PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_CONFIGURATION, ma
 PARTY_C_ASSERT(sizeof(PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION) == sizeof(PartyAudioManipulationSinkStreamConfiguration));
 PARTY_C_ASSERT(sizeof(PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION::format) == sizeof(PartyAudioManipulationSinkStreamConfiguration::format));
 PARTY_C_ASSERT(offsetof(PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION, format) == offsetof(PartyAudioManipulationSinkStreamConfiguration, format));
+PARTY_C_ASSERT(sizeof(PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION::maxTotalAudioBufferSizeInMilliseconds) == sizeof(PartyAudioManipulationSinkStreamConfiguration::maxTotalAudioBufferSizeInMilliseconds));
+PARTY_C_ASSERT(offsetof(PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION, maxTotalAudioBufferSizeInMilliseconds) == offsetof(PartyAudioManipulationSinkStreamConfiguration, maxTotalAudioBufferSizeInMilliseconds));
 
 PARTY_C_ASSERT(sizeof(PARTY_STATE_CHANGE) == sizeof(PartyStateChange));
 PARTY_C_ASSERT(sizeof(PARTY_STATE_CHANGE::stateChangeType) == sizeof(PartyStateChange::stateChangeType));

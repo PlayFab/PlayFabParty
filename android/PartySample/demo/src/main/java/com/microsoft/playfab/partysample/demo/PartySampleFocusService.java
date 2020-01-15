@@ -86,7 +86,9 @@ public class PartySampleFocusService extends Service {
 
     public void abandonFocus() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            mAudioManager.abandonAudioFocusRequest(mFocusRequest);
+            if (mFocusRequest != null) {
+                mAudioManager.abandonAudioFocusRequest(mFocusRequest);
+            }
         }
         else {
             mAudioManager.abandonAudioFocus(audioFocusChangeListener);
