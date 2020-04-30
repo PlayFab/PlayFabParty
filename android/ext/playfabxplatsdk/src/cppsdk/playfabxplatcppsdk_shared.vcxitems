@@ -11,6 +11,8 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)include\jsoncpp\json\json-forwards.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)include\jsoncpp\json\json.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\playfab\PlayFabIXHR2HttpPlugin.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\playfab\PlayFabIXHR2HttpRequest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabPlatformMacros.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabBaseModel.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)\include\playfab\PlayFabApiSettings.h" />
@@ -41,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)source\jsoncpp\jsoncpp.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)source\playfab\PlayFabIXHR2HttpPlugin.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)source\playfab\PlayFabIXHR2HttpRequest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabApiSettings.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabClientApi.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)\source\playfab\PlayFabAuthenticationApi.cpp" />

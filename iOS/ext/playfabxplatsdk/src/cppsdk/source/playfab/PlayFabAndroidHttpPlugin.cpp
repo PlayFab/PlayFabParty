@@ -10,6 +10,9 @@
 
 #include <PALDefines.h>
 #include <Party_c.h>
+#include <gsl/span>
+#include <gsl/string_span>
+#include <BumblelionUuid.h>
 #include <android/BumblelionJniHelper.h>
 
 thread_local unsigned int jniAttachedCount = 0;

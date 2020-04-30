@@ -25,7 +25,7 @@ namespace PlayFabInternal
     {
     public:
         PlayFabEventPipelineSettings();
-        PlayFabEventPipelineSettings(PlayFabEventPipelineType emitType);
+        PlayFabEventPipelineSettings(PlayFabEventPipelineType emitType, bool useBackgroundThread);
         virtual ~PlayFabEventPipelineSettings() {};
 
         size_t bufferSize; // The minimal size of buffer, in bytes. The actually allocated size will be a power of 2 that is equal or greater than this value.
@@ -36,6 +36,9 @@ namespace PlayFabInternal
         int64_t readBufferWaitTime; // The wait time between attempts to read events from buffer when it is empty, in milliseconds.
         std::shared_ptr<PlayFabAuthenticationContext> authenticationContext; // The optional PlayFab authentication context that can be used with static PlayFab events API
         PlayFabEventPipelineType emitType; // whether we call WriteEvent or WriteTelemetryEvent through PlayFab
+
+        // BUMBLELION: enable manual pumping of event pipeline
+        bool useBackgroundThread;
     };
 
     /// <summary>
@@ -46,8 +49,9 @@ namespace PlayFabInternal
     public:
         virtual ~IPlayFabEventPipeline() {}
         virtual void Start() {} // Start pipeline's worker thread
-        // BUMBLELION: Added to keep the GameCore flavor from enqueuing playstream events after Cleanup is called
+        // BUMBLELION: needed so that we can stop the event pipeline if our token expires
         virtual void Stop() = 0;
+        virtual void Update() = 0;
         virtual void IntakeEvent(std::shared_ptr<const IPlayFabEmitEventRequest> request) = 0; // Intake an event. This method must be thread-safe.
     };
 
@@ -67,17 +71,19 @@ namespace PlayFabInternal
 
         std::shared_ptr<PlayFabEventPipelineSettings> GetSettings() const;
         virtual void Start() override;
-        // BUMBLELION: Added to keep the GameCore flavor from enqueuing playstream events after Cleanup is called
+        // BUMBLELION: needed so that we can stop the event pipeline if our token expires
         virtual void Stop() override;
+        virtual void Update() override;
         virtual void IntakeEvent(std::shared_ptr<const IPlayFabEmitEventRequest> request) override;
 
         void SetExceptionCallback(ExceptionCallback callback);
 
     protected:
-        virtual void SendBatch(size_t& batchCounter);
+        virtual void SendBatch();
 
     private:
         void WorkerThread();
+        bool DoWork();
         void WriteEventsApiCallback(const EventsModels::WriteEventsResponse& result, void* customData);
         void WriteEventsApiErrorCallback(const PlayFabError& error, void* customData);
         void CallbackRequest(std::shared_ptr<const IPlayFabEmitEventRequest> request, std::shared_ptr<const IPlayFabEmitEventResponse> response);
@@ -92,6 +98,8 @@ namespace PlayFabInternal
         std::vector<std::shared_ptr<const IPlayFabEmitEventRequest>> batch;
 
     private:
+        std::atomic_uintptr_t batchCounter;
+        std::chrono::steady_clock::time_point momentBatchStarted;
         std::shared_ptr<PlayFabEventPipelineSettings> settings;
         PlayFabEventBuffer buffer;
         std::thread workerThread;

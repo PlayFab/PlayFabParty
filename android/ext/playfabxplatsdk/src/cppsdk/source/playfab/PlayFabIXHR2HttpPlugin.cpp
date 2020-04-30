@@ -1,5 +1,7 @@
 #include <stdafx.h>
 
+#if defined(PLAYFAB_PLATFORM_XBOX) || defined(BUMBLELION_UWP)
+
 #include <playfab/PlayFabIXHR2HttpPlugin.h>
 #include <playfab/PlayFabSettings.h>
 
@@ -150,7 +152,7 @@ namespace PlayFabInternal
 
         // Create request
         HttpRequest postEventRequest;
-        
+
         // Setup headers
         std::vector<HttpHeaderInfo> headers;
         SetupRequestHeaders(reqContainer, headers);
@@ -158,7 +160,7 @@ namespace PlayFabInternal
         // Setup url
         std::string urlString = reqContainer.GetFullUrl();
         std::wstring url(urlString.begin(), urlString.end());
-        
+
         // Setup payload
         std::string payload = reqContainer.GetRequestBody();
 
@@ -272,3 +274,5 @@ namespace PlayFabInternal
         }
     }
 }
+
+#endif // defined(PLAYFAB_PLATFORM_XBOX) || defined(BUMBLELION_UWP)

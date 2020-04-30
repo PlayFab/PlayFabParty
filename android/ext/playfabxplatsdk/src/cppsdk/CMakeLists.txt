@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.4.1)
 
 include_directories(
+        ${CODE_REPOSIORY_ROOT}/external/gsl/include
         ${CODE_REPOSIORY_ROOT}/external/playfabxplatsdk/src/cppsdk
         ${CODE_REPOSIORY_ROOT}/external/playfabxplatsdk/src/cppsdk/include
         ${CODE_REPOSIORY_ROOT}/external/playfabxplatsdk/src/cppsdk/include/curl

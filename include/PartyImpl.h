@@ -220,7 +220,7 @@ PartyError PartyEndpoint::GetDevice(
 
 PartyError PartyEndpoint::GetUniqueIdentifier(
     _Out_ uint16_t * uniqueIdentifier
-    ) const
+    ) const party_no_throw
 {
     return PartyEndpointGetUniqueIdentifier(
         reinterpret_cast<PARTY_ENDPOINT_HANDLE>(this),
@@ -1244,6 +1244,15 @@ PartyError PartyTextToSpeechProfile::SetCustomContext(
         customContext);
 }
 
+PartyError PartyAudioManipulationSourceStream::GetConfiguration(
+    _Out_ PartyAudioManipulationSourceStreamConfiguration* configuration
+    ) const party_no_throw
+{
+    return PartyAudioManipulationSourceStreamGetConfiguration(
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE>(this),
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_CONFIGURATION*>(configuration));
+}
+
 PartyError PartyAudioManipulationSourceStream::GetFormat(
     _Out_ PartyAudioFormat* format
     ) const party_no_throw
@@ -1296,6 +1305,15 @@ PartyError PartyAudioManipulationSourceStream::SetCustomContext(
     return PartyAudioManipulationSourceStreamSetCustomContext(
         reinterpret_cast<PARTY_AUDIO_MANIPULATION_SOURCE_STREAM_HANDLE>(this),
         customContext);
+}
+
+PartyError PartyAudioManipulationSinkStream::GetConfiguration(
+    _Out_ PartyAudioManipulationSinkStreamConfiguration* configuration
+    ) const party_no_throw
+{
+    return PartyAudioManipulationSinkStreamGetConfiguration(
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SINK_STREAM_HANDLE>(this),
+        reinterpret_cast<PARTY_AUDIO_MANIPULATION_SINK_STREAM_CONFIGURATION*>(configuration));
 }
 
 PartyError PartyAudioManipulationSinkStream::GetFormat(
@@ -1384,7 +1402,7 @@ PartyError PartyManager::GetErrorMessage(
 PartyError PartyManager::SerializeNetworkDescriptor(
     const PartyNetworkDescriptor * networkDescriptor,
     _Out_writes_z_(c_maxSerializedNetworkDescriptorStringLength + 1) char * serializedNetworkDescriptorString
-    )
+    ) party_no_throw
 {
     return PartySerializeNetworkDescriptor(
         reinterpret_cast<const PARTY_NETWORK_DESCRIPTOR *>(networkDescriptor),
@@ -1394,7 +1412,7 @@ PartyError PartyManager::SerializeNetworkDescriptor(
 PartyError PartyManager::DeserializeNetworkDescriptor(
     PartyString serializedNetworkDescriptorString,
     _Out_ PartyNetworkDescriptor * networkDescriptor
-    )
+    ) party_no_throw
 {
     return PartyDeserializeNetworkDescriptor(
         serializedNetworkDescriptorString,
@@ -1787,7 +1805,11 @@ PARTY_C_ASSERT(PARTY_INVITATION_REVOCABILITY_CREATOR == static_cast<uint32_t>(Pa
 PARTY_C_ASSERT(PARTY_INVITATION_REVOCABILITY_ANYONE == static_cast<uint32_t>(PartyInvitationRevocability::Anyone));
 
 PARTY_C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_NONE == static_cast<uint32_t>(PartyChatPermissionOptions::None));
+PARTY_C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_SEND_MICROPHONE_AUDIO == static_cast<uint32_t>(PartyChatPermissionOptions::SendMicrophoneAudio));
+PARTY_C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_SEND_TEXT_TO_SPEECH_AUDIO == static_cast<uint32_t>(PartyChatPermissionOptions::SendTextToSpeechAudio));
 PARTY_C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_SEND_AUDIO == static_cast<uint32_t>(PartyChatPermissionOptions::SendAudio));
+PARTY_C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_RECEIVE_MICROPHONE_AUDIO == static_cast<uint32_t>(PartyChatPermissionOptions::ReceiveMicrophoneAudio));
+PARTY_C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_RECEIVE_TEXT_TO_SPEECH_AUDIO == static_cast<uint32_t>(PartyChatPermissionOptions::ReceiveTextToSpeechAudio));
 PARTY_C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_RECEIVE_AUDIO == static_cast<uint32_t>(PartyChatPermissionOptions::ReceiveAudio));
 PARTY_C_ASSERT(PARTY_CHAT_PERMISSION_OPTIONS_RECEIVE_TEXT == static_cast<uint32_t>(PartyChatPermissionOptions::ReceiveText));
 
@@ -1825,6 +1847,9 @@ PARTY_C_ASSERT(PARTY_GENDER_NEUTRAL == static_cast<uint32_t>(PartyGender::Neutra
 PARTY_C_ASSERT(PARTY_GENDER_FEMALE == static_cast<uint32_t>(PartyGender::Female));
 PARTY_C_ASSERT(PARTY_GENDER_MALE == static_cast<uint32_t>(PartyGender::Male));
 
+PARTY_C_ASSERT(PARTY_AUDIO_SOURCE_TYPE_MICROPHONE == static_cast<uint32_t>(PartyAudioSourceType::Microphone));
+PARTY_C_ASSERT(PARTY_AUDIO_SOURCE_TYPE_TEXT_TO_SPEECH == static_cast<uint32_t>(PartyAudioSourceType::TextToSpeech));
+
 PARTY_C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_PHRASE_TYPE_HYPOTHESIS == static_cast<uint32_t>(PartyVoiceChatTranscriptionPhraseType::Hypothesis));
 PARTY_C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_PHRASE_TYPE_FINAL == static_cast<uint32_t>(PartyVoiceChatTranscriptionPhraseType::Final));
 
@@ -1834,6 +1859,7 @@ PARTY_C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_TRANSCRIBE_OTHER_CHAT_CONT
 PARTY_C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_TRANSCRIBE_OTHER_CHAT_CONTROLS_WITH_NON_MATCHING_LANGUAGES == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::TranscribeOtherChatControlsWithNonMatchingLanguages));
 PARTY_C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_DISABLE_HYPOTHESIS_PHRASES == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::DisableHypothesisPhrases));
 PARTY_C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_TRANSLATE_TO_LOCAL_LANGUAGE == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::TranslateToLocalLanguage));
+PARTY_C_ASSERT(PARTY_VOICE_CHAT_TRANSCRIPTION_OPTIONS_DISABLE_PROFANITY_MASKING == static_cast<uint32_t>(PartyVoiceChatTranscriptionOptions::DisableProfanityMasking));
 
 PARTY_C_ASSERT(PARTY_TEXT_CHAT_OPTIONS_NONE == static_cast<uint32_t>(PartyTextChatOptions::None));
 PARTY_C_ASSERT(PARTY_TEXT_CHAT_OPTIONS_TRANSLATE_TO_LOCAL_LANGUAGE == static_cast<uint32_t>(PartyTextChatOptions::TranslateToLocalLanguage));
@@ -2349,6 +2375,8 @@ PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::rece
 PARTY_C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, receiverChatControlCount) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, receiverChatControlCount));
 PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::receiverChatControls) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::receiverChatControls));
 PARTY_C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, receiverChatControls) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, receiverChatControls));
+PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::sourceType) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::sourceType));
+PARTY_C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, sourceType) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, sourceType));
 PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::languageCode) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::languageCode));
 PARTY_C_ASSERT(offsetof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE, languageCode) == offsetof(PartyVoiceChatTranscriptionReceivedStateChange, languageCode));
 PARTY_C_ASSERT(sizeof(PARTY_VOICE_CHAT_TRANSCRIPTION_RECEIVED_STATE_CHANGE::transcription) == sizeof(PartyVoiceChatTranscriptionReceivedStateChange::transcription));

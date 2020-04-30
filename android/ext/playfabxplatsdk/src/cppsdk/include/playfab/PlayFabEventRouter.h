@@ -26,6 +26,9 @@ namespace PlayFabInternal
         virtual void RouteEvent(std::shared_ptr<const IPlayFabEmitEventRequest> request) const = 0; // Route an event to pipelines. This method must be thread-safe.
         const std::unordered_map<EventPipelineKey, std::shared_ptr<IPlayFabEventPipeline>>& GetPipelines() const;
 
+        // BUMBLELION: enable manual pumping of event pipeline
+        virtual void Update() = 0;
+
     protected:
         std::unordered_map<EventPipelineKey, std::shared_ptr<IPlayFabEventPipeline>> pipelines;
     };
@@ -36,8 +39,13 @@ namespace PlayFabInternal
     class PlayFabEventRouter: public IPlayFabEventRouter
     {
     public:
-        PlayFabEventRouter();
-        virtual void RouteEvent(std::shared_ptr<const IPlayFabEmitEventRequest> request) const;
+        // BUMBLELION: enable manual pumping of event pipeline
+        PlayFabEventRouter(bool threadedEventPipeline);
+        virtual void RouteEvent(std::shared_ptr<const IPlayFabEmitEventRequest> request) const override;
+
+        // BUMBLELION: enable manual pumping of event pipeline
+        void Update() override;
+
     private:
     };
 }

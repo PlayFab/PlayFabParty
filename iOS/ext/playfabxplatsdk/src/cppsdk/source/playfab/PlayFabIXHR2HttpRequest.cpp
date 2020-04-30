@@ -11,6 +11,8 @@
 
 #include <stdafx.h>
 
+#if defined(PLAYFAB_PLATFORM_XBOX) || defined(BUMBLELION_UWP)
+
 #include <playfab/PlayFabIXHR2HttpRequest.h>
 #include <string>
 #include <sstream>
@@ -348,9 +350,9 @@ HttpRequest::HttpRequest() :
         return;
     }
 
-    // Specifies the HTTP stack should continuously call OnDataAvailable as data comes in with no threshold. 
+    // Specifies the HTTP stack should continuously call OnDataAvailable as data comes in with no threshold.
     // For backwards compatibility this is the default behavior, but not the suggested setting.
-    //m_pXHR->SetProperty(XHR_PROP_ONDATA_THRESHOLD, XHR_PROP_ONDATA_ALWAYS); 
+    //m_pXHR->SetProperty(XHR_PROP_ONDATA_THRESHOLD, XHR_PROP_ONDATA_ALWAYS);
 }
 
 // ----------------------------------------------------------------------------
@@ -388,7 +390,7 @@ HRESULT HttpRequest::Open(const std::wstring& verb, const std::wstring& url, con
     {
         return E_INVALIDARG;
     }
-    
+
     HRESULT hr = E_FAIL;
 
     // Open a connection for an HTTP GET request.
@@ -419,7 +421,8 @@ HRESULT HttpRequest::Open(const std::wstring& verb, const std::wstring& url, con
     // string following the standard header format "Header: value\r\n" to
     // be used with the token and signature retrieval API
     //
-    for (INT i = 0; i < headers.size(); i++)
+    // BUMBLELION: Change i from INT to UINT due to signed/unsigned mismatch.
+    for (UINT i = 0; i < headers.size(); i++)
     {
         std::wstring wstrHeaderName = headers[i].wstrHeaderName;
         std::wstring wstrHeaderValue = headers[i].wstrHeaderValue;
@@ -511,7 +514,8 @@ HRESULT HttpRequest::Open(const std::wstring& verb, const std::wstring& url, con
     // string following the standard header format "Header: value\r\n" to
     // be used with the token and signature retrieval API
     //
-    for (INT i = 0; i < headers.size(); i++)
+    // BUMBLELION: Change i from INT to UINT due to signed/unsigned mismatch.
+    for (UINT i = 0; i < headers.size(); i++)
     {
         std::wstring wstrHeaderName = headers[i].wstrHeaderName;
         std::wstring wstrHeaderValue = headers[i].wstrHeaderValue;
@@ -614,8 +618,8 @@ STDMETHODIMP RequestStream::Open(LPCSTR psBuffer, ULONG cbBufferSize)
     m_buffSize = cbBufferSize;
     m_buffSeekIndex = 0;
 
-    // Create a buffer to store a copy of the request (and include space for the null 
-    // terminator, as generally this method can accept the result of strlen() for 
+    // Create a buffer to store a copy of the request (and include space for the null
+    // terminator, as generally this method can accept the result of strlen() for
     // cbBufferSize). This buffer is deleted in the destructor.
     m_buffer = new (std::nothrow) char[cbBufferSize];
     if (m_buffer == nullptr)
@@ -820,3 +824,5 @@ HRESULT RequestStream::Invoke(
     return S_OK;
 }
 // ----------------------------------------------------------------------------
+
+#endif // defined(PLAYFAB_PLATFORM_XBOX) || defined(BUMBLELION_UWP)

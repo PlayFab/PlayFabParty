@@ -1,16 +1,16 @@
 // Copyright (C) Microsoft Corporation. All rights reserved.
-// 
+//
 // This header file is used to include headers of transport plugins supported on each platform.
 
 #pragma once
 
 #include <playfab/PlayFabPlatformMacros.h>
 
-#ifdef PLAYFAB_PLATFORM_XBOX
+#if defined(PLAYFAB_PLATFORM_XBOX) || defined(BUMBLELION_UWP)
 #include <playfab/PlayFabIXHR2HttpPlugin.h>
 #endif // PLAYFAB_PLATFORM_XBOX
 
-#ifdef PLAYFAB_PLATFORM_WINDOWS
+#if defined(PLAYFAB_PLATFORM_WINDOWS) && !defined(BUMBLELION_UWP)
 #include <playfab/PlayFabWinHttpPlugin.h>
 #endif // PLAYFAB_PLATFORM_WINDOWS
 

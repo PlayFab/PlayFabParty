@@ -10,10 +10,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="source\playfab\PlayFabIXHR2HttpPlugin.cpp" />
-    <ClCompile Include="source\playfab\PlayFabIXHR2HttpRequest.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v141</PlatformToolset>

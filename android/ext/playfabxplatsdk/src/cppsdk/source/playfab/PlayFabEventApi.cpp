@@ -6,8 +6,16 @@
 
 namespace PlayFabInternal
 {
+    // BUMBLELION: enable manual pumping of event pipeline
+    // the default behavior is to use background threads to pump the event pipelines
     PlayFabEventAPI::PlayFabEventAPI() :
-        eventRouter(std::shared_ptr<PlayFabEventRouter>(new PlayFabEventRouter())) // default event router
+        PlayFabEventAPI(true)
+    {
+    }
+
+    // BUMBLELION: enable manual pumping of event pipeline
+    PlayFabEventAPI::PlayFabEventAPI(bool threadedEventPipeline) :
+        eventRouter(std::make_shared<PlayFabEventRouter>(threadedEventPipeline))
     {
     }
 
@@ -34,6 +42,11 @@ namespace PlayFabInternal
         eventRequest->stdCallback = callback;
 
         this->eventRouter->RouteEvent(eventRequest);
+    }
+
+    void PlayFabEventAPI::Update()
+    {
+        this->eventRouter->Update();
     }
 }
 

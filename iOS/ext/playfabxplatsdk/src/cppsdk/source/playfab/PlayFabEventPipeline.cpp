@@ -24,35 +24,43 @@ namespace PlayFabInternal
         maximalNumberOfBatchesInFlight(defaultMaxBatchesInFlight),
         readBufferWaitTime(defaultReadBufferWaitTimeInMs),
         authenticationContext(nullptr),
-        emitType(PlayFabEventPipelineType::PlayFabPlayStream)
+        emitType(PlayFabEventPipelineType::PlayFabPlayStream),
+        // BUMBLELION: enable manual pumping of event pipeline
+        useBackgroundThread(true)
     {
     }
 
-    PlayFabEventPipelineSettings::PlayFabEventPipelineSettings(PlayFabEventPipelineType type) :
+    PlayFabEventPipelineSettings::PlayFabEventPipelineSettings(PlayFabEventPipelineType type, bool useBackgroundThread) :
         bufferSize(defaultBufferSize),
         maximalNumberOfItemsInBatch(defaultMaxItemsInBatch),
         maximalBatchWaitTime(defaultMaxBatchWaitTimeInSeconds),
         maximalNumberOfBatchesInFlight(defaultMaxBatchesInFlight),
         readBufferWaitTime(defaultReadBufferWaitTimeInMs),
         authenticationContext(nullptr),
-        emitType(type)
+        emitType(type),
+        // BUMBLELION: enable manual pumping of event pipeline
+        useBackgroundThread(useBackgroundThread)
     {
     }
 
     PlayFabEventPipeline::PlayFabEventPipeline(std::shared_ptr<PlayFabEventPipelineSettings> settings) :
+        batchCounter(0),
         buffer(settings->bufferSize),
         isWorkerThreadRunning(false)
     {
         this->settings = std::move(settings);
         this->batch.reserve(this->settings->maximalNumberOfItemsInBatch);
         this->batchesInFlight.reserve(this->settings->maximalNumberOfBatchesInFlight);
-        this->Start();
+        if (this->settings->useBackgroundThread)
+        {
+            this->Start();
+        }
     }
 
     PlayFabEventPipeline::~PlayFabEventPipeline()
     {
-        // BUMBLELION: the stop functionality was refactored into its own function, so it could be reused for
-        // GameCore's need to pause and resume the event pipelines.
+        // BUMBLELION: the stop functionality was refactored into its own function so that when tokens expire we can
+        // prevent the pipeline from enqueuing a bunch of requests which we know will fail
         Stop();
     }
 
@@ -66,8 +74,8 @@ namespace PlayFabInternal
         }
     }
 
-    // BUMBLELION: the stop functionality was refactored into its own function, so it could be reused for
-    // GameCore's need to pause and resume the event pipelines.
+    // BUMBLELION: the stop functionality was refactored into its own function so that when tokens expire we can
+    // prevent the pipeline from enqueuing a bunch of requests which we know will fail
     void PlayFabEventPipeline::Stop()
     {
         // stop worker thread
@@ -76,6 +84,20 @@ namespace PlayFabInternal
         {
             this->workerThread.join();
         }
+    }
+
+    void PlayFabEventPipeline::Update()
+    {
+        if (this->settings->useBackgroundThread)
+        {
+            throw std::runtime_error("You should not call Update() when PlayFabEventPipelineSettings::useBackgroundThread == true");
+        }
+
+        bool hasMoreWorkToProcess;
+        do
+        {
+            hasMoreWorkToProcess = DoWork();
+        } while (hasMoreWorkToProcess);
     }
 
     std::shared_ptr<PlayFabEventPipelineSettings> PlayFabEventPipeline::GetSettings() const
@@ -141,97 +163,106 @@ namespace PlayFabInternal
 
     void PlayFabEventPipeline::WorkerThread()
     {
-        using clock = std::chrono::steady_clock;
-        using Result = PlayFabEventBuffer::EventConsumingResult;
-        std::shared_ptr<const IPlayFabEmitEventRequest> request;
-        size_t batchCounter = 0; // used to track uniqueness of batches in the map
-        std::chrono::steady_clock::time_point momentBatchStarted; // used to track when a currently assembled batch got its first event
-
         while (this->isWorkerThreadRunning)
         {
-            try
+            bool hasMoreWorkToProcess = DoWork();
+            if (!hasMoreWorkToProcess)
             {
-                // Process events in the loop
-                if (this->batchesInFlight.size() >= this->settings->maximalNumberOfBatchesInFlight)
-                {
-                    // do not take new events from buffer if batches currently in flight are at the maximum allowed number
-                    // and are not sent out (or received an error) yet
-                    std::this_thread::sleep_for(std::chrono::milliseconds(this->settings->readBufferWaitTime)); // give some time for batches in flight to deflate
-                    continue;
-                }
-
-                // BUMBLELION: Don't try taking a request until we get an entity token. We'd rather not lose events
-                // that were generated before an entity token was created (i.e. before a user was created).
-                if (!PlayFabSettings::entityToken.empty() ||
-                    (settings->authenticationContext != nullptr && !settings->authenticationContext->entityToken.empty()))
-                {
-                    switch (this->buffer.TryTake(request))
-                    {
-                        case Result::Success:
-                        {
-                            // add an event to batch
-                            this->batch.push_back(std::move(request));
-
-                            // if batch is full
-                            if (this->batch.size() >= this->settings->maximalNumberOfItemsInBatch)
-                            {
-                                this->SendBatch(batchCounter);
-                            }
-                            else if (this->batch.size() == 1)
-                            {
-                                // if it is the first event in an incomplete batch then set the batch creation moment
-                                momentBatchStarted = clock::now();
-                            }
-
-                            continue; // immediately check if there is next event in buffer
-                        }
-                        break;
-
-                        case Result::Disabled:
-                        case Result::Empty:
-                        default:
-                            break;
-                    }
-
-                    // if batch was started
-                    if (this->batch.size() > 0)
-                    {
-                        // check if the batch wait time expired
-                        std::chrono::seconds batchAge = std::chrono::duration_cast<std::chrono::seconds>(clock::now() - momentBatchStarted);
-                        if (batchAge.count() >= (int32_t)this->settings->maximalBatchWaitTime)
-                        {
-                            // batch wait time expired, send incomplete batch
-                            this->SendBatch(batchCounter);
-                            continue; // immediately check if there is next event in buffer
-                        }
-                    }
-                }
-
-                // event buffer is disabled or empty, and batch is not ready to be sent yet
-                // give some time back to CPU, don't starve it without a good reason
+                // give some time for batches in flight to deflate
                 std::this_thread::sleep_for(std::chrono::milliseconds(this->settings->readBufferWaitTime));
-            }
-            catch (const std::exception& ex)
-            {
-                LOG_PIPELINE("An exception was caught in PlayFabEventPipeline::WorkerThread method");
-                this->isWorkerThreadRunning = false;
-
-                { // LOCK userCallbackMutex
-                    std::unique_lock<std::mutex> lock(userExceptionCallbackMutex);
-                    if (userExceptionCallback)
-                    {
-                        userExceptionCallback(ex);
-                    }
-                } // UNLOCK userCallbackMutex
-            }
-            catch(...)
-            {
-                LOG_PIPELINE("A non std::exception was caught in PlayFabEventPipeline::WorkerThread method");
             }
         }
     }
 
-    void PlayFabEventPipeline::SendBatch(size_t& batchCounter)
+    bool PlayFabEventPipeline::DoWork()
+    {
+        using clock = std::chrono::steady_clock;
+        using Result = PlayFabEventBuffer::EventConsumingResult;
+        std::shared_ptr<const IPlayFabEmitEventRequest> request;
+
+        try
+        {
+            // Process events in the loop
+            if (this->batchesInFlight.size() >= this->settings->maximalNumberOfBatchesInFlight)
+            {
+                // do not take new events from buffer if batches currently in flight are at the maximum allowed number
+                // and are not sent out (or received an error) yet
+                return false;
+            }
+
+            // BUMBLELION: Don't try taking a request until we get an entity token. We'd rather not lose events
+            // that were generated before an entity token was created (i.e. before a user was created).
+            if (PlayFabSettings::entityToken.empty() &&
+                (settings->authenticationContext == nullptr || settings->authenticationContext->entityToken.empty()))
+            {
+                return false;
+            }
+
+            switch (this->buffer.TryTake(request))
+            {
+                case Result::Success:
+                {
+                    // add an event to batch
+                    this->batch.push_back(std::move(request));
+
+                    // if batch is full
+                    if (this->batch.size() >= this->settings->maximalNumberOfItemsInBatch)
+                    {
+                        this->SendBatch();
+                    }
+                    else if (this->batch.size() == 1)
+                    {
+                        // if it is the first event in an incomplete batch then set the batch creation moment
+                        momentBatchStarted = clock::now();
+                    }
+
+                    return true;
+                }
+
+                case Result::Disabled:
+                case Result::Empty:
+                default:
+                    break;
+            }
+
+            // if batch was started
+            if (this->batch.size() > 0)
+            {
+                // check if the batch wait time expired
+                std::chrono::seconds batchAge = std::chrono::duration_cast<std::chrono::seconds>(clock::now() - momentBatchStarted);
+                if (batchAge.count() >= (int32_t)this->settings->maximalBatchWaitTime)
+                {
+                    // batch wait time expired, send incomplete batch
+                    this->SendBatch();
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        catch (const std::exception& ex)
+        {
+            LOG_PIPELINE("An exception was caught in PlayFabEventPipeline::WorkerThread method");
+            this->isWorkerThreadRunning = false;
+
+            { // LOCK userCallbackMutex
+                std::unique_lock<std::mutex> lock(userExceptionCallbackMutex);
+                if (userExceptionCallback)
+                {
+                    userExceptionCallback(ex);
+                }
+            } // UNLOCK userCallbackMutex
+
+            return false;
+        }
+        catch(...)
+        {
+            LOG_PIPELINE("A non std::exception was caught in PlayFabEventPipeline::WorkerThread method");
+            return false;
+        }
+    }
+
+    void PlayFabEventPipeline::SendBatch()
     {
         // create a WriteEvents API request to send the batch
         EventsModels::WriteEventsRequest batchReq;
@@ -246,10 +277,10 @@ namespace PlayFabInternal
             batchReq.Events.push_back(playFabEmitRequest->event->eventContents);
         }
 
+        uintptr_t batchId = this->batchCounter.fetch_add(1);
         // add batch to flight tracking map
-        void* customData = reinterpret_cast<void*>(batchCounter); // used to track batches across asynchronous Events API
+        void* customData = reinterpret_cast<void*>(batchId); // used to track batches across asynchronous Events API
         this->batchesInFlight[customData] = std::move(this->batch);
-        batchCounter++;
 
         this->batch.clear(); // batch vector will be reused
         this->batch.reserve(this->settings->maximalNumberOfItemsInBatch);
@@ -299,7 +330,7 @@ namespace PlayFabInternal
                     playFabEmitEventResponse->playFabError = playFabError;
                     playFabEmitEventResponse->writeEventsResponse = std::shared_ptr<EventsModels::WriteEventsResponse>(new EventsModels::WriteEventsResponse(result));
                     playFabEmitEventResponse->batch = requestBatchPtr;
-                    playFabEmitEventResponse->batchNumber = reinterpret_cast<size_t>(customData);
+                    playFabEmitEventResponse->batchNumber = static_cast<size_t>(reinterpret_cast<uintptr_t>(customData));
 
                     // call an emit event callback
                     CallbackRequest(playFabEmitRequest, std::move(playFabEmitEventResponse));
@@ -337,7 +368,7 @@ namespace PlayFabInternal
                     playFabEmitEventResponse->emitEventResult = EmitEventResult::Success;
                     playFabEmitEventResponse->playFabError = std::shared_ptr<PlayFabError>(new PlayFabError(error));
                     playFabEmitEventResponse->batch = requestBatchPtr;
-                    playFabEmitEventResponse->batchNumber = reinterpret_cast<size_t>(customData);
+                    playFabEmitEventResponse->batchNumber = static_cast<size_t>(reinterpret_cast<uintptr_t>(customData));
 
                     // call an emit event callback
                     CallbackRequest(playFabEmitRequest, std::move(playFabEmitEventResponse));
