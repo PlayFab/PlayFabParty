@@ -15,5 +15,8 @@ Please use the latest Xcode.
 6. Select your destination device (iPhone, iPad)
 7. Build and Run using standard Xcode operations.
 
+## Configuring PlayFab
+Before the iOS app will work, you need to configure your PlayFab instance correctly in the Game Manager. See `Readme.md` within the `PartySampleNetworkCommon` folder for detailed instructions.
+
 ## Running
 As PartySample app starts on an iOS device it will show a screen asking to provide a PlayFab title ID and select a sample user. Please provide required information and tap "Login". Create, Join or Leave party rooms to interact with other users.

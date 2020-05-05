@@ -1,89 +1,12 @@
 ### PlayFab Configuration
 
-This sample requires the title be configured for Party on the Multiplayer tab of Game Manager and relies on the following settings being configured in the PlayFab developer portal.
-
-**Multiplayer Server Builds**
-
-A server build has to be running for at least one region.
-An empty zip file can be uploaded as the server build assets, 
-and the build itself doesn't have to deploy healthily as long 
-as the region is defined to have servers available.
+This sample requires the title be configured for Party. You'll need to enable Party support by going to the Multiplayer tab of the Game Manager, going to the Party tab, and turning it on. You will need to add billing information, even as running this sample app won't incur any charges as long as your title is in Development mode.
 
 **Cloud Script**
 
-The following cloud script is required:
+To run this sample, you will need a Cloud Script in order to synchronize room IDs across clients.
 
-```javascript
-//
-// Used to store a network descriptor on the server retrievable by the roomId
-// Inputs:
-//    roomId - The hash key used to store and retrieve the network descriptor.
-//    networkDescriptor - The network descriptor used to connect to a party network.
-//
-handlers.save_network_descriptor = function (args, context) 
-{
-  if (args && args.hasOwnProperty("roomId"))
-  {
-    var roomId = args.roomId;
-  }
-  else
-  {
-    return;
-  }
-  
-  if (args && args.hasOwnProperty("networkDescriptor"))
-  {
-    var networkDescriptor = args.networkDescriptor;
-  }
-  else
-  {
-    return;
-  }
-  
-  try {
-    server.CreateSharedGroup({ SharedGroupId: roomId });
-  } catch(err) {
-    log.info("Shared group " + roomId + " already exists.");
-    log.error(err);
-  }
-
-  var updateRequest = {
-    SharedGroupId: roomId,
-    Data: {
-      "network": networkDescriptor
-    }
-  };
-
-  server.UpdateSharedGroupData(updateRequest);
-};
-
-//
-// Used to retrieve a previously stored network descriptor by roomId.
-// Inputs:
-//    roomId - The hash key used to store and retrieve the network descriptor.
-//
-handlers.get_network_descriptor = function (args, context) 
-{
-  if (args && args.hasOwnProperty("roomId"))
-  {
-    var roomId = args.roomId;
-  }
-  else
-  {
-    return;
-  }
-  
-  try 
-  {
-    var getRes = server.GetSharedGroupData({ SharedGroupId: roomId });
-    return getRes.Data;
-  } 
-  catch(err) 
-  {
-    return;
-  }
-};
-```
+In the Game Manager, go to the "Automation" tab, and then the "Revisions" section of the "Cloud Script" screen. Paste in the contents of the "cloudScript.js" file in this folder.
 
 ### Accessing Playfab Storage For Network Descriptors
 

@@ -13,6 +13,9 @@ Please use the latest Android Studio.
 4. Once the project has opened and gradle has synced, in Android Studio select `Run->Run 'demo'`
 5. Select your destination device and press `OK`
 
+## Configuring PlayFab
+Before the Android app will work, you need to configure your PlayFab instance correctly in the Game Manager. See `Readme.md` within the `../PartySampleNetworkCommon` folder for detailed instructions.
+
 ## Running
 As the PartySample app starts on your Android device it will show a screen asking you to provide a PlayFab title ID and select a sample user. Please provide the required information and tap "Login". 
 
