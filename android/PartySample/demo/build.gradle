@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 def libType
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('D:\\mimacken\\Documents\\mykey.keystore')
+            storePassword 'dispatch'
+            keyAlias = 'mimacken'
+            keyPassword 'dispatch'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.microsoft.playfab.partysample"
@@ -22,6 +30,7 @@ android {
             libType = 'release'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         debug {
             libType = 'debug'

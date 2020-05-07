@@ -1,8 +1,0 @@
-//
-//  WarningFlags.xcconfig
-//  playfabxplatcppsdk_ios
-//
-//  Copyright © 2019 Microsoft. All rights reserved.
-//
-
-#include? "../../../../build/apple/CommonProperties.props"
