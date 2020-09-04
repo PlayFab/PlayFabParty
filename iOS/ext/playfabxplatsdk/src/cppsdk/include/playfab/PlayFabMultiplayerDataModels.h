@@ -4679,6 +4679,35 @@ namespace PlayFabInternal
             }
         };
 
+        struct PartyBuildAliasParams : public PlayFabBaseModel
+        {
+            std::string AliasId;
+
+            PartyBuildAliasParams() :
+                PlayFabBaseModel(),
+                AliasId()
+            {}
+
+            PartyBuildAliasParams(const PartyBuildAliasParams& src) :
+                PlayFabBaseModel(),
+                AliasId(src.AliasId)
+            {}
+
+            ~PartyBuildAliasParams() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["AliasId"], AliasId);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_AliasId; ToJsonUtilS(AliasId, each_AliasId); output["AliasId"] = each_AliasId;
+                return output;
+            }
+        };
+
         struct RequestMultiplayerServerRequest : public PlayFabRequestCommon
         {
             Boxed<BuildAliasParams> pfBuildAliasParams;
@@ -4809,6 +4838,8 @@ namespace PlayFabInternal
 
         struct RequestPartyRequest : public PlayFabRequestCommon
         {
+            Boxed<PartyBuildAliasParams> BuildAliasParams;
+            std::map<std::string, std::string> CustomTags;
             std::string PartyId;
             std::list<std::string> PreferredRegions;
             std::string SessionCookie;
@@ -4816,6 +4847,8 @@ namespace PlayFabInternal
 
             RequestPartyRequest() :
                 PlayFabRequestCommon(),
+                BuildAliasParams(),
+                CustomTags(),
                 PartyId(),
                 PreferredRegions(),
                 SessionCookie(),
@@ -4824,6 +4857,8 @@ namespace PlayFabInternal
 
             RequestPartyRequest(const RequestPartyRequest& src) :
                 PlayFabRequestCommon(),
+                BuildAliasParams(src.BuildAliasParams),
+                CustomTags(src.CustomTags),
                 PartyId(src.PartyId),
                 PreferredRegions(src.PreferredRegions),
                 SessionCookie(src.SessionCookie),
@@ -4834,6 +4869,8 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilO(input["BuildAliasParams"], BuildAliasParams);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["PartyId"], PartyId);
                 FromJsonUtilS(input["PreferredRegions"], PreferredRegions);
                 FromJsonUtilS(input["SessionCookie"], SessionCookie);
@@ -4843,6 +4880,8 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_BuildAliasParams; ToJsonUtilO(BuildAliasParams, each_BuildAliasParams); output["BuildAliasParams"] = each_BuildAliasParams;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_PartyId; ToJsonUtilS(PartyId, each_PartyId); output["PartyId"] = each_PartyId;
                 Json::Value each_PreferredRegions; ToJsonUtilS(PreferredRegions, each_PreferredRegions); output["PreferredRegions"] = each_PreferredRegions;
                 Json::Value each_SessionCookie; ToJsonUtilS(SessionCookie, each_SessionCookie); output["SessionCookie"] = each_SessionCookie;
@@ -4853,6 +4892,7 @@ namespace PlayFabInternal
 
         struct RequestPartyResponse : public PlayFabResultCommon
         {
+            std::string BuildId;
             std::list<ConnectedPlayer> ConnectedPlayers;
             std::string DTLSCertificateSHA2Thumbprint;
             std::string FQDN;
@@ -4867,6 +4907,7 @@ namespace PlayFabInternal
 
             RequestPartyResponse() :
                 PlayFabResultCommon(),
+                BuildId(),
                 ConnectedPlayers(),
                 DTLSCertificateSHA2Thumbprint(),
                 FQDN(),
@@ -4882,6 +4923,7 @@ namespace PlayFabInternal
 
             RequestPartyResponse(const RequestPartyResponse& src) :
                 PlayFabResultCommon(),
+                BuildId(src.BuildId),
                 ConnectedPlayers(src.ConnectedPlayers),
                 DTLSCertificateSHA2Thumbprint(src.DTLSCertificateSHA2Thumbprint),
                 FQDN(src.FQDN),
@@ -4899,6 +4941,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["BuildId"], BuildId);
                 FromJsonUtilO(input["ConnectedPlayers"], ConnectedPlayers);
                 FromJsonUtilS(input["DTLSCertificateSHA2Thumbprint"], DTLSCertificateSHA2Thumbprint);
                 FromJsonUtilS(input["FQDN"], FQDN);
@@ -4915,6 +4958,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_BuildId; ToJsonUtilS(BuildId, each_BuildId); output["BuildId"] = each_BuildId;
                 Json::Value each_ConnectedPlayers; ToJsonUtilO(ConnectedPlayers, each_ConnectedPlayers); output["ConnectedPlayers"] = each_ConnectedPlayers;
                 Json::Value each_DTLSCertificateSHA2Thumbprint; ToJsonUtilS(DTLSCertificateSHA2Thumbprint, each_DTLSCertificateSHA2Thumbprint); output["DTLSCertificateSHA2Thumbprint"] = each_DTLSCertificateSHA2Thumbprint;
                 Json::Value each_FQDN; ToJsonUtilS(FQDN, each_FQDN); output["FQDN"] = each_FQDN;

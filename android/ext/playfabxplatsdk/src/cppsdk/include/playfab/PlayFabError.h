@@ -5,7 +5,7 @@
 
 namespace PlayFabInternal
 {
-    enum  class PlayFabErrorCode
+    enum class PlayFabErrorCode
     {
         PlayFabErrorHostnameNotFound = 1,
         PlayFabErrorConnectionTimeout,
@@ -491,6 +491,22 @@ namespace PlayFabInternal
         PlayFabErrorInsightsManagementGetOperationStatusInvalidParameter = 1488,
         PlayFabErrorDuplicatePurchaseTransactionId = 1489,
         PlayFabErrorEvaluationModePlayerCountExceeded = 1490,
+        PlayFabErrorGetPlayersInSegmentRateLimitExceeded = 1491,
+        PlayFabErrorCloudScriptFunctionNameSizeExceeded = 1492,
+        PlayFabErrorInsightsManagementTitleInEvaluationMode = 1493,
+        PlayFabErrorCloudScriptAzureFunctionsQueueRequestError = 1494,
+        PlayFabErrorEvaluationModeTitleCountExceeded = 1495,
+        PlayFabErrorInsightsManagementTitleNotInFlight = 1496,
+        PlayFabErrorLimitNotFound = 1497,
+        PlayFabErrorLimitNotAvailableViaAPI = 1498,
+        PlayFabErrorInsightsManagementSetStorageRetentionBelowMinimum = 1499,
+        PlayFabErrorInsightsManagementSetStorageRetentionAboveMaximum = 1500,
+        PlayFabErrorAppleNotEnabledForTitle = 1501,
+        PlayFabErrorInsightsManagementNewActiveEventExportLimitInvalid = 1502,
+        PlayFabErrorInsightsManagementSetPerformanceRateLimited = 1503,
+        PlayFabErrorPartyRequestsThrottledFromRateLimiter = 1504,
+        PlayFabErrorXboxServiceTooManyRequests = 1505,
+        PlayFabErrorNintendoSwitchNotEnabledForTitle = 1506,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,
@@ -543,6 +559,15 @@ namespace PlayFabInternal
         PlayFabErrorExportCantEditPendingExport = 5014,
         PlayFabErrorExportLimitExports = 5015,
         PlayFabErrorExportLimitEvents = 5016,
+        PlayFabErrorExportInvalidPartitionStatusModification = 5017,
+        PlayFabErrorExportCouldNotCreate = 5018,
+        PlayFabErrorExportNoBackingDatabaseFound = 5019,
+        PlayFabErrorExportCouldNotDelete = 5020,
+        PlayFabErrorExportCannotDetermineEventQuery = 5021,
+        PlayFabErrorExportInvalidQuerySchemaModification = 5022,
+        PlayFabErrorExportQuerySchemaMissingRequiredColumns = 5023,
+        PlayFabErrorExportCannotParseQuery = 5024,
+        PlayFabErrorExportControlCommandsNotAllowed = 5025,
         PlayFabErrorTitleNotEnabledForParty = 6000,
         PlayFabErrorPartyVersionNotFound = 6001,
         PlayFabErrorMultiplayerServerBuildReferencedByMatchmakingQueue = 6002,
@@ -552,11 +577,16 @@ namespace PlayFabInternal
         PlayFabErrorExperimentationExperimentNeverStarted = 7003,
         PlayFabErrorExperimentationExperimentDeleted = 7004,
         PlayFabErrorExperimentationClientTimeout = 7005,
-        PlayFabErrorExperimentationExceededVariantNameLength = 7006,
-        PlayFabErrorExperimentationExceededMaxVariantLength = 7007,
+        PlayFabErrorExperimentationInvalidVariantConfiguration = 7006,
+        PlayFabErrorExperimentationInvalidVariableConfiguration = 7007,
         PlayFabErrorExperimentInvalidId = 7008,
         PlayFabErrorExperimentationNoScorecard = 7009,
+        PlayFabErrorExperimentationTreatmentAssignmentFailed = 7010,
+        PlayFabErrorExperimentationTreatmentAssignmentDisabled = 7011,
+        PlayFabErrorExperimentationInvalidDuration = 7012,
+        PlayFabErrorExperimentationMaxExperimentsReached = 7013,
         PlayFabErrorMaxActionDepthExceeded = 8000,
+        PlayFabErrorTitleNotOnUpdatedPricingPlan = 9000,
         PlayFabErrorSnapshotNotFound = 11000,
     };
 
@@ -586,4 +616,29 @@ namespace PlayFabInternal
 
     typedef std::function<void(const PlayFabError& error, void* customData)> ErrorCallback;
     typedef std::function<void(std::exception exception)> ExceptionCallback;
+
+    enum class PlayFabExceptionCode
+    {
+        AuthContextRequired,
+        DeveloperKeyNotSet,
+        EntityTokenNotSet,
+        NotLoggedIn,
+        PluginAmbiguity,
+        PluginNotFound,
+        ThreadMisuse,
+        TitleNotSet,
+    };
+
+    class PlayFabException : public std::runtime_error
+    {
+    public:
+        PlayFabException() = delete;
+        PlayFabException(const PlayFabException& source) = delete;
+        PlayFabException(PlayFabException&&) = default;
+        PlayFabException& operator=(const PlayFabException& source) = delete;
+        PlayFabException& operator=(PlayFabException&& other) = delete;
+
+        PlayFabExceptionCode Code;
+        PlayFabException(PlayFabExceptionCode code, const char* const message);
+    };
 }

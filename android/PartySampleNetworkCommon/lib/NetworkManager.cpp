@@ -645,7 +645,7 @@ PartyStateChangeResultToReasonString(
     case PartyStateChangeResult::Succeeded: return "Succeeded";
     case PartyStateChangeResult::UnknownError: return "An unknown error occured";
     case PartyStateChangeResult::InternetConnectivityError: return "The local device has internet connectivity issues which caused the operation to fail";
-    case PartyStateChangeResult::PartyServiceError: return "The CommunicationFabric service is unable to create a new network at this time";
+    case PartyStateChangeResult::PartyServiceError: return "The Party service is unable to create a new network at this time";
     case PartyStateChangeResult::NoServersAvailable: return "There are no available servers in the regions specified by the call to PartyManager::CreateNewNetwork()";
     case PartyStateChangeResult::CanceledByTitle: return "Operation canceled by title.";
     case PartyStateChangeResult::UserCreateNetworkThrottled: return "The PartyLocalUser specified in the call to PartyManager::CreateNewNetwork() has created too many networks and cannot create new networks at this time";
@@ -653,9 +653,10 @@ PartyStateChangeResultToReasonString(
     case PartyStateChangeResult::NetworkLimitReached: return "The network is full and is not allowing new devices or users to join";
     case PartyStateChangeResult::NetworkNoLongerExists: return "The network no longer exists";
     case PartyStateChangeResult::NetworkNotJoinable: return "The network is not currently allowing new devices or users to join";
-    case PartyStateChangeResult::VersionMismatch: return "The network uses a version of the CommunicationFabric library that is incompatible with this library";
+    case PartyStateChangeResult::VersionMismatch: return "The network uses a version of the Party library that is incompatible with this library";
     case PartyStateChangeResult::UserNotAuthorized: return "The specified user was not authorized";
     case PartyStateChangeResult::LeaveNetworkCalled: return "The network was gracefully exited by the local device";
+    case PartyStateChangeResult::FailedToBindToLocalUdpSocket: return "The library could not bind to the local UDP socket specified in the PartyOption::LocalUdpSocketBindAddress option";
     }
     return "Unknown enumeration value";
 }

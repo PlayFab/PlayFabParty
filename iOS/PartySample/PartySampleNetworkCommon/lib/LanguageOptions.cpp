@@ -48,7 +48,7 @@ const char* LanguageOptions::s_languageNames[LanguageOptions::s_numberOfLanguage
     "Arabic (Egypt)",
     "Catalan (Spain)",
     "Chinese (Mandarin, Simplified)",
-    "Chinese (Mandarin, Traditional)",
+    "Chinese (Cantonese, Traditional)",
     "Chinese (Taiwanese Mandarin)",
     "Danish (Denmark)",
     "Dutch (Netherlands)",

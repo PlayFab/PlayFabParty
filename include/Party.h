@@ -104,6 +104,28 @@ typedef class PartyLocalUser * const * PartyLocalUserArray;
 constexpr uint32_t c_maxNetworkConfigurationMaxDeviceCount = 32;
 
 /// <summary>
+/// The maximum number of direct peer connections that individual devices attempt to establish.
+/// </summary>
+/// <remarks>
+/// When successfully authenticating an initial local user into a network with a
+/// <see cref="PartyNetworkConfiguration::directPeerConnectivityOptions" /> field set to a value other than
+/// <see cref="PartyDirectPeerConnectivityOptions::None" />, devices may attempt direct peer connectivity to each other.
+/// To avoid excessive resource consumption, the Party library will internally prevent any given device from attempting
+/// to establish more direct peer connections than this maximum across all networks in which it's currently
+/// participating. This doesn't affect the device's ability to participate in large or multiple networks with additional
+/// remote devices, it simply defines the number of opportunities for endpoint messages and chat data between the
+/// devices to be transmitted using those direct connections instead of via transparent cloud relay servers.
+/// <para>
+/// You can determine whether the local device actually established a direct peer-to-peer connection to a specific
+/// remote device in a network by calling <see cref="PartyNetwork::GetDeviceConnectionType()" />.
+/// </para>
+/// </remarks>
+/// <seealso cref="PartyDirectPeerConnectivityOptions" />
+/// <seealso cref="PartyNetworkConfiguration" />
+/// <seealso cref="PartyNetwork::GetDeviceConnectionType" />
+constexpr uint32_t c_maxDirectPeerConnectionsPerDevice = 7;
+
+/// <summary>
 /// The maximum allowed value for <see cref="PartyNetworkConfiguration::maxEndpointsPerDeviceCount" />.
 /// </summary>
 /// <seealso cref="PartyNetworkConfiguration" />
@@ -837,6 +859,12 @@ enum class PartyStateChangeResult
     /// The network was gracefully exited by the local device.
     /// </summary>
     LeaveNetworkCalled,
+
+    /// <summary>
+    /// The operation failed because the Party library was unable to bind to the socket specified in the
+    /// <see cref="PartyOption::LocalUdpSocketBindAddress" /> option.
+    /// </summary>
+    FailedToBindToLocalUdpSocket,
 };
 
 /// <summary>
@@ -912,26 +940,80 @@ enum class PartyDestroyedReason
 /// <seealso cref="PartyManager::SetOption" />
 /// <seealso cref="PartyManager::GetOption" />
 /// <seealso cref="PartyLocalUdpSocketBindAddressConfiguration" />
+/// <seealso cref="PartyNetworkConfiguration" />
+/// <seealso cref="PartyDirectPeerConnectivityOptions" />
 enum class PartyOption : uint32_t
 {
     /// <summary>
     /// An option used to configure how the Party library binds to a UDP socket.
     /// </summary>
     /// <remarks>
-    /// It is safe to override or query for this option prior to initializing the Party library. Overriding the local
-    /// UDP socket bind address configuration will take effect the next time the Party library is initialized.
-    /// <para>
     /// To override this option, call <see cref="PartyManager::SetOption" /> passing null for the object parameter, this
     /// value for the option parameter, and an optional pointer to a PartyLocalUdpSocketBindAddressConfiguration
     /// structure for the value.
-    /// </para>
     /// <para>
     /// To query this option, call <see cref="PartyManager::GetOption" /> passing null for the object parameter, this
     /// value for the option parameter, and a pointer to an output PartyLocalUdpSocketBindAddressConfiguration structure
     /// for the value.
     /// </para>
+    /// <para>
+    /// It's safe and recommended to override or query for this option prior to initializing the Party library.
+    /// Overriding the local UDP socket bind address configuration will take effect the next time the Party library is
+    /// initialized. It doesn't modify any Party library socket binding that has already been initialized. Similarly,
+    /// querying retrieves the configuration that will be used with the next Party library initialization, not the value
+    /// actively in use if already initialized.
+    /// </para>
     /// </remarks>
     LocalUdpSocketBindAddress,
+
+    /// <summary>
+    /// An option for constraining the permitted direct peer connectivity between the local device and other devices in
+    /// networks that allow attempting such connections.
+    /// </summary>
+    /// <remarks>
+    /// When successfully authenticating an initial local user into a network with a
+    /// <see cref="PartyNetworkConfiguration::directPeerConnectivityOptions" /> field set to a value other than
+    /// <see cref="PartyDirectPeerConnectivityOptions::None" />, or when a remote device authenticates into such a
+    /// network, direct peer connectivity between this local device and the remote device(s) in the network may be
+    /// attempted. The flags configured by this option can be used to further constrain the specific types of remote
+    /// devices that are permitted to involve the local device in these attempts. All flags are evaluated using a
+    /// bitwise AND operation. That is, a particular flag is actually only in effect for a given network's pair of
+    /// devices if it's enabled in three places: the network's <see cref="PartyNetworkConfiguration" /> structure, and
+    /// <em>both</em> devices' respective local mask options. Even if the Party network permits direct peer connectivity
+    /// of the relevant form, either device can unilaterally opt out of the IP address disclosure and direct connection
+    /// attempts between them by not enabling the flag when overriding this option.
+    /// <para>
+    /// Direct peer connectivity is supported for the Windows 10 and Microsoft Game Core versions of the library. On
+    /// those platforms, the default value for the local device mask when not yet set is
+    /// <c>PartyDirectPeerConnectivityOptions::AnyPlatformType |
+    /// PartyDirectPeerConnectivityOptions::AnyEntityLoginProvider</c>. This means that such devices don't restrict any
+    /// direct peer connectivity permitted by a network's <see cref="PartyNetworkConfiguration" /> until explicitly
+    /// overridden to be less permissive. For all other versions of the library, the default value for the local device
+    /// mask is <c>PartyDirectPeerConnectivityOptions::None</c> and cannot be changed; attempting to change it via
+    /// <see cref="PartyManager::SetOption" /> will fail. This means that such devices will never attempt direct peer
+    /// connectivity.
+    /// </para>
+    /// <para>
+    /// To override this option, call <see cref="PartyManager::SetOption" /> passing null for the object parameter, this
+    /// value for the option parameter, and a pointer to a <see cref="PartyDirectPeerConnectivityOptions" /> variable
+    /// containing all desired option flags.
+    /// </para>
+    /// <para>
+    /// To query this option, call <see cref="PartyManager::GetOption" /> passing null for the object parameter, this
+    /// value for the option parameter, and a pointer to a <see cref="PartyDirectPeerConnectivityOptions" /> variable
+    /// into which the currently configured option flags should be written.
+    /// </para>
+    /// <para>
+    /// It's recommended to override or query this option when not connected to any networks. The configured value takes
+    /// effect the next time this device authenticates an initial user into a new network. It doesn't alter the settings
+    /// already being used to participate in any existing networks. Similarly, querying retrieves the currently
+    /// configured value that will be used with future networks, and not the value used with existing networks.
+    /// </para>
+    /// <para>
+    /// It's also safe to override or query for this option prior to initializing the Party library.
+    /// </para>
+    /// </remarks>
+    LocalDeviceDirectPeerConnectivityOptionsMask,
 };
 
 /// <summary>
@@ -1339,6 +1421,7 @@ DEFINE_ENUM_FLAG_OPERATORS(PartySynchronizeMessagesBetweenEndpointsOptions);
 /// <seealso cref="PartyNetwork::GetNetworkStatistics" />
 /// <seealso cref="PartyLocalEndpoint::SendMessage" />
 /// <seealso_nyi cref="PartyLocalEndpoint::CancelMessages" />
+/// <seealso cref="PartyLocalEndpoint::GetEndpointStatistics" />
 enum class PartyNetworkStatistic
 {
     /// <summary>
@@ -1347,6 +1430,11 @@ enum class PartyNetworkStatistic
     /// <remarks>
     /// This latency represents a moving average of the time it currently takes for this local device to send a message
     /// and receive a response from the transparent cloud relay server.
+    /// <para>
+    /// You can also determine a particular local endpoint's average round trip latency to another endpoint in the
+    /// network by using <see cref="PartyLocalEndpoint::GetEndpointStatistics()" /> to retrieve the
+    /// <see cref="PartyEndpointStatistic::AverageDeviceRoundTripLatencyInMilliseconds" /> statistic.
+    /// </para>
     /// </remarks>
     AverageRelayServerRoundTripLatencyInMilliseconds,
 
@@ -1616,6 +1704,7 @@ enum class PartyNetworkStatistic
 /// <seealso cref="PartyLocalEndpoint::SendMessage" />
 /// <seealso_nyi cref="PartyLocalEndpoint::CancelMessages" />
 /// <seealso cref="PartyLocalEndpoint::GetEndpointStatistics" />
+/// <seealso cref="PartyNetwork::GetNetworkStatistics" />
 enum class PartyEndpointStatistic
 {
     /// <summary>
@@ -1770,6 +1859,25 @@ enum class PartyEndpointStatistic
     /// </para>
     /// </remarks>
     CanceledSendMessageBytes,
+
+    /// <summary>
+    /// The current moving average round trip latency ("ping time") in milliseconds to the endpoint's owning device.
+    /// </summary>
+    /// <remarks>
+    /// This latency represents a moving average of the time it currently takes for this local device to send a message
+    /// and receive a response from the target endpoint's device.
+    /// <para>
+    /// This statistic can only be queried for exactly one target endpoint at a time. The
+    /// <see cref="PartyLocalEndpoint::GetEndpointStatistics()" /> method will fail if multiple targets are provided, or
+    /// if a zero-entry array is provided to attempt to query all current endpoints.
+    /// </para>
+    /// <para>
+    /// You can also determine the local device's average round trip latency to the network's transparent cloud relay
+    /// server by using <see cref="PartyNetwork::GetNetworkStatistics()" /> to retrieve the
+    /// <see cref="PartyNetworkStatistic::AverageRelayServerRoundTripLatencyInMilliseconds" /> statistic.
+    /// </para>
+    /// </remarks>
+    AverageDeviceRoundTripLatencyInMilliseconds,
 };
 
 /// <summary>
@@ -2378,15 +2486,193 @@ enum class PartyLocalUdpSocketBindAddressOptions
     /// <summary>
     /// No flags are specified.
     /// </summary>
+    /// <remarks>
+    /// This value is the default if a <see cref="PartyLocalUdpSocketBindAddressConfiguration" /> structure has not been
+    /// explicitly set.
+    /// </remarks>
     None = 0x0,
 
     /// <summary>
+    /// Don't default to using the Microsoft Game Core preferred UDP multiplayer port when the port is unspecified.
+    /// </summary>
+    /// <remarks>
     /// In the Microsoft Game Core version of the Party library, when the <em>port</em> field of the
     /// <see cref="PartyLocalUdpSocketBindAddressConfiguration" /> structure is 0, this flag informs the Party library
     /// to not use the Game Core preferred UDP multiplayer port. In other versions of the Party library or if the
     /// <em>port</em> port is non-zero, this flag must not be set.
-    /// </summary>
+    /// </remarks>
     ExcludeGameCorePreferredUdpMultiplayerPort = 0x1,
+};
+
+DEFINE_ENUM_FLAG_OPERATORS(PartyLocalUdpSocketBindAddressOptions);
+
+/// <summary>
+/// Flags controlling the attempted use of direct peer-to-peer connectivity among devices in a network.
+/// </summary>
+/// <remarks>
+/// As part of successfully authenticating an initial user into a network, a device may attempt to establish direct
+/// peer-to-peer connections with other devices already participating in the network when permitted by these flags
+/// declared in the network's <see cref="PartyNetworkConfiguration" /> structure. For attempts that are successful,
+/// endpoint messages and chat data between the devices will be transmitted using those direct connections. For attempts
+/// that fail due to environmental incompatibilities between the devices, all communication between those devices will
+/// be transmitted via transparent cloud relay servers instead. If the devices aren't permitted to attempt direct peer
+/// connections by these flags, then they never exchange IP address information and will always transmit endpoint
+/// messages and chat data via transparent cloud relay servers.
+/// <para>
+/// You can determine whether the local device actually established a direct peer-to-peer connection to a specific
+/// remote device by calling <see cref="PartyNetwork::GetDeviceConnectionType()" />.
+/// </para>
+/// <para>
+/// Successful direct peer connectivity may provide lower latency between some devices, though attempting to establish
+/// it also requires users to disclose their devices' IP addresses to others, which may be a concern for privacy or for
+/// enabling malicious users to potentially attack peers' devices and Internet connections outside of the title. It also
+/// may not be permitted on certain platforms for policy reasons. Be sure to use the appropriate flags for your
+/// performance and security goals.
+/// </para>
+/// <para>
+/// Besides a specific network's <see cref="PartyNetworkConfiguration::directPeerConnectivityOptions" /> value, the
+/// flags may optionally be further constrained by a device for all networks into which it authenticates by using
+/// <see cref="PartyManager::SetOption()" /> to set
+/// <see cref="PartyOption::LocalDeviceDirectPeerConnectivityOptionsMask" />. All flags are evaluated using a bitwise
+/// AND operation. That is, a particular flag is actually only in effect for a given network's pair of devices if it's
+/// enabled in three places: the network's <see cref="PartyNetworkConfiguration" /> structure, and <em>both</em>
+/// devices' respective local mask options. Even if the Party network permits direct peer connectivity of the relevant
+/// form, either device can unilaterally opt out of the IP address disclosure and direct connection attempts between
+/// them by not enabling the flag. The <see cref="PartyOption::LocalDeviceDirectPeerConnectivityOptionsMask" /> value
+/// defaults to permitting all direct peer connections enabled by networks, so you only need to configure it if you have
+/// device-specific requirements to prevent some or all direct peer connectivity involving it.
+/// </para>
+/// <para>
+/// To avoid excessive resource consumption, the Party library will also internally prevent any given device from
+/// attempting to establish more than <c>c_maxDirectPeerConnectionsPerDevice</c> direct peer connections across all
+/// networks in which it's currently participating, even if permitted by these flags. This doesn't affect the device's
+/// ability to participate in large or multiple networks with additional remote devices. Communication with additional
+/// devices will simply be transmitted via transparent cloud relay servers.
+/// </para>
+/// <para>
+/// It's recommended that you don't actively enforce the availability of a direct peer-to-peer connection for any given
+/// pair of devices (i.e., don't call <see cref="PartyNetwork::LeaveNetwork()" /> if
+/// <see cref="PartyNetwork::GetDeviceConnectionType()" /> reports a value other than
+/// <see cref="PartyDeviceConnectionType::DirectPeerConnection" />) since the specific underlying transmission method in
+/// use doesn't alter the overall logical ability to communicate. If your game design has stringent requirements for
+/// maximum message latency that encourage direct peer connectivity, it's better to take action on the current concrete
+/// observations of that latency as reported by the
+/// <see cref="PartyEndpointStatistic::AverageDeviceRoundTripLatencyInMilliseconds" /> statistic rather than make
+/// abstract assumptions based on transmission mechanism. Otherwise you might continually hinder users trying to play
+/// with the same set of friends who always need to use nearby transparent cloud relay servers due to environmental
+/// factors beyond their control.
+/// </para>
+/// </remarks>
+/// <seealso cref="PartyNetworkConfiguration" />
+/// <seealso cref="PartyOption::LocalDeviceDirectPeerConnectivityOptionsMask" />
+/// <seealso cref="PartyManager::SetOption" />
+/// <seealso cref="PartyEndpointStatistic::AverageDeviceRoundTripLatencyInMilliseconds" />
+/// <seealso cref="PartyLocalEndpoint::GetEndpointStatistics" />
+enum class PartyDirectPeerConnectivityOptions : int32_t
+{
+    /// <summary>
+    /// No flags are specified.
+    /// </summary>
+    /// <remarks>
+    /// The absence of flags means that no direct peer connectivity attempts are permitted. All endpoint messages and
+    /// chat data between devices will always be transmitted via transparent cloud relay servers, and no IP address
+    /// information will ever be exchanged.
+    /// </remarks>
+    None = 0x0,
+
+    /// <summary>
+    /// Direct peer-to-peer connections may be attempted between devices of the same platform type.
+    /// </summary>
+    /// <remarks>
+    /// A pair of devices will attempt to establish direct peer-to-peer connections if they're identified as having the
+    /// same type of hardware and/or OS platform (e.g., Windows PCs, Xbox gaming consoles, iOS-based mobile devices)
+    /// associated with the specific Party library they use.
+    /// <para>
+    /// Note that this flag does not permit any direct peer-to-peer connectivity attempts by itself. It must be combined
+    /// with one or both of the <c>SameEntityLoginProvider</c> and <c>DifferentEntityLoginProvider</c> flags.
+    /// <para>
+    /// </remarks>
+    SamePlatformType = 0x1,
+
+    /// <summary>
+    /// Direct peer-to-peer connections may be attempted between devices with differing platform types.
+    /// </summary>
+    /// <remarks>
+    /// A pair of devices will attempt to establish direct peer-to-peer connections if they're identified as having
+    /// different types of hardware and/or OS platforms (e.g., Windows PCs, Xbox gaming consoles, iOS-based mobile
+    /// devices) associated with the specific Party libraries each device uses.
+    /// <para>
+    /// Note that this flag does not permit any direct peer-to-peer connectivity attempts by itself. It must be combined
+    /// with one or both of the <c>SameEntityLoginProvider</c> and <c>DifferentEntityLoginProvider</c> flags.
+    /// <para>
+    /// </remarks>
+    DifferentPlatformType = 0x2,
+
+    /// <summary>
+    /// Direct peer-to-peer connections may be attempted between devices regardless of their platform types.
+    /// </summary>
+    /// <remarks>
+    /// This flag is equivalent to <c>SamePlatformType | DifferentPlatformType</c>.
+    /// </remarks>
+    AnyPlatformType = SamePlatformType | DifferentPlatformType,
+
+    /// <summary>
+    /// Direct peer-to-peer connections may be attempted between devices that have authenticated user PlayFab Entity IDs
+    /// that were logged in using the same provider.
+    /// </summary>
+    /// <remarks>
+    /// A device that's initially authenticating a local user into the network will attempt to establish direct peer-to-
+    /// peer connections with remote devices that have at least one authenticated user PlayFab Entity ID that was logged
+    /// in using the same provider (e.g., Xbox Live, Facebook, iOS, Google) as the newly authenticating user.
+    /// <para>
+    /// Note that this flag does not permit any direct peer-to-peer connectivity attempts by itself. It must be combined
+    /// with one or both of the <c>SamePlatformType</c> and <c>DifferentPlatformType</c> flags.
+    /// <para>
+    /// </remarks>
+    SameEntityLoginProvider = 0x4,
+
+    /// <summary>
+    /// Direct peer-to-peer connections may be attempted between devices with authenticated user PlayFab Entity IDs that
+    /// that were logged in using different providers.
+    /// </summary>
+    /// <remarks>
+    /// A device that's initially authenticating a local user into the network will attempt to establish direct peer-to-
+    /// peer connections with remote devices that do not have any authenticated user PlayFab Entity IDs that were logged
+    /// in using the same provider (e.g., Xbox Live, Facebook, iOS, Google) as the newly authenticating user.
+    /// <para>
+    /// Note that this flag does not permit any direct peer-to-peer connectivity attempts by itself. It must be combined
+    /// with one or both of the <c>SamePlatformType</c> and <c>DifferentPlatformType</c> flags.
+    /// <para>
+    /// </remarks>
+    DifferentEntityLoginProvider = 0x8,
+
+    /// <summary>
+    /// Direct peer-to-peer connections may be attempted between devices regardless of the provider used to login
+    /// authenticated user PlayFab Entity IDs.
+    /// </summary>
+    /// <remarks>
+    /// This flag is equivalent to <c>SameEntityLoginProvider | DifferentEntityLoginProvider</c>.
+    /// </remarks>
+    AnyEntityLoginProvider = SameEntityLoginProvider | DifferentEntityLoginProvider,
+};
+
+DEFINE_ENUM_FLAG_OPERATORS(PartyDirectPeerConnectivityOptions);
+
+/// <summary>
+/// The type of connection used for transmitting endpoint message or chat data to a device.
+/// </summary>
+/// <seealso cref="PartyNetwork::GetDeviceConnectionType" />
+enum class PartyDeviceConnectionType
+{
+    /// <summary>
+    /// All communication is transmitted via a transparent cloud relay server.
+    /// </summary>
+    RelayServer,
+
+    /// <summary>
+    /// All communication is transmitted using a direct peer-to-peer connection.
+    /// </summary>
+    DirectPeerConnection,
 };
 
 /// <summary>
@@ -2418,7 +2704,7 @@ struct PartyLocalUdpSocketBindAddressConfiguration
     /// the <em>options</em> field. On all other versions of the Party library, a port value of 0 means the Party
     /// library will let the system dynamically select a port that's available on all local IP address interfaces.
     /// <para>
-    /// If this port value cannot be bound to when the Party library is initialized,
+    /// If this port value cannot be bound when the Party library is initialized,
     /// <see cref="PartyManager::Initialize()" /> will synchronously return an error. The human-readable form of the
     /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </para>
@@ -2426,6 +2712,9 @@ struct PartyLocalUdpSocketBindAddressConfiguration
     /// The port should be specified in native host byte order. If your application also directly uses or is porting
     /// from its own socket API calls, be aware that this natural byte ordering may therefore differ from the network
     /// byte order used by socket address port numbers.
+    /// </para>
+    /// <para>
+    /// The default value is 0 when <see cref="PartyOption::LocalUdpSocketBindAddress" /> has not been configured.
     /// </para>
     /// </remarks>
     uint16_t port;
@@ -2467,6 +2756,7 @@ struct PartyNetworkDescriptor
 /// <seealso cref="PartyNetwork::CreateEndpoint" />
 /// <seealso cref="PartyNetworkDestroyedStateChange" />
 /// <seealso cref="PartyStateChangeResult" />
+/// <seealso cref="PartyDirectPeerConnectivityOptions" />
 struct PartyNetworkConfiguration
 {
     /// <summary>
@@ -2535,6 +2825,64 @@ struct PartyNetworkConfiguration
     /// </para>
     /// </remarks>
     _Field_range_(0, c_maxNetworkConfigurationMaxEndpointsPerDeviceCount) uint32_t maxEndpointsPerDeviceCount;
+
+    /// <summary>
+    /// Whether and how to support direct peer-to-peer connection attempts among devices in the network.
+    /// </summary>
+    /// <remarks>
+    /// As part of successfully authenticating an initial user into a network, a device may attempt to establish direct
+    /// peer-to-peer connections with other devices already participating in the network when permitted by these flags.
+    /// For attempts that are successful, endpoint messages and chat data between the devices will be transmitted using
+    /// those direct connections. For attempts that fail due to environmental incompatibilities between the devices, all
+    /// communication between those devices will be transmitted via transparent cloud relay servers instead. If the
+    /// devices aren't permitted to attempt direct peer connections by these flags, then they never exchange IP address
+    /// information and will always transmit endpoint messages and chat data via transparent cloud relay servers.
+    /// <para>
+    /// You can determine whether the local device actually established a direct peer-to-peer connection to a specific
+    /// remote device by calling <see cref="PartyNetwork::GetDeviceConnectionType()" />.
+    /// </para>
+    /// <para>
+    /// Successful direct peer connectivity may provide lower latency between some devices, though attempting to
+    /// establish it also requires users to disclose their devices' IP addresses to others, which may be a concern for
+    /// privacy or for enabling malicious users to potentially attack peers' devices and Internet connections outside of
+    /// the title. It also may not be permitted on certain platforms for policy reasons. Be sure to use the appropriate
+    /// flags for your performance and security goals.
+    /// </para>
+    /// <para>
+    /// Besides the specific network's value configured here, the flags may optionally be further constrained by a
+    /// device for all networks into which it authenticates by using <see cref="PartyManager::SetOption()" /> to set
+    /// <see cref="PartyOption::LocalDeviceDirectPeerConnectivityOptionsMask" />. All flags are evaluated using a
+    /// bitwise AND operation. That is, a particular flag is actually only in effect for a given network's pair of
+    /// devices if it's enabled in three places: this field for the network, and <em>both</em> devices' respective local
+    /// mask options. Even if this field permits direct peer connectivity of the relevant form, either device can
+    /// unilaterally opt out of the IP address disclosure and direct connection attempts between them by not enabling
+    /// the flag in its local device mask option. The
+    /// <see cref="PartyOption::LocalDeviceDirectPeerConnectivityOptionsMask" /> value defaults to permitting all direct
+    /// peer connections enabled by networks, so you only need to configure it if you have device-specific requirements
+    /// to prevent some or all direct peer connectivity involving it.
+    /// </para>
+    /// <para>
+    /// To avoid excessive resource consumption, the Party library will also internally prevent any given device from
+    /// attempting to establish more than <c>c_maxDirectPeerConnectionsPerDevice</c> direct peer connections across all
+    /// networks in which it's currently participating, even if permitted by these flags. This doesn't affect the
+    /// device's ability to participate in large or multiple networks with additional remote devices. Communication with
+    /// additional devices will simply be transmitted via transparent cloud relay servers.
+    /// </para>
+    /// <para>
+    /// It's recommended that you don't actively enforce the availability of a direct peer-to-peer connection for any
+    /// given pair of devices (i.e., don't call <see cref="PartyNetwork::LeaveNetwork()" /> if
+    /// <see cref="PartyNetwork::GetDeviceConnectionType()" /> reports a value other than
+    /// <see cref="PartyDeviceConnectionType::DirectPeerConnection" />) since the specific underlying transmission
+    /// method in use doesn't alter the overall logical ability to communicate. If your game design has stringent
+    /// requirements for maximum message latency that encourage direct peer connectivity, it's better to take action on
+    /// the current concrete observations of that latency as reported by the
+    /// <see cref="PartyEndpointStatistic::AverageDeviceRoundTripLatencyInMilliseconds" /> statistic rather than make
+    /// abstract assumptions based on transmission mechanism. Otherwise you might continually hinder users trying to
+    /// play with the same set of friends who always need to use nearby transparent cloud relay servers due to
+    /// environmental factors beyond their control.
+    /// </para>
+    /// </remarks>
+    PartyDirectPeerConnectivityOptions directPeerConnectivityOptions;
 };
 
 /// <summary>
@@ -2545,6 +2893,10 @@ struct PartyRegion
     /// <summary>
     /// The name of the Azure region, such as "eastus2".
     /// </summary>
+    /// <remarks>
+    /// This name is not localized to the current user's language, and showing the string directly in UI is not
+    /// recommended outside of troubleshooting.
+    /// </remarks>
     char regionName[c_maxRegionNameStringLength + 1];
 
     /// <summary>
@@ -2932,6 +3284,12 @@ struct PartyRegionsChangedStateChange : PartyStateChange
     /// <remarks>
     /// On success, the region list provided by <see cref="PartyManager::GetRegions()" /> will be populated with the
     /// results of the operation. On failure, the region list provided by PartyManager::GetRegions() will be empty.
+    /// <para>
+    /// If the result is <see cref="PartyStateChangeResult::FailedToBindToLocalUdpSocket" />, the library couldn't bind
+    /// to the local UDP socket specified in the <see cref="PartyOption::LocalUdpSocketBindAddress" /> option. The title
+    /// must clean up its instance of the library, update the <see cref="PartyOption::LocalUdpSocketBindAddress" />
+    /// option to a valid, available bind address, and re-initialize the library.
+    /// </para>
     /// </remarks>
     PartyStateChangeResult result;
 
@@ -6250,6 +6608,10 @@ public:
     ///         was not authorized for other reasons. It could also mean that specified invitation is no longer valid,
     ///         or the invitation does not contain this user. Retry no more than one time, and only after getting a new
     ///         entity token for the user and calling <see cref="PartyLocalUser::UpdateEntityToken()" />.|
+    /// ` | FailedToBindToLocalUdpSocket | This result means that the library couldn't bind to the local UDP socket
+    ///         specified in the <see cref="PartyOption::LocalUdpSocketBindAddress" /> option. The title must clean up
+    ///         its instance of the library, update the <see cref="PartyOption::LocalUdpSocketBindAddress" /> option to
+    ///         a valid, available bind address, and re-initialize the library.
     /// </para>
     /// </remarks>
     /// <param name="localUser">
@@ -7200,6 +7562,51 @@ public:
         _In_opt_ void * customContext
         ) party_no_throw;
 
+    /// <summary>
+    /// Retrieves the type of connection used by the local device for transmitting messages or chat data to the
+    /// specified target device in this network.
+    /// </summary>
+    /// <remarks>
+    /// Connection types are determined when devices first authenticate an initial user into the network. If this
+    /// network permitted direct peer-to-peer connectivity via the
+    /// <see cref="PartyNetworkConfiguration::directPeerConnectivityOptions" /> field, neither device had excluded such
+    /// connectivity via the <see cref="PartyOption::LocalDeviceDirectPeerConnectivityOptionsMask" /> option, and a
+    /// direct peer connection was successfully established at that time, then this function will report a value of
+    /// <see cref="PartyDeviceConnectionType::DirectPeerConnection" />. Otherwise it will report
+    /// <see cref="PartyDeviceConnectionType::RelayServer" />. The value will not change for as long as the target
+    /// PartyDevice object remains in this network, even if <see cref="PartyNetwork::RemoveLocalUser()" /> is called for
+    /// that initially authenticating user.
+    /// <para>
+    /// If the target device is the local device, <see cref="PartyDeviceConnectionType::DirectPeerConnection" /> will
+    /// always be reported regardless of <see cref="PartyNetworkConfiguration" /> settings or
+    /// <see cref="PartyOption::LocalDeviceDirectPeerConnectivityOptionsMask" /> option.
+    /// </para>
+    /// <para>
+    /// If the target device object is not participating in this network, an error is returned.
+    /// </para>
+    /// <para>
+    /// If the local device is participating in additional networks with the target device object, you should not assume
+    /// that calling this same function on those other network objects will report the same value.
+    /// </para>
+    /// </remarks>
+    /// <param name="targetDevice">
+    /// The device whose connection type should be retrieved.
+    /// </param>
+    /// <param name="deviceConnectionType">
+    /// The output device connection type.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if retrieving the connection type succeeded or an error code otherwise. The
+    /// human-readable form of the error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
+    /// </returns>
+    /// <seealso cref="PartyDeviceConnectionType" />
+    /// <seealso cref="PartyNetworkConfiguration" />
+    /// <seealso cref="PartyOption::LocalDeviceDirectPeerConnectivityOptionsMask" />
+    PartyError GetDeviceConnectionType(
+        const PartyDevice * targetDevice,
+        _Out_ PartyDeviceConnectionType * deviceConnectionType
+        ) const party_no_throw;
+
 private:
     PartyNetwork() = delete;
     PartyNetwork(const PartyNetwork&) = delete;
@@ -8012,16 +8419,18 @@ public:
     /// An output value indicating the selection type that was used to select the provided <paramref name="deviceId" />.
     /// </param>
     /// <param name="audioDeviceSelectionContext">
-    /// When using <see cref="PartyAudioDeviceSelectionType::None" />, <paramref name="audioDeviceSelectionContext" />
-    /// will be empty. When using <see cref="PartyAudioDeviceSelectionType::SystemDefault" />,
-    /// <paramref name="audioDeviceSelectionContext" /> will be empty. When using
-    /// <see cref="PartyAudioDeviceSelectionType::PlatformUserDefault" />,
-    /// <paramref name="audioDeviceSelectionContext" /> will be the value provided in a previous call to
-    /// <see cref="SetAudioInput()" />. When using <see cref="PartyAudioDeviceSelectionType::Manual" />,
-    /// <paramref name="audioDeviceSelectionContext" /> will be empty.
+    /// When using <see cref="PartyAudioDeviceSelectionType::None" /> or
+    /// <see cref="PartyAudioDeviceSelectionType::SystemDefault" />, <paramref name="audioDeviceSelectionContext" />
+    /// will be empty. When using <see cref="PartyAudioDeviceSelectionType::PlatformUserDefault" /> or
+    /// <see cref="PartyAudioDeviceSelectionType::Manual" />, <paramref name="audioDeviceSelectionContext" /> will be
+    /// the value provided in a previous call to <see cref="SetAudioInput()" />. The memory for the string remains valid
+    /// until the next <see cref="PartyLocalChatAudioInputChangedStateChange" /> is provided via
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> or the chat control is destroyed.
     /// </param>
     /// <param name="deviceId">
-    /// An output value indicating the selected audio input device's identifier.
+    /// An output value indicating the selected audio input device's identifier. The memory for the string remains valid
+    /// until the next <see cref="PartyLocalChatAudioInputChangedStateChange" /> is provided via
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> or the chat control is destroyed.
     /// </param>
     /// <returns>
     /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
@@ -8098,16 +8507,18 @@ public:
     /// An output value indicating the selection type that was used to select the provided <paramref name="deviceId" />.
     /// </param>
     /// <param name="audioDeviceSelectionContext">
-    /// When using <see cref="PartyAudioDeviceSelectionType::None" />, <paramref name="audioDeviceSelectionContext" />
-    /// will be empty. When using <see cref="PartyAudioDeviceSelectionType::SystemDefault" />,
-    /// <paramref name="audioDeviceSelectionContext" /> will be empty. When using
-    /// <see cref="PartyAudioDeviceSelectionType::PlatformUserDefault" />,
-    /// <paramref name="audioDeviceSelectionContext" /> will be the value provided in a previous call to
-    /// <see cref="SetAudioOutput()" />. When using <see cref="PartyAudioDeviceSelectionType::Manual" />,
-    /// <paramref name="audioDeviceSelectionContext" /> will be empty.
+    /// When using <see cref="PartyAudioDeviceSelectionType::None" /> or
+    /// <see cref="PartyAudioDeviceSelectionType::SystemDefault" />, <paramref name="audioDeviceSelectionContext" />
+    /// will be empty. When using <see cref="PartyAudioDeviceSelectionType::PlatformUserDefault" /> or
+    /// <see cref="PartyAudioDeviceSelectionType::Manual" />, <paramref name="audioDeviceSelectionContext" /> will be
+    /// the value provided in a previous call to <see cref="SetAudioOutput()" />. The memory for the string remains
+    /// valid until the next <see cref="PartyLocalChatAudioOutputChangedStateChange" /> is provided via
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> or the chat control is destroyed.
     /// </param>
     /// <param name="deviceId">
-    /// An output value indicating the selected audio output device's identifier.
+    /// An output value indicating the selected audio output device's identifier. The memory for the string remains
+    /// valid until the next <see cref="PartyLocalChatAudioOutputChangedStateChange" /> is provided via
+    /// <see cref="PartyManager::StartProcessingStateChanges()" /> or the chat control is destroyed.
     /// </param>
     /// <returns>
     /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
@@ -8341,8 +8752,8 @@ public:
     /// </para>
     /// </remarks>
     /// <param name="languageCode">
-    /// The output BCP 47 language code used by the chat control future communication. The string remains valid until
-    /// the next <see cref="PartySetLanguageCompletedStateChange" /> is provided via
+    /// The output BCP 47 language code used by the chat control future communication. The memory for the string remains
+    /// valid until the next <see cref="PartySetLanguageCompletedStateChange" /> is provided via
     /// <see cref="PartyManager::StartProcessingStateChanges()" /> or the chat control is destroyed.
     /// </param>
     /// <returns>
@@ -8916,7 +9327,7 @@ public:
     /// Gets the unique identifier associated with this profile.
     /// </summary>
     /// <param name="identifier">
-    /// The output unique identifier.
+    /// The output unique identifier. The memory for the string remains valid for the lifetime of the profile.
     /// </param>
     /// <returns>
     /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
@@ -8934,7 +9345,7 @@ public:
     /// This name is intended for use in title UI and logs, but is not localized.
     /// </remarks>
     /// <param name="name">
-    /// The output profile name.
+    /// The output profile name. The memory for the string remains valid for the lifetime of the profile.
     /// </param>
     /// <returns>
     /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
@@ -8948,7 +9359,7 @@ public:
     /// Gets the language code associated with this profile.
     /// </summary>
     /// <param name="languageCode">
-    /// The output profile language.
+    /// The output profile language. The memory for the string remains valid for the lifetime of the profile.
     /// </param>
     /// <returns>
     /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
@@ -9102,7 +9513,8 @@ public:
     /// An error code.
     /// </param>
     /// <param name="errorMessage">
-    /// The output, human-readable error message.
+    /// The output, human-readable error message. The memory for the returned string remains valid for the lifetime of
+    /// the process.
     /// </param>
     /// <returns>
     /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise.
@@ -9380,7 +9792,7 @@ public:
         ) party_no_throw;
 
     /// <summary>
-    /// Immediately reclaims all resources associated with the PartyManager object.
+    /// Immediately reclaims all resources associated with all Party library objects.
     /// </summary>
     /// <remarks>
     /// If local users were participating in a PartyNetwork, they are removed ungracefully (it appears to remote devices
@@ -9388,6 +9800,10 @@ public:
     /// <see cref="PartyNetwork::LeaveNetwork()" /> first on all networks returned from a call to
     /// <see cref="GetNetworks()" /> and wait for the corresponding <see cref="PartyLeaveNetworkCompletedStateChange" />
     /// to have the local users exit any existing PartyNetworks gracefully.
+    /// <para>
+    /// This method is not thread-safe and may not be called concurrently with other non-static Party library methods.
+    /// After calling this method, all Party library state is invalidated.
+    /// </para>
     /// <para>
     /// Titles using the Microsoft Game Core version of the Party library must listen for app state notifications via
     /// the RegisterAppStateChangeNotification API. When the app is suspended, the title must call
@@ -9493,7 +9909,7 @@ public:
         ) party_no_throw;
 
     /// <summary>
-    /// Gets an array containing the set of regions for which your title is configured, along with roundtrip latency
+    /// Gets an array containing the set of regions for which your title is configured, along with round trip latency
     /// information.
     /// </summary>
     /// <remarks>
@@ -9514,10 +9930,21 @@ public:
     /// region selection.
     /// </para>
     /// <para>
-    /// For efficiency, the library measures latency on several threads that are affinitized to the processor specified
-    /// for the networking threads via <see cref="SetThreadAffinityMask()" />. The amortized worst-case time to complete
-    /// latency measurements for each region is approximately 500 ms. The average time to complete latency measurements
-    /// for each region will vary by network environment but will typically be much lower.
+    /// The returned names in the <see cref="PartyRegion" /> structures are not localized to the current user's
+    /// language, and showing the strings directly in UI is not recommended outside of troubleshooting.
+    /// </para>
+    /// <para>
+    /// You shouldn't assume the set of regions returned will remain the same over the life of your title. The PlayFab
+    /// Party library will automatically take advantage of additions and changes to available regions over time to
+    /// continually improve the experience for end users.
+    /// </para>
+    /// <para>
+    /// After internally retrieving the set of regions, the worst-case time for failing latency measurements to every
+    /// region would be approximately 500 milliseconds multiplied by the number of regions, but measurements are
+    /// actually performed in parallel to reduce the overall duration. Successful latency measurement time varies by
+    /// network environment. Currently most devices worldwide successfully complete the entire measurement process in
+    /// 2.2 seconds or less, and 95% of devices successfully complete in less than 6 seconds. This may increase slightly
+    /// over time as additional regions are introduced.
     /// </para>
     /// </remarks>
     /// <param name="regionCount">
@@ -9599,6 +10026,10 @@ public:
     ///         token for the user and calling <see cref="PartyLocalUser::UpdateEntityToken()" />.|
     /// ` | UserCreateNetworkThrottled | Do not retry automatically. Instead, display a message to the user and wait for
     ///         the user to initiate another attempt. |
+    /// ` | FailedToBindToLocalUdpSocket | This result means that the library couldn't bind to the local UDP socket
+    ///         specified in the <see cref="PartyOption::LocalUdpSocketBindAddress" /> option. The title must clean up
+    ///         its instance of the library, update the <see cref="PartyOption::LocalUdpSocketBindAddress" /> option to
+    ///         a valid, available bind address, and re-initialize the library.
     /// </para>
     /// </remarks>
     /// <param name="localUser">
@@ -9739,6 +10170,10 @@ public:
     ///         user to initiate another attempt. |
     /// ` | NetworkNoLongerExists | Do not retry. |
     /// ` | VersionMismatch | Do not retry. |
+    /// ` | FailedToBindToLocalUdpSocket | This result means that the library couldn't bind to the local UDP socket
+    ///         specified in the <see cref="PartyOption::LocalUdpSocketBindAddress" /> option. The title must clean up
+    ///         its instance of the library, update the <see cref="PartyOption::LocalUdpSocketBindAddress" /> option to
+    ///         a valid, available bind address, and re-initialize the library.
     /// </para>
     /// </remarks>
     /// <param name="networkDescriptor">
