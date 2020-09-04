@@ -681,6 +681,17 @@ PartyError PartyNetwork::SetCustomContext(
         customContext);
 }
 
+PartyError PartyNetwork::GetDeviceConnectionType(
+    const PartyDevice* targetDevice,
+    _Out_ PartyDeviceConnectionType * deviceConnectionType
+    ) const party_no_throw
+{
+    return PartyNetworkGetDeviceConnectionType(
+        reinterpret_cast<PARTY_NETWORK_HANDLE>(this),
+        reinterpret_cast<PARTY_DEVICE_HANDLE>(targetDevice),
+        reinterpret_cast<PARTY_DEVICE_CONNECTION_TYPE*>(deviceConnectionType));
+}
+
 PartyError PartyLocalChatControl::GetLocalUser(
     _Outptr_ PartyLocalUser ** localUser
     ) const party_no_throw
@@ -1640,6 +1651,7 @@ PartyError PartyManager::GetChatControls(
 // BEGIN GENERATED SECTION: DO NOT EDIT
 
 PARTY_C_ASSERT(PARTY_MAX_NETWORK_CONFIGURATION_MAX_DEVICE_COUNT == c_maxNetworkConfigurationMaxDeviceCount);
+PARTY_C_ASSERT(PARTY_MAX_DIRECT_PEER_CONNECTIONS_PER_DEVICE == c_maxDirectPeerConnectionsPerDevice);
 PARTY_C_ASSERT(PARTY_MAX_NETWORK_CONFIGURATION_MAX_ENDPOINTS_PER_DEVICE_COUNT == c_maxNetworkConfigurationMaxEndpointsPerDeviceCount);
 PARTY_C_ASSERT(PARTY_MAX_LOCAL_USERS_PER_DEVICE_COUNT == c_maxLocalUsersPerDeviceCount);
 PARTY_C_ASSERT(PARTY_OPAQUE_CONNECTION_INFORMATION_BYTE_COUNT == c_opaqueConnectionInformationByteCount);
@@ -1734,6 +1746,7 @@ PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_NETWORK_NO_LONGER_EXISTS == static_cast
 PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_NETWORK_NOT_JOINABLE == static_cast<uint32_t>(PartyStateChangeResult::NetworkNotJoinable));
 PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_VERSION_MISMATCH == static_cast<uint32_t>(PartyStateChangeResult::VersionMismatch));
 PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_LEAVE_NETWORK_CALLED == static_cast<uint32_t>(PartyStateChangeResult::LeaveNetworkCalled));
+PARTY_C_ASSERT(PARTY_STATE_CHANGE_RESULT_FAILED_TO_BIND_TO_LOCAL_UDP_SOCKET == static_cast<uint32_t>(PartyStateChangeResult::FailedToBindToLocalUdpSocket));
 
 PARTY_C_ASSERT(PARTY_LOCAL_USER_REMOVED_REASON_AUTHENTICATION_FAILED == static_cast<uint32_t>(PartyLocalUserRemovedReason::AuthenticationFailed));
 PARTY_C_ASSERT(PARTY_LOCAL_USER_REMOVED_REASON_REMOVE_LOCAL_USER == static_cast<uint32_t>(PartyLocalUserRemovedReason::RemoveLocalUser));
@@ -1747,6 +1760,7 @@ PARTY_C_ASSERT(PARTY_DESTROYED_REASON_DEVICE_LOST_AUTHENTICATION == static_cast<
 PARTY_C_ASSERT(PARTY_DESTROYED_REASON_CREATION_FAILED == static_cast<uint32_t>(PartyDestroyedReason::CreationFailed));
 
 PARTY_C_ASSERT(PARTY_OPTION_LOCAL_UDP_SOCKET_BIND_ADDRESS == static_cast<uint32_t>(PartyOption::LocalUdpSocketBindAddress));
+PARTY_C_ASSERT(PARTY_OPTION_LOCAL_DEVICE_DIRECT_PEER_CONNECTIVITY_OPTIONS_MASK == static_cast<uint32_t>(PartyOption::LocalDeviceDirectPeerConnectivityOptionsMask));
 
 PARTY_C_ASSERT(PARTY_THREAD_ID_AUDIO == static_cast<uint32_t>(PartyThreadId::Audio));
 PARTY_C_ASSERT(PARTY_THREAD_ID_NETWORKING == static_cast<uint32_t>(PartyThreadId::Networking));
@@ -1800,6 +1814,7 @@ PARTY_C_ASSERT(PARTY_ENDPOINT_STATISTIC_TIMED_OUT_SEND_MESSAGES == static_cast<u
 PARTY_C_ASSERT(PARTY_ENDPOINT_STATISTIC_TIMED_OUT_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyEndpointStatistic::TimedOutSendMessageBytes));
 PARTY_C_ASSERT(PARTY_ENDPOINT_STATISTIC_CANCELED_SEND_MESSAGES == static_cast<uint32_t>(PartyEndpointStatistic::CanceledSendMessages));
 PARTY_C_ASSERT(PARTY_ENDPOINT_STATISTIC_CANCELED_SEND_MESSAGE_BYTES == static_cast<uint32_t>(PartyEndpointStatistic::CanceledSendMessageBytes));
+PARTY_C_ASSERT(PARTY_ENDPOINT_STATISTIC_AVERAGE_DEVICE_ROUND_TRIP_LATENCY_IN_MILLISECONDS == static_cast<uint32_t>(PartyEndpointStatistic::AverageDeviceRoundTripLatencyInMilliseconds));
 
 PARTY_C_ASSERT(PARTY_INVITATION_REVOCABILITY_CREATOR == static_cast<uint32_t>(PartyInvitationRevocability::Creator));
 PARTY_C_ASSERT(PARTY_INVITATION_REVOCABILITY_ANYONE == static_cast<uint32_t>(PartyInvitationRevocability::Anyone));
@@ -1876,6 +1891,17 @@ PARTY_C_ASSERT(PARTY_AUDIO_SAMPLE_TYPE_FLOAT == static_cast<uint32_t>(PartyAudio
 PARTY_C_ASSERT(PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_OPTIONS_NONE == static_cast<uint32_t>(PartyLocalUdpSocketBindAddressOptions::None));
 PARTY_C_ASSERT(PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_OPTIONS_EXCLUDE_GAME_CORE_PREFERRED_UDP_MULTIPLAYER_PORT == static_cast<uint32_t>(PartyLocalUdpSocketBindAddressOptions::ExcludeGameCorePreferredUdpMultiplayerPort));
 
+PARTY_C_ASSERT(PARTY_DIRECT_PEER_CONNECTIVITY_OPTIONS_NONE == static_cast<uint32_t>(PartyDirectPeerConnectivityOptions::None));
+PARTY_C_ASSERT(PARTY_DIRECT_PEER_CONNECTIVITY_OPTIONS_SAME_PLATFORM_TYPE == static_cast<uint32_t>(PartyDirectPeerConnectivityOptions::SamePlatformType));
+PARTY_C_ASSERT(PARTY_DIRECT_PEER_CONNECTIVITY_OPTIONS_DIFFERENT_PLATFORM_TYPE == static_cast<uint32_t>(PartyDirectPeerConnectivityOptions::DifferentPlatformType));
+PARTY_C_ASSERT(PARTY_DIRECT_PEER_CONNECTIVITY_OPTIONS_ANY_PLATFORM_TYPE == static_cast<uint32_t>(PartyDirectPeerConnectivityOptions::AnyPlatformType));
+PARTY_C_ASSERT(PARTY_DIRECT_PEER_CONNECTIVITY_OPTIONS_SAME_ENTITY_LOGIN_PROVIDER == static_cast<uint32_t>(PartyDirectPeerConnectivityOptions::SameEntityLoginProvider));
+PARTY_C_ASSERT(PARTY_DIRECT_PEER_CONNECTIVITY_OPTIONS_DIFFERENT_ENTITY_LOGIN_PROVIDER == static_cast<uint32_t>(PartyDirectPeerConnectivityOptions::DifferentEntityLoginProvider));
+PARTY_C_ASSERT(PARTY_DIRECT_PEER_CONNECTIVITY_OPTIONS_ANY_ENTITY_LOGIN_PROVIDER == static_cast<uint32_t>(PartyDirectPeerConnectivityOptions::AnyEntityLoginProvider));
+
+PARTY_C_ASSERT(PARTY_DEVICE_CONNECTION_TYPE_RELAY_SERVER == static_cast<uint32_t>(PartyDeviceConnectionType::RelayServer));
+PARTY_C_ASSERT(PARTY_DEVICE_CONNECTION_TYPE_DIRECT_PEER_CONNECTION == static_cast<uint32_t>(PartyDeviceConnectionType::DirectPeerConnection));
+
 PARTY_C_ASSERT(sizeof(PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_CONFIGURATION) == sizeof(PartyLocalUdpSocketBindAddressConfiguration));
 PARTY_C_ASSERT(sizeof(PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_CONFIGURATION::options) == sizeof(PartyLocalUdpSocketBindAddressConfiguration::options));
 PARTY_C_ASSERT(offsetof(PARTY_LOCAL_UDP_SOCKET_BIND_ADDRESS_CONFIGURATION, options) == offsetof(PartyLocalUdpSocketBindAddressConfiguration, options));
@@ -1901,6 +1927,8 @@ PARTY_C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION::maxDevicesPerUserCount) == si
 PARTY_C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION, maxDevicesPerUserCount) == offsetof(PartyNetworkConfiguration, maxDevicesPerUserCount));
 PARTY_C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION::maxEndpointsPerDeviceCount) == sizeof(PartyNetworkConfiguration::maxEndpointsPerDeviceCount));
 PARTY_C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION, maxEndpointsPerDeviceCount) == offsetof(PartyNetworkConfiguration, maxEndpointsPerDeviceCount));
+PARTY_C_ASSERT(sizeof(PARTY_NETWORK_CONFIGURATION::directPeerConnectivityOptions) == sizeof(PartyNetworkConfiguration::directPeerConnectivityOptions));
+PARTY_C_ASSERT(offsetof(PARTY_NETWORK_CONFIGURATION, directPeerConnectivityOptions) == offsetof(PartyNetworkConfiguration, directPeerConnectivityOptions));
 
 PARTY_C_ASSERT(sizeof(PARTY_REGION) == sizeof(PartyRegion));
 PARTY_C_ASSERT(sizeof(PARTY_REGION::regionName) == sizeof(PartyRegion::regionName));
