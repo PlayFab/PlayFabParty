@@ -252,7 +252,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyRegionsChangedStateChange" /> object for more
     /// information.
     /// </remarks>
-    RegionsChanged,
+    RegionsChanged = 0,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyManager::DestroyLocalUser()" /> completed.
@@ -261,7 +261,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyDestroyLocalUserCompletedStateChange" /> object
     /// for more information.
     /// </remarks>
-    DestroyLocalUserCompleted,
+    DestroyLocalUserCompleted = 1,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyManager::CreateNewNetwork()" /> completed.
@@ -270,7 +270,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyCreateNewNetworkCompletedStateChange" /> object
     /// for more information.
     /// </remarks>
-    CreateNewNetworkCompleted,
+    CreateNewNetworkCompleted = 2,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyManager::ConnectToNetwork()" /> completed.
@@ -279,7 +279,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyConnectToNetworkCompletedStateChange" /> object
     /// for more information.
     /// </remarks>
-    ConnectToNetworkCompleted,
+    ConnectToNetworkCompleted = 3,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyNetwork::AuthenticateLocalUser()" /> completed.
@@ -288,7 +288,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyAuthenticateLocalUserCompletedStateChange" />
     /// object for more information.
     /// </remarks>
-    AuthenticateLocalUserCompleted,
+    AuthenticateLocalUserCompleted = 4,
 
     /// <summary>
     /// The network configuration associated with the PartyNetwork is now available.
@@ -297,7 +297,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyNetworkConfigurationMadeAvailableStateChange" />
     /// object for more information.
     /// </remarks>
-    NetworkConfigurationMadeAvailable,
+    NetworkConfigurationMadeAvailable = 5,
 
     /// <summary>
     /// The network descriptor associated with the PartyNetwork changed.
@@ -306,7 +306,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyNetworkDescriptorChangedStateChange" /> object
     /// for more information.
     /// </remarks>
-    NetworkDescriptorChanged,
+    NetworkDescriptorChanged = 6,
 
     /// <summary>
     /// A local user has been removed from the network by a previous call to
@@ -316,17 +316,17 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyLocalUserRemovedStateChange" /> object for more
     /// information.
     /// </remarks>
-    LocalUserRemoved,
+    LocalUserRemoved = 7,
 
     /// <summary>
     /// The operation to remove a local user started by a previous call to
-    /// <see cref="PartyNetwork::RemoveLocalUser()" /> or <see cref="PartyManager::DestroyLocalUser()" /> completed.
+    /// <see cref="PartyNetwork::RemoveLocalUser()" /> completed.
     /// </summary>
     /// <remarks>
     /// The PartyStateChange object should be cast to a <see cref="PartyRemoveLocalUserCompletedStateChange" /> object
     /// for more information.
     /// </remarks>
-    RemoveLocalUserCompleted,
+    RemoveLocalUserCompleted = 8,
 
     /// <summary>
     /// A local user was kicked via <see cref="PartyNetwork::KickUser()" />.
@@ -336,7 +336,7 @@ enum class PartyStateChangeType : uint32_t
     /// information.
     /// </remarks>
     /// <nyi />
-    LocalUserKicked,
+    LocalUserKicked = 9,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyNetwork::CreateEndpoint()" /> completed.
@@ -345,7 +345,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyCreateEndpointCompletedStateChange" /> object
     /// for more information.
     /// </remarks>
-    CreateEndpointCompleted,
+    CreateEndpointCompleted = 10,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyNetwork::DestroyEndpoint()" /> completed.
@@ -354,7 +354,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyDestroyEndpointCompletedStateChange" /> object
     /// for more information.
     /// </remarks>
-    DestroyEndpointCompleted,
+    DestroyEndpointCompleted = 11,
 
     /// <summary>
     /// A new endpoint was created.
@@ -363,7 +363,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyEndpointCreatedStateChange" /> object for more
     /// information.
     /// </remarks>
-    EndpointCreated,
+    EndpointCreated = 12,
 
     /// <summary>
     /// An endpoint was destroyed.
@@ -372,7 +372,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyEndpointDestroyedStateChange" /> object for more
     /// information.
     /// </remarks>
-    EndpointDestroyed,
+    EndpointDestroyed = 13,
 
     /// <summary>
     /// A new remote device was created.
@@ -381,7 +381,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyRemoteDeviceCreatedStateChange" /> object for
     /// more information.
     /// </remarks>
-    RemoteDeviceCreated,
+    RemoteDeviceCreated = 14,
 
     /// <summary>
     /// A remote device was destroyed.
@@ -390,7 +390,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyRemoteDeviceDestroyedStateChange" /> object for
     /// more information.
     /// </remarks>
-    RemoteDeviceDestroyed,
+    RemoteDeviceDestroyed = 15,
 
     /// <summary>
     /// A remote device joined a network.
@@ -399,7 +399,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyRemoteDeviceJoinedNetworkStateChange" /> object
     /// for more information.
     /// </remarks>
-    RemoteDeviceJoinedNetwork,
+    RemoteDeviceJoinedNetwork = 16,
 
     /// <summary>
     /// A remote device left a network.
@@ -408,7 +408,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyRemoteDeviceLeftNetworkStateChange" /> object
     /// for more information.
     /// </remarks>
-    RemoteDeviceLeftNetwork,
+    RemoteDeviceLeftNetwork = 17,
 
     /// <summary>
     /// The properties associated with the device changed.
@@ -418,7 +418,7 @@ enum class PartyStateChangeType : uint32_t
     /// for more information.
     /// </remarks>
     /// <nyi />
-    DevicePropertiesChanged,
+    DevicePropertiesChanged = 18,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyNetwork::LeaveNetwork()" /> completed.
@@ -427,7 +427,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyLeaveNetworkCompletedStateChange" /> object for
     /// more information.
     /// </remarks>
-    LeaveNetworkCompleted,
+    LeaveNetworkCompleted = 19,
 
     /// <summary>
     /// A network was destroyed.
@@ -436,7 +436,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyNetworkDestroyedStateChange" /> object for more
     /// information.
     /// </remarks>
-    NetworkDestroyed,
+    NetworkDestroyed = 20,
 
     /// <summary>
     /// A data send was received from an endpoint.
@@ -445,7 +445,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyEndpointMessageReceivedStateChange" /> object
     /// for more information.
     /// </remarks>
-    EndpointMessageReceived,
+    EndpointMessageReceived = 21,
 
     /// <summary>
     /// The PartyDataBuffer set provided to SendMessage is no longer in use by the library.
@@ -454,7 +454,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyDataBuffersReturnedStateChange" /> object for
     /// more information.
     /// </remarks>
-    DataBuffersReturned,
+    DataBuffersReturned = 22,
 
     /// <summary>
     /// The properties associated with an endpoint changed.
@@ -464,7 +464,7 @@ enum class PartyStateChangeType : uint32_t
     /// for more information.
     /// </remarks>
     /// <nyi />
-    EndpointPropertiesChanged,
+    EndpointPropertiesChanged = 23,
 
     /// <summary>
     /// An operation started by a call to PartyManager::SynchronizeMessagesBetweenEndpoints has completed.
@@ -474,43 +474,7 @@ enum class PartyStateChangeType : uint32_t
     /// <see cref="PartySynchronizeMessagesBetweenEndpointsCompletedStateChange" /> object for more information.
     /// </remarks>
     /// <nyi />
-    SynchronizeMessagesBetweenEndpointsCompleted,
-
-    /// <summary>
-    /// The operation started by a previous call to <see cref="PartyNetwork::CreateInvitation()" /> completed.
-    /// </summary>
-    /// <remarks>
-    /// The PartyStateChange object should be cast to a <see cref="PartyCreateInvitationCompletedStateChange" /> object
-    /// for more information.
-    /// </remarks>
-    CreateInvitationCompleted,
-
-    /// <summary>
-    /// The operation started by a previous call to <see cref="PartyNetwork::RevokeInvitation()" /> completed.
-    /// </summary>
-    /// <remarks>
-    /// The PartyStateChange object should be cast to a <see cref="PartyRevokeInvitationCompletedStateChange" /> object
-    /// for more information.
-    /// </remarks>
-    RevokeInvitationCompleted,
-
-    /// <summary>
-    /// A new invitation was created.
-    /// </summary>
-    /// <remarks>
-    /// The PartyStateChange object should be cast to a <see cref="PartyInvitationCreatedStateChange" /> object for more
-    /// information.
-    /// </remarks>
-    InvitationCreated,
-
-    /// <summary>
-    /// An invitation was destroyed.
-    /// </summary>
-    /// <remarks>
-    /// The PartyStateChange object should be cast to a <see cref="PartyInvitationDestroyedStateChange" /> object for
-    /// more information.
-    /// </remarks>
-    InvitationDestroyed,
+    SynchronizeMessagesBetweenEndpointsCompleted = 26,
 
     /// <summary>
     /// The properties associated with the PartyNetwork changed.
@@ -520,7 +484,7 @@ enum class PartyStateChangeType : uint32_t
     /// for more information.
     /// </remarks>
     /// <nyi />
-    NetworkPropertiesChanged,
+    NetworkPropertiesChanged = 27,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyNetwork::KickDevice()" /> completed.
@@ -530,7 +494,7 @@ enum class PartyStateChangeType : uint32_t
     /// more information.
     /// </remarks>
     /// <nyi />
-    KickDeviceCompleted,
+    KickDeviceCompleted = 28,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyNetwork::KickUser()" /> completed.
@@ -540,7 +504,7 @@ enum class PartyStateChangeType : uint32_t
     /// information.
     /// </remarks>
     /// <nyi />
-    KickUserCompleted,
+    KickUserCompleted = 29,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyLocalDevice::CreateChatControl()" /> completed.
@@ -549,7 +513,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyCreateChatControlCompletedStateChange" /> object
     /// for more information.
     /// </remarks>
-    CreateChatControlCompleted,
+    CreateChatControlCompleted = 31,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyLocalDevice::DestroyChatControl()" /> completed.
@@ -558,7 +522,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyDestroyChatControlCompletedStateChange" />
     /// object for more information.
     /// </remarks>
-    DestroyChatControlCompleted,
+    DestroyChatControlCompleted = 32,
 
     /// <summary>
     /// A new PartyChatControl was created.
@@ -567,7 +531,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyChatControlCreatedStateChange" /> object for
     /// more information.
     /// </remarks>
-    ChatControlCreated,
+    ChatControlCreated = 33,
 
     /// <summary>
     /// A PartyChatControl was destroyed.
@@ -576,7 +540,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyChatControlDestroyedStateChange" /> object for
     /// more information.
     /// </remarks>
-    ChatControlDestroyed,
+    ChatControlDestroyed = 34,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetAudioEncoderBitrate()" />
@@ -587,7 +551,7 @@ enum class PartyStateChangeType : uint32_t
     /// <see cref="PartySetChatAudioEncoderBitrateCompletedStateChange" /> object for more information.
     /// </remarks>
     /// <nyi />
-    SetChatAudioEncoderBitrateCompleted,
+    SetChatAudioEncoderBitrateCompleted = 35,
 
     /// <summary>
     /// Chat text has been received.
@@ -596,7 +560,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyChatTextReceivedStateChange" /> object for more
     /// information.
     /// </remarks>
-    ChatTextReceived,
+    ChatTextReceived = 36,
 
     /// <summary>
     /// A voice chat transcription has been received.
@@ -605,7 +569,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyVoiceChatTranscriptionReceivedStateChange" />
     /// object for more information.
     /// </remarks>
-    VoiceChatTranscriptionReceived,
+    VoiceChatTranscriptionReceived = 37,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetAudioInput()" /> completed.
@@ -614,7 +578,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartySetChatAudioInputCompletedStateChange" /> object
     /// for more information.
     /// </remarks>
-    SetChatAudioInputCompleted,
+    SetChatAudioInputCompleted = 38,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetAudioOutput()" /> completed.
@@ -623,7 +587,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartySetChatAudioOutputCompletedStateChange" />
     /// object for more information.
     /// </remarks>
-    SetChatAudioOutputCompleted,
+    SetChatAudioOutputCompleted = 39,
 
     /// <summary>
     /// The state of an audio input associated with a local chat control changed.
@@ -632,7 +596,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyLocalChatAudioInputChangedStateChange" /> object
     /// for more information.
     /// </remarks>
-    LocalChatAudioInputChanged,
+    LocalChatAudioInputChanged = 40,
 
     /// <summary>
     /// The state of an audio output associated with a local chat control changed.
@@ -641,7 +605,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyLocalChatAudioOutputChangedStateChange" />
     /// object for more information.
     /// </remarks>
-    LocalChatAudioOutputChanged,
+    LocalChatAudioOutputChanged = 41,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetTextToSpeechProfile()" />
@@ -651,7 +615,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartySetTextToSpeechProfileCompletedStateChange" />
     /// object for more information.
     /// </remarks>
-    SetTextToSpeechProfileCompleted,
+    SetTextToSpeechProfileCompleted = 42,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyLocalChatControl::SynthesizeTextToSpeech()" />
@@ -662,36 +626,7 @@ enum class PartyStateChangeType : uint32_t
     /// object for more information. Receiving a state change of this type indicates that the audio has been
     /// synthesized, not that the audio has been transmitted to anyone.
     /// </remarks>
-    SynthesizeTextToSpeechCompleted,
-
-    /// <summary>
-    /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetLanguage()" /> completed.
-    /// </summary>
-    /// <remarks>
-    /// The PartyStateChange object should be cast to a <see cref="PartySetLanguageCompletedStateChange" /> object for
-    /// more information.
-    /// </remarks>
-    SetLanguageCompleted,
-
-    /// <summary>
-    /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetTranscriptionOptions()" />
-    /// completed.
-    /// </summary>
-    /// <remarks>
-    /// The PartyStateChange object should be cast to a <see cref="PartySetTranscriptionOptionsCompletedStateChange" />
-    /// object for more information.
-    /// </remarks>
-    SetTranscriptionOptionsCompleted,
-
-    /// <summary>
-    /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetTextChatOptions()" />
-    /// completed.
-    /// </summary>
-    /// <remarks>
-    /// The PartyStateChange object should be cast to a <see cref="PartySetTextChatOptionsCompletedStateChange" />
-    /// object for more information.
-    /// </remarks>
-    SetTextChatOptionsCompleted,
+    SynthesizeTextToSpeechCompleted = 43,
 
     /// <summary>
     /// The properties associated with the chat control changed.
@@ -701,7 +636,7 @@ enum class PartyStateChangeType : uint32_t
     /// object for more information.
     /// </remarks>
     /// <nyi />
-    ChatControlPropertiesChanged,
+    ChatControlPropertiesChanged = 45,
 
     /// <summary>
     /// The chat control joined a network.
@@ -710,7 +645,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyChatControlJoinedNetworkStateChange" /> object
     /// for more information.
     /// </remarks>
-    ChatControlJoinedNetwork,
+    ChatControlJoinedNetwork = 46,
 
     /// <summary>
     /// The chat control left a network.
@@ -719,7 +654,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyChatControlLeftNetworkStateChange" /> object for
     /// more information.
     /// </remarks>
-    ChatControlLeftNetwork,
+    ChatControlLeftNetwork = 47,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyNetwork::ConnectChatControl()" /> completed.
@@ -728,7 +663,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyConnectChatControlCompletedStateChange" />
     /// object for more information.
     /// </remarks>
-    ConnectChatControlCompleted,
+    ConnectChatControlCompleted = 48,
 
     /// <summary>
     /// The operation started by a previous call to <see cref="PartyNetwork::DisconnectChatControl()" /> completed.
@@ -737,7 +672,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a <see cref="PartyDisconnectChatControlCompletedStateChange" />
     /// object for more information.
     /// </remarks>
-    DisconnectChatControlCompleted,
+    DisconnectChatControlCompleted = 49,
 
     /// <summary>
     /// The operation started by a previous call to
@@ -747,7 +682,73 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a
     /// <see cref="PartyPopulateAvailableTextToSpeechProfilesCompletedStateChange" /> object for more information.
     /// </remarks>
-    PopulateAvailableTextToSpeechProfilesCompleted,
+    PopulateAvailableTextToSpeechProfilesCompleted = 50,
+
+    /// <summary>
+    /// The operation started by a previous call to <see cref="PartyNetwork::CreateInvitation()" /> completed.
+    /// </summary>
+    /// <remarks>
+    /// The PartyStateChange object should be cast to a <see cref="PartyCreateInvitationCompletedStateChange" /> object
+    /// for more information.
+    /// </remarks>
+    CreateInvitationCompleted = 51,
+
+    /// <summary>
+    /// The operation started by a previous call to <see cref="PartyNetwork::RevokeInvitation()" /> completed.
+    /// </summary>
+    /// <remarks>
+    /// The PartyStateChange object should be cast to a <see cref="PartyRevokeInvitationCompletedStateChange" /> object
+    /// for more information.
+    /// </remarks>
+    RevokeInvitationCompleted = 52,
+
+    /// <summary>
+    /// A new invitation was created.
+    /// </summary>
+    /// <remarks>
+    /// The PartyStateChange object should be cast to a <see cref="PartyInvitationCreatedStateChange" /> object for more
+    /// information.
+    /// </remarks>
+    InvitationCreated = 53,
+
+    /// <summary>
+    /// An invitation was destroyed.
+    /// </summary>
+    /// <remarks>
+    /// The PartyStateChange object should be cast to a <see cref="PartyInvitationDestroyedStateChange" /> object for
+    /// more information.
+    /// </remarks>
+    InvitationDestroyed = 54,
+
+    /// <summary>
+    /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetLanguage()" /> completed.
+    /// </summary>
+    /// <remarks>
+    /// The PartyStateChange object should be cast to a <see cref="PartySetLanguageCompletedStateChange" /> object for
+    /// more information.
+    /// </remarks>
+    /// <nyi />
+    SetLanguageCompleted = 55,
+
+    /// <summary>
+    /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetTranscriptionOptions()" />
+    /// completed.
+    /// </summary>
+    /// <remarks>
+    /// The PartyStateChange object should be cast to a <see cref="PartySetTranscriptionOptionsCompletedStateChange" />
+    /// object for more information.
+    /// </remarks>
+    SetTranscriptionOptionsCompleted = 56,
+
+    /// <summary>
+    /// The operation started by a previous call to <see cref="PartyLocalChatControl::SetTextChatOptions()" />
+    /// completed.
+    /// </summary>
+    /// <remarks>
+    /// The PartyStateChange object should be cast to a <see cref="PartySetTextChatOptionsCompletedStateChange" />
+    /// object for more information.
+    /// </remarks>
+    SetTextChatOptionsCompleted = 57,
 
     /// <summary>
     /// The operation started by a previous call to
@@ -757,7 +758,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a
     /// <see cref="PartyConfigureAudioManipulationVoiceStreamCompletedStateChange" /> object for more information.
     /// </remarks>
-    ConfigureAudioManipulationVoiceStreamCompleted,
+    ConfigureAudioManipulationVoiceStreamCompleted = 58,
 
     /// <summary>
     /// The operation started by a previous call to
@@ -767,7 +768,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a
     /// <see cref="PartyConfigureAudioManipulationCaptureStreamCompletedStateChange" /> object for more information.
     /// </remarks>
-    ConfigureAudioManipulationCaptureStreamCompleted,
+    ConfigureAudioManipulationCaptureStreamCompleted = 59,
 
     /// <summary>
     /// The operation started by a previous call to
@@ -777,7 +778,7 @@ enum class PartyStateChangeType : uint32_t
     /// The PartyStateChange object should be cast to a
     /// <see cref="PartyConfigureAudioManipulationRenderStreamCompletedStateChange" /> object for more information.
     /// </remarks>
-    ConfigureAudioManipulationRenderStreamCompleted,
+    ConfigureAudioManipulationRenderStreamCompleted = 60,
 };
 
 /// <summary>
@@ -788,83 +789,83 @@ enum class PartyStateChangeResult
     /// <summary>
     /// The operation succeeded.
     /// </summary>
-    Succeeded,
+    Succeeded = 0,
 
     /// <summary>
     /// An unknown error occurred.
     /// </summary>
-    UnknownError,
+    UnknownError = 1,
 
     /// <summary>
     /// Another title operation canceled this operation.
     /// </summary>
-    CanceledByTitle,
+    CanceledByTitle = 2,
 
     /// <summary>
     /// The local device has internet connectivity issues which caused the operation to fail.
     /// </summary>
-    InternetConnectivityError,
+    InternetConnectivityError = 3,
 
     /// <summary>
     /// The operation failed because of an unexpected error in the Party service.
     /// </summary>
-    PartyServiceError,
+    PartyServiceError = 4,
 
     /// <summary>
     /// There are no available transparent cloud relay servers in the regions specified by the call to
     /// <see cref="PartyManager::CreateNewNetwork()" />.
     /// </summary>
-    NoServersAvailable,
+    NoServersAvailable = 5,
 
     /// <summary>
     /// The PartyLocalUser specified in the call to <see cref="PartyManager::CreateNewNetwork()" /> or
     /// <see cref="PartyNetwork::AuthenticateLocalUser()" /> is not authorized to complete the operation.
     /// </summary>
-    UserNotAuthorized,
+    UserNotAuthorized = 6,
 
     /// <summary>
     /// The PartyLocalUser specified in the call to <see cref="PartyManager::CreateNewNetwork()" /> has created too many
     /// networks and cannot create new networks at this time.
     /// </summary>
-    UserCreateNetworkThrottled,
+    UserCreateNetworkThrottled = 7,
 
     /// <summary>
     /// The title has not been enabled to use PlayFab Party. PlayFab Party must be enabled in the PlayFab Game Manager.
     /// </summary>
-    TitleNotEnabledForParty,
+    TitleNotEnabledForParty = 8,
 
     /// <summary>
     /// The network rejected this operation because it would violate a limit in the network's configuration. See
     /// <see cref="PartyNetworkConfiguration" />.
     /// </summary>
-    NetworkLimitReached,
+    NetworkLimitReached = 10,
 
     /// <summary>
     /// The network no longer exists.
     /// </summary>
-    NetworkNoLongerExists,
+    NetworkNoLongerExists = 11,
 
     /// <summary>
     /// The network is not currently allowing new devices or users to join.
     /// </summary>
-    NetworkNotJoinable,
+    NetworkNotJoinable = 12,
 
     /// <summary>
     /// The operation failed because this version of the Party library was incompatible with either the Party service or
     /// the Party network.
     /// </summary>
-    VersionMismatch,
+    VersionMismatch = 13,
 
     /// <summary>
     /// The network was gracefully exited by the local device.
     /// </summary>
-    LeaveNetworkCalled,
+    LeaveNetworkCalled = 14,
 
     /// <summary>
     /// The operation failed because the Party library was unable to bind to the socket specified in the
     /// <see cref="PartyOption::LocalUdpSocketBindAddress" /> option.
     /// </summary>
-    FailedToBindToLocalUdpSocket,
+    FailedToBindToLocalUdpSocket = 15,
 };
 
 /// <summary>
@@ -879,22 +880,22 @@ enum class PartyLocalUserRemovedReason
     /// The local user is being removed because <see cref="PartyNetwork::AuthenticateLocalUser()" /> asynchronously
     /// failed.
     /// </summary>
-    AuthenticationFailed,
+    AuthenticationFailed = 0,
 
     /// <summary>
     /// The local user is being removed because the title called <see cref="PartyNetwork::RemoveLocalUser()" />.
     /// </summary>
-    RemoveLocalUser,
+    RemoveLocalUser = 1,
 
     /// <summary>
     /// The local user is being removed because the title called <see cref="PartyManager::DestroyLocalUser()" />.
     /// </summary>
-    DestroyLocalUser,
+    DestroyLocalUser = 2,
 
     /// <summary>
     /// The local user is being removed because the network is being destroyed.
     /// </summary>
-    DestroyNetwork,
+    DestroyNetwork = 3,
 };
 
 /// <summary>
@@ -905,18 +906,18 @@ enum class PartyDestroyedReason
     /// <summary>
     /// The invitation, endpoint, device, network, or chat control is being destroyed gracefully by request.
     /// </summary>
-    Requested,
+    Requested = 0,
 
     /// <summary>
     /// The invitation, endpoint, device, network, or chat control is being destroyed because connectivity to the
     /// transparent cloud relay server was lost.
     /// </summary>
-    Disconnected,
+    Disconnected = 1,
 
     /// <summary>
     /// The device or user that the invitation, endpoint, or chat control depended upon was kicked.
     /// </summary>
-    Kicked,
+    Kicked = 2,
 
     /// <summary>
     /// No local users on the local device were authenticated on the network, so the local device lost visibility to the
@@ -926,12 +927,36 @@ enum class PartyDestroyedReason
     /// Even though the local object referring to the remotely managed object has been destroyed, the remotely managed
     /// object may still exist in the network.
     /// </remarks>
-    DeviceLostAuthentication,
+    DeviceLostAuthentication = 3,
 
     /// <summary>
     /// The invitation or endpoint creation failed asynchronously, so the local object has been destroyed.
     /// </summary>
-    CreationFailed,
+    CreationFailed = 4,
+};
+
+/// <summary>
+/// The level of filtering that will apply to incoming text chat when text moderation is enabled.
+/// </summary>
+/// <see cref="PartyOption::TextChatFilterLevel" />
+/// <seealso cref="PartyManager::SetOption" />
+/// <seealso cref="PartyLocalChatControl::SetTextChatOptions" />
+enum class PartyTextChatFilterLevel : uint32_t
+{
+    /// <summary>
+    /// Text chat will be filtered at a family-friendly level.
+    /// </summary>
+    FamilyFriendly = 0,
+
+    /// <summary>
+    /// Text chat will be filtered at a medium level.
+    /// </summary>
+    Medium = 1,
+
+    /// <summary>
+    /// Text chat will be filtered at a mature level.
+    /// </summary>
+    Mature = 2,
 };
 
 /// <summary>
@@ -964,7 +989,7 @@ enum class PartyOption : uint32_t
     /// actively in use if already initialized.
     /// </para>
     /// </remarks>
-    LocalUdpSocketBindAddress,
+    LocalUdpSocketBindAddress = 0,
 
     /// <summary>
     /// An option for constraining the permitted direct peer connectivity between the local device and other devices in
@@ -1013,39 +1038,106 @@ enum class PartyOption : uint32_t
     /// It's also safe to override or query for this option prior to initializing the Party library.
     /// </para>
     /// </remarks>
-    LocalDeviceDirectPeerConnectivityOptionsMask,
+    LocalDeviceDirectPeerConnectivityOptionsMask = 1,
+
+    /// <summary>
+    /// An option for fine-tuning the level that chat text will be filtered at.
+    /// </summary>
+    /// <remarks>
+    /// This feature only applies to incoming chat text detected as English. The filter level cannot be changed for
+    /// other languages.
+    /// <para>
+    /// The filter level will apply to incoming chat text for all local chat controls on the client.
+    /// </para>
+    /// <para>
+    /// To override this option, call <see cref="PartyManager::SetOption" /> passing null for the object parameter,
+    /// this value for the option parameter, and a pointer to a <see cref="PartyTextChatFilterLevel" /> variable
+    /// containing the desired filter level.
+    /// </para>
+    /// <para>
+    /// To query this option, call <see cref="PartyManager::GetOption" /> passing null for the object parameter, this
+    /// value for the option parameter, and a pointer to a <see cref="PartyTextChatFilterLevel" /> variable into which
+    /// the currently configured filter level should be written.
+    /// </para>
+    /// </remarks>
+    TextChatFilterLevel = 2,
 };
 
 /// <summary>
-/// Types of threads that Party library uses for internal purposes.
+/// High-level categorization of internal processing tasks.
 /// </summary>
 /// <remarks>
-/// Party library internal audio threads are high priority, frequently-running threads with real-time requirements.
+/// When used with <see cref="PartyManager::GetWorkMode()" /> and <see cref="PartyManager::SetWorkMode()" />, allows the
+/// title to read and write (respectively) the work mode for the associated internal processing task. Title interaction
+/// with the internal processing task differs greatly depending on the currently-configured work mode.
 /// <para>
-/// On Windows, these audio threads interact directly with XAudio2 every 40 milliseconds. The Party library's
-/// instance(s) of XAudio2 will be initialized with a processor affinity that corresponds to the processor affinity
-/// configured for the audio thread type via <see cref="PartyManager::SetThreadAffinityMask()" />. If no processor
-/// affinity is specified for the audio thread type, the instance(s) of XAudio2 will be initialized with a processor
-/// affinity of XAUDIO2_DEFAULT_PROCESSOR.
+/// When the work mode of the processing task associated with <see cref="PartyThreadId::Audio" /> is set to
+/// <see cref="PartyWorkMode::Automatic" />, the task is performed by the Party library using internally-managed, high
+/// priority, frequently-running threads with real-time requirements. On Windows, these audio threads interact directly
+/// with XAudio2 every 40 milliseconds. The Party library's instance(s) of XAudio2 will be initialized with a processor
+/// affinity that corresponds to the processor affinity configured for the audio thread type via
+/// <see cref="PartyManager::SetThreadAffinityMask()" />. If no processor affinity is specified for the audio thread
+/// type, the instance(s) of XAudio2 will be initialized with a processor affinity of XAUDIO2_DEFAULT_PROCESSOR.
 /// </para>
 /// <para>
-/// Party library internal networking threads are driven from both network I/O and polling mechanisms. These wake every
-/// 50 to 100 milliseconds or whenever network traffic is received.
+/// Similarly, when the work mode of the processing task associated with <see cref="PartyThreadId::Networking" /> is set
+/// to <see cref="PartyWorkMode::Automatic" />, networking threads are created and managed internally. These threads are
+/// driven from both network I/O and polling mechanisms, waking every 50 to 100 milliseconds or whenever network traffic
+/// is received.
+/// </para>
+/// <para>
+/// For all processing tasks, when the work mode is set to <see cref="PartyWorkMode::Automatic" />, title
+/// interaction/responsibility is limited to specifying the processor affinity of associated internal worker threads via
+/// <see cref="PartyManager::SetThreadAffinityMask()" />. Alternatively, when a processing task's work mode is set to
+/// <see cref="PartyWorkMode::Manual" />, internal worker threads are no longer created and managed by the Party
+/// library. Instead, it becomes the title's responsibility to perform the required processing via periodic calls to
+/// <see cref="PartyManager::DoWork()" />. The periodicity of these calls should match that of the internal threads that
+/// are created when the work mode is <see cref="PartyWorkMode::Automatic" />.
 /// </para>
 /// </remarks>
 /// <seealso cref="PartyManager::GetThreadAffinityMask" />
 /// <seealso cref="PartyManager::SetThreadAffinityMask" />
+/// <seealso cref="PartyManager::SetWorkMode" />
+/// <seealso cref="PartyManager::GetWorkMode" />
+/// <seealso cref="PartyManager::DoWork" />
 enum class PartyThreadId
 {
     /// <summary>
-    /// Represents Party library internal audio threads.
+    /// Represents the internal processing task related to audio.
     /// </summary>
-    Audio,
+    Audio = 0,
 
     /// <summary>
-    /// Represents Party library internal networking threads.
+    /// Represents the internal processing task related to networking.
     /// </summary>
-    Networking,
+    Networking = 1,
+};
+
+/// <summary>
+/// Configuration modes representing how the Party library will manage an internal processing task.
+/// </summary>
+/// <remarks>
+/// For an overview of the processing tasks and their frequencies, see <see cref="PartyThreadId" />.
+/// </remarks>
+/// <seealso cref="PartyManager::SetWorkMode" />
+/// <seealso cref="PartyManager::GetWorkMode" />
+/// <seealso cref="PartyManager::DoWork" />
+enum class PartyWorkMode
+{
+    /// <summary>
+    /// The Party library will create internal threads to automatically handle the associated processing task.
+    /// </summary>
+    /// <remarks>
+    /// This is the default, recommended option which encodes the Party library's best practices for processing its
+    /// internal task.
+    /// </remarks>
+    Automatic = 0,
+
+    /// <summary>
+    /// The Party library will not create internal threads to handle the associated processing task, instead relying on
+    /// the title to perform the task through calls to <see cref="PartyManager::DoWork()" />.
+    /// </summary>
+    Manual = 1,
 };
 
 /// <summary>
@@ -1345,7 +1437,7 @@ enum class PartyCancelMessagesFilterExpression
     /// <em>filteredMessageIdentitiesToMatch</em> parameters and messages' PartySendMessageQueuingConfiguration
     /// structure <em>identityForCancelFilters</em> field are ignored for this expression type.
     /// </remarks>
-    None,
+    None = 0,
 
     /// <summary>
     /// Cancels messages where the filter expression <c>(<em>identityForCancelFilters</em> &
@@ -1368,7 +1460,7 @@ enum class PartyCancelMessagesFilterExpression
     /// check and a value of zero for the <em>filteredMessageIdentitiesToMatch</em> parameter.
     /// </para>
     /// </remarks>
-    IdentityAndMaskEqualsMatchValue,
+    IdentityAndMaskEqualsMatchValue = 1,
 
     /// <summary>
     /// Cancels messages where the filter expression <c>(<em>identityForCancelFilters</em> &
@@ -1391,7 +1483,7 @@ enum class PartyCancelMessagesFilterExpression
     /// value in the <em>filteredMessageIdentitiesToMatch</em> parameter.
     /// </para>
     /// </remarks>
-    IdentityAndMaskDoesNotEqualMatchValue,
+    IdentityAndMaskDoesNotEqualMatchValue = 2,
 };
 
 /// <summary>
@@ -1436,7 +1528,7 @@ enum class PartyNetworkStatistic
     /// <see cref="PartyEndpointStatistic::AverageDeviceRoundTripLatencyInMilliseconds" /> statistic.
     /// </para>
     /// </remarks>
-    AverageRelayServerRoundTripLatencyInMilliseconds,
+    AverageRelayServerRoundTripLatencyInMilliseconds = 0,
 
     /// <summary>
     /// The total number of internal protocol packets ever transmitted to remote devices as part of this network.
@@ -1455,7 +1547,7 @@ enum class PartyNetworkStatistic
     /// text-to-speech synthesis.
     /// </para>
     /// </remarks>
-    SentProtocolPackets,
+    SentProtocolPackets = 1,
 
     /// <summary>
     /// The total number of internal protocol bytes ever transmitted to remote devices as part of this network.
@@ -1476,7 +1568,7 @@ enum class PartyNetworkStatistic
     /// transcription, and text-to-speech synthesis.
     /// </para>
     /// </remarks>
-    SentProtocolBytes,
+    SentProtocolBytes = 2,
 
     /// <summary>
     /// The total number of internal protocol packets ever re-transmitted to remote devices as part of this network.
@@ -1492,7 +1584,7 @@ enum class PartyNetworkStatistic
     /// transcription, and text-to-speech synthesis.
     /// </para>
     /// </remarks>
-    RetriedProtocolPackets,
+    RetriedProtocolPackets = 3,
 
     /// <summary>
     /// The total number of internal protocol bytes ever re-transmitted to remote devices as part of this network.
@@ -1512,7 +1604,7 @@ enum class PartyNetworkStatistic
     /// speech-to-text transcription, and text-to-speech synthesis.
     /// </para>
     /// </remarks>
-    RetriedProtocolBytes,
+    RetriedProtocolBytes = 4,
 
     /// <summary>
     /// The total number of internal protocol packets to remote devices in this network that are believed to have been
@@ -1530,7 +1622,7 @@ enum class PartyNetworkStatistic
     /// transcription, and text-to-speech synthesis.
     /// </para>
     /// </remarks>
-    DroppedProtocolPackets,
+    DroppedProtocolPackets = 5,
 
     /// <summary>
     /// The total number of internal protocol packets ever received from remote devices as part of this network.
@@ -1549,7 +1641,7 @@ enum class PartyNetworkStatistic
     /// transcription, and text-to-speech synthesis.
     /// </para>
     /// </remarks>
-    ReceivedProtocolPackets,
+    ReceivedProtocolPackets = 6,
 
     /// <summary>
     /// The total number of internal protocol bytes ever received from remote devices as part of this network.
@@ -1569,7 +1661,7 @@ enum class PartyNetworkStatistic
     /// transcription, and text-to-speech synthesis.
     /// </para>
     /// </remarks>
-    ReceivedProtocolBytes,
+    ReceivedProtocolBytes = 7,
 
     /// <summary>
     /// The number of messages currently queued by <see cref="PartyLocalEndpoint::SendMessage()" /> but not yet
@@ -1582,7 +1674,7 @@ enum class PartyNetworkStatistic
     /// time rather than multiplied per target endpoint.
     /// </para>
     /// </remarks>
-    CurrentlyQueuedSendMessages,
+    CurrentlyQueuedSendMessages = 8,
 
     /// <summary>
     /// The number of bytes of data in messages currently queued by <see cref="PartyLocalEndpoint::SendMessage()" /> but
@@ -1593,7 +1685,7 @@ enum class PartyNetworkStatistic
     /// target endpoints at once via the transparent cloud relay server. Such messages' bytes will only be counted a
     /// single time rather than multiplied per target endpoint.
     /// </remarks>
-    CurrentlyQueuedSendMessageBytes,
+    CurrentlyQueuedSendMessageBytes = 9,
 
     /// <summary>
     /// The number of <see cref="PartyLocalEndpoint::SendMessage()" /> messages from all local endpoints to all remote
@@ -1611,7 +1703,7 @@ enum class PartyNetworkStatistic
     /// time rather than multiplied per target endpoint.
     /// </para>
     /// </remarks>
-    CurrentlyActiveSendMessages,
+    CurrentlyActiveSendMessages = 10,
 
     /// <summary>
     /// The number of bytes of data in <see cref="PartyLocalEndpoint::SendMessage()" /> messages from all local
@@ -1629,7 +1721,7 @@ enum class PartyNetworkStatistic
     /// single time rather than multiplied per target endpoint.
     /// </para>
     /// </remarks>
-    CurrentlyActiveSendMessageBytes,
+    CurrentlyActiveSendMessageBytes = 11,
 
     /// <summary>
     /// The total number of <see cref="PartyLocalEndpoint::SendMessage()" /> messages from all local endpoints to all
@@ -1646,7 +1738,7 @@ enum class PartyNetworkStatistic
     /// time rather than multiplied per target endpoint.
     /// </para>
     /// </remarks>
-    TimedOutSendMessages,
+    TimedOutSendMessages = 12,
 
     /// <summary>
     /// The total number of bytes of data in <see cref="PartyLocalEndpoint::SendMessage()" /> messages from all local
@@ -1663,7 +1755,7 @@ enum class PartyNetworkStatistic
     /// single time rather than multiplied per target endpoint.
     /// </para>
     /// </remarks>
-    TimedOutSendMessageBytes,
+    TimedOutSendMessageBytes = 13,
 
     /// <summary>
     /// The total number of <see cref="PartyLocalEndpoint::SendMessage()" /> messages from all local endpoints to all
@@ -1678,7 +1770,7 @@ enum class PartyNetworkStatistic
     /// time rather than multiplied per target endpoint.
     /// </para>
     /// </remarks>
-    CanceledSendMessages,
+    CanceledSendMessages = 14,
 
     /// <summary>
     /// The total number of bytes of data in <see cref="PartyLocalEndpoint::SendMessage()" /> messages from all local
@@ -1693,7 +1785,7 @@ enum class PartyNetworkStatistic
     /// single time rather than multiplied per target endpoint.
     /// </para>
     /// </remarks>
-    CanceledSendMessageBytes,
+    CanceledSendMessageBytes = 15,
 };
 
 /// <summary>
@@ -1717,7 +1809,7 @@ enum class PartyEndpointStatistic
     /// to <see cref="PartyLocalEndpoint::GetEndpointStatistics()" /> when querying for this statistic, the message will
     /// only be counted a single time rather than multiplied per target endpoint.
     /// </remarks>
-    CurrentlyQueuedSendMessages,
+    CurrentlyQueuedSendMessages = 0,
 
     /// <summary>
     /// The number of bytes of data in messages currently queued by <see cref="PartyLocalEndpoint::SendMessage()" /> but
@@ -1729,7 +1821,7 @@ enum class PartyEndpointStatistic
     /// to <see cref="PartyLocalEndpoint::GetEndpointStatistics()" /> when querying for this statistic, the message
     /// bytes will only be counted a single time rather than multiplied per target endpoint.
     /// </remarks>
-    CurrentlyQueuedSendMessageBytes,
+    CurrentlyQueuedSendMessageBytes = 1,
 
     /// <summary>
     /// The number of <see cref="PartyLocalEndpoint::SendMessage()" /> messages from the local endpoint to the specified
@@ -1747,7 +1839,7 @@ enum class PartyEndpointStatistic
     /// only be counted a single time rather than multiplied per target endpoint.
     /// </para>
     /// </remarks>
-    CurrentlyActiveSendMessages,
+    CurrentlyActiveSendMessages = 2,
 
     /// <summary>
     /// The number of bytes of data in <see cref="PartyLocalEndpoint::SendMessage()" /> messages from the local endpoint
@@ -1766,7 +1858,7 @@ enum class PartyEndpointStatistic
     /// bytes will only be counted a single time rather than multiplied per target endpoint.
     /// </para>
     /// </remarks>
-    CurrentlyActiveSendMessageBytes,
+    CurrentlyActiveSendMessageBytes = 3,
 
     /// <summary>
     /// The total number of <see cref="PartyLocalEndpoint::SendMessage()" /> messages from the local endpoint to the
@@ -1790,7 +1882,7 @@ enum class PartyEndpointStatistic
     /// backward".
     /// </para>
     /// </remarks>
-    TimedOutSendMessages,
+    TimedOutSendMessages = 4,
 
     /// <summary>
     /// The total number of bytes of data in <see cref="PartyLocalEndpoint::SendMessage()" /> messages from the local
@@ -1814,7 +1906,7 @@ enum class PartyEndpointStatistic
     /// backward".
     /// </para>
     /// </remarks>
-    TimedOutSendMessageBytes,
+    TimedOutSendMessageBytes = 5,
 
     /// <summary>
     /// The total number of <see cref="PartyLocalEndpoint::SendMessage()" /> messages from the local endpoint to the
@@ -1836,7 +1928,7 @@ enum class PartyEndpointStatistic
     /// backward".
     /// </para>
     /// </remarks>
-    CanceledSendMessages,
+    CanceledSendMessages = 6,
 
     /// <summary>
     /// The total number of bytes of data in <see cref="PartyLocalEndpoint::SendMessage()" /> messages from the local
@@ -1858,7 +1950,7 @@ enum class PartyEndpointStatistic
     /// backward".
     /// </para>
     /// </remarks>
-    CanceledSendMessageBytes,
+    CanceledSendMessageBytes = 7,
 
     /// <summary>
     /// The current moving average round trip latency ("ping time") in milliseconds to the endpoint's owning device.
@@ -1877,7 +1969,7 @@ enum class PartyEndpointStatistic
     /// <see cref="PartyNetworkStatistic::AverageRelayServerRoundTripLatencyInMilliseconds" /> statistic.
     /// </para>
     /// </remarks>
-    AverageDeviceRoundTripLatencyInMilliseconds,
+    AverageDeviceRoundTripLatencyInMilliseconds = 8,
 };
 
 /// <summary>
@@ -1891,12 +1983,12 @@ enum class PartyInvitationRevocability
     /// <summary>
     /// The invitation may only be revoked by the PartyLocalUser that created the invitation.
     /// </summary>
-    Creator,
+    Creator = 0,
 
     /// <summary>
     /// The invitation may be revoked by any authenticated user in the network.
     /// </summary>
-    Anyone,
+    Anyone = 1,
 };
 
 /// <summary>
@@ -1999,7 +2091,7 @@ enum class PartyAudioDeviceSelectionType
     /// <summary>
     /// Indicate that no audio device should be used.
     /// </summary>
-    None,
+    None = 0,
 
     /// <summary>
     /// Select audio device based on the platform settings.
@@ -2008,7 +2100,7 @@ enum class PartyAudioDeviceSelectionType
     /// If this selection type is used for <see cref="PartyLocalChatControl::SetAudioInput()" /> or
     /// <see cref="PartyLocalChatControl::SetAudioOutput()" /> then the audioDeviceSelectionContext should be nullptr.
     /// </remarks>
-    SystemDefault,
+    SystemDefault = 1,
 
     /// <summary>
     /// Select audio device based on the platform and user settings.
@@ -2018,7 +2110,7 @@ enum class PartyAudioDeviceSelectionType
     /// <see cref="PartyLocalChatControl::SetAudioOutput()" /> then the audioDeviceSelectionContext must be a platform
     /// specific user context.
     /// </remarks>
-    PlatformUserDefault,
+    PlatformUserDefault = 2,
 
     /// <summary>
     /// Audio device specified by the game.
@@ -2033,7 +2125,7 @@ enum class PartyAudioDeviceSelectionType
     /// the device selection type is not supported.
     /// </para>
     /// </remarks>
-    Manual,
+    Manual = 3,
 };
 
 /// <summary>
@@ -2044,12 +2136,12 @@ enum class PartyAudioInputState
     /// <summary>
     /// No audio input was specified.
     /// </summary>
-    NoInput,
+    NoInput = 0,
 
     /// <summary>
     /// The audio input was successfully initialized.
     /// </summary>
-    Initialized,
+    Initialized = 1,
 
     /// <summary>
     /// The audio input wasn't found.
@@ -2058,27 +2150,27 @@ enum class PartyAudioInputState
     /// This can occur if the input was removed while in use. When in this state, the chat control will subscribe to
     /// audio device changes and use the specified input if it can be found at a later time.
     /// </remarks>
-    NotFound,
+    NotFound = 2,
 
     /// <summary>
     /// The user didn't give permission to access the input.
     /// </summary>
-    UserConsentDenied,
+    UserConsentDenied = 3,
 
     /// <summary>
     /// The input doesn't provide a supported format.
     /// </summary>
-    UnsupportedFormat,
+    UnsupportedFormat = 4,
 
     /// <summary>
     /// The audio input device is already in use by another chat control.
     /// </summary>
-    AlreadyInUse,
+    AlreadyInUse = 5,
 
     /// <summary>
     /// Initializing the input resulted in an unknown error.
     /// </summary>
-    UnknownError,
+    UnknownError = 6,
 };
 
 /// <summary>
@@ -2089,12 +2181,12 @@ enum class PartyAudioOutputState
     /// <summary>
     /// No audio output was specified.
     /// </summary>
-    NoOutput,
+    NoOutput = 0,
 
     /// <summary>
     /// The audio output was successfully initialized.
     /// </summary>
-    Initialized,
+    Initialized = 1,
 
     /// <summary>
     /// The audio output wasn't found.
@@ -2103,22 +2195,22 @@ enum class PartyAudioOutputState
     /// This can occur if the output was removed while in use. When in this state, the chat control will subscribe to
     /// audio device changes and use the specified output if it can be found at a later time.
     /// </remarks>
-    NotFound,
+    NotFound = 2,
 
     /// <summary>
     /// The output doesn't provide a supported sample rate.
     /// </summary>
-    UnsupportedFormat,
+    UnsupportedFormat = 3,
 
     /// <summary>
     /// The audio output device is already in use by another chat control.
     /// </summary>
-    AlreadyInUse,
+    AlreadyInUse = 4,
 
     /// <summary>
     /// Initializing the output resulted in an unknown error.
     /// </summary>
-    UnknownError,
+    UnknownError = 5,
 };
 
 /// <summary>
@@ -2129,17 +2221,17 @@ enum class PartyLocalChatControlChatIndicator
     /// <summary>
     /// The local chat control is not generating voice audio.
     /// </summary>
-    Silent,
+    Silent = 0,
 
     /// <summary>
     /// The local chat control is generating voice audio.
     /// </summary>
-    Talking,
+    Talking = 1,
 
     /// <summary>
     /// The local chat control's audio input is muted.
     /// </summary>
-    AudioInputMuted,
+    AudioInputMuted = 2,
 
     /// <summary>
     /// Either no audio input has been specified for the local chat control, or initializing the specified input failed.
@@ -2150,7 +2242,7 @@ enum class PartyLocalChatControlChatIndicator
     /// <see cref="PartyLocalChatAudioOutputChangedStateChange" /> with more granular information will have been
     /// provided prior to the chat indicator changing to this value.
     /// </remarks>
-    NoAudioInput,
+    NoAudioInput = 3,
 };
 
 /// <summary>
@@ -2161,22 +2253,22 @@ enum class PartyChatControlChatIndicator
     /// <summary>
     /// The target chat control isn't generating voice audio.
     /// </summary>
-    Silent,
+    Silent = 0,
 
     /// <summary>
     /// The target chat control is generating voice audio.
     /// </summary>
-    Talking,
+    Talking = 1,
 
     /// <summary>
     /// The local chat control is not configured to receive audio from the target chat control.
     /// </summary>
-    IncomingVoiceDisabled,
+    IncomingVoiceDisabled = 2,
 
     /// <summary>
     /// The target chat control has been muted by the local chat control.
     /// </summary>
-    IncomingCommunicationsMuted,
+    IncomingCommunicationsMuted = 3,
 };
 
 /// <summary>
@@ -2188,17 +2280,17 @@ enum class PartyGender
     /// <summary>
     /// The text to speech profile represents a gender-neutral voice.
     /// </summary>
-    Neutral,
+    Neutral = 0,
 
     /// <summary>
     /// The text to speech profile represents a female voice.
     /// </summary>
-    Female,
+    Female = 1,
 
     /// <summary>
     /// The text to speech profile represents a male voice.
     /// </summary>
-    Male,
+    Male = 2,
 };
 
 /// <summary>
@@ -2214,7 +2306,7 @@ enum class PartyAudioSourceType
     /// <see cref="PartyLocalChatControl::SetAudioInput()" />, or optionally submitted to a capture sink, via
     /// <see cref="PartyAudioManipulationSinkStream::SubmitBuffer()" />, is treated as microphone audio.
     /// </remarks>
-    Microphone,
+    Microphone = 0,
 
     /// <summary>
     /// A text-to-speech audio source.
@@ -2223,7 +2315,7 @@ enum class PartyAudioSourceType
     /// Audio that is generated by <see cref="PartyLocalChatControl::SynthesizeTextToSpeech()"/> is treated as
     /// text-to-speech audio.
     /// </remarks>
-    TextToSpeech,
+    TextToSpeech = 1,
 };
 
 /// <summary>
@@ -2264,12 +2356,12 @@ enum class PartyVoiceChatTranscriptionPhraseType
     /// <summary>
     /// The transcription is a hypothesis phrase.
     /// </summary>
-    Hypothesis,
+    Hypothesis = 0,
 
     /// <summary>
     /// The transcription is a final phrase.
     /// </summary>
-    Final,
+    Final = 1,
 };
 
 /// <summary>
@@ -2287,7 +2379,8 @@ enum class PartyVoiceChatTranscriptionOptions
 
     /// <summary>
     /// Transcriptions of the local chat control will be generated and provided to the same local chat control via
-    /// <see cref="PartyVoiceChatTranscriptionReceivedStateChange" /> events.
+    /// <see cref="PartyVoiceChatTranscriptionReceivedStateChange" /> events while in a network with at least one other
+    /// chat control.
     /// </summary>
     TranscribeSelf = 0x1,
 
@@ -2359,6 +2452,17 @@ enum class PartyVoiceChatTranscriptionOptions
     /// be provided.
     /// </remarks>
     DisableProfanityMasking = 0x20,
+
+    /// <summary>
+    /// Transcriptions of the local chat control will be generated and provided to the same local chat control via
+    /// <see cref="PartyVoiceChatTranscriptionReceivedStateChange" /> regardless of whether the chat control is in a
+    /// network with any other chat controls.
+    /// </summary>
+    /// <remarks>
+    /// This option overrides <em>TranscribeSelf</em>. This option is provided for backwards compatibility and typically
+    /// should not be used.
+    /// </remarks>
+    TranscribeSelfRegardlessOfNetworkState = 0x40,
 };
 
 DEFINE_ENUM_FLAG_OPERATORS(PartyVoiceChatTranscriptionOptions);
@@ -2390,6 +2494,16 @@ enum class PartyTextChatOptions
     /// </para>
     /// </remarks>
     TranslateToLocalLanguage = 0x1,
+
+    /// <summary>
+    /// Offensive terms will be filtered out of incoming text chat.
+    /// </summary>
+    /// <remarks>
+    /// For incoming chat text detected as English, the filtering level may be adjusted using the 
+    /// <see cref="PartyOption::TextChatFilterLevel" /> option in <see cref="SetOption" />. The default level is 
+    /// family-friendly.
+    /// </remarks>
+    FilterOffensiveText = 0x2,
 };
 
 DEFINE_ENUM_FLAG_OPERATORS(PartyTextChatOptions);
@@ -2440,7 +2554,7 @@ enum class PartySynthesizeTextToSpeechType
     /// The audio will never be transcribed, even if transcription is enabled.
     /// </para>
     /// </remarks>
-    Narration,
+    Narration = 0,
 
     /// <summary>
     /// The audio should be rendered to the chat controls to which the local chat control is configured to send audio.
@@ -2457,7 +2571,7 @@ enum class PartySynthesizeTextToSpeechType
     /// <see cref="PartyLocalChatControl::SetTranscriptionOptions()" />.
     /// </para>
     /// </remarks>
-    VoiceChat,
+    VoiceChat = 1,
 };
 
 /// <summary>
@@ -2468,12 +2582,12 @@ enum class PartyAudioSampleType
     /// <summary>
     /// Integer PCM format.
     /// </summary>
-    Integer,
+    Integer = 0,
 
     /// <summary>
     /// IEEE floating-point PCM format.
     /// </summary>
-    Float,
+    Float = 1,
 };
 
 /// <summary>
@@ -2667,13 +2781,55 @@ enum class PartyDeviceConnectionType
     /// <summary>
     /// All communication is transmitted via a transparent cloud relay server.
     /// </summary>
-    RelayServer,
+    RelayServer = 0,
 
     /// <summary>
     /// All communication is transmitted using a direct peer-to-peer connection.
     /// </summary>
-    DirectPeerConnection,
+    DirectPeerConnection = 1,
 };
+
+/// <summary>
+/// Flags describing the received text message in PartyChatTextReceivedStateChange.
+/// </summary>
+/// <seealso cref="PartyChatTextReceivedStateChange" />
+enum class PartyChatTextReceivedOptions
+{
+    /// <summary>
+    /// No flags are specified.
+    /// </summary>
+    None = 0x0,
+
+    /// <summary>
+    /// Offensive terms were found and replaced with asterisks.
+    /// </summary>
+    /// <remarks>
+    /// This value is exclusive to FilteredEntireMessage and FilteredDueToError.
+    /// </remarks>
+    FilteredOffensiveTerms = 0x1,
+
+    /// <summary>
+    /// The incoming text chat was unable to filter specific terms, and the entire text has been replaced by asterisks.
+    /// </summary>
+    /// <remarks>
+    /// This option occurs when the moderation service was not able to identify specific terms to filter, but has
+    /// still identified the text as being offensive.
+    /// <para>
+    /// This value is exclusive to FilteredOffensiveTerms and FilteredDueToError.
+    /// </para>
+    /// </remarks>
+    FilteredEntireMessage = 0x2,
+
+    /// <summary>
+    /// The incoming text was unable to be filtered, and the entire text has been replaced by asterisks.
+    /// <remarks>
+    /// This value is exclusive to FilteredOffensiveTerms and FilteredEntireMessage.
+    /// </remarks>
+    /// </summary>
+    FilteredDueToError = 0x4,
+};
+
+DEFINE_ENUM_FLAG_OPERATORS(PartyChatTextReceivedOptions);
 
 /// <summary>
 /// The configuration used by the Party library to bind to a UDP socket.
@@ -4489,7 +4645,7 @@ struct PartySetChatAudioEncoderBitrateCompletedStateChange : PartyStateChange
 /// <seealso cref="PartyLocalDevice::CreateChatControl" />
 /// <seealso cref="PartyLocalChatControl::SendText" />
 /// <seealso cref="PartyLocalChatControl::SetTextChatOptions" />
-/// <seealso cref="PartyLocalChatControl::SetLanguage" />
+/// <seealso_nyi cref="PartyLocalChatControl::SetLanguage" />
 struct PartyChatTextReceivedStateChange : PartyStateChange
 {
     /// <summary>
@@ -4526,6 +4682,10 @@ struct PartyChatTextReceivedStateChange : PartyStateChange
     /// </summary>
     /// <remarks>
     /// The string may be up to <c>c_maxChatTextMessageLength</c> characters long, not including the null terminator.
+    /// <para>
+    /// When filtering is enabled, this text may not be the exact text sent by the remote user. The exact source text
+    /// can be retrieved from the <c>originalChatText</c> field.
+    /// </para>
     /// </remarks>
     PartyString chatText;
 
@@ -4546,9 +4706,8 @@ struct PartyChatTextReceivedStateChange : PartyStateChange
     /// Translations will be provided if <see cref="PartyTextChatOptions::TranslateToLocalLanguage" /> had previously
     /// been specified via <see cref="PartyLocalChatControl::SetTextChatOptions()" /> on a chat control local to this
     /// device. There may be more than one translation if multiple local chat controls have enabled translation and the
-    /// local chat controls have specified different languages via either
-    /// <see cref="PartyLocalDevice::CreateChatControl()" /> or <see cref="PartyLocalChatControl::SetLanguage()" />. In
-    /// that case, the app can compare the <c>languageCode</c> field of each PartyTranslation in <c>translations</c>
+    /// local chat controls have specified different languages via <see cref="PartyLocalDevice::CreateChatControl()" />.
+    /// In that case, the app can compare the <c>languageCode</c> field of each PartyTranslation in <c>translations</c>
     /// against the language code, obtained via <see cref="PartyLocalChatControl::GetLanguage()" />, for each local chat
     /// control in <c>receiverChatControls</c> to determine the target local chat control for each translation.
     /// </remarks>
@@ -4561,17 +4720,41 @@ struct PartyChatTextReceivedStateChange : PartyStateChange
     /// Translations will be provided if <see cref="PartyTextChatOptions::TranslateToLocalLanguage" /> had previously
     /// been specified via <see cref="PartyLocalChatControl::SetTextChatOptions()" /> on a chat control local to this
     /// device. There may be more than one translation if multiple local chat controls have enabled translation and the
-    /// local chat controls have specified different languages via either
-    /// <see cref="PartyLocalDevice::CreateChatControl()" /> or <see cref="PartyLocalChatControl::SetLanguage()" />. In
-    /// that case, the app can compare the <c>languageCode</c> field of each PartyTranslation in <c>translations</c>
+    /// local chat controls have specified different languages via <see cref="PartyLocalDevice::CreateChatControl()" />.
+    /// In that case, the app can compare the <c>languageCode</c> field of each PartyTranslation in <c>translations</c>
     /// against the language code, obtained via <see cref="PartyLocalChatControl::GetLanguage()" />, for each local chat
     /// control in <c>receiverChatControls</c> to determine the target local chat control for each translation.
     /// </remarks>
+    /// <para>
     /// A translation corresponding to the language for each chat control in <c>receiverChatControls</c> that has
     /// enabled translation will be provided, even if the source chat control's language is the same as the local chat
     /// control's language. In such a case, the chat text and translation strings will be identical.
     /// </para>
     _Field_size_(translationCount) PartyTranslation * translations;
+
+    /// <summary>
+    /// Flags describing additional information about the chat text.
+    /// </summary>
+    PartyChatTextReceivedOptions options;
+
+    /// <summary>
+    /// The original version of the incoming text chat.
+    /// </summary>
+    /// <remarks>
+    /// This field is always the unfiltered source text sent by the remote user. If filtering isn't enabled, it's a
+    /// pointer to <c>chatText</c>. If filtering is enabled but filtering was not needed, as indicated by
+    /// PartyChatTextReceivedOptions::None in the <c>options</c> field, then this is a pointer to <c>chatText</c>.
+    /// </remarks>
+    PartyString originalChatText;
+
+    /// <summary>
+    /// Errors associated with this state change. 
+    /// <remarks>
+    /// These errors are intended for diagnostic purposes only. If an error occurs, the 
+    /// <see cref="PartyChatTextReceivedOptions::FilteredDueToError" /> flag will be present in the
+    /// <c>options</c> field.
+    /// </summary>
+    PartyError errorDetail;
 };
 
 /// <summary>
@@ -4579,7 +4762,7 @@ struct PartyChatTextReceivedStateChange : PartyStateChange
 /// </summary>
 /// <seealso cref="PartyLocalDevice::CreateChatControl" />
 /// <seealso cref="PartyLocalChatControl::SetTranscriptionOptions" />
-/// <seealso cref="PartyLocalChatControl::SetLanguage" />
+/// <seealso_nyi cref="PartyLocalChatControl::SetLanguage" />
 struct PartyVoiceChatTranscriptionReceivedStateChange : PartyStateChange
 {
     /// <summary>
@@ -4667,11 +4850,11 @@ struct PartyVoiceChatTranscriptionReceivedStateChange : PartyStateChange
     /// Translations will be provided if <see cref="PartyVoiceChatTranscriptionOptions::TranslateToLocalLanguage" /> had
     /// previously been specified via <see cref="PartyLocalChatControl::SetTranscriptionOptions()" /> on a chat control
     /// local to this device. There may be more than one translation if multiple local chat controls have enabled
-    /// translation and the local chat controls have specified different languages via either
-    /// <see cref="PartyLocalDevice::CreateChatControl()" /> or <see cref="PartyLocalChatControl::SetLanguage()" />. In
-    /// that case, the app can compare the <c>languageCode</c> field of each PartyTranslation in <c>translations</c>
-    /// against the language code, obtained via <see cref="PartyLocalChatControl::GetLanguage()" />, for each local chat
-    /// control in <c>receiverChatControls</c> to determine the target local chat control for each translation.
+    /// translation and the local chat controls have specified different languages via
+    /// <see cref="PartyLocalDevice::CreateChatControl()" />. In that case, the app can compare the <c>languageCode</c>
+    /// field of each PartyTranslation in <c>translations</c> against the language code, obtained via
+    /// <see cref="PartyLocalChatControl::GetLanguage()" />, for each local chat control in <c>receiverChatControls</c>
+    /// to determine the target local chat control for each translation.
     /// </remarks>
     uint32_t translationCount;
 
@@ -4682,11 +4865,11 @@ struct PartyVoiceChatTranscriptionReceivedStateChange : PartyStateChange
     /// Translations will be provided if <see cref="PartyVoiceChatTranscriptionOptions::TranslateToLocalLanguage" /> had
     /// previously been specified via <see cref="PartyLocalChatControl::SetTranscriptionOptions()" /> on a chat control
     /// local to this device. There may be more than one translation if multiple local chat controls have enabled
-    /// translation and the local chat controls have specified different languages via either
-    /// <see cref="PartyLocalDevice::CreateChatControl()" /> or <see cref="PartyLocalChatControl::SetLanguage()" />. In
-    /// that case, the app can compare the <c>languageCode</c> field of each PartyTranslation in <c>translations</c>
-    /// against the language code, obtained via <see cref="PartyLocalChatControl::GetLanguage()" />, for each local chat
-    /// control in <c>receiverChatControls</c> to determine the target local chat control for each translation.
+    /// translation and the local chat controls have specified different languages via
+    /// <see cref="PartyLocalDevice::CreateChatControl()" />. In that case, the app can compare the <c>languageCode</c>
+    /// field of each PartyTranslation in <c>translations</c> against the language code, obtained via
+    /// <see cref="PartyLocalChatControl::GetLanguage()" />, for each local chat control in <c>receiverChatControls</c>
+    /// to determine the target local chat control for each translation.
     /// <para>
     /// A translation corresponding to the language for each chat control in <c>receiverChatControls</c> that has
     /// enabled translation will be provided, even if the speaking chat control's language is the same as the local chat
@@ -4929,7 +5112,8 @@ struct PartySynthesizeTextToSpeechCompletedStateChange : PartyStateChange
 /// <summary>
 /// Information specific to the <em>SetLanguageCompleted</em> type of state change.
 /// </summary>
-/// <seealso cref="PartyLocalChatControl::SetLanguage" />
+/// <seealso_nyi cref="PartyLocalChatControl::SetLanguage" />
+/// <nyi />
 struct PartySetLanguageCompletedStateChange : PartyStateChange
 {
     /// <summary>
@@ -5501,7 +5685,7 @@ public:
     /// <seealso cref="PartyNetwork::AuthenticateLocalUser" />
     PartyError UpdateEntityToken(
         PartyString titlePlayerEntityToken
-        ) const party_no_throw;
+        ) party_no_throw;
 
     /// <summary>
     /// Retrieves the app's private, custom pointer-sized context value previously associated with this local user
@@ -6318,8 +6502,7 @@ public:
     /// <see cref="https://docs.microsoft.com/azure/cognitive-services/speech-service/language-support" />. Specifying
     /// an unsupported or invalid language code will not cause this method to fail, but will result in failure to
     /// generate transcriptions associated with this chat control. The language code used with this method can be
-    /// queried via <see cref="PartyLocalChatControl::GetLanguage()" />. It can be modified via
-    /// <see cref="PartyLocalChatControl::SetLanguage()" />.
+    /// queried via <see cref="PartyLocalChatControl::GetLanguage()" />.
     /// </para>
     /// </remarks>
     /// <param name="localUser">
@@ -6347,7 +6530,7 @@ public:
     /// <seealso cref="PartyDevice::GetChatControls" />
     /// <seealso cref="PartyNetwork::ConnectChatControl" />
     /// <seealso cref="PartyLocalChatControl::GetLanguage" />
-    /// <seealso cref="PartyLocalChatControl::SetLanguage" />
+    /// <seealso_nyi cref="PartyLocalChatControl::SetLanguage" />
     /// <seealso cref="PartyLocalChatControl::SetTranscriptionOptions" />
     /// <seealso cref="PartyLocalChatControl::SetTranscriptionOptions" />
     PartyError CreateChatControl(
@@ -8729,6 +8912,7 @@ public:
     /// </returns>
     /// <seealso cref="PartyLocalChatControl::GetLanguage" />
     /// <seealso cref="PartyLocalChatControl::SetTranscriptionOptions" />
+    /// <nyi />
     PartyError SetLanguage(
         _In_opt_ PartyString languageCode,
         _In_opt_ void * asyncIdentifier
@@ -8753,16 +8937,15 @@ public:
     /// </remarks>
     /// <param name="languageCode">
     /// The output BCP 47 language code used by the chat control future communication. The memory for the string remains
-    /// valid until the next <see cref="PartySetLanguageCompletedStateChange" /> is provided via
-    /// <see cref="PartyManager::StartProcessingStateChanges()" /> or the chat control is destroyed.
+    /// valid until the chat control is destroyed.
     /// </param>
     /// <returns>
     /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
     /// error code can be retrieved via <see cref="PartyManager::GetErrorMessage()" />.
     /// </returns>
-    /// <seealso cref="PartySetLanguageCompletedStateChange" />
+    /// <seealso_nyi cref="PartySetLanguageCompletedStateChange" />
     /// <seealso cref="PartyLocalDevice::CreateChatControl" />
-    /// <seealso cref="PartyLocalChatControl::SetLanguage" />
+    /// <seealso_nyi cref="PartyLocalChatControl::SetLanguage" />
     /// <seealso cref="PartyLocalChatControl::SetTranscriptionOptions" />
     PartyError GetLanguage(
         _Outptr_ PartyString * languageCode
@@ -8778,8 +8961,7 @@ public:
     /// <see cref="PartyVoiceChatTranscriptionReceivedStateChange" />s.
     /// <para>
     /// Only chat controls configured to use a language that supports transcription, via
-    /// <see cref="PartyLocalDevice::CreateChatControl()" /> or <see cref="SetLanguage()" />, will provide
-    /// transcriptions.
+    /// <see cref="PartyLocalDevice::CreateChatControl()" />, will provide transcriptions.
     /// </para>
     /// </remarks>
     /// <param name="options">
@@ -8811,8 +8993,7 @@ public:
     /// <see cref="PartyVoiceChatTranscriptionReceivedStateChange" />s.
     /// <para>
     /// Only chat controls configured to use a language that supports transcription, via
-    /// <see cref="PartyLocalDevice::CreateChatControl()" /> or <see cref="SetLanguage()" />, will provide
-    /// transcriptions.
+    /// <see cref="PartyLocalDevice::CreateChatControl()" />, will provide transcriptions.
     /// </para>
     /// </remarks>
     /// <param name="options">
@@ -9739,14 +9920,69 @@ public:
         ) party_no_throw;
 
     /// <summary>
+    /// Configures the work mode of the Party library processing task associated with <paramref name="threadId" />.
+    /// </summary>
+    /// <remarks>
+    /// If the work mode is set as <see cref="PartyWorkMode::Automatic" />, the processing task associated with
+    /// <paramref name="threadId" /> is handled internally by the Party library. If the work mode is configured as
+    /// <see cref="PartyWorkMode::Manual" />, the title must instead perform the processing task associated with
+    /// <paramref name="threadId" /> via periodic calls to <see cref="DoWork()" />.
+    /// <para>
+    /// This method can only be called when the Party library is uninitialized. Calling while initialized will fail and
+    /// return an error.
+    /// </para>
+    /// <para>
+    /// Configuration of the work mode associated with <paramref name="threadId" /> persists across subsequent calls to
+    /// <see cref="Cleanup()" /> and <see cref="Initialize()" />.
+    /// </para>
+    /// </remarks>
+    /// <param name="threadId">
+    /// A high-level categorization of the Party library's internal processing task.
+    /// </param>
+    /// <param name="workMode">
+    /// The target work mode for the associated processing task.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
+    /// </returns>
+    /// <seealso cref="PartyManager::GetWorkMode" />
+    /// <seealso cref="PartyManager::DoWork" />
+    static PartyError SetWorkMode(
+        PartyThreadId threadId,
+        PartyWorkMode workMode
+        ) party_no_throw;
+
+    /// <summary>
+    /// Retrieves the current work mode of the Party library's internal processing task associated with
+    /// <paramref name="threadId" />.
+    /// </summary>
+    /// <param name="threadId">
+    /// A high-level categorization of the Party library's internal processing task.
+    /// </param>
+    /// <param name="workMode">
+    /// The current work mode for the associated processing task.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c>
+    /// </returns>
+    /// <seealso cref="PartyManager::SetWorkMode" />
+    /// <seealso cref="PartyManager::DoWork" />
+    static PartyError GetWorkMode(
+        PartyThreadId threadId,
+        _Out_ PartyWorkMode * workMode
+        ) party_no_throw;
+
+    /// <summary>
     /// Initializes the PartyManager object instance.
     /// </summary>
     /// <remarks>
     /// This must be called before any other method, aside from the static methods <see cref="GetSingleton()" />,
     /// <see cref="SetMemoryCallbacks()" />, <see cref="GetMemoryCallbacks()" />,
     /// <see cref="SetThreadAffinityMask()" />, <see cref="GetThreadAffinityMask()" />,
-    /// <see cref="SerializeNetworkDescriptor()" />, and <see cref="DeserializeNetworkDescriptor()" />. Initialize()
-    /// cannot be called again without a subsequent <see cref="Cleanup()" /> call.
+    /// <see cref="SerializeNetworkDescriptor()" />, <see cref="DeserializeNetworkDescriptor()" />,
+    /// <see cref="SetWorkMode()" />, and <see cref="GetWorkMode()" />. Initialize() cannot be called again without a
+    /// subsequent <see cref="Cleanup()" /> call.
     /// <para>
     /// Every call to Initialize() should have a corresponding Cleanup() call.
     /// </para>
@@ -9906,6 +10142,46 @@ public:
     PartyError FinishProcessingStateChanges(
         uint32_t stateChangeCount,
         _In_reads_(stateChangeCount) PartyStateChangeArray stateChanges
+        ) party_no_throw;
+
+    /// <summary>
+    /// Synchronously performs the processing task associated with <paramref name="threadId" />.
+    /// </summary>
+    /// <remarks>
+    /// This method will fail and return an error if the work mode of <paramref name="threadId" /> has not previously
+    /// been set to <see cref="PartyWorkMode::Manual" /> via a call to <see cref="SetWorkMode()" />. Additionally, on
+    /// the Windows, Xbox One XDK, and Microsoft Game Core versions of the library, this method will fail and return an
+    /// error if the title thread calling this method does not exist in a COM multithreaded apartment when
+    /// <paramref name="threadId" /> is <see cref="PartyThreadId::Networking" />.
+    /// <para>
+    /// By default, the Party library will internally manage the processing task associated with
+    /// <paramref name="threadId" />. However, if the work mode of <paramref name="threadId" /> is configured as
+    /// <see cref="PartyWorkMode::Manual" /> via a call to SetWorkMode(), the title must periodically call this method
+    /// to perform the processing task instead.
+    /// </para>
+    /// <para>
+    /// The processing task associated with <paramref name="threadId" /> dictates the frequency at which this method
+    /// should be called. The processing task associated with <see cref="PartyThreadId::Audio" /> should be performed
+    /// every 40ms, while the processing task associated with <see cref="PartyThreadId::Networking" /> should be
+    /// performed every 50 to 100ms. Internally, processing tasks will attempt to handle small variations in timing, but
+    /// issues will arise if timing strays too far from what is expected (e.g. audio stutter, network state
+    /// desynchronization).
+    /// </para>
+    /// <para>
+    /// For more information on processing task types and timing expectations, see <see cref="PartyThreadId" />.
+    /// </para>
+    /// </remarks>
+    /// <param name="threadId">
+    /// A high-level categorization of the Party library's internal processing task.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
+    /// </returns>
+    /// <seealso cref="PartyManager::SetWorkMode" />
+    /// <seealso cref="PartyManager::GetWorkMode" />
+    PartyError DoWork(
+        PartyThreadId threadId
         ) party_no_throw;
 
     /// <summary>
@@ -10351,11 +10627,11 @@ public:
     /// <remarks>
     /// This method queues an asynchronous operation to destroy a local user. A
     /// <see cref="PartyDestroyLocalUserCompletedStateChange" /> will be provided upon completion of the operation,
-    /// indicating success or failure. Before successful completion of the operation, the local user will no longer
-    /// authenticated into any networks (each indicated by a <see cref="PartyLocalUserRemovedStateChange" />) and any
-    /// local chat control associated with the user will be destroyed (indicated by a
-    /// <see cref="PartyChatControlDestroyedStateChange" />). Memory for the local user will remain valid until all
-    /// state changes referencing the local user have been returned to
+    /// indicating success or failure. Before successful completion of the operation, the local user will be removed
+    /// from all networks it has authenticated into (each indicated by a
+    /// <see cref="PartyLocalUserRemovedStateChange" />) and any local chat control associated with the user will be
+    /// destroyed (indicated by a <see cref="PartyChatControlDestroyedStateChange" />). Memory for the local user will
+    /// remain valid until all state changes referencing the local user have been returned to
     /// <see cref="PartyManager::FinishProcessingStateChanges()" />.
     /// </remarks>
     /// <param name="localUser">
