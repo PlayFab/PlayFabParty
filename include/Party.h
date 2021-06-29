@@ -848,6 +848,10 @@ enum class PartyStateChangeResult
     /// <summary>
     /// The network is not currently allowing new devices or users to join.
     /// </summary>
+    /// <remarks>
+    /// Note that there are currently no operations which can return this result.
+    /// </remarks>
+    /// <nyi />
     NetworkNotJoinable = 12,
 
     /// <summary>
@@ -936,7 +940,8 @@ enum class PartyDestroyedReason
 };
 
 /// <summary>
-/// The level of filtering that will apply to incoming text chat when text moderation is enabled.
+/// The level of filtering that will apply to incoming text chat when text moderation is enabled with
+/// <see cref="PartyLocalChatControl::SetTextChatOptions" />.
 /// </summary>
 /// <see cref="PartyOption::TextChatFilterLevel" />
 /// <seealso cref="PartyManager::SetOption" />
@@ -1047,17 +1052,22 @@ enum class PartyOption : uint32_t
     /// This feature only applies to incoming chat text detected as English. The filter level cannot be changed for
     /// other languages.
     /// <para>
-    /// The filter level will apply to incoming chat text for all local chat controls on the client.
+    /// The filter level will apply to incoming chat text for all local chat controls on the client. Filtering must be
+    /// enabled with <see cref="PartyLocalChatControl::SetTextChatOptions" /> for at least one local chat control for
+    /// this to have an effect on the chat text.
     /// </para>
     /// <para>
-    /// To override this option, call <see cref="PartyManager::SetOption" /> passing null for the object parameter,
-    /// this value for the option parameter, and a pointer to a <see cref="PartyTextChatFilterLevel" /> variable
-    /// containing the desired filter level.
+    /// To override this option, call <see cref="PartyManager::SetOption" /> passing null for the object parameter, this
+    /// value for the option parameter, and a pointer to a <see cref="PartyTextChatFilterLevel" /> variable containing
+    /// the desired filter level.
     /// </para>
     /// <para>
     /// To query this option, call <see cref="PartyManager::GetOption" /> passing null for the object parameter, this
     /// value for the option parameter, and a pointer to a <see cref="PartyTextChatFilterLevel" /> variable into which
     /// the currently configured filter level should be written.
+    /// </para>
+    /// <para>
+    /// It is safe to override or query for this option at any time.
     /// </para>
     /// </remarks>
     TextChatFilterLevel = 2,
@@ -2269,6 +2279,16 @@ enum class PartyChatControlChatIndicator
     /// The target chat control has been muted by the local chat control.
     /// </summary>
     IncomingCommunicationsMuted = 3,
+
+    /// <summary>
+    /// The target chat control does not have an audio input.
+    /// </summary>
+    NoRemoteInput = 4,
+
+    /// <summary>
+    /// The target chat control has an audio input but has muted it.
+    /// </summary>
+    RemoteAudioInputMuted = 5,
 };
 
 /// <summary>
@@ -2499,9 +2519,9 @@ enum class PartyTextChatOptions
     /// Offensive terms will be filtered out of incoming text chat.
     /// </summary>
     /// <remarks>
-    /// For incoming chat text detected as English, the filtering level may be adjusted using the 
-    /// <see cref="PartyOption::TextChatFilterLevel" /> option in <see cref="SetOption" />. The default level is 
-    /// family-friendly.
+    /// For incoming chat text detected as English, the filtering level may be adjusted using the
+    /// <see cref="PartyOption::TextChatFilterLevel" /> option in <see cref="PartyManager::SetOption()" />. The default
+    /// level is family-friendly.
     /// </remarks>
     FilterOffensiveText = 0x2,
 };
@@ -2812,8 +2832,8 @@ enum class PartyChatTextReceivedOptions
     /// The incoming text chat was unable to filter specific terms, and the entire text has been replaced by asterisks.
     /// </summary>
     /// <remarks>
-    /// This option occurs when the moderation service was not able to identify specific terms to filter, but has
-    /// still identified the text as being offensive.
+    /// This option occurs when the moderation service was not able to identify specific terms to filter, but has still
+    /// identified the text as being offensive.
     /// <para>
     /// This value is exclusive to FilteredOffensiveTerms and FilteredDueToError.
     /// </para>
@@ -3182,8 +3202,8 @@ struct PartySendMessageQueuingConfiguration
     uint32_t identityForCancelFilters;
 
     /// <summary>
-    /// The maximum time, in milliseconds, that the message is permitted to remain in the local send queue awaiting a
-    /// transmission opportunity.
+    /// The maximum time, in milliseconds, that the message is permitted to remain in a Party-managed send queue
+    /// awaiting a transmission opportunity.
     /// </summary>
     /// <remarks>
     /// If the message has not started transmitting when this timeout elapses due to connection quality or receiver
@@ -3195,14 +3215,22 @@ struct PartySendMessageQueuingConfiguration
     /// PartySendMessageQueuingConfiguration structure is provided to <see cref="PartyLocalEndpoint::SendMessage()" />.
     /// </para>
     /// <para>
-    /// Message send queue timeouts can help prevent the local send queue from growing excessively when experiencing
-    /// poor network conditions. They work well with messages that contain time-sensitive, periodic data where it would
-    /// be a waste of bandwidth to transmit ones that are stale because a newer complete replacement message is sent
-    /// regularly, and the loss of any individual one is not fatal.
+    /// Message send queue timeouts can help prevent send queues from growing excessively when experiencing poor network
+    /// conditions. They work well with messages that contain time-sensitive, periodic data where it would be a waste of
+    /// bandwidth to transmit ones that are stale because a newer complete replacement message is sent regularly, and
+    /// the loss of any individual one is not fatal.
     /// </para>
     /// <para>
-    /// This timeout value only affects local send queuing. It does not affect the time it takes to actually transmit a
-    /// message nor alter how long to wait for the receiver to acknowledge the transmission if necessary.
+    /// This timeout value only affects Party-managed send queuing. It does not affect the time it takes to actually
+    /// transmit a message (environmental latency) nor alter how long to wait for the receiver to acknowledge the
+    /// transmission if applicable.
+    /// </para>
+    /// <para>
+    /// This timeout value is evaluated twice when sending to targets without direct peer connections: once for the
+    /// sending client's local send queues to the transparent cloud relay, affected by local environmental conditions
+    /// and transmission rates to the relay, and a second time on the relay itself, which may be forced to queue
+    /// messages before forwarding based on differing network conditions, transmission rates, or responsiveness of the
+    /// remote targets.
     /// </para>
     /// </remarks>
     uint32_t timeoutInMilliseconds;
@@ -4748,12 +4776,13 @@ struct PartyChatTextReceivedStateChange : PartyStateChange
     PartyString originalChatText;
 
     /// <summary>
-    /// Errors associated with this state change. 
-    /// <remarks>
-    /// These errors are intended for diagnostic purposes only. If an error occurs, the 
-    /// <see cref="PartyChatTextReceivedOptions::FilteredDueToError" /> flag will be present in the
-    /// <c>options</c> field.
+    /// A diagnostic value providing additional troubleshooting information regarding any potential error condition.
     /// </summary>
+    /// <remarks>
+    /// This error is intended for diagnostic purposes only. If an error occurs, the
+    /// <see cref="PartyChatTextReceivedOptions::FilteredDueToError" /> flag will be present in the <c>options</c>
+    /// field.
+    /// </remarks>
     PartyError errorDetail;
 };
 
@@ -5528,6 +5557,30 @@ struct PartyConfigureAudioManipulationRenderStreamCompletedStateChange : PartySt
     void * asyncIdentifier;
 };
 
+/// <summary>
+/// Information specific to the <em>MethodEntrance</em> type of profiling event.
+/// </summary>
+/// <seealso cref="PartyProfilingMethodEntranceCallback" />
+struct PartyProfilingMethodEntranceEventData
+{
+    /// <summary>
+    /// A string containing the fully qualified name of the method responsible for the callback.
+    /// </summary>
+    PartyString methodName;
+};
+
+/// <summary>
+/// Information specific to the <em>MethodExit</em> type of profiling event.
+/// </summary>
+/// <seealso cref="PartyProfilingMethodExitCallback" />
+struct PartyProfilingMethodExitEventData
+{
+    /// <summary>
+    /// A string containing the fully qualified name of the method responsible for the callback.
+    /// </summary>
+    PartyString methodName;
+};
+
 #pragma pack(pop)
 
 /// <summary>
@@ -5593,6 +5646,56 @@ void
 (PARTY_CALLBACK * PartyFreeMemoryCallback)(
     _Post_invalid_ void * pointer,
     uint32_t memoryTypeId
+    );
+
+/// <summary>
+/// A callback invoked every time the Party library enters an instrumented method.
+/// </summary>
+/// <remarks>
+/// This callback is optionally installed using the
+/// <see cref="PartyManager::SetProfilingCallbacksForMethodEntryExit()" /> method, which also details the types of
+/// profiled events available to a caller.
+/// <para>
+/// In order to minimize the impact of profiling on title performance, callbacks should be kept as lightweight as
+/// possible as they are expected to fire hundreds or thousands of times per second.
+/// </para>
+/// </remarks>
+/// <param name="eventData">
+/// A constant pointer to a structure containing additional information which may be of use when profiling this event.
+/// The data referenced by this pointer is guaranteed to be valid only for the duration the callback.
+/// </param>
+/// <seealso cref="PartyProfilingMethodEntranceEventData" />
+/// <seealso cref="PartyManager::SetProfilingCallbacksForMethodEntryExit" />
+/// <seealso cref="PartyManager::GetProfilingCallbacksForMethodEntryExit" />
+typedef
+void
+(PARTY_CALLBACK * PartyProfilingMethodEntranceCallback)(
+    const PartyProfilingMethodEntranceEventData * eventData
+    );
+
+/// <summary>
+/// A callback invoked every time the Party library is about to exit an instrumented method.
+/// </summary>
+/// <remarks>
+/// This callback is optionally installed using the
+/// <see cref="PartyManager::SetProfilingCallbacksForMethodEntryExit()" /> method, which also details the types of
+/// profiled events available to a caller.
+/// <para>
+/// In order to minimize the impact of profiling on title performance, callbacks should be kept as lightweight as
+/// possible as they are expected to fire hundreds or thousands of times per second.
+/// </para>
+/// </remarks>
+/// <param name="eventData">
+/// A constant pointer to a structure containing additional information which may be of use when profiling this event.
+/// The data referenced by this pointer is guaranteed to be valid only for the duration the callback.
+/// </param>
+/// <seealso cref="PartyProfilingMethodExitEventData" />
+/// <seealso cref="PartyManager::SetProfilingCallbacksForMethodEntryExit" />
+/// <seealso cref="PartyManager::GetProfilingCallbacksForMethodEntryExit" />
+typedef
+void
+(PARTY_CALLBACK * PartyProfilingMethodExitCallback)(
+    const PartyProfilingMethodExitEventData * eventData
     );
 
 /// <summary>
@@ -5989,11 +6092,7 @@ public:
     /// </para>
     /// <para>
     /// If the array of target endpoints is specified as having zero entries, then the message is broadcast to all
-    /// remote endpoints currently in the network. A device that receives a broadcast message will have the target
-    /// endpoint fields of the PartyEndpointMessageReceivedStateChange populated with all of its local endpoints at the
-    /// time the message was received. Due to timing, this may include new endpoints on existing or new devices that
-    /// were not yet visible to the sending device at the time it called this method. To guarantee a deterministic set
-    /// of target endpoints, explicitly provide that set instead of using a zero entry array.
+    /// remote endpoints currently in the network.
     /// </para>
     /// <para>
     /// Callers provide 1 or more PartyDataBuffer structures in the <paramref name="dataBuffers" /> array. The memory
@@ -6057,6 +6156,17 @@ public:
     /// by the environment so that callers are not required to manage this. However, there is a small amount of overhead
     /// associated with fragmentation. Callers that are able to send smaller messages or otherwise naturally break up
     /// large state payloads efficiently themselves may wish to do so.
+    /// </para>
+    /// <para>
+    /// If SendMessage() is invoked with a zero entry target endpoint array prior to successfully authenticating a first
+    /// user into the network, then even though no remote endpoints have been reported via
+    /// <see cref="PartyEndpointCreatedStateChange" /> state changes (and therefore known to exist in the network), the
+    /// message will still be queued. Once the first user has successfully authenticated and this sending local endpoint
+    /// has been successfully created, the queued message will then target all remote endpoints that exist in the
+    /// network at that later time. Because the future state of the network and the set of ultimately receiving
+    /// endpoints isn't known at SendMessage() time in this case, titles should exercise caution regarding what content
+    /// is placed in such deferred broadcast messages, or simply refrain from submitting them at all until this local
+    /// device and endpoint are fully participating in the network.
     /// </para>
     /// </remarks>
     /// <param name="targetEndpointCount">
@@ -9856,6 +9966,85 @@ public:
         ) party_no_throw;
 
     /// <summary>
+    /// Optionally configures the profiling event callbacks the Party library will make when entering or exiting
+    /// instrumented methods.
+    /// </summary>
+    /// <remarks>
+    /// This method allows the title to install custom profiling callback functions in order to record and visualize
+    /// Party library performance metrics in external profiling tools.
+    /// <para>
+    /// This method can only be called when the Party library is uninitialized. Calling while Party is initialized will
+    /// fail and return an error.
+    /// </para>
+    /// <para>
+    /// Setting an optional callback equal to <c>nullptr</c> will cause the Party library to not make any profiling
+    /// callbacks for that event type.
+    /// </para>
+    /// <para>
+    /// In order to minimize the impact of profiling on title performance, callbacks for these events should be kept as
+    /// lightweight as possible, as they are expected to fire hundreds or thousands of times per second.
+    /// </para>
+    /// <para>
+    /// This method is only supported on the Windows, Xbox One XDK, and Microsoft Game Core versions of the library.
+    /// Calls on other platforms will fail.
+    /// </para>
+    /// </remarks>
+    /// <param name="profilingMethodEntranceCallback">
+    /// The callback to be made when the Party library enters an internal method which is instrumented for profiling.
+    /// </param>
+    /// <param name="profilingMethodExitCallback">
+    /// The callback to be made when the Party library is about to exit an internal method which is instrumented for
+    /// profiling.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
+    /// </returns>
+    /// <seealso cref="PartyProfilingMethodEntranceCallback" />
+    /// <seealso cref="PartyProfilingMethodExitCallback" />
+    /// <seealso cref="PartyManager::GetProfilingCallbacksForMethodEntryExit" />
+    static PartyError SetProfilingCallbacksForMethodEntryExit(
+        _In_opt_ PartyProfilingMethodEntranceCallback profilingMethodEntranceCallback,
+        _In_opt_ PartyProfilingMethodExitCallback profilingMethodExitCallback
+        ) party_no_throw;
+
+    /// <summary>
+    /// Retrieves the profiling event callbacks the Party library is configured to use when entering or exiting
+    /// instrumented methods.
+    /// </summary>
+    /// <remarks>
+    /// This method retrieves the profiling callback functions the Party library is calling for the instrumented event
+    /// types.
+    /// <para>
+    /// A callback equal to <c>nullptr</c> indicates that the Party library will not make any profiling callbacks for
+    /// that event type.
+    /// </para>
+    /// <para>
+    /// This method is only supported on the Windows, Xbox One XDK, and Microsoft Game Core versions of the library.
+    /// Calls on other platforms will fail.
+    /// </para>
+    /// </remarks>
+    /// <param name="profilingMethodEntranceCallback">
+    /// A pointer to the callback made when the Party library enters an internal method which is instrumented for
+    /// profiling.
+    /// </param>
+    /// <param name="profilingMethodExitCallback">
+    /// A pointer to the callback made when the Party library is about to exit an internal method which is instrumented
+    /// for profiling.
+    /// </param>
+    /// <returns>
+    /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
+    /// error code can be retrieved via <see cref="GetErrorMessage()" />.
+    /// </returns>
+    /// <seealso cref="PartyProfilingMethodEntranceCallback" />
+    /// <seealso cref="PartyProfilingMethodExitCallback" />
+    /// <seealso cref="PartyManager::SetProfilingCallbacksForMethodEntryExit" />
+    static PartyError GetProfilingCallbacksForMethodEntryExit(
+        _Outptr_result_maybenull_ PartyProfilingMethodEntranceCallback * profilingMethodEntranceCallback,
+        _Outptr_result_maybenull_ PartyProfilingMethodExitCallback * profilingMethodExitCallback
+        ) party_no_throw;
+
+    /// <summary>
     /// Optionally configures the processor on which internal Party library threads will run.
     /// </summary>
     /// <remarks>
@@ -10269,7 +10458,22 @@ public:
     /// The network is created in the first available region using the order specified in <paramref name="regions" />.
     /// If none of the specified regions are available, the network will not be created. Specifying 0 for
     /// <paramref name="regionCount" /> defaults to using all regions in which the title is configured, ordered by
-    /// lowest latency.
+    /// lowest latency to this device.
+    /// </para>
+    /// <para>
+    /// Note that the default region selection only includes latency measurements from this device and not from any
+    /// other devices. Titles that have a set of participants for the session known up front should implement
+    /// functionality to gather measurements from all devices prior to creating the network and construct a new
+    /// <paramref name="regions" /> array ordered by lowest aggregate latency for the whole group.
+    /// </para>
+    /// <para>
+    /// For titles that support join-in-progress, the region with the best overall latency for the group of connected
+    /// participants may change as devices join and leave. Titles should take advantage of Party's support for being
+    /// connected to multiple networks simultaneously to migrate devices seamlessly to a network created in a region
+    /// with better aggregate latency for the group. The title can gather region latency measurements via messages over
+    /// the original Party network or information uploaded to an external roster service, create a new Party network in
+    /// a region with lower aggregate latency, and instruct all devices to connect to the more favorable network and
+    /// disconnect from the original one.
     /// </para>
     /// <para>
     /// The initial invitation for the newly created network will not be owned by any user. Therefore calling
@@ -10317,7 +10521,8 @@ public:
     /// </param>
     /// <param name="regionCount">
     /// The number of regions provided in the array of preferred regions specified via <paramref name="regions" />. If
-    /// this is zero, the library will use all regions in which the title is configured, ordered by lowest latency.
+    /// this is zero, the library will use all regions in which the title is configured, ordered by lowest round trip
+    /// latency from this device.
     /// </param>
     /// <param name="regions">
     /// The array of preferred regions in which the network should be created. The network will be created in the first
@@ -10441,8 +10646,6 @@ public:
     /// ` | InternetConnectivityError | Retry with a small delay of no less than 10 seconds. For your app, it may be
     ///         more appropriate to display the error to the user immediately, rather than retrying automatically. |
     /// ` | NetworkLimitReached | Do not retry automatically. Instead, display a message to the user and wait for the
-    ///         user to initiate another attempt. |
-    /// ` | NetworkNotJoinable | Do not retry automatically. Instead, display a message to the user and wait for the
     ///         user to initiate another attempt. |
     /// ` | NetworkNoLongerExists | Do not retry. |
     /// ` | VersionMismatch | Do not retry. |

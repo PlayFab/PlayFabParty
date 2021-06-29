@@ -1494,6 +1494,26 @@ PartyError PartyManager::GetMemoryCallbacks(
     return PartyGetMemoryCallbacks(allocateMemoryCallback, freeMemoryCallback);
 }
 
+PartyError PartyManager::SetProfilingCallbacksForMethodEntryExit(
+    _In_opt_ PartyProfilingMethodEntranceCallback profilingMethodEntranceCallback,
+    _In_opt_ PartyProfilingMethodExitCallback profilingMethodExitCallback
+    ) party_no_throw
+{
+    return PartySetProfilingCallbacksForMethodEntryExit(
+        reinterpret_cast<PARTY_PROFILING_METHOD_ENTRANCE_FUNC>(profilingMethodEntranceCallback),
+        reinterpret_cast<PARTY_PROFILING_METHOD_EXIT_FUNC>(profilingMethodExitCallback));
+}
+
+PartyError PartyManager::GetProfilingCallbacksForMethodEntryExit(
+    _Outptr_result_maybenull_ PartyProfilingMethodEntranceCallback * profilingMethodEntranceCallback,
+    _Outptr_result_maybenull_ PartyProfilingMethodExitCallback * profilingMethodExitCallback
+    ) party_no_throw
+{
+    return PartyGetProfilingCallbacksForMethodEntryExit(
+        reinterpret_cast<PARTY_PROFILING_METHOD_ENTRANCE_FUNC*>(profilingMethodEntranceCallback),
+        reinterpret_cast<PARTY_PROFILING_METHOD_EXIT_FUNC*>(profilingMethodExitCallback));
+}
+
 PartyError PartyManager::SetThreadAffinityMask(
     PartyThreadId threadId,
     uint64_t threadAffinityMask
@@ -1942,6 +1962,8 @@ PARTY_C_ASSERT(PARTY_CHAT_CONTROL_CHAT_INDICATOR_SILENT == static_cast<uint32_t>
 PARTY_C_ASSERT(PARTY_CHAT_CONTROL_CHAT_INDICATOR_TALKING == static_cast<uint32_t>(PartyChatControlChatIndicator::Talking));
 PARTY_C_ASSERT(PARTY_CHAT_CONTROL_CHAT_INDICATOR_INCOMING_VOICE_DISABLED == static_cast<uint32_t>(PartyChatControlChatIndicator::IncomingVoiceDisabled));
 PARTY_C_ASSERT(PARTY_CHAT_CONTROL_CHAT_INDICATOR_INCOMING_COMMUNICATIONS_MUTED == static_cast<uint32_t>(PartyChatControlChatIndicator::IncomingCommunicationsMuted));
+PARTY_C_ASSERT(PARTY_CHAT_CONTROL_CHAT_INDICATOR_NO_REMOTE_INPUT == static_cast<uint32_t>(PartyChatControlChatIndicator::NoRemoteInput));
+PARTY_C_ASSERT(PARTY_CHAT_CONTROL_CHAT_INDICATOR_REMOTE_AUDIO_INPUT_MUTED == static_cast<uint32_t>(PartyChatControlChatIndicator::RemoteAudioInputMuted));
 
 PARTY_C_ASSERT(PARTY_GENDER_NEUTRAL == static_cast<uint32_t>(PartyGender::Neutral));
 PARTY_C_ASSERT(PARTY_GENDER_FEMALE == static_cast<uint32_t>(PartyGender::Female));
@@ -2715,6 +2737,14 @@ PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED
 PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE, configuration) == offsetof(PartyConfigureAudioManipulationRenderStreamCompletedStateChange, configuration));
 PARTY_C_ASSERT(sizeof(PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE::asyncIdentifier) == sizeof(PartyConfigureAudioManipulationRenderStreamCompletedStateChange::asyncIdentifier));
 PARTY_C_ASSERT(offsetof(PARTY_CONFIGURE_AUDIO_MANIPULATION_RENDER_STREAM_COMPLETED_STATE_CHANGE, asyncIdentifier) == offsetof(PartyConfigureAudioManipulationRenderStreamCompletedStateChange, asyncIdentifier));
+
+PARTY_C_ASSERT(sizeof(PARTY_PROFILING_METHOD_ENTRANCE_EVENT_DATA) == sizeof(PartyProfilingMethodEntranceEventData));
+PARTY_C_ASSERT(sizeof(PARTY_PROFILING_METHOD_ENTRANCE_EVENT_DATA::methodName) == sizeof(PartyProfilingMethodEntranceEventData::methodName));
+PARTY_C_ASSERT(offsetof(PARTY_PROFILING_METHOD_ENTRANCE_EVENT_DATA, methodName) == offsetof(PartyProfilingMethodEntranceEventData, methodName));
+
+PARTY_C_ASSERT(sizeof(PARTY_PROFILING_METHOD_EXIT_EVENT_DATA) == sizeof(PartyProfilingMethodExitEventData));
+PARTY_C_ASSERT(sizeof(PARTY_PROFILING_METHOD_EXIT_EVENT_DATA::methodName) == sizeof(PartyProfilingMethodExitEventData::methodName));
+PARTY_C_ASSERT(offsetof(PARTY_PROFILING_METHOD_EXIT_EVENT_DATA, methodName) == offsetof(PartyProfilingMethodExitEventData, methodName));
 
 PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_HANDLE) == sizeof(PartyEndpoint*));
 PARTY_C_ASSERT(sizeof(PARTY_ENDPOINT_HANDLE) == sizeof(PartyLocalEndpoint*));
