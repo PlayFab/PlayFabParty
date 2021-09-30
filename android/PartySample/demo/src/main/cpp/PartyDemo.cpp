@@ -366,6 +366,8 @@ GetPlayerState()
                 {
                     case Party::PartyChatControlChatIndicator::IncomingCommunicationsMuted:
                     case Party::PartyChatControlChatIndicator::IncomingVoiceDisabled:
+                    case Party::PartyChatControlChatIndicator::NoRemoteInput:
+                    case Party::PartyChatControlChatIndicator::RemoteAudioInputMuted:
                     case Party::PartyChatControlChatIndicator::Silent:
                         DbgLog(
                             TAG,
