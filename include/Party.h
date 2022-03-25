@@ -1083,9 +1083,9 @@ enum class PartyOption : uint32_t
 /// <para>
 /// When the work mode of the processing task associated with <see cref="PartyThreadId::Audio" /> is set to
 /// <see cref="PartyWorkMode::Automatic" />, the task is performed by the Party library using internally-managed, high
-/// priority, frequently-running threads with real-time requirements. On Windows, these audio threads interact directly
-/// with XAudio2 every 40 milliseconds. The Party library's instance(s) of XAudio2 will be initialized with a processor
-/// affinity that corresponds to the processor affinity configured for the audio thread type via
+/// priority, frequently-running threads with real-time requirements. On Windows and Xbox consoles, these audio threads
+/// interact directly with XAudio2 every 40 milliseconds. The Party library's instance(s) of XAudio2 will be initialized
+/// with a processor affinity that corresponds to the processor affinity configured for the audio thread type via
 /// <see cref="PartyManager::SetThreadAffinityMask()" />. If no processor affinity is specified for the audio thread
 /// type, the instance(s) of XAudio2 will be initialized with a processor affinity of XAUDIO2_DEFAULT_PROCESSOR.
 /// </para>
@@ -5964,7 +5964,8 @@ public:
     /// The key of the shared property to retrieve.
     /// </param>
     /// <param name="value">
-    /// A library-allocated output buffer containing the retrieved property, or nullptr if the property doesn't exist.
+    /// An output struct that receives a pointer to the property's value and the length in bytes of the value data. If
+    /// the property was not found, the call will succeed, but the value will be nullptr and the byte length will be 0.
     /// </param>
     /// <returns>
     /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
@@ -5973,7 +5974,7 @@ public:
     /// <nyi />
     PartyError GetSharedProperty(
         PartyString key,
-        _Outptr_result_maybenull_ const PartyDataBuffer ** value
+        _Out_ PartyDataBuffer * value
         ) const party_no_throw;
 
     /// <summary>
@@ -6479,7 +6480,8 @@ public:
     /// The key of the shared property to retrieve.
     /// </param>
     /// <param name="value">
-    /// A library-allocated output buffer containing the retrieved property, or nullptr if the property doesn't exist.
+    /// An output struct that receives a pointer to the property's value and the length in bytes of the value data. If
+    /// the property was not found, the call will succeed, but the value will be nullptr and the byte length will be 0.
     /// </param>
     /// <returns>
     /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
@@ -6488,7 +6490,7 @@ public:
     /// <nyi />
     PartyError GetSharedProperty(
         PartyString key,
-        _Outptr_result_maybenull_ const PartyDataBuffer ** value
+        _Out_ PartyDataBuffer * value
         ) const party_no_throw;
 
     /// <summary>
@@ -7625,7 +7627,8 @@ public:
     /// The key of the shared property to retrieve.
     /// </param>
     /// <param name="value">
-    /// A library-allocated output buffer containing the retrieved property, or nullptr if the property doesn't exist.
+    /// An output struct that receives a pointer to the property's value and the length in bytes of the value data. If
+    /// the property was not found, the call will succeed, but the value will be nullptr and the byte length will be 0.
     /// </param>
     /// <returns>
     /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
@@ -7634,7 +7637,7 @@ public:
     /// <nyi />
     PartyError GetSharedProperty(
         PartyString key,
-        _Outptr_result_maybenull_ const PartyDataBuffer ** value
+        _Out_ PartyDataBuffer * value
         ) const party_no_throw;
 
     /// <summary>
@@ -8283,7 +8286,8 @@ public:
     /// The key of the shared property to retrieve.
     /// </param>
     /// <param name="value">
-    /// A library-allocated output buffer containing the retrieved property, or nullptr if the property doesn't exist.
+    /// An output struct that receives a pointer to the property's value and the length in bytes of the value data. If
+    /// the property was not found, the call will succeed, but the value will be nullptr and the byte length will be 0.
     /// </param>
     /// <returns>
     /// <c>c_partyErrorSuccess</c> if the call succeeded or an error code otherwise. The human-readable form of the
@@ -8292,7 +8296,7 @@ public:
     /// <nyi />
     PartyError GetSharedProperty(
         PartyString key,
-        _Outptr_result_maybenull_ const PartyDataBuffer ** value
+        _Out_ PartyDataBuffer * value
         ) const party_no_throw;
 
     /// <summary>
@@ -8665,6 +8669,10 @@ public:
     /// If the specified device isn't present, the chat control will subscribe to audio device changes and use the
     /// device when it does appear.
     /// </para>
+    /// <para>
+    /// When using the <c>PlatformUserDefault</c> option on the Xbox platform, the Xbox User Identifier (XUID) must
+    /// be passed as the <c>audioDeviceSelectionContext</c> value.
+    /// </para>
     /// </remarks>
     /// <param name="audioDeviceSelectionType">
     /// If <see cref="PartyAudioDeviceSelectionType::None" /> is specified, the audio input will be cleared. If
@@ -8752,6 +8760,10 @@ public:
     /// <para>
     /// If the specified device isn't present, the chat control will subscribe to audio device changes and use the
     /// device when it does appear.
+    /// </para>
+    /// <para>
+    /// When using the <c>PlatformUserDefault</c> option on the Xbox platform, the Xbox User Identifier (XUID) must
+    /// be passed as the <c>audioDeviceSelectionContext</c> value.
     /// </para>
     /// </remarks>
     /// <param name="audioDeviceSelectionType">
@@ -10049,7 +10061,8 @@ public:
     /// </summary>
     /// <remarks>
     /// This method enables the title to configure the processor affinity for internal Party library threads of a given
-    /// type.
+    /// type. On Windows, the <c>Audio</c> type affects both library's directly-owned threads and threads owned by 
+    /// XAudio2. For more information, see <see cref="PartyThreadId" />.
     /// <para>
     /// This method may be called at any time before or after <see cref="Initialize()" /> and will take effect
     /// immediately. Thread processor settings are persisted across calls to <see cref="Cleanup()" /> and Initialize().

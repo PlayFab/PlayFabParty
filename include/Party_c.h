@@ -1201,16 +1201,16 @@ PartyEndpointGetUniqueIdentifier(
 PARTY_API_ATTRIBUTES
 PartyError
 PARTY_API
-PartyEndpointGetProperty(
+PartyEndpointGetSharedProperty(
     PARTY_ENDPOINT_HANDLE endpoint,
     PartyString key,
-    _Outptr_result_maybenull_ const PARTY_DATA_BUFFER** value
+    _Out_ PARTY_DATA_BUFFER* value
     );
 
 PARTY_API_ATTRIBUTES
 PartyError
 PARTY_API
-PartyEndpointGetPropertyKeys(
+PartyEndpointGetSharedPropertyKeys(
     PARTY_ENDPOINT_HANDLE endpoint,
     _Out_ uint32_t* propertyCount,
     _Outptr_result_buffer_(*propertyCount) const PartyString** keys
@@ -1219,7 +1219,7 @@ PartyEndpointGetPropertyKeys(
 PARTY_API_ATTRIBUTES
 PartyError
 PARTY_API
-PartyEndpointSetProperties(
+PartyEndpointSetSharedProperties(
     PARTY_ENDPOINT_HANDLE endpoint,
     uint32_t propertyCount,
     _In_reads_(propertyCount) const PartyString* keys,
@@ -1282,16 +1282,16 @@ PartyDeviceGetChatControls(
 PARTY_API_ATTRIBUTES
 PartyError
 PARTY_API
-PartyDeviceGetProperty(
+PartyDeviceGetSharedProperty(
     PARTY_DEVICE_HANDLE device,
     PartyString key,
-    _Outptr_result_maybenull_ const PARTY_DATA_BUFFER** value
+    _Out_ PARTY_DATA_BUFFER* value
     );
 
 PARTY_API_ATTRIBUTES
 PartyError
 PARTY_API
-PartyDeviceGetPropertyKeys(
+PartyDeviceGetSharedPropertyKeys(
     PARTY_DEVICE_HANDLE device,
     _Out_ uint32_t* propertyCount,
     _Outptr_result_buffer_(*propertyCount) const PartyString** keys
@@ -1300,7 +1300,7 @@ PartyDeviceGetPropertyKeys(
 PARTY_API_ATTRIBUTES
 PartyError
 PARTY_API
-PartyDeviceSetProperties(
+PartyDeviceSetSharedProperties(
     PARTY_DEVICE_HANDLE device,
     uint32_t propertyCount,
     _In_reads_(propertyCount) const PartyString* keys,
@@ -1410,9 +1410,9 @@ PARTY_API
 PartyNetworkCreateEndpoint(
     PARTY_NETWORK_HANDLE network,
     _In_opt_ PARTY_LOCAL_USER_HANDLE localUser,
-    uint32_t propertyCount,
-    _In_reads_opt_(propertyCount) const PartyString* keys,
-    _In_reads_opt_(propertyCount) const PARTY_DATA_BUFFER* values,
+    uint32_t sharedPropertyCount,
+    _In_reads_opt_(sharedPropertyCount) const PartyString* keys,
+    _In_reads_opt_(sharedPropertyCount) const PARTY_DATA_BUFFER* values,
     _In_opt_ void* asyncIdentifier,
     _Outptr_opt_ PARTY_ENDPOINT_HANDLE* endpoint
     );
@@ -1507,16 +1507,16 @@ PartyNetworkKickUser(
 PARTY_API_ATTRIBUTES
 PartyError
 PARTY_API
-PartyNetworkGetProperty(
+PartyNetworkGetSharedProperty(
     PARTY_NETWORK_HANDLE network,
     PartyString key,
-    _Outptr_result_maybenull_ const PARTY_DATA_BUFFER** value
+    _Out_ PARTY_DATA_BUFFER* value
     );
 
 PARTY_API_ATTRIBUTES
 PartyError
 PARTY_API
-PartyNetworkGetPropertyKeys(
+PartyNetworkGetSharedPropertyKeys(
     PARTY_NETWORK_HANDLE network,
     _Out_ uint32_t* propertyCount,
     _Outptr_result_buffer_(*propertyCount) const PartyString** keys
@@ -1525,7 +1525,7 @@ PartyNetworkGetPropertyKeys(
 PARTY_API_ATTRIBUTES
 PartyError
 PARTY_API
-PartyNetworkSetProperties(
+PartyNetworkSetSharedProperties(
     PARTY_NETWORK_HANDLE network,
     uint32_t propertyCount,
     _In_reads_(propertyCount) const PartyString* keys,
@@ -1900,16 +1900,16 @@ PartyChatControlGetEntityId(
 PARTY_API_ATTRIBUTES
 PartyError
 PARTY_API
-PartyChatControlGetProperty(
+PartyChatControlGetSharedProperty(
     PARTY_CHAT_CONTROL_HANDLE chatControl,
     PartyString key,
-    _Outptr_result_maybenull_ const PARTY_DATA_BUFFER** value
+    _Out_ PARTY_DATA_BUFFER* value
     );
 
 PARTY_API_ATTRIBUTES
 PartyError
 PARTY_API
-PartyChatControlGetPropertyKeys(
+PartyChatControlGetSharedPropertyKeys(
     PARTY_CHAT_CONTROL_HANDLE chatControl,
     _Out_ uint32_t* propertyCount,
     _Outptr_result_buffer_(*propertyCount) const PartyString** keys
@@ -1918,7 +1918,7 @@ PartyChatControlGetPropertyKeys(
 PARTY_API_ATTRIBUTES
 PartyError
 PARTY_API
-PartyChatControlSetProperties(
+PartyChatControlSetSharedProperties(
     PARTY_CHAT_CONTROL_HANDLE chatControl,
     uint32_t propertyCount,
     _In_reads_(propertyCount) const PartyString* keys,
