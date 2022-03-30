@@ -141,7 +141,7 @@ PartyError PartyLocalEndpoint::SetSharedProperties(
     _In_reads_(propertyCount) const PartyDataBuffer * values
     ) party_no_throw
 {
-    return PartyEndpointSetProperties(
+    return PartyEndpointSetSharedProperties(
         reinterpret_cast<PARTY_ENDPOINT_HANDLE>(this),
         propertyCount,
         keys,
@@ -188,13 +188,13 @@ PartyError PartyEndpoint::GetEntityId(
 
 PartyError PartyEndpoint::GetSharedProperty(
     PartyString key,
-    _Outptr_result_maybenull_ const PartyDataBuffer ** value
+    _Out_ PartyDataBuffer * value
     ) const party_no_throw
 {
-    return PartyEndpointGetProperty(
+    return PartyEndpointGetSharedProperty(
         reinterpret_cast<PARTY_ENDPOINT_HANDLE>(this),
         key,
-        reinterpret_cast<const PARTY_DATA_BUFFER**>(value));
+        reinterpret_cast<PARTY_DATA_BUFFER*>(value));
 }
 
 PartyError PartyEndpoint::GetSharedPropertyKeys(
@@ -202,7 +202,7 @@ PartyError PartyEndpoint::GetSharedPropertyKeys(
     _Outptr_result_buffer_(*propertyCount) const PartyString ** keys
     ) const party_no_throw
 {
-    return PartyEndpointGetPropertyKeys(
+    return PartyEndpointGetSharedPropertyKeys(
         reinterpret_cast<PARTY_ENDPOINT_HANDLE>(this),
         propertyCount,
         keys);
@@ -289,7 +289,7 @@ PartyError PartyLocalDevice::SetSharedProperties(
     _In_reads_(propertyCount) const PartyDataBuffer * values
     ) party_no_throw
 {
-    return PartyDeviceSetProperties(
+    return PartyDeviceSetSharedProperties(
         reinterpret_cast<PARTY_DEVICE_HANDLE>(this),
         propertyCount,
         keys,
@@ -338,13 +338,13 @@ PartyError PartyDevice::GetChatControls(
 
 PartyError PartyDevice::GetSharedProperty(
     PartyString key,
-    _Outptr_result_maybenull_ const PartyDataBuffer ** value
+    _Out_ PartyDataBuffer * value
     ) const party_no_throw
 {
-    return PartyDeviceGetProperty(
+    return PartyDeviceGetSharedProperty(
         reinterpret_cast<PARTY_DEVICE_HANDLE>(this),
         key,
-        reinterpret_cast<const PARTY_DATA_BUFFER**>(value));
+        reinterpret_cast<PARTY_DATA_BUFFER*>(value));
 }
 
 PartyError PartyDevice::GetSharedPropertyKeys(
@@ -352,7 +352,7 @@ PartyError PartyDevice::GetSharedPropertyKeys(
     _Outptr_result_buffer_(*propertyCount) const PartyString ** keys
     ) const party_no_throw
 {
-    return PartyDeviceGetPropertyKeys(
+    return PartyDeviceGetSharedPropertyKeys(
         reinterpret_cast<PARTY_DEVICE_HANDLE>(this),
         propertyCount,
         keys);
@@ -485,9 +485,9 @@ PartyError PartyNetwork::GetInvitations(
 
 PartyError PartyNetwork::CreateEndpoint(
     _In_opt_ const PartyLocalUser * localUser,
-    uint32_t propertyCount,
-    _In_reads_opt_(propertyCount) const PartyString * keys,
-    _In_reads_opt_(propertyCount) const PartyDataBuffer * values,
+    uint32_t sharedPropertyCount,
+    _In_reads_opt_(sharedPropertyCount) const PartyString * keys,
+    _In_reads_opt_(sharedPropertyCount) const PartyDataBuffer * values,
     _In_opt_ void * asyncIdentifier,
     _Outptr_opt_ PartyLocalEndpoint ** localEndpoint
     ) party_no_throw
@@ -495,7 +495,7 @@ PartyError PartyNetwork::CreateEndpoint(
     return PartyNetworkCreateEndpoint(
         reinterpret_cast<PARTY_NETWORK_HANDLE>(this),
         reinterpret_cast<const PARTY_LOCAL_USER_HANDLE>(localUser),
-        propertyCount,
+        sharedPropertyCount,
         keys,
         reinterpret_cast<const PARTY_DATA_BUFFER*>(values),
         asyncIdentifier,
@@ -608,13 +608,13 @@ PartyError PartyNetwork::KickUser(
 
 PartyError PartyNetwork::GetSharedProperty(
     PartyString key,
-    _Outptr_result_maybenull_ const PartyDataBuffer ** value
+    _Out_ PartyDataBuffer * value
     ) const party_no_throw
 {
-    return PartyNetworkGetProperty(
+    return PartyNetworkGetSharedProperty(
         reinterpret_cast<PARTY_NETWORK_HANDLE>(this),
         key,
-        reinterpret_cast<const PARTY_DATA_BUFFER**>(value));
+        reinterpret_cast<PARTY_DATA_BUFFER*>(value));
 }
 
 PartyError PartyNetwork::GetSharedPropertyKeys(
@@ -622,7 +622,7 @@ PartyError PartyNetwork::GetSharedPropertyKeys(
     _Outptr_result_buffer_(*propertyCount) const PartyString ** keys
     ) const party_no_throw
 {
-    return PartyNetworkGetPropertyKeys(
+    return PartyNetworkGetSharedPropertyKeys(
         reinterpret_cast<PARTY_NETWORK_HANDLE>(this),
         propertyCount,
         keys);
@@ -634,7 +634,7 @@ PartyError PartyNetwork::SetSharedProperties(
     _In_reads_(propertyCount) const PartyDataBuffer * values
     ) party_no_throw
 {
-    return PartyNetworkSetProperties(
+    return PartyNetworkSetSharedProperties(
         reinterpret_cast<PARTY_NETWORK_HANDLE>(this),
         propertyCount,
         keys,
@@ -1068,7 +1068,7 @@ PartyError PartyLocalChatControl::SetSharedProperties(
     _In_reads_(propertyCount) const PartyDataBuffer * values
     ) party_no_throw
 {
-    return PartyChatControlSetProperties(
+    return PartyChatControlSetSharedProperties(
         reinterpret_cast<PARTY_CHAT_CONTROL_HANDLE>(this),
         propertyCount,
         keys,
@@ -1164,13 +1164,13 @@ PartyError PartyChatControl::GetEntityId(
 
 PartyError PartyChatControl::GetSharedProperty(
     PartyString key,
-    _Outptr_result_maybenull_ const PartyDataBuffer ** value
+    _Out_ PartyDataBuffer * value
     ) const party_no_throw
 {
-    return PartyChatControlGetProperty(
+    return PartyChatControlGetSharedProperty(
         reinterpret_cast<PARTY_CHAT_CONTROL_HANDLE>(this),
         key,
-        reinterpret_cast<const PARTY_DATA_BUFFER**>(value));
+        reinterpret_cast<PARTY_DATA_BUFFER*>(value));
 }
 
 PartyError PartyChatControl::GetSharedPropertyKeys(
@@ -1178,7 +1178,7 @@ PartyError PartyChatControl::GetSharedPropertyKeys(
     _Outptr_result_buffer_(*propertyCount) const PartyString ** keys
     ) const party_no_throw
 {
-    return PartyChatControlGetPropertyKeys(
+    return PartyChatControlGetSharedPropertyKeys(
         reinterpret_cast<PARTY_CHAT_CONTROL_HANDLE>(this),
         propertyCount,
         keys);
