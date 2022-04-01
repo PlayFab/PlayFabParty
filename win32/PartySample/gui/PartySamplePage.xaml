@@ -1,0 +1,58 @@
+﻿<Page x:Class="PartySample.PartySamplePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PartySample"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="750"
+      Height="400" Width="750"
+      Title="PartySamplePage">
+
+    <Grid>
+        <ListView x:Name="LogEntryList" HorizontalAlignment="Left" Margin="13,27,0,0" VerticalAlignment="Top" Width="315" Height="318" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Source" Width="70" DisplayMemberBinding="{Binding Source}"/>
+                    <GridViewColumn Header="Message" Width="245" DisplayMemberBinding="{Binding Message}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBox x:Name="ChatTextInput" Width="315" Height="20" Margin="15,348,0,0" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <Button Width="155" Height="20" Margin="15,372,0,0" Click="SendTextButton_Click" x:Name="SendTextButton" HorizontalAlignment="Left" VerticalAlignment="Top">Send Text</Button>
+        <Button Width="155" Height="20" Margin="175,372,0,0" Click="SendTtsButton_Click" x:Name="SendTtsButton" HorizontalAlignment="Left" VerticalAlignment="Top">Synthesize Speech</Button>
+        <TextBlock x:Name="TitleIdTextBlock" HorizontalAlignment="Left" Margin="394,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="291"/>
+        <Button Width="135" Height="20" Margin="330,55,0,0" Click="JoinButton_Click" x:Name="JoinButton" HorizontalAlignment="Left" VerticalAlignment="Top">Join</Button>
+        <Button Width="135" Height="20" Margin="470,55,0,0" Click="CreateButton_Click" x:Name="CreateButton" HorizontalAlignment="Left" VerticalAlignment="Top">Create</Button>
+        <Button Width="135" Height="20" Margin="610,55,0,0" Click="LeaveButton_Click" x:Name="LeaveButton" HorizontalAlignment="Left" VerticalAlignment="Top">Leave</Button>
+        <ComboBox x:Name="RoomDropDown" Width="415" Height="20" Margin="335,106,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" SelectedIndex="0">
+            <ComboBoxItem>Room_1</ComboBoxItem>
+            <ComboBoxItem>Room_2</ComboBoxItem>
+            <ComboBoxItem>Room_3</ComboBoxItem>
+        </ComboBox>
+        <ComboBox x:Name="LanguageDropDown" Width="415" Height="20" Margin="335,130,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" SelectedIndex="0">
+            <ComboBoxItem>English (United States)</ComboBoxItem>
+        </ComboBox>
+        <ListView x:Name="PlayerList" HorizontalAlignment="Left" Margin="340,168,0,0" VerticalAlignment="Top" Width="400" Height="200" Background="#20000000" BorderThickness="0">
+            <ListView.Resources>
+                <Style TargetType="GridViewColumnHeader">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Display Name" Width="100" DisplayMemberBinding="{Binding DisplayName}"/>
+                    <GridViewColumn Header="Chat Indicator" Width="40" DisplayMemberBinding="{Binding ChatIndicator}"/>
+                    <GridViewColumn Header="Last Message" Width="220" DisplayMemberBinding="{Binding LastMessage}"/>
+                    <GridViewColumn Header="Mute" Width="40">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding MuteButtonText}" Click="MutePlayerButton_Click" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Page>

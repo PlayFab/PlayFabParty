@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <ProjectGuid>{25467363-08be-49dd-bd96-ad805ab87e6a}</ProjectGuid>
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <RootNamespace>PlayFabXPlatCppSdk</RootNamespace>
+    <ProjectName>PlayFabXPlatCppSdk</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <!-- FIXME: PublicSamples should not depend on include paths outside of the PublicSamples directory -->
+  <ItemGroup>
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\jsoncpp\json\json.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\jsoncpp\json\json-forwards.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\jsoncpp\json\reader.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\jsoncpp\json\value.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabApiSettings.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabAuthenticationApi.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabAuthenticationContext.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabAuthenticationDataModels.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabBaseModel.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabCallRequestContainer.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabCallRequestContainerBase.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabClientApi.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabClientDataModels.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabDataApi.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabError.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabEvent.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabEventApi.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabEventBuffer.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabEventPipeline.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabEventRouter.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabEventsApi.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabEventsDataModels.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabEventsInstanceApi.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabInsightsApi.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabInsightsDataModels.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabInsightsInstanceApi.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabIXHR2HttpPlugin.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabIXHR2HttpRequest.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabJsonHeaders.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabMultiplayerApi.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabMultiplayerDataModels.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabPlatformMacros.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabPlatformTypes.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabPlatformUtils.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabPluginManager.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabSettings.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabSpinLock.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabTransportHeaders.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\playfab\PlayFabWinHttpPlugin.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\jsoncpp\jsoncpp.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabApiSettings.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabAuthenticationApi.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabAuthenticationContext.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabCallRequestContainer.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabCallRequestContainerBase.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabClientApi.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabDataApi.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabError.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabEvent.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabEventApi.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabEventBuffer.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabEventPipeline.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabEventRouter.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabEventsApi.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabEventsInstanceApi.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabInsightsApi.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabInsightsInstanceApi.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabIXHR2HttpPlugin.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabIXHR2HttpRequest.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabMultiplayerApi.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabPluginManager.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabSettings.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabSpinLock.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\source\playfab\PlayFabWinHttpPlugin.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\stdafx.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>
+        $(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk;
+        $(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include;
+        $(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include\jsoncpp;
+        $(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\external\aria\lib\include\public;
+        $(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\external\aria\lib;
+        $(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\external\aria\bondlite\include\bond_lite;
+        $(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\external\aria\bondlite\generated;
+        %(AdditionalIncludeDirectories);
+      </AdditionalIncludeDirectories>
+      <!-- 4244: the playfab SDK does an unsafe conversion from std::wstring to std::string -->
+      <DisableSpecificWarnings>4244;</DisableSpecificWarnings>
+      <AdditionalOptions>/Zc:__cplusplus /bigobj %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <PropertyGroup>
+    <TargetName>playfabxplatcppsdk</TargetName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>
