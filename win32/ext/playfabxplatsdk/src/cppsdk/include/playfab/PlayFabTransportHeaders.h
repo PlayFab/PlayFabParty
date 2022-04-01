@@ -6,11 +6,11 @@
 
 #include <playfab/PlayFabPlatformMacros.h>
 
-#if defined(PLAYFAB_PLATFORM_XBOX) || defined(BUMBLELION_UWP)
+#ifdef PLAYFAB_PLATFORM_XBOX
 #include <playfab/PlayFabIXHR2HttpPlugin.h>
 #endif // PLAYFAB_PLATFORM_XBOX
 
-#if defined(PLAYFAB_PLATFORM_WINDOWS) && !defined(BUMBLELION_UWP)
+#ifdef PLAYFAB_PLATFORM_WINDOWS
 #include <playfab/PlayFabWinHttpPlugin.h>
 #endif // PLAYFAB_PLATFORM_WINDOWS
 

@@ -1,9 +1,10 @@
 #pragma once
 
+#if defined (PLAYFAB_PLATFORM_WINDOWS) || defined (PLAYFAB_PLATFORM_XBOX)
 #include <string>
 #include <playfab/PlayFabMultiplayerDataModels.h>
 
-namespace PlayFabInternal
+namespace PlayFab
 {
     namespace QoS
     {
@@ -27,3 +28,4 @@ namespace PlayFabInternal
         };
     }
 }
+#endif // defined (PLAYFAB_PLATFORM_WINDOWS) || defined (PLAYFAB_PLATFORM_XBOX)

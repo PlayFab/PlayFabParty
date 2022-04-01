@@ -6,7 +6,7 @@
 #include <mutex>
 #include <atomic>
 
-namespace PlayFabInternal
+namespace PlayFab
 {
     /// <summary>
     /// PlayFabIOSHttpPlugin is an https implementation to interact with PlayFab services using IOSHTTP.
@@ -50,14 +50,27 @@ namespace PlayFabInternal
                 Requesting,
                 Finished
             };
+
             CallRequestContainer& RequestContainer()
             {
                 return *dynamic_cast<CallRequestContainer*>(requestContainer.get());
             }
+
+            const CallRequestContainer& ConstRequestContainer() const
+            {
+                return *dynamic_cast<CallRequestContainer*>(requestContainer.get());
+            }
+
             std::string GetRequestContainerUrl() const
             {
                 return requestContainer->GetUrl();
             }
+
+            std::string GetRequestContainerFullUrl() const
+            {
+                return ConstRequestContainer().GetFullUrl();
+            }
+
             void Cancel();
             std::atomic<State> state;
             std::unique_ptr<CallRequestContainerBase> requestContainer;

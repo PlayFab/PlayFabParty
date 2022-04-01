@@ -1,11 +1,11 @@
 #pragma once
 
-#ifndef DISABLE_PLAYFABENTITY_API
+#if !defined(DISABLE_PLAYFABENTITY_API)
 
 #include <playfab/PlayFabBaseModel.h>
 #include <playfab/PlayFabJsonHeaders.h>
 
-namespace PlayFabInternal
+namespace PlayFab
 {
     namespace EventsModels
     {
@@ -47,6 +47,7 @@ namespace PlayFabInternal
 
         struct EventContents : public PlayFabBaseModel
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<EntityKey> Entity;
             std::string EventNamespace;
             std::string Name;
@@ -57,6 +58,7 @@ namespace PlayFabInternal
 
             EventContents() :
                 PlayFabBaseModel(),
+                CustomTags(),
                 Entity(),
                 EventNamespace(),
                 Name(),
@@ -68,6 +70,7 @@ namespace PlayFabInternal
 
             EventContents(const EventContents& src) :
                 PlayFabBaseModel(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 EventNamespace(src.EventNamespace),
                 Name(src.Name),
@@ -81,6 +84,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["EventNamespace"], EventNamespace);
                 FromJsonUtilS(input["Name"], Name);
@@ -93,6 +97,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_EventNamespace; ToJsonUtilS(EventNamespace, each_EventNamespace); output["EventNamespace"] = each_EventNamespace;
                 Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
@@ -106,15 +111,18 @@ namespace PlayFabInternal
 
         struct WriteEventsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::list<EventContents> Events;
 
             WriteEventsRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Events()
             {}
 
             WriteEventsRequest(const WriteEventsRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Events(src.Events)
             {}
 
@@ -122,12 +130,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Events"], Events);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Events; ToJsonUtilO(Events, each_Events); output["Events"] = each_Events;
                 return output;
             }

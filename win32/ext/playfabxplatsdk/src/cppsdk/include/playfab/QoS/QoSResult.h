@@ -1,10 +1,11 @@
 #pragma once
 
+#if defined (PLAYFAB_PLATFORM_WINDOWS) || defined (PLAYFAB_PLATFORM_XBOX)
 #include <vector>
 
 #include <playfab/QoS/RegionResult.h>
 
-namespace PlayFabInternal
+namespace PlayFab
 {
     namespace QoS
     {
@@ -28,3 +29,4 @@ namespace PlayFabInternal
         };
     }
 }
+#endif // defined (PLAYFAB_PLATFORM_WINDOWS) || defined (PLAYFAB_PLATFORM_XBOX)

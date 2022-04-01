@@ -1,11 +1,11 @@
 #pragma once
 
-#ifndef DISABLE_PLAYFABCLIENT_API
+#if !defined(DISABLE_PLAYFABCLIENT_API)
 
 #include <playfab/PlayFabBaseModel.h>
 #include <playfab/PlayFabJsonHeaders.h>
 
-namespace PlayFabInternal
+namespace PlayFab
 {
     namespace ClientModels
     {
@@ -20,19 +20,54 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const AdActivity input, Json::Value& output)
         {
-            if (input == AdActivity::AdActivityOpened) output = Json::Value("Opened");
-            if (input == AdActivity::AdActivityClosed) output = Json::Value("Closed");
-            if (input == AdActivity::AdActivityStart) output = Json::Value("Start");
-            if (input == AdActivity::AdActivityEnd) output = Json::Value("End");
+            if (input == AdActivity::AdActivityOpened)
+            {
+                output = Json::Value("Opened");
+                return;
+            }
+            if (input == AdActivity::AdActivityClosed)
+            {
+                output = Json::Value("Closed");
+                return;
+            }
+            if (input == AdActivity::AdActivityStart)
+            {
+                output = Json::Value("Start");
+                return;
+            }
+            if (input == AdActivity::AdActivityEnd)
+            {
+                output = Json::Value("End");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, AdActivity& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Opened") output = AdActivity::AdActivityOpened;
-            if (inputStr == "Closed") output = AdActivity::AdActivityClosed;
-            if (inputStr == "Start") output = AdActivity::AdActivityStart;
-            if (inputStr == "End") output = AdActivity::AdActivityEnd;
+            if (inputStr == "Opened")
+            {
+                output = AdActivity::AdActivityOpened;
+                return;
+            }
+            if (inputStr == "Closed")
+            {
+                output = AdActivity::AdActivityClosed;
+                return;
+            }
+            if (inputStr == "Start")
+            {
+                output = AdActivity::AdActivityStart;
+                return;
+            }
+            if (inputStr == "End")
+            {
+                output = AdActivity::AdActivityEnd;
+                return;
+            }
         }
 
         enum class CloudScriptRevisionOption
@@ -44,17 +79,44 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const CloudScriptRevisionOption input, Json::Value& output)
         {
-            if (input == CloudScriptRevisionOption::CloudScriptRevisionOptionLive) output = Json::Value("Live");
-            if (input == CloudScriptRevisionOption::CloudScriptRevisionOptionLatest) output = Json::Value("Latest");
-            if (input == CloudScriptRevisionOption::CloudScriptRevisionOptionSpecific) output = Json::Value("Specific");
+            if (input == CloudScriptRevisionOption::CloudScriptRevisionOptionLive)
+            {
+                output = Json::Value("Live");
+                return;
+            }
+            if (input == CloudScriptRevisionOption::CloudScriptRevisionOptionLatest)
+            {
+                output = Json::Value("Latest");
+                return;
+            }
+            if (input == CloudScriptRevisionOption::CloudScriptRevisionOptionSpecific)
+            {
+                output = Json::Value("Specific");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, CloudScriptRevisionOption& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Live") output = CloudScriptRevisionOption::CloudScriptRevisionOptionLive;
-            if (inputStr == "Latest") output = CloudScriptRevisionOption::CloudScriptRevisionOptionLatest;
-            if (inputStr == "Specific") output = CloudScriptRevisionOption::CloudScriptRevisionOptionSpecific;
+            if (inputStr == "Live")
+            {
+                output = CloudScriptRevisionOption::CloudScriptRevisionOptionLive;
+                return;
+            }
+            if (inputStr == "Latest")
+            {
+                output = CloudScriptRevisionOption::CloudScriptRevisionOptionLatest;
+                return;
+            }
+            if (inputStr == "Specific")
+            {
+                output = CloudScriptRevisionOption::CloudScriptRevisionOptionSpecific;
+                return;
+            }
         }
 
         enum class ContinentCode
@@ -70,25 +132,84 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const ContinentCode input, Json::Value& output)
         {
-            if (input == ContinentCode::ContinentCodeAF) output = Json::Value("AF");
-            if (input == ContinentCode::ContinentCodeAN) output = Json::Value("AN");
-            if (input == ContinentCode::ContinentCodeAS) output = Json::Value("AS");
-            if (input == ContinentCode::ContinentCodeEU) output = Json::Value("EU");
-            if (input == ContinentCode::ContinentCodeNA) output = Json::Value("NA");
-            if (input == ContinentCode::ContinentCodeOC) output = Json::Value("OC");
-            if (input == ContinentCode::ContinentCodeSA) output = Json::Value("SA");
+            if (input == ContinentCode::ContinentCodeAF)
+            {
+                output = Json::Value("AF");
+                return;
+            }
+            if (input == ContinentCode::ContinentCodeAN)
+            {
+                output = Json::Value("AN");
+                return;
+            }
+            if (input == ContinentCode::ContinentCodeAS)
+            {
+                output = Json::Value("AS");
+                return;
+            }
+            if (input == ContinentCode::ContinentCodeEU)
+            {
+                output = Json::Value("EU");
+                return;
+            }
+            if (input == ContinentCode::ContinentCodeNA)
+            {
+                output = Json::Value("NA");
+                return;
+            }
+            if (input == ContinentCode::ContinentCodeOC)
+            {
+                output = Json::Value("OC");
+                return;
+            }
+            if (input == ContinentCode::ContinentCodeSA)
+            {
+                output = Json::Value("SA");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, ContinentCode& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "AF") output = ContinentCode::ContinentCodeAF;
-            if (inputStr == "AN") output = ContinentCode::ContinentCodeAN;
-            if (inputStr == "AS") output = ContinentCode::ContinentCodeAS;
-            if (inputStr == "EU") output = ContinentCode::ContinentCodeEU;
-            if (inputStr == "NA") output = ContinentCode::ContinentCodeNA;
-            if (inputStr == "OC") output = ContinentCode::ContinentCodeOC;
-            if (inputStr == "SA") output = ContinentCode::ContinentCodeSA;
+            if (inputStr == "AF")
+            {
+                output = ContinentCode::ContinentCodeAF;
+                return;
+            }
+            if (inputStr == "AN")
+            {
+                output = ContinentCode::ContinentCodeAN;
+                return;
+            }
+            if (inputStr == "AS")
+            {
+                output = ContinentCode::ContinentCodeAS;
+                return;
+            }
+            if (inputStr == "EU")
+            {
+                output = ContinentCode::ContinentCodeEU;
+                return;
+            }
+            if (inputStr == "NA")
+            {
+                output = ContinentCode::ContinentCodeNA;
+                return;
+            }
+            if (inputStr == "OC")
+            {
+                output = ContinentCode::ContinentCodeOC;
+                return;
+            }
+            if (inputStr == "SA")
+            {
+                output = ContinentCode::ContinentCodeSA;
+                return;
+            }
         }
 
         enum class CountryCode
@@ -346,509 +467,2504 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const CountryCode input, Json::Value& output)
         {
-            if (input == CountryCode::CountryCodeAF) output = Json::Value("AF");
-            if (input == CountryCode::CountryCodeAX) output = Json::Value("AX");
-            if (input == CountryCode::CountryCodeAL) output = Json::Value("AL");
-            if (input == CountryCode::CountryCodeDZ) output = Json::Value("DZ");
-            if (input == CountryCode::CountryCodeAS) output = Json::Value("AS");
-            if (input == CountryCode::CountryCodeAD) output = Json::Value("AD");
-            if (input == CountryCode::CountryCodeAO) output = Json::Value("AO");
-            if (input == CountryCode::CountryCodeAI) output = Json::Value("AI");
-            if (input == CountryCode::CountryCodeAQ) output = Json::Value("AQ");
-            if (input == CountryCode::CountryCodeAG) output = Json::Value("AG");
-            if (input == CountryCode::CountryCodeAR) output = Json::Value("AR");
-            if (input == CountryCode::CountryCodeAM) output = Json::Value("AM");
-            if (input == CountryCode::CountryCodeAW) output = Json::Value("AW");
-            if (input == CountryCode::CountryCodeAU) output = Json::Value("AU");
-            if (input == CountryCode::CountryCodeAT) output = Json::Value("AT");
-            if (input == CountryCode::CountryCodeAZ) output = Json::Value("AZ");
-            if (input == CountryCode::CountryCodeBS) output = Json::Value("BS");
-            if (input == CountryCode::CountryCodeBH) output = Json::Value("BH");
-            if (input == CountryCode::CountryCodeBD) output = Json::Value("BD");
-            if (input == CountryCode::CountryCodeBB) output = Json::Value("BB");
-            if (input == CountryCode::CountryCodeBY) output = Json::Value("BY");
-            if (input == CountryCode::CountryCodeBE) output = Json::Value("BE");
-            if (input == CountryCode::CountryCodeBZ) output = Json::Value("BZ");
-            if (input == CountryCode::CountryCodeBJ) output = Json::Value("BJ");
-            if (input == CountryCode::CountryCodeBM) output = Json::Value("BM");
-            if (input == CountryCode::CountryCodeBT) output = Json::Value("BT");
-            if (input == CountryCode::CountryCodeBO) output = Json::Value("BO");
-            if (input == CountryCode::CountryCodeBQ) output = Json::Value("BQ");
-            if (input == CountryCode::CountryCodeBA) output = Json::Value("BA");
-            if (input == CountryCode::CountryCodeBW) output = Json::Value("BW");
-            if (input == CountryCode::CountryCodeBV) output = Json::Value("BV");
-            if (input == CountryCode::CountryCodeBR) output = Json::Value("BR");
-            if (input == CountryCode::CountryCodeIO) output = Json::Value("IO");
-            if (input == CountryCode::CountryCodeBN) output = Json::Value("BN");
-            if (input == CountryCode::CountryCodeBG) output = Json::Value("BG");
-            if (input == CountryCode::CountryCodeBF) output = Json::Value("BF");
-            if (input == CountryCode::CountryCodeBI) output = Json::Value("BI");
-            if (input == CountryCode::CountryCodeKH) output = Json::Value("KH");
-            if (input == CountryCode::CountryCodeCM) output = Json::Value("CM");
-            if (input == CountryCode::CountryCodeCA) output = Json::Value("CA");
-            if (input == CountryCode::CountryCodeCV) output = Json::Value("CV");
-            if (input == CountryCode::CountryCodeKY) output = Json::Value("KY");
-            if (input == CountryCode::CountryCodeCF) output = Json::Value("CF");
-            if (input == CountryCode::CountryCodeTD) output = Json::Value("TD");
-            if (input == CountryCode::CountryCodeCL) output = Json::Value("CL");
-            if (input == CountryCode::CountryCodeCN) output = Json::Value("CN");
-            if (input == CountryCode::CountryCodeCX) output = Json::Value("CX");
-            if (input == CountryCode::CountryCodeCC) output = Json::Value("CC");
-            if (input == CountryCode::CountryCodeCO) output = Json::Value("CO");
-            if (input == CountryCode::CountryCodeKM) output = Json::Value("KM");
-            if (input == CountryCode::CountryCodeCG) output = Json::Value("CG");
-            if (input == CountryCode::CountryCodeCD) output = Json::Value("CD");
-            if (input == CountryCode::CountryCodeCK) output = Json::Value("CK");
-            if (input == CountryCode::CountryCodeCR) output = Json::Value("CR");
-            if (input == CountryCode::CountryCodeCI) output = Json::Value("CI");
-            if (input == CountryCode::CountryCodeHR) output = Json::Value("HR");
-            if (input == CountryCode::CountryCodeCU) output = Json::Value("CU");
-            if (input == CountryCode::CountryCodeCW) output = Json::Value("CW");
-            if (input == CountryCode::CountryCodeCY) output = Json::Value("CY");
-            if (input == CountryCode::CountryCodeCZ) output = Json::Value("CZ");
-            if (input == CountryCode::CountryCodeDK) output = Json::Value("DK");
-            if (input == CountryCode::CountryCodeDJ) output = Json::Value("DJ");
-            if (input == CountryCode::CountryCodeDM) output = Json::Value("DM");
-            if (input == CountryCode::CountryCodeDO) output = Json::Value("DO");
-            if (input == CountryCode::CountryCodeEC) output = Json::Value("EC");
-            if (input == CountryCode::CountryCodeEG) output = Json::Value("EG");
-            if (input == CountryCode::CountryCodeSV) output = Json::Value("SV");
-            if (input == CountryCode::CountryCodeGQ) output = Json::Value("GQ");
-            if (input == CountryCode::CountryCodeER) output = Json::Value("ER");
-            if (input == CountryCode::CountryCodeEE) output = Json::Value("EE");
-            if (input == CountryCode::CountryCodeET) output = Json::Value("ET");
-            if (input == CountryCode::CountryCodeFK) output = Json::Value("FK");
-            if (input == CountryCode::CountryCodeFO) output = Json::Value("FO");
-            if (input == CountryCode::CountryCodeFJ) output = Json::Value("FJ");
-            if (input == CountryCode::CountryCodeFI) output = Json::Value("FI");
-            if (input == CountryCode::CountryCodeFR) output = Json::Value("FR");
-            if (input == CountryCode::CountryCodeGF) output = Json::Value("GF");
-            if (input == CountryCode::CountryCodePF) output = Json::Value("PF");
-            if (input == CountryCode::CountryCodeTF) output = Json::Value("TF");
-            if (input == CountryCode::CountryCodeGA) output = Json::Value("GA");
-            if (input == CountryCode::CountryCodeGM) output = Json::Value("GM");
-            if (input == CountryCode::CountryCodeGE) output = Json::Value("GE");
-            if (input == CountryCode::CountryCodeDE) output = Json::Value("DE");
-            if (input == CountryCode::CountryCodeGH) output = Json::Value("GH");
-            if (input == CountryCode::CountryCodeGI) output = Json::Value("GI");
-            if (input == CountryCode::CountryCodeGR) output = Json::Value("GR");
-            if (input == CountryCode::CountryCodeGL) output = Json::Value("GL");
-            if (input == CountryCode::CountryCodeGD) output = Json::Value("GD");
-            if (input == CountryCode::CountryCodeGP) output = Json::Value("GP");
-            if (input == CountryCode::CountryCodeGU) output = Json::Value("GU");
-            if (input == CountryCode::CountryCodeGT) output = Json::Value("GT");
-            if (input == CountryCode::CountryCodeGG) output = Json::Value("GG");
-            if (input == CountryCode::CountryCodeGN) output = Json::Value("GN");
-            if (input == CountryCode::CountryCodeGW) output = Json::Value("GW");
-            if (input == CountryCode::CountryCodeGY) output = Json::Value("GY");
-            if (input == CountryCode::CountryCodeHT) output = Json::Value("HT");
-            if (input == CountryCode::CountryCodeHM) output = Json::Value("HM");
-            if (input == CountryCode::CountryCodeVA) output = Json::Value("VA");
-            if (input == CountryCode::CountryCodeHN) output = Json::Value("HN");
-            if (input == CountryCode::CountryCodeHK) output = Json::Value("HK");
-            if (input == CountryCode::CountryCodeHU) output = Json::Value("HU");
-            if (input == CountryCode::CountryCodeIS) output = Json::Value("IS");
-            if (input == CountryCode::CountryCodeIN) output = Json::Value("IN");
-            if (input == CountryCode::CountryCodeID) output = Json::Value("ID");
-            if (input == CountryCode::CountryCodeIR) output = Json::Value("IR");
-            if (input == CountryCode::CountryCodeIQ) output = Json::Value("IQ");
-            if (input == CountryCode::CountryCodeIE) output = Json::Value("IE");
-            if (input == CountryCode::CountryCodeIM) output = Json::Value("IM");
-            if (input == CountryCode::CountryCodeIL) output = Json::Value("IL");
-            if (input == CountryCode::CountryCodeIT) output = Json::Value("IT");
-            if (input == CountryCode::CountryCodeJM) output = Json::Value("JM");
-            if (input == CountryCode::CountryCodeJP) output = Json::Value("JP");
-            if (input == CountryCode::CountryCodeJE) output = Json::Value("JE");
-            if (input == CountryCode::CountryCodeJO) output = Json::Value("JO");
-            if (input == CountryCode::CountryCodeKZ) output = Json::Value("KZ");
-            if (input == CountryCode::CountryCodeKE) output = Json::Value("KE");
-            if (input == CountryCode::CountryCodeKI) output = Json::Value("KI");
-            if (input == CountryCode::CountryCodeKP) output = Json::Value("KP");
-            if (input == CountryCode::CountryCodeKR) output = Json::Value("KR");
-            if (input == CountryCode::CountryCodeKW) output = Json::Value("KW");
-            if (input == CountryCode::CountryCodeKG) output = Json::Value("KG");
-            if (input == CountryCode::CountryCodeLA) output = Json::Value("LA");
-            if (input == CountryCode::CountryCodeLV) output = Json::Value("LV");
-            if (input == CountryCode::CountryCodeLB) output = Json::Value("LB");
-            if (input == CountryCode::CountryCodeLS) output = Json::Value("LS");
-            if (input == CountryCode::CountryCodeLR) output = Json::Value("LR");
-            if (input == CountryCode::CountryCodeLY) output = Json::Value("LY");
-            if (input == CountryCode::CountryCodeLI) output = Json::Value("LI");
-            if (input == CountryCode::CountryCodeLT) output = Json::Value("LT");
-            if (input == CountryCode::CountryCodeLU) output = Json::Value("LU");
-            if (input == CountryCode::CountryCodeMO) output = Json::Value("MO");
-            if (input == CountryCode::CountryCodeMK) output = Json::Value("MK");
-            if (input == CountryCode::CountryCodeMG) output = Json::Value("MG");
-            if (input == CountryCode::CountryCodeMW) output = Json::Value("MW");
-            if (input == CountryCode::CountryCodeMY) output = Json::Value("MY");
-            if (input == CountryCode::CountryCodeMV) output = Json::Value("MV");
-            if (input == CountryCode::CountryCodeML) output = Json::Value("ML");
-            if (input == CountryCode::CountryCodeMT) output = Json::Value("MT");
-            if (input == CountryCode::CountryCodeMH) output = Json::Value("MH");
-            if (input == CountryCode::CountryCodeMQ) output = Json::Value("MQ");
-            if (input == CountryCode::CountryCodeMR) output = Json::Value("MR");
-            if (input == CountryCode::CountryCodeMU) output = Json::Value("MU");
-            if (input == CountryCode::CountryCodeYT) output = Json::Value("YT");
-            if (input == CountryCode::CountryCodeMX) output = Json::Value("MX");
-            if (input == CountryCode::CountryCodeFM) output = Json::Value("FM");
-            if (input == CountryCode::CountryCodeMD) output = Json::Value("MD");
-            if (input == CountryCode::CountryCodeMC) output = Json::Value("MC");
-            if (input == CountryCode::CountryCodeMN) output = Json::Value("MN");
-            if (input == CountryCode::CountryCodeME) output = Json::Value("ME");
-            if (input == CountryCode::CountryCodeMS) output = Json::Value("MS");
-            if (input == CountryCode::CountryCodeMA) output = Json::Value("MA");
-            if (input == CountryCode::CountryCodeMZ) output = Json::Value("MZ");
-            if (input == CountryCode::CountryCodeMM) output = Json::Value("MM");
-            if (input == CountryCode::CountryCodeNA) output = Json::Value("NA");
-            if (input == CountryCode::CountryCodeNR) output = Json::Value("NR");
-            if (input == CountryCode::CountryCodeNP) output = Json::Value("NP");
-            if (input == CountryCode::CountryCodeNL) output = Json::Value("NL");
-            if (input == CountryCode::CountryCodeNC) output = Json::Value("NC");
-            if (input == CountryCode::CountryCodeNZ) output = Json::Value("NZ");
-            if (input == CountryCode::CountryCodeNI) output = Json::Value("NI");
-            if (input == CountryCode::CountryCodeNE) output = Json::Value("NE");
-            if (input == CountryCode::CountryCodeNG) output = Json::Value("NG");
-            if (input == CountryCode::CountryCodeNU) output = Json::Value("NU");
-            if (input == CountryCode::CountryCodeNF) output = Json::Value("NF");
-            if (input == CountryCode::CountryCodeMP) output = Json::Value("MP");
-            if (input == CountryCode::CountryCodeNO) output = Json::Value("NO");
-            if (input == CountryCode::CountryCodeOM) output = Json::Value("OM");
-            if (input == CountryCode::CountryCodePK) output = Json::Value("PK");
-            if (input == CountryCode::CountryCodePW) output = Json::Value("PW");
-            if (input == CountryCode::CountryCodePS) output = Json::Value("PS");
-            if (input == CountryCode::CountryCodePA) output = Json::Value("PA");
-            if (input == CountryCode::CountryCodePG) output = Json::Value("PG");
-            if (input == CountryCode::CountryCodePY) output = Json::Value("PY");
-            if (input == CountryCode::CountryCodePE) output = Json::Value("PE");
-            if (input == CountryCode::CountryCodePH) output = Json::Value("PH");
-            if (input == CountryCode::CountryCodePN) output = Json::Value("PN");
-            if (input == CountryCode::CountryCodePL) output = Json::Value("PL");
-            if (input == CountryCode::CountryCodePT) output = Json::Value("PT");
-            if (input == CountryCode::CountryCodePR) output = Json::Value("PR");
-            if (input == CountryCode::CountryCodeQA) output = Json::Value("QA");
-            if (input == CountryCode::CountryCodeRE) output = Json::Value("RE");
-            if (input == CountryCode::CountryCodeRO) output = Json::Value("RO");
-            if (input == CountryCode::CountryCodeRU) output = Json::Value("RU");
-            if (input == CountryCode::CountryCodeRW) output = Json::Value("RW");
-            if (input == CountryCode::CountryCodeBL) output = Json::Value("BL");
-            if (input == CountryCode::CountryCodeSH) output = Json::Value("SH");
-            if (input == CountryCode::CountryCodeKN) output = Json::Value("KN");
-            if (input == CountryCode::CountryCodeLC) output = Json::Value("LC");
-            if (input == CountryCode::CountryCodeMF) output = Json::Value("MF");
-            if (input == CountryCode::CountryCodePM) output = Json::Value("PM");
-            if (input == CountryCode::CountryCodeVC) output = Json::Value("VC");
-            if (input == CountryCode::CountryCodeWS) output = Json::Value("WS");
-            if (input == CountryCode::CountryCodeSM) output = Json::Value("SM");
-            if (input == CountryCode::CountryCodeST) output = Json::Value("ST");
-            if (input == CountryCode::CountryCodeSA) output = Json::Value("SA");
-            if (input == CountryCode::CountryCodeSN) output = Json::Value("SN");
-            if (input == CountryCode::CountryCodeRS) output = Json::Value("RS");
-            if (input == CountryCode::CountryCodeSC) output = Json::Value("SC");
-            if (input == CountryCode::CountryCodeSL) output = Json::Value("SL");
-            if (input == CountryCode::CountryCodeSG) output = Json::Value("SG");
-            if (input == CountryCode::CountryCodeSX) output = Json::Value("SX");
-            if (input == CountryCode::CountryCodeSK) output = Json::Value("SK");
-            if (input == CountryCode::CountryCodeSI) output = Json::Value("SI");
-            if (input == CountryCode::CountryCodeSB) output = Json::Value("SB");
-            if (input == CountryCode::CountryCodeSO) output = Json::Value("SO");
-            if (input == CountryCode::CountryCodeZA) output = Json::Value("ZA");
-            if (input == CountryCode::CountryCodeGS) output = Json::Value("GS");
-            if (input == CountryCode::CountryCodeSS) output = Json::Value("SS");
-            if (input == CountryCode::CountryCodeES) output = Json::Value("ES");
-            if (input == CountryCode::CountryCodeLK) output = Json::Value("LK");
-            if (input == CountryCode::CountryCodeSD) output = Json::Value("SD");
-            if (input == CountryCode::CountryCodeSR) output = Json::Value("SR");
-            if (input == CountryCode::CountryCodeSJ) output = Json::Value("SJ");
-            if (input == CountryCode::CountryCodeSZ) output = Json::Value("SZ");
-            if (input == CountryCode::CountryCodeSE) output = Json::Value("SE");
-            if (input == CountryCode::CountryCodeCH) output = Json::Value("CH");
-            if (input == CountryCode::CountryCodeSY) output = Json::Value("SY");
-            if (input == CountryCode::CountryCodeTW) output = Json::Value("TW");
-            if (input == CountryCode::CountryCodeTJ) output = Json::Value("TJ");
-            if (input == CountryCode::CountryCodeTZ) output = Json::Value("TZ");
-            if (input == CountryCode::CountryCodeTH) output = Json::Value("TH");
-            if (input == CountryCode::CountryCodeTL) output = Json::Value("TL");
-            if (input == CountryCode::CountryCodeTG) output = Json::Value("TG");
-            if (input == CountryCode::CountryCodeTK) output = Json::Value("TK");
-            if (input == CountryCode::CountryCodeTO) output = Json::Value("TO");
-            if (input == CountryCode::CountryCodeTT) output = Json::Value("TT");
-            if (input == CountryCode::CountryCodeTN) output = Json::Value("TN");
-            if (input == CountryCode::CountryCodeTR) output = Json::Value("TR");
-            if (input == CountryCode::CountryCodeTM) output = Json::Value("TM");
-            if (input == CountryCode::CountryCodeTC) output = Json::Value("TC");
-            if (input == CountryCode::CountryCodeTV) output = Json::Value("TV");
-            if (input == CountryCode::CountryCodeUG) output = Json::Value("UG");
-            if (input == CountryCode::CountryCodeUA) output = Json::Value("UA");
-            if (input == CountryCode::CountryCodeAE) output = Json::Value("AE");
-            if (input == CountryCode::CountryCodeGB) output = Json::Value("GB");
-            if (input == CountryCode::CountryCodeUS) output = Json::Value("US");
-            if (input == CountryCode::CountryCodeUM) output = Json::Value("UM");
-            if (input == CountryCode::CountryCodeUY) output = Json::Value("UY");
-            if (input == CountryCode::CountryCodeUZ) output = Json::Value("UZ");
-            if (input == CountryCode::CountryCodeVU) output = Json::Value("VU");
-            if (input == CountryCode::CountryCodeVE) output = Json::Value("VE");
-            if (input == CountryCode::CountryCodeVN) output = Json::Value("VN");
-            if (input == CountryCode::CountryCodeVG) output = Json::Value("VG");
-            if (input == CountryCode::CountryCodeVI) output = Json::Value("VI");
-            if (input == CountryCode::CountryCodeWF) output = Json::Value("WF");
-            if (input == CountryCode::CountryCodeEH) output = Json::Value("EH");
-            if (input == CountryCode::CountryCodeYE) output = Json::Value("YE");
-            if (input == CountryCode::CountryCodeZM) output = Json::Value("ZM");
-            if (input == CountryCode::CountryCodeZW) output = Json::Value("ZW");
+            if (input == CountryCode::CountryCodeAF)
+            {
+                output = Json::Value("AF");
+                return;
+            }
+            if (input == CountryCode::CountryCodeAX)
+            {
+                output = Json::Value("AX");
+                return;
+            }
+            if (input == CountryCode::CountryCodeAL)
+            {
+                output = Json::Value("AL");
+                return;
+            }
+            if (input == CountryCode::CountryCodeDZ)
+            {
+                output = Json::Value("DZ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeAS)
+            {
+                output = Json::Value("AS");
+                return;
+            }
+            if (input == CountryCode::CountryCodeAD)
+            {
+                output = Json::Value("AD");
+                return;
+            }
+            if (input == CountryCode::CountryCodeAO)
+            {
+                output = Json::Value("AO");
+                return;
+            }
+            if (input == CountryCode::CountryCodeAI)
+            {
+                output = Json::Value("AI");
+                return;
+            }
+            if (input == CountryCode::CountryCodeAQ)
+            {
+                output = Json::Value("AQ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeAG)
+            {
+                output = Json::Value("AG");
+                return;
+            }
+            if (input == CountryCode::CountryCodeAR)
+            {
+                output = Json::Value("AR");
+                return;
+            }
+            if (input == CountryCode::CountryCodeAM)
+            {
+                output = Json::Value("AM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeAW)
+            {
+                output = Json::Value("AW");
+                return;
+            }
+            if (input == CountryCode::CountryCodeAU)
+            {
+                output = Json::Value("AU");
+                return;
+            }
+            if (input == CountryCode::CountryCodeAT)
+            {
+                output = Json::Value("AT");
+                return;
+            }
+            if (input == CountryCode::CountryCodeAZ)
+            {
+                output = Json::Value("AZ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBS)
+            {
+                output = Json::Value("BS");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBH)
+            {
+                output = Json::Value("BH");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBD)
+            {
+                output = Json::Value("BD");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBB)
+            {
+                output = Json::Value("BB");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBY)
+            {
+                output = Json::Value("BY");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBE)
+            {
+                output = Json::Value("BE");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBZ)
+            {
+                output = Json::Value("BZ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBJ)
+            {
+                output = Json::Value("BJ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBM)
+            {
+                output = Json::Value("BM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBT)
+            {
+                output = Json::Value("BT");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBO)
+            {
+                output = Json::Value("BO");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBQ)
+            {
+                output = Json::Value("BQ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBA)
+            {
+                output = Json::Value("BA");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBW)
+            {
+                output = Json::Value("BW");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBV)
+            {
+                output = Json::Value("BV");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBR)
+            {
+                output = Json::Value("BR");
+                return;
+            }
+            if (input == CountryCode::CountryCodeIO)
+            {
+                output = Json::Value("IO");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBN)
+            {
+                output = Json::Value("BN");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBG)
+            {
+                output = Json::Value("BG");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBF)
+            {
+                output = Json::Value("BF");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBI)
+            {
+                output = Json::Value("BI");
+                return;
+            }
+            if (input == CountryCode::CountryCodeKH)
+            {
+                output = Json::Value("KH");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCM)
+            {
+                output = Json::Value("CM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCA)
+            {
+                output = Json::Value("CA");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCV)
+            {
+                output = Json::Value("CV");
+                return;
+            }
+            if (input == CountryCode::CountryCodeKY)
+            {
+                output = Json::Value("KY");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCF)
+            {
+                output = Json::Value("CF");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTD)
+            {
+                output = Json::Value("TD");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCL)
+            {
+                output = Json::Value("CL");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCN)
+            {
+                output = Json::Value("CN");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCX)
+            {
+                output = Json::Value("CX");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCC)
+            {
+                output = Json::Value("CC");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCO)
+            {
+                output = Json::Value("CO");
+                return;
+            }
+            if (input == CountryCode::CountryCodeKM)
+            {
+                output = Json::Value("KM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCG)
+            {
+                output = Json::Value("CG");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCD)
+            {
+                output = Json::Value("CD");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCK)
+            {
+                output = Json::Value("CK");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCR)
+            {
+                output = Json::Value("CR");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCI)
+            {
+                output = Json::Value("CI");
+                return;
+            }
+            if (input == CountryCode::CountryCodeHR)
+            {
+                output = Json::Value("HR");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCU)
+            {
+                output = Json::Value("CU");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCW)
+            {
+                output = Json::Value("CW");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCY)
+            {
+                output = Json::Value("CY");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCZ)
+            {
+                output = Json::Value("CZ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeDK)
+            {
+                output = Json::Value("DK");
+                return;
+            }
+            if (input == CountryCode::CountryCodeDJ)
+            {
+                output = Json::Value("DJ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeDM)
+            {
+                output = Json::Value("DM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeDO)
+            {
+                output = Json::Value("DO");
+                return;
+            }
+            if (input == CountryCode::CountryCodeEC)
+            {
+                output = Json::Value("EC");
+                return;
+            }
+            if (input == CountryCode::CountryCodeEG)
+            {
+                output = Json::Value("EG");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSV)
+            {
+                output = Json::Value("SV");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGQ)
+            {
+                output = Json::Value("GQ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeER)
+            {
+                output = Json::Value("ER");
+                return;
+            }
+            if (input == CountryCode::CountryCodeEE)
+            {
+                output = Json::Value("EE");
+                return;
+            }
+            if (input == CountryCode::CountryCodeET)
+            {
+                output = Json::Value("ET");
+                return;
+            }
+            if (input == CountryCode::CountryCodeFK)
+            {
+                output = Json::Value("FK");
+                return;
+            }
+            if (input == CountryCode::CountryCodeFO)
+            {
+                output = Json::Value("FO");
+                return;
+            }
+            if (input == CountryCode::CountryCodeFJ)
+            {
+                output = Json::Value("FJ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeFI)
+            {
+                output = Json::Value("FI");
+                return;
+            }
+            if (input == CountryCode::CountryCodeFR)
+            {
+                output = Json::Value("FR");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGF)
+            {
+                output = Json::Value("GF");
+                return;
+            }
+            if (input == CountryCode::CountryCodePF)
+            {
+                output = Json::Value("PF");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTF)
+            {
+                output = Json::Value("TF");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGA)
+            {
+                output = Json::Value("GA");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGM)
+            {
+                output = Json::Value("GM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGE)
+            {
+                output = Json::Value("GE");
+                return;
+            }
+            if (input == CountryCode::CountryCodeDE)
+            {
+                output = Json::Value("DE");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGH)
+            {
+                output = Json::Value("GH");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGI)
+            {
+                output = Json::Value("GI");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGR)
+            {
+                output = Json::Value("GR");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGL)
+            {
+                output = Json::Value("GL");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGD)
+            {
+                output = Json::Value("GD");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGP)
+            {
+                output = Json::Value("GP");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGU)
+            {
+                output = Json::Value("GU");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGT)
+            {
+                output = Json::Value("GT");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGG)
+            {
+                output = Json::Value("GG");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGN)
+            {
+                output = Json::Value("GN");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGW)
+            {
+                output = Json::Value("GW");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGY)
+            {
+                output = Json::Value("GY");
+                return;
+            }
+            if (input == CountryCode::CountryCodeHT)
+            {
+                output = Json::Value("HT");
+                return;
+            }
+            if (input == CountryCode::CountryCodeHM)
+            {
+                output = Json::Value("HM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeVA)
+            {
+                output = Json::Value("VA");
+                return;
+            }
+            if (input == CountryCode::CountryCodeHN)
+            {
+                output = Json::Value("HN");
+                return;
+            }
+            if (input == CountryCode::CountryCodeHK)
+            {
+                output = Json::Value("HK");
+                return;
+            }
+            if (input == CountryCode::CountryCodeHU)
+            {
+                output = Json::Value("HU");
+                return;
+            }
+            if (input == CountryCode::CountryCodeIS)
+            {
+                output = Json::Value("IS");
+                return;
+            }
+            if (input == CountryCode::CountryCodeIN)
+            {
+                output = Json::Value("IN");
+                return;
+            }
+            if (input == CountryCode::CountryCodeID)
+            {
+                output = Json::Value("ID");
+                return;
+            }
+            if (input == CountryCode::CountryCodeIR)
+            {
+                output = Json::Value("IR");
+                return;
+            }
+            if (input == CountryCode::CountryCodeIQ)
+            {
+                output = Json::Value("IQ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeIE)
+            {
+                output = Json::Value("IE");
+                return;
+            }
+            if (input == CountryCode::CountryCodeIM)
+            {
+                output = Json::Value("IM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeIL)
+            {
+                output = Json::Value("IL");
+                return;
+            }
+            if (input == CountryCode::CountryCodeIT)
+            {
+                output = Json::Value("IT");
+                return;
+            }
+            if (input == CountryCode::CountryCodeJM)
+            {
+                output = Json::Value("JM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeJP)
+            {
+                output = Json::Value("JP");
+                return;
+            }
+            if (input == CountryCode::CountryCodeJE)
+            {
+                output = Json::Value("JE");
+                return;
+            }
+            if (input == CountryCode::CountryCodeJO)
+            {
+                output = Json::Value("JO");
+                return;
+            }
+            if (input == CountryCode::CountryCodeKZ)
+            {
+                output = Json::Value("KZ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeKE)
+            {
+                output = Json::Value("KE");
+                return;
+            }
+            if (input == CountryCode::CountryCodeKI)
+            {
+                output = Json::Value("KI");
+                return;
+            }
+            if (input == CountryCode::CountryCodeKP)
+            {
+                output = Json::Value("KP");
+                return;
+            }
+            if (input == CountryCode::CountryCodeKR)
+            {
+                output = Json::Value("KR");
+                return;
+            }
+            if (input == CountryCode::CountryCodeKW)
+            {
+                output = Json::Value("KW");
+                return;
+            }
+            if (input == CountryCode::CountryCodeKG)
+            {
+                output = Json::Value("KG");
+                return;
+            }
+            if (input == CountryCode::CountryCodeLA)
+            {
+                output = Json::Value("LA");
+                return;
+            }
+            if (input == CountryCode::CountryCodeLV)
+            {
+                output = Json::Value("LV");
+                return;
+            }
+            if (input == CountryCode::CountryCodeLB)
+            {
+                output = Json::Value("LB");
+                return;
+            }
+            if (input == CountryCode::CountryCodeLS)
+            {
+                output = Json::Value("LS");
+                return;
+            }
+            if (input == CountryCode::CountryCodeLR)
+            {
+                output = Json::Value("LR");
+                return;
+            }
+            if (input == CountryCode::CountryCodeLY)
+            {
+                output = Json::Value("LY");
+                return;
+            }
+            if (input == CountryCode::CountryCodeLI)
+            {
+                output = Json::Value("LI");
+                return;
+            }
+            if (input == CountryCode::CountryCodeLT)
+            {
+                output = Json::Value("LT");
+                return;
+            }
+            if (input == CountryCode::CountryCodeLU)
+            {
+                output = Json::Value("LU");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMO)
+            {
+                output = Json::Value("MO");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMK)
+            {
+                output = Json::Value("MK");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMG)
+            {
+                output = Json::Value("MG");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMW)
+            {
+                output = Json::Value("MW");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMY)
+            {
+                output = Json::Value("MY");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMV)
+            {
+                output = Json::Value("MV");
+                return;
+            }
+            if (input == CountryCode::CountryCodeML)
+            {
+                output = Json::Value("ML");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMT)
+            {
+                output = Json::Value("MT");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMH)
+            {
+                output = Json::Value("MH");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMQ)
+            {
+                output = Json::Value("MQ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMR)
+            {
+                output = Json::Value("MR");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMU)
+            {
+                output = Json::Value("MU");
+                return;
+            }
+            if (input == CountryCode::CountryCodeYT)
+            {
+                output = Json::Value("YT");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMX)
+            {
+                output = Json::Value("MX");
+                return;
+            }
+            if (input == CountryCode::CountryCodeFM)
+            {
+                output = Json::Value("FM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMD)
+            {
+                output = Json::Value("MD");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMC)
+            {
+                output = Json::Value("MC");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMN)
+            {
+                output = Json::Value("MN");
+                return;
+            }
+            if (input == CountryCode::CountryCodeME)
+            {
+                output = Json::Value("ME");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMS)
+            {
+                output = Json::Value("MS");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMA)
+            {
+                output = Json::Value("MA");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMZ)
+            {
+                output = Json::Value("MZ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMM)
+            {
+                output = Json::Value("MM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeNA)
+            {
+                output = Json::Value("NA");
+                return;
+            }
+            if (input == CountryCode::CountryCodeNR)
+            {
+                output = Json::Value("NR");
+                return;
+            }
+            if (input == CountryCode::CountryCodeNP)
+            {
+                output = Json::Value("NP");
+                return;
+            }
+            if (input == CountryCode::CountryCodeNL)
+            {
+                output = Json::Value("NL");
+                return;
+            }
+            if (input == CountryCode::CountryCodeNC)
+            {
+                output = Json::Value("NC");
+                return;
+            }
+            if (input == CountryCode::CountryCodeNZ)
+            {
+                output = Json::Value("NZ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeNI)
+            {
+                output = Json::Value("NI");
+                return;
+            }
+            if (input == CountryCode::CountryCodeNE)
+            {
+                output = Json::Value("NE");
+                return;
+            }
+            if (input == CountryCode::CountryCodeNG)
+            {
+                output = Json::Value("NG");
+                return;
+            }
+            if (input == CountryCode::CountryCodeNU)
+            {
+                output = Json::Value("NU");
+                return;
+            }
+            if (input == CountryCode::CountryCodeNF)
+            {
+                output = Json::Value("NF");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMP)
+            {
+                output = Json::Value("MP");
+                return;
+            }
+            if (input == CountryCode::CountryCodeNO)
+            {
+                output = Json::Value("NO");
+                return;
+            }
+            if (input == CountryCode::CountryCodeOM)
+            {
+                output = Json::Value("OM");
+                return;
+            }
+            if (input == CountryCode::CountryCodePK)
+            {
+                output = Json::Value("PK");
+                return;
+            }
+            if (input == CountryCode::CountryCodePW)
+            {
+                output = Json::Value("PW");
+                return;
+            }
+            if (input == CountryCode::CountryCodePS)
+            {
+                output = Json::Value("PS");
+                return;
+            }
+            if (input == CountryCode::CountryCodePA)
+            {
+                output = Json::Value("PA");
+                return;
+            }
+            if (input == CountryCode::CountryCodePG)
+            {
+                output = Json::Value("PG");
+                return;
+            }
+            if (input == CountryCode::CountryCodePY)
+            {
+                output = Json::Value("PY");
+                return;
+            }
+            if (input == CountryCode::CountryCodePE)
+            {
+                output = Json::Value("PE");
+                return;
+            }
+            if (input == CountryCode::CountryCodePH)
+            {
+                output = Json::Value("PH");
+                return;
+            }
+            if (input == CountryCode::CountryCodePN)
+            {
+                output = Json::Value("PN");
+                return;
+            }
+            if (input == CountryCode::CountryCodePL)
+            {
+                output = Json::Value("PL");
+                return;
+            }
+            if (input == CountryCode::CountryCodePT)
+            {
+                output = Json::Value("PT");
+                return;
+            }
+            if (input == CountryCode::CountryCodePR)
+            {
+                output = Json::Value("PR");
+                return;
+            }
+            if (input == CountryCode::CountryCodeQA)
+            {
+                output = Json::Value("QA");
+                return;
+            }
+            if (input == CountryCode::CountryCodeRE)
+            {
+                output = Json::Value("RE");
+                return;
+            }
+            if (input == CountryCode::CountryCodeRO)
+            {
+                output = Json::Value("RO");
+                return;
+            }
+            if (input == CountryCode::CountryCodeRU)
+            {
+                output = Json::Value("RU");
+                return;
+            }
+            if (input == CountryCode::CountryCodeRW)
+            {
+                output = Json::Value("RW");
+                return;
+            }
+            if (input == CountryCode::CountryCodeBL)
+            {
+                output = Json::Value("BL");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSH)
+            {
+                output = Json::Value("SH");
+                return;
+            }
+            if (input == CountryCode::CountryCodeKN)
+            {
+                output = Json::Value("KN");
+                return;
+            }
+            if (input == CountryCode::CountryCodeLC)
+            {
+                output = Json::Value("LC");
+                return;
+            }
+            if (input == CountryCode::CountryCodeMF)
+            {
+                output = Json::Value("MF");
+                return;
+            }
+            if (input == CountryCode::CountryCodePM)
+            {
+                output = Json::Value("PM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeVC)
+            {
+                output = Json::Value("VC");
+                return;
+            }
+            if (input == CountryCode::CountryCodeWS)
+            {
+                output = Json::Value("WS");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSM)
+            {
+                output = Json::Value("SM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeST)
+            {
+                output = Json::Value("ST");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSA)
+            {
+                output = Json::Value("SA");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSN)
+            {
+                output = Json::Value("SN");
+                return;
+            }
+            if (input == CountryCode::CountryCodeRS)
+            {
+                output = Json::Value("RS");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSC)
+            {
+                output = Json::Value("SC");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSL)
+            {
+                output = Json::Value("SL");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSG)
+            {
+                output = Json::Value("SG");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSX)
+            {
+                output = Json::Value("SX");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSK)
+            {
+                output = Json::Value("SK");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSI)
+            {
+                output = Json::Value("SI");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSB)
+            {
+                output = Json::Value("SB");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSO)
+            {
+                output = Json::Value("SO");
+                return;
+            }
+            if (input == CountryCode::CountryCodeZA)
+            {
+                output = Json::Value("ZA");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGS)
+            {
+                output = Json::Value("GS");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSS)
+            {
+                output = Json::Value("SS");
+                return;
+            }
+            if (input == CountryCode::CountryCodeES)
+            {
+                output = Json::Value("ES");
+                return;
+            }
+            if (input == CountryCode::CountryCodeLK)
+            {
+                output = Json::Value("LK");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSD)
+            {
+                output = Json::Value("SD");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSR)
+            {
+                output = Json::Value("SR");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSJ)
+            {
+                output = Json::Value("SJ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSZ)
+            {
+                output = Json::Value("SZ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSE)
+            {
+                output = Json::Value("SE");
+                return;
+            }
+            if (input == CountryCode::CountryCodeCH)
+            {
+                output = Json::Value("CH");
+                return;
+            }
+            if (input == CountryCode::CountryCodeSY)
+            {
+                output = Json::Value("SY");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTW)
+            {
+                output = Json::Value("TW");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTJ)
+            {
+                output = Json::Value("TJ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTZ)
+            {
+                output = Json::Value("TZ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTH)
+            {
+                output = Json::Value("TH");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTL)
+            {
+                output = Json::Value("TL");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTG)
+            {
+                output = Json::Value("TG");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTK)
+            {
+                output = Json::Value("TK");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTO)
+            {
+                output = Json::Value("TO");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTT)
+            {
+                output = Json::Value("TT");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTN)
+            {
+                output = Json::Value("TN");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTR)
+            {
+                output = Json::Value("TR");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTM)
+            {
+                output = Json::Value("TM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTC)
+            {
+                output = Json::Value("TC");
+                return;
+            }
+            if (input == CountryCode::CountryCodeTV)
+            {
+                output = Json::Value("TV");
+                return;
+            }
+            if (input == CountryCode::CountryCodeUG)
+            {
+                output = Json::Value("UG");
+                return;
+            }
+            if (input == CountryCode::CountryCodeUA)
+            {
+                output = Json::Value("UA");
+                return;
+            }
+            if (input == CountryCode::CountryCodeAE)
+            {
+                output = Json::Value("AE");
+                return;
+            }
+            if (input == CountryCode::CountryCodeGB)
+            {
+                output = Json::Value("GB");
+                return;
+            }
+            if (input == CountryCode::CountryCodeUS)
+            {
+                output = Json::Value("US");
+                return;
+            }
+            if (input == CountryCode::CountryCodeUM)
+            {
+                output = Json::Value("UM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeUY)
+            {
+                output = Json::Value("UY");
+                return;
+            }
+            if (input == CountryCode::CountryCodeUZ)
+            {
+                output = Json::Value("UZ");
+                return;
+            }
+            if (input == CountryCode::CountryCodeVU)
+            {
+                output = Json::Value("VU");
+                return;
+            }
+            if (input == CountryCode::CountryCodeVE)
+            {
+                output = Json::Value("VE");
+                return;
+            }
+            if (input == CountryCode::CountryCodeVN)
+            {
+                output = Json::Value("VN");
+                return;
+            }
+            if (input == CountryCode::CountryCodeVG)
+            {
+                output = Json::Value("VG");
+                return;
+            }
+            if (input == CountryCode::CountryCodeVI)
+            {
+                output = Json::Value("VI");
+                return;
+            }
+            if (input == CountryCode::CountryCodeWF)
+            {
+                output = Json::Value("WF");
+                return;
+            }
+            if (input == CountryCode::CountryCodeEH)
+            {
+                output = Json::Value("EH");
+                return;
+            }
+            if (input == CountryCode::CountryCodeYE)
+            {
+                output = Json::Value("YE");
+                return;
+            }
+            if (input == CountryCode::CountryCodeZM)
+            {
+                output = Json::Value("ZM");
+                return;
+            }
+            if (input == CountryCode::CountryCodeZW)
+            {
+                output = Json::Value("ZW");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, CountryCode& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "AF") output = CountryCode::CountryCodeAF;
-            if (inputStr == "AX") output = CountryCode::CountryCodeAX;
-            if (inputStr == "AL") output = CountryCode::CountryCodeAL;
-            if (inputStr == "DZ") output = CountryCode::CountryCodeDZ;
-            if (inputStr == "AS") output = CountryCode::CountryCodeAS;
-            if (inputStr == "AD") output = CountryCode::CountryCodeAD;
-            if (inputStr == "AO") output = CountryCode::CountryCodeAO;
-            if (inputStr == "AI") output = CountryCode::CountryCodeAI;
-            if (inputStr == "AQ") output = CountryCode::CountryCodeAQ;
-            if (inputStr == "AG") output = CountryCode::CountryCodeAG;
-            if (inputStr == "AR") output = CountryCode::CountryCodeAR;
-            if (inputStr == "AM") output = CountryCode::CountryCodeAM;
-            if (inputStr == "AW") output = CountryCode::CountryCodeAW;
-            if (inputStr == "AU") output = CountryCode::CountryCodeAU;
-            if (inputStr == "AT") output = CountryCode::CountryCodeAT;
-            if (inputStr == "AZ") output = CountryCode::CountryCodeAZ;
-            if (inputStr == "BS") output = CountryCode::CountryCodeBS;
-            if (inputStr == "BH") output = CountryCode::CountryCodeBH;
-            if (inputStr == "BD") output = CountryCode::CountryCodeBD;
-            if (inputStr == "BB") output = CountryCode::CountryCodeBB;
-            if (inputStr == "BY") output = CountryCode::CountryCodeBY;
-            if (inputStr == "BE") output = CountryCode::CountryCodeBE;
-            if (inputStr == "BZ") output = CountryCode::CountryCodeBZ;
-            if (inputStr == "BJ") output = CountryCode::CountryCodeBJ;
-            if (inputStr == "BM") output = CountryCode::CountryCodeBM;
-            if (inputStr == "BT") output = CountryCode::CountryCodeBT;
-            if (inputStr == "BO") output = CountryCode::CountryCodeBO;
-            if (inputStr == "BQ") output = CountryCode::CountryCodeBQ;
-            if (inputStr == "BA") output = CountryCode::CountryCodeBA;
-            if (inputStr == "BW") output = CountryCode::CountryCodeBW;
-            if (inputStr == "BV") output = CountryCode::CountryCodeBV;
-            if (inputStr == "BR") output = CountryCode::CountryCodeBR;
-            if (inputStr == "IO") output = CountryCode::CountryCodeIO;
-            if (inputStr == "BN") output = CountryCode::CountryCodeBN;
-            if (inputStr == "BG") output = CountryCode::CountryCodeBG;
-            if (inputStr == "BF") output = CountryCode::CountryCodeBF;
-            if (inputStr == "BI") output = CountryCode::CountryCodeBI;
-            if (inputStr == "KH") output = CountryCode::CountryCodeKH;
-            if (inputStr == "CM") output = CountryCode::CountryCodeCM;
-            if (inputStr == "CA") output = CountryCode::CountryCodeCA;
-            if (inputStr == "CV") output = CountryCode::CountryCodeCV;
-            if (inputStr == "KY") output = CountryCode::CountryCodeKY;
-            if (inputStr == "CF") output = CountryCode::CountryCodeCF;
-            if (inputStr == "TD") output = CountryCode::CountryCodeTD;
-            if (inputStr == "CL") output = CountryCode::CountryCodeCL;
-            if (inputStr == "CN") output = CountryCode::CountryCodeCN;
-            if (inputStr == "CX") output = CountryCode::CountryCodeCX;
-            if (inputStr == "CC") output = CountryCode::CountryCodeCC;
-            if (inputStr == "CO") output = CountryCode::CountryCodeCO;
-            if (inputStr == "KM") output = CountryCode::CountryCodeKM;
-            if (inputStr == "CG") output = CountryCode::CountryCodeCG;
-            if (inputStr == "CD") output = CountryCode::CountryCodeCD;
-            if (inputStr == "CK") output = CountryCode::CountryCodeCK;
-            if (inputStr == "CR") output = CountryCode::CountryCodeCR;
-            if (inputStr == "CI") output = CountryCode::CountryCodeCI;
-            if (inputStr == "HR") output = CountryCode::CountryCodeHR;
-            if (inputStr == "CU") output = CountryCode::CountryCodeCU;
-            if (inputStr == "CW") output = CountryCode::CountryCodeCW;
-            if (inputStr == "CY") output = CountryCode::CountryCodeCY;
-            if (inputStr == "CZ") output = CountryCode::CountryCodeCZ;
-            if (inputStr == "DK") output = CountryCode::CountryCodeDK;
-            if (inputStr == "DJ") output = CountryCode::CountryCodeDJ;
-            if (inputStr == "DM") output = CountryCode::CountryCodeDM;
-            if (inputStr == "DO") output = CountryCode::CountryCodeDO;
-            if (inputStr == "EC") output = CountryCode::CountryCodeEC;
-            if (inputStr == "EG") output = CountryCode::CountryCodeEG;
-            if (inputStr == "SV") output = CountryCode::CountryCodeSV;
-            if (inputStr == "GQ") output = CountryCode::CountryCodeGQ;
-            if (inputStr == "ER") output = CountryCode::CountryCodeER;
-            if (inputStr == "EE") output = CountryCode::CountryCodeEE;
-            if (inputStr == "ET") output = CountryCode::CountryCodeET;
-            if (inputStr == "FK") output = CountryCode::CountryCodeFK;
-            if (inputStr == "FO") output = CountryCode::CountryCodeFO;
-            if (inputStr == "FJ") output = CountryCode::CountryCodeFJ;
-            if (inputStr == "FI") output = CountryCode::CountryCodeFI;
-            if (inputStr == "FR") output = CountryCode::CountryCodeFR;
-            if (inputStr == "GF") output = CountryCode::CountryCodeGF;
-            if (inputStr == "PF") output = CountryCode::CountryCodePF;
-            if (inputStr == "TF") output = CountryCode::CountryCodeTF;
-            if (inputStr == "GA") output = CountryCode::CountryCodeGA;
-            if (inputStr == "GM") output = CountryCode::CountryCodeGM;
-            if (inputStr == "GE") output = CountryCode::CountryCodeGE;
-            if (inputStr == "DE") output = CountryCode::CountryCodeDE;
-            if (inputStr == "GH") output = CountryCode::CountryCodeGH;
-            if (inputStr == "GI") output = CountryCode::CountryCodeGI;
-            if (inputStr == "GR") output = CountryCode::CountryCodeGR;
-            if (inputStr == "GL") output = CountryCode::CountryCodeGL;
-            if (inputStr == "GD") output = CountryCode::CountryCodeGD;
-            if (inputStr == "GP") output = CountryCode::CountryCodeGP;
-            if (inputStr == "GU") output = CountryCode::CountryCodeGU;
-            if (inputStr == "GT") output = CountryCode::CountryCodeGT;
-            if (inputStr == "GG") output = CountryCode::CountryCodeGG;
-            if (inputStr == "GN") output = CountryCode::CountryCodeGN;
-            if (inputStr == "GW") output = CountryCode::CountryCodeGW;
-            if (inputStr == "GY") output = CountryCode::CountryCodeGY;
-            if (inputStr == "HT") output = CountryCode::CountryCodeHT;
-            if (inputStr == "HM") output = CountryCode::CountryCodeHM;
-            if (inputStr == "VA") output = CountryCode::CountryCodeVA;
-            if (inputStr == "HN") output = CountryCode::CountryCodeHN;
-            if (inputStr == "HK") output = CountryCode::CountryCodeHK;
-            if (inputStr == "HU") output = CountryCode::CountryCodeHU;
-            if (inputStr == "IS") output = CountryCode::CountryCodeIS;
-            if (inputStr == "IN") output = CountryCode::CountryCodeIN;
-            if (inputStr == "ID") output = CountryCode::CountryCodeID;
-            if (inputStr == "IR") output = CountryCode::CountryCodeIR;
-            if (inputStr == "IQ") output = CountryCode::CountryCodeIQ;
-            if (inputStr == "IE") output = CountryCode::CountryCodeIE;
-            if (inputStr == "IM") output = CountryCode::CountryCodeIM;
-            if (inputStr == "IL") output = CountryCode::CountryCodeIL;
-            if (inputStr == "IT") output = CountryCode::CountryCodeIT;
-            if (inputStr == "JM") output = CountryCode::CountryCodeJM;
-            if (inputStr == "JP") output = CountryCode::CountryCodeJP;
-            if (inputStr == "JE") output = CountryCode::CountryCodeJE;
-            if (inputStr == "JO") output = CountryCode::CountryCodeJO;
-            if (inputStr == "KZ") output = CountryCode::CountryCodeKZ;
-            if (inputStr == "KE") output = CountryCode::CountryCodeKE;
-            if (inputStr == "KI") output = CountryCode::CountryCodeKI;
-            if (inputStr == "KP") output = CountryCode::CountryCodeKP;
-            if (inputStr == "KR") output = CountryCode::CountryCodeKR;
-            if (inputStr == "KW") output = CountryCode::CountryCodeKW;
-            if (inputStr == "KG") output = CountryCode::CountryCodeKG;
-            if (inputStr == "LA") output = CountryCode::CountryCodeLA;
-            if (inputStr == "LV") output = CountryCode::CountryCodeLV;
-            if (inputStr == "LB") output = CountryCode::CountryCodeLB;
-            if (inputStr == "LS") output = CountryCode::CountryCodeLS;
-            if (inputStr == "LR") output = CountryCode::CountryCodeLR;
-            if (inputStr == "LY") output = CountryCode::CountryCodeLY;
-            if (inputStr == "LI") output = CountryCode::CountryCodeLI;
-            if (inputStr == "LT") output = CountryCode::CountryCodeLT;
-            if (inputStr == "LU") output = CountryCode::CountryCodeLU;
-            if (inputStr == "MO") output = CountryCode::CountryCodeMO;
-            if (inputStr == "MK") output = CountryCode::CountryCodeMK;
-            if (inputStr == "MG") output = CountryCode::CountryCodeMG;
-            if (inputStr == "MW") output = CountryCode::CountryCodeMW;
-            if (inputStr == "MY") output = CountryCode::CountryCodeMY;
-            if (inputStr == "MV") output = CountryCode::CountryCodeMV;
-            if (inputStr == "ML") output = CountryCode::CountryCodeML;
-            if (inputStr == "MT") output = CountryCode::CountryCodeMT;
-            if (inputStr == "MH") output = CountryCode::CountryCodeMH;
-            if (inputStr == "MQ") output = CountryCode::CountryCodeMQ;
-            if (inputStr == "MR") output = CountryCode::CountryCodeMR;
-            if (inputStr == "MU") output = CountryCode::CountryCodeMU;
-            if (inputStr == "YT") output = CountryCode::CountryCodeYT;
-            if (inputStr == "MX") output = CountryCode::CountryCodeMX;
-            if (inputStr == "FM") output = CountryCode::CountryCodeFM;
-            if (inputStr == "MD") output = CountryCode::CountryCodeMD;
-            if (inputStr == "MC") output = CountryCode::CountryCodeMC;
-            if (inputStr == "MN") output = CountryCode::CountryCodeMN;
-            if (inputStr == "ME") output = CountryCode::CountryCodeME;
-            if (inputStr == "MS") output = CountryCode::CountryCodeMS;
-            if (inputStr == "MA") output = CountryCode::CountryCodeMA;
-            if (inputStr == "MZ") output = CountryCode::CountryCodeMZ;
-            if (inputStr == "MM") output = CountryCode::CountryCodeMM;
-            if (inputStr == "NA") output = CountryCode::CountryCodeNA;
-            if (inputStr == "NR") output = CountryCode::CountryCodeNR;
-            if (inputStr == "NP") output = CountryCode::CountryCodeNP;
-            if (inputStr == "NL") output = CountryCode::CountryCodeNL;
-            if (inputStr == "NC") output = CountryCode::CountryCodeNC;
-            if (inputStr == "NZ") output = CountryCode::CountryCodeNZ;
-            if (inputStr == "NI") output = CountryCode::CountryCodeNI;
-            if (inputStr == "NE") output = CountryCode::CountryCodeNE;
-            if (inputStr == "NG") output = CountryCode::CountryCodeNG;
-            if (inputStr == "NU") output = CountryCode::CountryCodeNU;
-            if (inputStr == "NF") output = CountryCode::CountryCodeNF;
-            if (inputStr == "MP") output = CountryCode::CountryCodeMP;
-            if (inputStr == "NO") output = CountryCode::CountryCodeNO;
-            if (inputStr == "OM") output = CountryCode::CountryCodeOM;
-            if (inputStr == "PK") output = CountryCode::CountryCodePK;
-            if (inputStr == "PW") output = CountryCode::CountryCodePW;
-            if (inputStr == "PS") output = CountryCode::CountryCodePS;
-            if (inputStr == "PA") output = CountryCode::CountryCodePA;
-            if (inputStr == "PG") output = CountryCode::CountryCodePG;
-            if (inputStr == "PY") output = CountryCode::CountryCodePY;
-            if (inputStr == "PE") output = CountryCode::CountryCodePE;
-            if (inputStr == "PH") output = CountryCode::CountryCodePH;
-            if (inputStr == "PN") output = CountryCode::CountryCodePN;
-            if (inputStr == "PL") output = CountryCode::CountryCodePL;
-            if (inputStr == "PT") output = CountryCode::CountryCodePT;
-            if (inputStr == "PR") output = CountryCode::CountryCodePR;
-            if (inputStr == "QA") output = CountryCode::CountryCodeQA;
-            if (inputStr == "RE") output = CountryCode::CountryCodeRE;
-            if (inputStr == "RO") output = CountryCode::CountryCodeRO;
-            if (inputStr == "RU") output = CountryCode::CountryCodeRU;
-            if (inputStr == "RW") output = CountryCode::CountryCodeRW;
-            if (inputStr == "BL") output = CountryCode::CountryCodeBL;
-            if (inputStr == "SH") output = CountryCode::CountryCodeSH;
-            if (inputStr == "KN") output = CountryCode::CountryCodeKN;
-            if (inputStr == "LC") output = CountryCode::CountryCodeLC;
-            if (inputStr == "MF") output = CountryCode::CountryCodeMF;
-            if (inputStr == "PM") output = CountryCode::CountryCodePM;
-            if (inputStr == "VC") output = CountryCode::CountryCodeVC;
-            if (inputStr == "WS") output = CountryCode::CountryCodeWS;
-            if (inputStr == "SM") output = CountryCode::CountryCodeSM;
-            if (inputStr == "ST") output = CountryCode::CountryCodeST;
-            if (inputStr == "SA") output = CountryCode::CountryCodeSA;
-            if (inputStr == "SN") output = CountryCode::CountryCodeSN;
-            if (inputStr == "RS") output = CountryCode::CountryCodeRS;
-            if (inputStr == "SC") output = CountryCode::CountryCodeSC;
-            if (inputStr == "SL") output = CountryCode::CountryCodeSL;
-            if (inputStr == "SG") output = CountryCode::CountryCodeSG;
-            if (inputStr == "SX") output = CountryCode::CountryCodeSX;
-            if (inputStr == "SK") output = CountryCode::CountryCodeSK;
-            if (inputStr == "SI") output = CountryCode::CountryCodeSI;
-            if (inputStr == "SB") output = CountryCode::CountryCodeSB;
-            if (inputStr == "SO") output = CountryCode::CountryCodeSO;
-            if (inputStr == "ZA") output = CountryCode::CountryCodeZA;
-            if (inputStr == "GS") output = CountryCode::CountryCodeGS;
-            if (inputStr == "SS") output = CountryCode::CountryCodeSS;
-            if (inputStr == "ES") output = CountryCode::CountryCodeES;
-            if (inputStr == "LK") output = CountryCode::CountryCodeLK;
-            if (inputStr == "SD") output = CountryCode::CountryCodeSD;
-            if (inputStr == "SR") output = CountryCode::CountryCodeSR;
-            if (inputStr == "SJ") output = CountryCode::CountryCodeSJ;
-            if (inputStr == "SZ") output = CountryCode::CountryCodeSZ;
-            if (inputStr == "SE") output = CountryCode::CountryCodeSE;
-            if (inputStr == "CH") output = CountryCode::CountryCodeCH;
-            if (inputStr == "SY") output = CountryCode::CountryCodeSY;
-            if (inputStr == "TW") output = CountryCode::CountryCodeTW;
-            if (inputStr == "TJ") output = CountryCode::CountryCodeTJ;
-            if (inputStr == "TZ") output = CountryCode::CountryCodeTZ;
-            if (inputStr == "TH") output = CountryCode::CountryCodeTH;
-            if (inputStr == "TL") output = CountryCode::CountryCodeTL;
-            if (inputStr == "TG") output = CountryCode::CountryCodeTG;
-            if (inputStr == "TK") output = CountryCode::CountryCodeTK;
-            if (inputStr == "TO") output = CountryCode::CountryCodeTO;
-            if (inputStr == "TT") output = CountryCode::CountryCodeTT;
-            if (inputStr == "TN") output = CountryCode::CountryCodeTN;
-            if (inputStr == "TR") output = CountryCode::CountryCodeTR;
-            if (inputStr == "TM") output = CountryCode::CountryCodeTM;
-            if (inputStr == "TC") output = CountryCode::CountryCodeTC;
-            if (inputStr == "TV") output = CountryCode::CountryCodeTV;
-            if (inputStr == "UG") output = CountryCode::CountryCodeUG;
-            if (inputStr == "UA") output = CountryCode::CountryCodeUA;
-            if (inputStr == "AE") output = CountryCode::CountryCodeAE;
-            if (inputStr == "GB") output = CountryCode::CountryCodeGB;
-            if (inputStr == "US") output = CountryCode::CountryCodeUS;
-            if (inputStr == "UM") output = CountryCode::CountryCodeUM;
-            if (inputStr == "UY") output = CountryCode::CountryCodeUY;
-            if (inputStr == "UZ") output = CountryCode::CountryCodeUZ;
-            if (inputStr == "VU") output = CountryCode::CountryCodeVU;
-            if (inputStr == "VE") output = CountryCode::CountryCodeVE;
-            if (inputStr == "VN") output = CountryCode::CountryCodeVN;
-            if (inputStr == "VG") output = CountryCode::CountryCodeVG;
-            if (inputStr == "VI") output = CountryCode::CountryCodeVI;
-            if (inputStr == "WF") output = CountryCode::CountryCodeWF;
-            if (inputStr == "EH") output = CountryCode::CountryCodeEH;
-            if (inputStr == "YE") output = CountryCode::CountryCodeYE;
-            if (inputStr == "ZM") output = CountryCode::CountryCodeZM;
-            if (inputStr == "ZW") output = CountryCode::CountryCodeZW;
+            if (inputStr == "AF")
+            {
+                output = CountryCode::CountryCodeAF;
+                return;
+            }
+            if (inputStr == "AX")
+            {
+                output = CountryCode::CountryCodeAX;
+                return;
+            }
+            if (inputStr == "AL")
+            {
+                output = CountryCode::CountryCodeAL;
+                return;
+            }
+            if (inputStr == "DZ")
+            {
+                output = CountryCode::CountryCodeDZ;
+                return;
+            }
+            if (inputStr == "AS")
+            {
+                output = CountryCode::CountryCodeAS;
+                return;
+            }
+            if (inputStr == "AD")
+            {
+                output = CountryCode::CountryCodeAD;
+                return;
+            }
+            if (inputStr == "AO")
+            {
+                output = CountryCode::CountryCodeAO;
+                return;
+            }
+            if (inputStr == "AI")
+            {
+                output = CountryCode::CountryCodeAI;
+                return;
+            }
+            if (inputStr == "AQ")
+            {
+                output = CountryCode::CountryCodeAQ;
+                return;
+            }
+            if (inputStr == "AG")
+            {
+                output = CountryCode::CountryCodeAG;
+                return;
+            }
+            if (inputStr == "AR")
+            {
+                output = CountryCode::CountryCodeAR;
+                return;
+            }
+            if (inputStr == "AM")
+            {
+                output = CountryCode::CountryCodeAM;
+                return;
+            }
+            if (inputStr == "AW")
+            {
+                output = CountryCode::CountryCodeAW;
+                return;
+            }
+            if (inputStr == "AU")
+            {
+                output = CountryCode::CountryCodeAU;
+                return;
+            }
+            if (inputStr == "AT")
+            {
+                output = CountryCode::CountryCodeAT;
+                return;
+            }
+            if (inputStr == "AZ")
+            {
+                output = CountryCode::CountryCodeAZ;
+                return;
+            }
+            if (inputStr == "BS")
+            {
+                output = CountryCode::CountryCodeBS;
+                return;
+            }
+            if (inputStr == "BH")
+            {
+                output = CountryCode::CountryCodeBH;
+                return;
+            }
+            if (inputStr == "BD")
+            {
+                output = CountryCode::CountryCodeBD;
+                return;
+            }
+            if (inputStr == "BB")
+            {
+                output = CountryCode::CountryCodeBB;
+                return;
+            }
+            if (inputStr == "BY")
+            {
+                output = CountryCode::CountryCodeBY;
+                return;
+            }
+            if (inputStr == "BE")
+            {
+                output = CountryCode::CountryCodeBE;
+                return;
+            }
+            if (inputStr == "BZ")
+            {
+                output = CountryCode::CountryCodeBZ;
+                return;
+            }
+            if (inputStr == "BJ")
+            {
+                output = CountryCode::CountryCodeBJ;
+                return;
+            }
+            if (inputStr == "BM")
+            {
+                output = CountryCode::CountryCodeBM;
+                return;
+            }
+            if (inputStr == "BT")
+            {
+                output = CountryCode::CountryCodeBT;
+                return;
+            }
+            if (inputStr == "BO")
+            {
+                output = CountryCode::CountryCodeBO;
+                return;
+            }
+            if (inputStr == "BQ")
+            {
+                output = CountryCode::CountryCodeBQ;
+                return;
+            }
+            if (inputStr == "BA")
+            {
+                output = CountryCode::CountryCodeBA;
+                return;
+            }
+            if (inputStr == "BW")
+            {
+                output = CountryCode::CountryCodeBW;
+                return;
+            }
+            if (inputStr == "BV")
+            {
+                output = CountryCode::CountryCodeBV;
+                return;
+            }
+            if (inputStr == "BR")
+            {
+                output = CountryCode::CountryCodeBR;
+                return;
+            }
+            if (inputStr == "IO")
+            {
+                output = CountryCode::CountryCodeIO;
+                return;
+            }
+            if (inputStr == "BN")
+            {
+                output = CountryCode::CountryCodeBN;
+                return;
+            }
+            if (inputStr == "BG")
+            {
+                output = CountryCode::CountryCodeBG;
+                return;
+            }
+            if (inputStr == "BF")
+            {
+                output = CountryCode::CountryCodeBF;
+                return;
+            }
+            if (inputStr == "BI")
+            {
+                output = CountryCode::CountryCodeBI;
+                return;
+            }
+            if (inputStr == "KH")
+            {
+                output = CountryCode::CountryCodeKH;
+                return;
+            }
+            if (inputStr == "CM")
+            {
+                output = CountryCode::CountryCodeCM;
+                return;
+            }
+            if (inputStr == "CA")
+            {
+                output = CountryCode::CountryCodeCA;
+                return;
+            }
+            if (inputStr == "CV")
+            {
+                output = CountryCode::CountryCodeCV;
+                return;
+            }
+            if (inputStr == "KY")
+            {
+                output = CountryCode::CountryCodeKY;
+                return;
+            }
+            if (inputStr == "CF")
+            {
+                output = CountryCode::CountryCodeCF;
+                return;
+            }
+            if (inputStr == "TD")
+            {
+                output = CountryCode::CountryCodeTD;
+                return;
+            }
+            if (inputStr == "CL")
+            {
+                output = CountryCode::CountryCodeCL;
+                return;
+            }
+            if (inputStr == "CN")
+            {
+                output = CountryCode::CountryCodeCN;
+                return;
+            }
+            if (inputStr == "CX")
+            {
+                output = CountryCode::CountryCodeCX;
+                return;
+            }
+            if (inputStr == "CC")
+            {
+                output = CountryCode::CountryCodeCC;
+                return;
+            }
+            if (inputStr == "CO")
+            {
+                output = CountryCode::CountryCodeCO;
+                return;
+            }
+            if (inputStr == "KM")
+            {
+                output = CountryCode::CountryCodeKM;
+                return;
+            }
+            if (inputStr == "CG")
+            {
+                output = CountryCode::CountryCodeCG;
+                return;
+            }
+            if (inputStr == "CD")
+            {
+                output = CountryCode::CountryCodeCD;
+                return;
+            }
+            if (inputStr == "CK")
+            {
+                output = CountryCode::CountryCodeCK;
+                return;
+            }
+            if (inputStr == "CR")
+            {
+                output = CountryCode::CountryCodeCR;
+                return;
+            }
+            if (inputStr == "CI")
+            {
+                output = CountryCode::CountryCodeCI;
+                return;
+            }
+            if (inputStr == "HR")
+            {
+                output = CountryCode::CountryCodeHR;
+                return;
+            }
+            if (inputStr == "CU")
+            {
+                output = CountryCode::CountryCodeCU;
+                return;
+            }
+            if (inputStr == "CW")
+            {
+                output = CountryCode::CountryCodeCW;
+                return;
+            }
+            if (inputStr == "CY")
+            {
+                output = CountryCode::CountryCodeCY;
+                return;
+            }
+            if (inputStr == "CZ")
+            {
+                output = CountryCode::CountryCodeCZ;
+                return;
+            }
+            if (inputStr == "DK")
+            {
+                output = CountryCode::CountryCodeDK;
+                return;
+            }
+            if (inputStr == "DJ")
+            {
+                output = CountryCode::CountryCodeDJ;
+                return;
+            }
+            if (inputStr == "DM")
+            {
+                output = CountryCode::CountryCodeDM;
+                return;
+            }
+            if (inputStr == "DO")
+            {
+                output = CountryCode::CountryCodeDO;
+                return;
+            }
+            if (inputStr == "EC")
+            {
+                output = CountryCode::CountryCodeEC;
+                return;
+            }
+            if (inputStr == "EG")
+            {
+                output = CountryCode::CountryCodeEG;
+                return;
+            }
+            if (inputStr == "SV")
+            {
+                output = CountryCode::CountryCodeSV;
+                return;
+            }
+            if (inputStr == "GQ")
+            {
+                output = CountryCode::CountryCodeGQ;
+                return;
+            }
+            if (inputStr == "ER")
+            {
+                output = CountryCode::CountryCodeER;
+                return;
+            }
+            if (inputStr == "EE")
+            {
+                output = CountryCode::CountryCodeEE;
+                return;
+            }
+            if (inputStr == "ET")
+            {
+                output = CountryCode::CountryCodeET;
+                return;
+            }
+            if (inputStr == "FK")
+            {
+                output = CountryCode::CountryCodeFK;
+                return;
+            }
+            if (inputStr == "FO")
+            {
+                output = CountryCode::CountryCodeFO;
+                return;
+            }
+            if (inputStr == "FJ")
+            {
+                output = CountryCode::CountryCodeFJ;
+                return;
+            }
+            if (inputStr == "FI")
+            {
+                output = CountryCode::CountryCodeFI;
+                return;
+            }
+            if (inputStr == "FR")
+            {
+                output = CountryCode::CountryCodeFR;
+                return;
+            }
+            if (inputStr == "GF")
+            {
+                output = CountryCode::CountryCodeGF;
+                return;
+            }
+            if (inputStr == "PF")
+            {
+                output = CountryCode::CountryCodePF;
+                return;
+            }
+            if (inputStr == "TF")
+            {
+                output = CountryCode::CountryCodeTF;
+                return;
+            }
+            if (inputStr == "GA")
+            {
+                output = CountryCode::CountryCodeGA;
+                return;
+            }
+            if (inputStr == "GM")
+            {
+                output = CountryCode::CountryCodeGM;
+                return;
+            }
+            if (inputStr == "GE")
+            {
+                output = CountryCode::CountryCodeGE;
+                return;
+            }
+            if (inputStr == "DE")
+            {
+                output = CountryCode::CountryCodeDE;
+                return;
+            }
+            if (inputStr == "GH")
+            {
+                output = CountryCode::CountryCodeGH;
+                return;
+            }
+            if (inputStr == "GI")
+            {
+                output = CountryCode::CountryCodeGI;
+                return;
+            }
+            if (inputStr == "GR")
+            {
+                output = CountryCode::CountryCodeGR;
+                return;
+            }
+            if (inputStr == "GL")
+            {
+                output = CountryCode::CountryCodeGL;
+                return;
+            }
+            if (inputStr == "GD")
+            {
+                output = CountryCode::CountryCodeGD;
+                return;
+            }
+            if (inputStr == "GP")
+            {
+                output = CountryCode::CountryCodeGP;
+                return;
+            }
+            if (inputStr == "GU")
+            {
+                output = CountryCode::CountryCodeGU;
+                return;
+            }
+            if (inputStr == "GT")
+            {
+                output = CountryCode::CountryCodeGT;
+                return;
+            }
+            if (inputStr == "GG")
+            {
+                output = CountryCode::CountryCodeGG;
+                return;
+            }
+            if (inputStr == "GN")
+            {
+                output = CountryCode::CountryCodeGN;
+                return;
+            }
+            if (inputStr == "GW")
+            {
+                output = CountryCode::CountryCodeGW;
+                return;
+            }
+            if (inputStr == "GY")
+            {
+                output = CountryCode::CountryCodeGY;
+                return;
+            }
+            if (inputStr == "HT")
+            {
+                output = CountryCode::CountryCodeHT;
+                return;
+            }
+            if (inputStr == "HM")
+            {
+                output = CountryCode::CountryCodeHM;
+                return;
+            }
+            if (inputStr == "VA")
+            {
+                output = CountryCode::CountryCodeVA;
+                return;
+            }
+            if (inputStr == "HN")
+            {
+                output = CountryCode::CountryCodeHN;
+                return;
+            }
+            if (inputStr == "HK")
+            {
+                output = CountryCode::CountryCodeHK;
+                return;
+            }
+            if (inputStr == "HU")
+            {
+                output = CountryCode::CountryCodeHU;
+                return;
+            }
+            if (inputStr == "IS")
+            {
+                output = CountryCode::CountryCodeIS;
+                return;
+            }
+            if (inputStr == "IN")
+            {
+                output = CountryCode::CountryCodeIN;
+                return;
+            }
+            if (inputStr == "ID")
+            {
+                output = CountryCode::CountryCodeID;
+                return;
+            }
+            if (inputStr == "IR")
+            {
+                output = CountryCode::CountryCodeIR;
+                return;
+            }
+            if (inputStr == "IQ")
+            {
+                output = CountryCode::CountryCodeIQ;
+                return;
+            }
+            if (inputStr == "IE")
+            {
+                output = CountryCode::CountryCodeIE;
+                return;
+            }
+            if (inputStr == "IM")
+            {
+                output = CountryCode::CountryCodeIM;
+                return;
+            }
+            if (inputStr == "IL")
+            {
+                output = CountryCode::CountryCodeIL;
+                return;
+            }
+            if (inputStr == "IT")
+            {
+                output = CountryCode::CountryCodeIT;
+                return;
+            }
+            if (inputStr == "JM")
+            {
+                output = CountryCode::CountryCodeJM;
+                return;
+            }
+            if (inputStr == "JP")
+            {
+                output = CountryCode::CountryCodeJP;
+                return;
+            }
+            if (inputStr == "JE")
+            {
+                output = CountryCode::CountryCodeJE;
+                return;
+            }
+            if (inputStr == "JO")
+            {
+                output = CountryCode::CountryCodeJO;
+                return;
+            }
+            if (inputStr == "KZ")
+            {
+                output = CountryCode::CountryCodeKZ;
+                return;
+            }
+            if (inputStr == "KE")
+            {
+                output = CountryCode::CountryCodeKE;
+                return;
+            }
+            if (inputStr == "KI")
+            {
+                output = CountryCode::CountryCodeKI;
+                return;
+            }
+            if (inputStr == "KP")
+            {
+                output = CountryCode::CountryCodeKP;
+                return;
+            }
+            if (inputStr == "KR")
+            {
+                output = CountryCode::CountryCodeKR;
+                return;
+            }
+            if (inputStr == "KW")
+            {
+                output = CountryCode::CountryCodeKW;
+                return;
+            }
+            if (inputStr == "KG")
+            {
+                output = CountryCode::CountryCodeKG;
+                return;
+            }
+            if (inputStr == "LA")
+            {
+                output = CountryCode::CountryCodeLA;
+                return;
+            }
+            if (inputStr == "LV")
+            {
+                output = CountryCode::CountryCodeLV;
+                return;
+            }
+            if (inputStr == "LB")
+            {
+                output = CountryCode::CountryCodeLB;
+                return;
+            }
+            if (inputStr == "LS")
+            {
+                output = CountryCode::CountryCodeLS;
+                return;
+            }
+            if (inputStr == "LR")
+            {
+                output = CountryCode::CountryCodeLR;
+                return;
+            }
+            if (inputStr == "LY")
+            {
+                output = CountryCode::CountryCodeLY;
+                return;
+            }
+            if (inputStr == "LI")
+            {
+                output = CountryCode::CountryCodeLI;
+                return;
+            }
+            if (inputStr == "LT")
+            {
+                output = CountryCode::CountryCodeLT;
+                return;
+            }
+            if (inputStr == "LU")
+            {
+                output = CountryCode::CountryCodeLU;
+                return;
+            }
+            if (inputStr == "MO")
+            {
+                output = CountryCode::CountryCodeMO;
+                return;
+            }
+            if (inputStr == "MK")
+            {
+                output = CountryCode::CountryCodeMK;
+                return;
+            }
+            if (inputStr == "MG")
+            {
+                output = CountryCode::CountryCodeMG;
+                return;
+            }
+            if (inputStr == "MW")
+            {
+                output = CountryCode::CountryCodeMW;
+                return;
+            }
+            if (inputStr == "MY")
+            {
+                output = CountryCode::CountryCodeMY;
+                return;
+            }
+            if (inputStr == "MV")
+            {
+                output = CountryCode::CountryCodeMV;
+                return;
+            }
+            if (inputStr == "ML")
+            {
+                output = CountryCode::CountryCodeML;
+                return;
+            }
+            if (inputStr == "MT")
+            {
+                output = CountryCode::CountryCodeMT;
+                return;
+            }
+            if (inputStr == "MH")
+            {
+                output = CountryCode::CountryCodeMH;
+                return;
+            }
+            if (inputStr == "MQ")
+            {
+                output = CountryCode::CountryCodeMQ;
+                return;
+            }
+            if (inputStr == "MR")
+            {
+                output = CountryCode::CountryCodeMR;
+                return;
+            }
+            if (inputStr == "MU")
+            {
+                output = CountryCode::CountryCodeMU;
+                return;
+            }
+            if (inputStr == "YT")
+            {
+                output = CountryCode::CountryCodeYT;
+                return;
+            }
+            if (inputStr == "MX")
+            {
+                output = CountryCode::CountryCodeMX;
+                return;
+            }
+            if (inputStr == "FM")
+            {
+                output = CountryCode::CountryCodeFM;
+                return;
+            }
+            if (inputStr == "MD")
+            {
+                output = CountryCode::CountryCodeMD;
+                return;
+            }
+            if (inputStr == "MC")
+            {
+                output = CountryCode::CountryCodeMC;
+                return;
+            }
+            if (inputStr == "MN")
+            {
+                output = CountryCode::CountryCodeMN;
+                return;
+            }
+            if (inputStr == "ME")
+            {
+                output = CountryCode::CountryCodeME;
+                return;
+            }
+            if (inputStr == "MS")
+            {
+                output = CountryCode::CountryCodeMS;
+                return;
+            }
+            if (inputStr == "MA")
+            {
+                output = CountryCode::CountryCodeMA;
+                return;
+            }
+            if (inputStr == "MZ")
+            {
+                output = CountryCode::CountryCodeMZ;
+                return;
+            }
+            if (inputStr == "MM")
+            {
+                output = CountryCode::CountryCodeMM;
+                return;
+            }
+            if (inputStr == "NA")
+            {
+                output = CountryCode::CountryCodeNA;
+                return;
+            }
+            if (inputStr == "NR")
+            {
+                output = CountryCode::CountryCodeNR;
+                return;
+            }
+            if (inputStr == "NP")
+            {
+                output = CountryCode::CountryCodeNP;
+                return;
+            }
+            if (inputStr == "NL")
+            {
+                output = CountryCode::CountryCodeNL;
+                return;
+            }
+            if (inputStr == "NC")
+            {
+                output = CountryCode::CountryCodeNC;
+                return;
+            }
+            if (inputStr == "NZ")
+            {
+                output = CountryCode::CountryCodeNZ;
+                return;
+            }
+            if (inputStr == "NI")
+            {
+                output = CountryCode::CountryCodeNI;
+                return;
+            }
+            if (inputStr == "NE")
+            {
+                output = CountryCode::CountryCodeNE;
+                return;
+            }
+            if (inputStr == "NG")
+            {
+                output = CountryCode::CountryCodeNG;
+                return;
+            }
+            if (inputStr == "NU")
+            {
+                output = CountryCode::CountryCodeNU;
+                return;
+            }
+            if (inputStr == "NF")
+            {
+                output = CountryCode::CountryCodeNF;
+                return;
+            }
+            if (inputStr == "MP")
+            {
+                output = CountryCode::CountryCodeMP;
+                return;
+            }
+            if (inputStr == "NO")
+            {
+                output = CountryCode::CountryCodeNO;
+                return;
+            }
+            if (inputStr == "OM")
+            {
+                output = CountryCode::CountryCodeOM;
+                return;
+            }
+            if (inputStr == "PK")
+            {
+                output = CountryCode::CountryCodePK;
+                return;
+            }
+            if (inputStr == "PW")
+            {
+                output = CountryCode::CountryCodePW;
+                return;
+            }
+            if (inputStr == "PS")
+            {
+                output = CountryCode::CountryCodePS;
+                return;
+            }
+            if (inputStr == "PA")
+            {
+                output = CountryCode::CountryCodePA;
+                return;
+            }
+            if (inputStr == "PG")
+            {
+                output = CountryCode::CountryCodePG;
+                return;
+            }
+            if (inputStr == "PY")
+            {
+                output = CountryCode::CountryCodePY;
+                return;
+            }
+            if (inputStr == "PE")
+            {
+                output = CountryCode::CountryCodePE;
+                return;
+            }
+            if (inputStr == "PH")
+            {
+                output = CountryCode::CountryCodePH;
+                return;
+            }
+            if (inputStr == "PN")
+            {
+                output = CountryCode::CountryCodePN;
+                return;
+            }
+            if (inputStr == "PL")
+            {
+                output = CountryCode::CountryCodePL;
+                return;
+            }
+            if (inputStr == "PT")
+            {
+                output = CountryCode::CountryCodePT;
+                return;
+            }
+            if (inputStr == "PR")
+            {
+                output = CountryCode::CountryCodePR;
+                return;
+            }
+            if (inputStr == "QA")
+            {
+                output = CountryCode::CountryCodeQA;
+                return;
+            }
+            if (inputStr == "RE")
+            {
+                output = CountryCode::CountryCodeRE;
+                return;
+            }
+            if (inputStr == "RO")
+            {
+                output = CountryCode::CountryCodeRO;
+                return;
+            }
+            if (inputStr == "RU")
+            {
+                output = CountryCode::CountryCodeRU;
+                return;
+            }
+            if (inputStr == "RW")
+            {
+                output = CountryCode::CountryCodeRW;
+                return;
+            }
+            if (inputStr == "BL")
+            {
+                output = CountryCode::CountryCodeBL;
+                return;
+            }
+            if (inputStr == "SH")
+            {
+                output = CountryCode::CountryCodeSH;
+                return;
+            }
+            if (inputStr == "KN")
+            {
+                output = CountryCode::CountryCodeKN;
+                return;
+            }
+            if (inputStr == "LC")
+            {
+                output = CountryCode::CountryCodeLC;
+                return;
+            }
+            if (inputStr == "MF")
+            {
+                output = CountryCode::CountryCodeMF;
+                return;
+            }
+            if (inputStr == "PM")
+            {
+                output = CountryCode::CountryCodePM;
+                return;
+            }
+            if (inputStr == "VC")
+            {
+                output = CountryCode::CountryCodeVC;
+                return;
+            }
+            if (inputStr == "WS")
+            {
+                output = CountryCode::CountryCodeWS;
+                return;
+            }
+            if (inputStr == "SM")
+            {
+                output = CountryCode::CountryCodeSM;
+                return;
+            }
+            if (inputStr == "ST")
+            {
+                output = CountryCode::CountryCodeST;
+                return;
+            }
+            if (inputStr == "SA")
+            {
+                output = CountryCode::CountryCodeSA;
+                return;
+            }
+            if (inputStr == "SN")
+            {
+                output = CountryCode::CountryCodeSN;
+                return;
+            }
+            if (inputStr == "RS")
+            {
+                output = CountryCode::CountryCodeRS;
+                return;
+            }
+            if (inputStr == "SC")
+            {
+                output = CountryCode::CountryCodeSC;
+                return;
+            }
+            if (inputStr == "SL")
+            {
+                output = CountryCode::CountryCodeSL;
+                return;
+            }
+            if (inputStr == "SG")
+            {
+                output = CountryCode::CountryCodeSG;
+                return;
+            }
+            if (inputStr == "SX")
+            {
+                output = CountryCode::CountryCodeSX;
+                return;
+            }
+            if (inputStr == "SK")
+            {
+                output = CountryCode::CountryCodeSK;
+                return;
+            }
+            if (inputStr == "SI")
+            {
+                output = CountryCode::CountryCodeSI;
+                return;
+            }
+            if (inputStr == "SB")
+            {
+                output = CountryCode::CountryCodeSB;
+                return;
+            }
+            if (inputStr == "SO")
+            {
+                output = CountryCode::CountryCodeSO;
+                return;
+            }
+            if (inputStr == "ZA")
+            {
+                output = CountryCode::CountryCodeZA;
+                return;
+            }
+            if (inputStr == "GS")
+            {
+                output = CountryCode::CountryCodeGS;
+                return;
+            }
+            if (inputStr == "SS")
+            {
+                output = CountryCode::CountryCodeSS;
+                return;
+            }
+            if (inputStr == "ES")
+            {
+                output = CountryCode::CountryCodeES;
+                return;
+            }
+            if (inputStr == "LK")
+            {
+                output = CountryCode::CountryCodeLK;
+                return;
+            }
+            if (inputStr == "SD")
+            {
+                output = CountryCode::CountryCodeSD;
+                return;
+            }
+            if (inputStr == "SR")
+            {
+                output = CountryCode::CountryCodeSR;
+                return;
+            }
+            if (inputStr == "SJ")
+            {
+                output = CountryCode::CountryCodeSJ;
+                return;
+            }
+            if (inputStr == "SZ")
+            {
+                output = CountryCode::CountryCodeSZ;
+                return;
+            }
+            if (inputStr == "SE")
+            {
+                output = CountryCode::CountryCodeSE;
+                return;
+            }
+            if (inputStr == "CH")
+            {
+                output = CountryCode::CountryCodeCH;
+                return;
+            }
+            if (inputStr == "SY")
+            {
+                output = CountryCode::CountryCodeSY;
+                return;
+            }
+            if (inputStr == "TW")
+            {
+                output = CountryCode::CountryCodeTW;
+                return;
+            }
+            if (inputStr == "TJ")
+            {
+                output = CountryCode::CountryCodeTJ;
+                return;
+            }
+            if (inputStr == "TZ")
+            {
+                output = CountryCode::CountryCodeTZ;
+                return;
+            }
+            if (inputStr == "TH")
+            {
+                output = CountryCode::CountryCodeTH;
+                return;
+            }
+            if (inputStr == "TL")
+            {
+                output = CountryCode::CountryCodeTL;
+                return;
+            }
+            if (inputStr == "TG")
+            {
+                output = CountryCode::CountryCodeTG;
+                return;
+            }
+            if (inputStr == "TK")
+            {
+                output = CountryCode::CountryCodeTK;
+                return;
+            }
+            if (inputStr == "TO")
+            {
+                output = CountryCode::CountryCodeTO;
+                return;
+            }
+            if (inputStr == "TT")
+            {
+                output = CountryCode::CountryCodeTT;
+                return;
+            }
+            if (inputStr == "TN")
+            {
+                output = CountryCode::CountryCodeTN;
+                return;
+            }
+            if (inputStr == "TR")
+            {
+                output = CountryCode::CountryCodeTR;
+                return;
+            }
+            if (inputStr == "TM")
+            {
+                output = CountryCode::CountryCodeTM;
+                return;
+            }
+            if (inputStr == "TC")
+            {
+                output = CountryCode::CountryCodeTC;
+                return;
+            }
+            if (inputStr == "TV")
+            {
+                output = CountryCode::CountryCodeTV;
+                return;
+            }
+            if (inputStr == "UG")
+            {
+                output = CountryCode::CountryCodeUG;
+                return;
+            }
+            if (inputStr == "UA")
+            {
+                output = CountryCode::CountryCodeUA;
+                return;
+            }
+            if (inputStr == "AE")
+            {
+                output = CountryCode::CountryCodeAE;
+                return;
+            }
+            if (inputStr == "GB")
+            {
+                output = CountryCode::CountryCodeGB;
+                return;
+            }
+            if (inputStr == "US")
+            {
+                output = CountryCode::CountryCodeUS;
+                return;
+            }
+            if (inputStr == "UM")
+            {
+                output = CountryCode::CountryCodeUM;
+                return;
+            }
+            if (inputStr == "UY")
+            {
+                output = CountryCode::CountryCodeUY;
+                return;
+            }
+            if (inputStr == "UZ")
+            {
+                output = CountryCode::CountryCodeUZ;
+                return;
+            }
+            if (inputStr == "VU")
+            {
+                output = CountryCode::CountryCodeVU;
+                return;
+            }
+            if (inputStr == "VE")
+            {
+                output = CountryCode::CountryCodeVE;
+                return;
+            }
+            if (inputStr == "VN")
+            {
+                output = CountryCode::CountryCodeVN;
+                return;
+            }
+            if (inputStr == "VG")
+            {
+                output = CountryCode::CountryCodeVG;
+                return;
+            }
+            if (inputStr == "VI")
+            {
+                output = CountryCode::CountryCodeVI;
+                return;
+            }
+            if (inputStr == "WF")
+            {
+                output = CountryCode::CountryCodeWF;
+                return;
+            }
+            if (inputStr == "EH")
+            {
+                output = CountryCode::CountryCodeEH;
+                return;
+            }
+            if (inputStr == "YE")
+            {
+                output = CountryCode::CountryCodeYE;
+                return;
+            }
+            if (inputStr == "ZM")
+            {
+                output = CountryCode::CountryCodeZM;
+                return;
+            }
+            if (inputStr == "ZW")
+            {
+                output = CountryCode::CountryCodeZW;
+                return;
+            }
         }
 
         enum class Currency
@@ -1019,335 +3135,1634 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const Currency input, Json::Value& output)
         {
-            if (input == Currency::CurrencyAED) output = Json::Value("AED");
-            if (input == Currency::CurrencyAFN) output = Json::Value("AFN");
-            if (input == Currency::CurrencyALL) output = Json::Value("ALL");
-            if (input == Currency::CurrencyAMD) output = Json::Value("AMD");
-            if (input == Currency::CurrencyANG) output = Json::Value("ANG");
-            if (input == Currency::CurrencyAOA) output = Json::Value("AOA");
-            if (input == Currency::CurrencyARS) output = Json::Value("ARS");
-            if (input == Currency::CurrencyAUD) output = Json::Value("AUD");
-            if (input == Currency::CurrencyAWG) output = Json::Value("AWG");
-            if (input == Currency::CurrencyAZN) output = Json::Value("AZN");
-            if (input == Currency::CurrencyBAM) output = Json::Value("BAM");
-            if (input == Currency::CurrencyBBD) output = Json::Value("BBD");
-            if (input == Currency::CurrencyBDT) output = Json::Value("BDT");
-            if (input == Currency::CurrencyBGN) output = Json::Value("BGN");
-            if (input == Currency::CurrencyBHD) output = Json::Value("BHD");
-            if (input == Currency::CurrencyBIF) output = Json::Value("BIF");
-            if (input == Currency::CurrencyBMD) output = Json::Value("BMD");
-            if (input == Currency::CurrencyBND) output = Json::Value("BND");
-            if (input == Currency::CurrencyBOB) output = Json::Value("BOB");
-            if (input == Currency::CurrencyBRL) output = Json::Value("BRL");
-            if (input == Currency::CurrencyBSD) output = Json::Value("BSD");
-            if (input == Currency::CurrencyBTN) output = Json::Value("BTN");
-            if (input == Currency::CurrencyBWP) output = Json::Value("BWP");
-            if (input == Currency::CurrencyBYR) output = Json::Value("BYR");
-            if (input == Currency::CurrencyBZD) output = Json::Value("BZD");
-            if (input == Currency::CurrencyCAD) output = Json::Value("CAD");
-            if (input == Currency::CurrencyCDF) output = Json::Value("CDF");
-            if (input == Currency::CurrencyCHF) output = Json::Value("CHF");
-            if (input == Currency::CurrencyCLP) output = Json::Value("CLP");
-            if (input == Currency::CurrencyCNY) output = Json::Value("CNY");
-            if (input == Currency::CurrencyCOP) output = Json::Value("COP");
-            if (input == Currency::CurrencyCRC) output = Json::Value("CRC");
-            if (input == Currency::CurrencyCUC) output = Json::Value("CUC");
-            if (input == Currency::CurrencyCUP) output = Json::Value("CUP");
-            if (input == Currency::CurrencyCVE) output = Json::Value("CVE");
-            if (input == Currency::CurrencyCZK) output = Json::Value("CZK");
-            if (input == Currency::CurrencyDJF) output = Json::Value("DJF");
-            if (input == Currency::CurrencyDKK) output = Json::Value("DKK");
-            if (input == Currency::CurrencyDOP) output = Json::Value("DOP");
-            if (input == Currency::CurrencyDZD) output = Json::Value("DZD");
-            if (input == Currency::CurrencyEGP) output = Json::Value("EGP");
-            if (input == Currency::CurrencyERN) output = Json::Value("ERN");
-            if (input == Currency::CurrencyETB) output = Json::Value("ETB");
-            if (input == Currency::CurrencyEUR) output = Json::Value("EUR");
-            if (input == Currency::CurrencyFJD) output = Json::Value("FJD");
-            if (input == Currency::CurrencyFKP) output = Json::Value("FKP");
-            if (input == Currency::CurrencyGBP) output = Json::Value("GBP");
-            if (input == Currency::CurrencyGEL) output = Json::Value("GEL");
-            if (input == Currency::CurrencyGGP) output = Json::Value("GGP");
-            if (input == Currency::CurrencyGHS) output = Json::Value("GHS");
-            if (input == Currency::CurrencyGIP) output = Json::Value("GIP");
-            if (input == Currency::CurrencyGMD) output = Json::Value("GMD");
-            if (input == Currency::CurrencyGNF) output = Json::Value("GNF");
-            if (input == Currency::CurrencyGTQ) output = Json::Value("GTQ");
-            if (input == Currency::CurrencyGYD) output = Json::Value("GYD");
-            if (input == Currency::CurrencyHKD) output = Json::Value("HKD");
-            if (input == Currency::CurrencyHNL) output = Json::Value("HNL");
-            if (input == Currency::CurrencyHRK) output = Json::Value("HRK");
-            if (input == Currency::CurrencyHTG) output = Json::Value("HTG");
-            if (input == Currency::CurrencyHUF) output = Json::Value("HUF");
-            if (input == Currency::CurrencyIDR) output = Json::Value("IDR");
-            if (input == Currency::CurrencyILS) output = Json::Value("ILS");
-            if (input == Currency::CurrencyIMP) output = Json::Value("IMP");
-            if (input == Currency::CurrencyINR) output = Json::Value("INR");
-            if (input == Currency::CurrencyIQD) output = Json::Value("IQD");
-            if (input == Currency::CurrencyIRR) output = Json::Value("IRR");
-            if (input == Currency::CurrencyISK) output = Json::Value("ISK");
-            if (input == Currency::CurrencyJEP) output = Json::Value("JEP");
-            if (input == Currency::CurrencyJMD) output = Json::Value("JMD");
-            if (input == Currency::CurrencyJOD) output = Json::Value("JOD");
-            if (input == Currency::CurrencyJPY) output = Json::Value("JPY");
-            if (input == Currency::CurrencyKES) output = Json::Value("KES");
-            if (input == Currency::CurrencyKGS) output = Json::Value("KGS");
-            if (input == Currency::CurrencyKHR) output = Json::Value("KHR");
-            if (input == Currency::CurrencyKMF) output = Json::Value("KMF");
-            if (input == Currency::CurrencyKPW) output = Json::Value("KPW");
-            if (input == Currency::CurrencyKRW) output = Json::Value("KRW");
-            if (input == Currency::CurrencyKWD) output = Json::Value("KWD");
-            if (input == Currency::CurrencyKYD) output = Json::Value("KYD");
-            if (input == Currency::CurrencyKZT) output = Json::Value("KZT");
-            if (input == Currency::CurrencyLAK) output = Json::Value("LAK");
-            if (input == Currency::CurrencyLBP) output = Json::Value("LBP");
-            if (input == Currency::CurrencyLKR) output = Json::Value("LKR");
-            if (input == Currency::CurrencyLRD) output = Json::Value("LRD");
-            if (input == Currency::CurrencyLSL) output = Json::Value("LSL");
-            if (input == Currency::CurrencyLYD) output = Json::Value("LYD");
-            if (input == Currency::CurrencyMAD) output = Json::Value("MAD");
-            if (input == Currency::CurrencyMDL) output = Json::Value("MDL");
-            if (input == Currency::CurrencyMGA) output = Json::Value("MGA");
-            if (input == Currency::CurrencyMKD) output = Json::Value("MKD");
-            if (input == Currency::CurrencyMMK) output = Json::Value("MMK");
-            if (input == Currency::CurrencyMNT) output = Json::Value("MNT");
-            if (input == Currency::CurrencyMOP) output = Json::Value("MOP");
-            if (input == Currency::CurrencyMRO) output = Json::Value("MRO");
-            if (input == Currency::CurrencyMUR) output = Json::Value("MUR");
-            if (input == Currency::CurrencyMVR) output = Json::Value("MVR");
-            if (input == Currency::CurrencyMWK) output = Json::Value("MWK");
-            if (input == Currency::CurrencyMXN) output = Json::Value("MXN");
-            if (input == Currency::CurrencyMYR) output = Json::Value("MYR");
-            if (input == Currency::CurrencyMZN) output = Json::Value("MZN");
-            if (input == Currency::CurrencyNAD) output = Json::Value("NAD");
-            if (input == Currency::CurrencyNGN) output = Json::Value("NGN");
-            if (input == Currency::CurrencyNIO) output = Json::Value("NIO");
-            if (input == Currency::CurrencyNOK) output = Json::Value("NOK");
-            if (input == Currency::CurrencyNPR) output = Json::Value("NPR");
-            if (input == Currency::CurrencyNZD) output = Json::Value("NZD");
-            if (input == Currency::CurrencyOMR) output = Json::Value("OMR");
-            if (input == Currency::CurrencyPAB) output = Json::Value("PAB");
-            if (input == Currency::CurrencyPEN) output = Json::Value("PEN");
-            if (input == Currency::CurrencyPGK) output = Json::Value("PGK");
-            if (input == Currency::CurrencyPHP) output = Json::Value("PHP");
-            if (input == Currency::CurrencyPKR) output = Json::Value("PKR");
-            if (input == Currency::CurrencyPLN) output = Json::Value("PLN");
-            if (input == Currency::CurrencyPYG) output = Json::Value("PYG");
-            if (input == Currency::CurrencyQAR) output = Json::Value("QAR");
-            if (input == Currency::CurrencyRON) output = Json::Value("RON");
-            if (input == Currency::CurrencyRSD) output = Json::Value("RSD");
-            if (input == Currency::CurrencyRUB) output = Json::Value("RUB");
-            if (input == Currency::CurrencyRWF) output = Json::Value("RWF");
-            if (input == Currency::CurrencySAR) output = Json::Value("SAR");
-            if (input == Currency::CurrencySBD) output = Json::Value("SBD");
-            if (input == Currency::CurrencySCR) output = Json::Value("SCR");
-            if (input == Currency::CurrencySDG) output = Json::Value("SDG");
-            if (input == Currency::CurrencySEK) output = Json::Value("SEK");
-            if (input == Currency::CurrencySGD) output = Json::Value("SGD");
-            if (input == Currency::CurrencySHP) output = Json::Value("SHP");
-            if (input == Currency::CurrencySLL) output = Json::Value("SLL");
-            if (input == Currency::CurrencySOS) output = Json::Value("SOS");
-            if (input == Currency::CurrencySPL) output = Json::Value("SPL");
-            if (input == Currency::CurrencySRD) output = Json::Value("SRD");
-            if (input == Currency::CurrencySTD) output = Json::Value("STD");
-            if (input == Currency::CurrencySVC) output = Json::Value("SVC");
-            if (input == Currency::CurrencySYP) output = Json::Value("SYP");
-            if (input == Currency::CurrencySZL) output = Json::Value("SZL");
-            if (input == Currency::CurrencyTHB) output = Json::Value("THB");
-            if (input == Currency::CurrencyTJS) output = Json::Value("TJS");
-            if (input == Currency::CurrencyTMT) output = Json::Value("TMT");
-            if (input == Currency::CurrencyTND) output = Json::Value("TND");
-            if (input == Currency::CurrencyTOP) output = Json::Value("TOP");
-            if (input == Currency::CurrencyTRY) output = Json::Value("TRY");
-            if (input == Currency::CurrencyTTD) output = Json::Value("TTD");
-            if (input == Currency::CurrencyTVD) output = Json::Value("TVD");
-            if (input == Currency::CurrencyTWD) output = Json::Value("TWD");
-            if (input == Currency::CurrencyTZS) output = Json::Value("TZS");
-            if (input == Currency::CurrencyUAH) output = Json::Value("UAH");
-            if (input == Currency::CurrencyUGX) output = Json::Value("UGX");
-            if (input == Currency::CurrencyUSD) output = Json::Value("USD");
-            if (input == Currency::CurrencyUYU) output = Json::Value("UYU");
-            if (input == Currency::CurrencyUZS) output = Json::Value("UZS");
-            if (input == Currency::CurrencyVEF) output = Json::Value("VEF");
-            if (input == Currency::CurrencyVND) output = Json::Value("VND");
-            if (input == Currency::CurrencyVUV) output = Json::Value("VUV");
-            if (input == Currency::CurrencyWST) output = Json::Value("WST");
-            if (input == Currency::CurrencyXAF) output = Json::Value("XAF");
-            if (input == Currency::CurrencyXCD) output = Json::Value("XCD");
-            if (input == Currency::CurrencyXDR) output = Json::Value("XDR");
-            if (input == Currency::CurrencyXOF) output = Json::Value("XOF");
-            if (input == Currency::CurrencyXPF) output = Json::Value("XPF");
-            if (input == Currency::CurrencyYER) output = Json::Value("YER");
-            if (input == Currency::CurrencyZAR) output = Json::Value("ZAR");
-            if (input == Currency::CurrencyZMW) output = Json::Value("ZMW");
-            if (input == Currency::CurrencyZWD) output = Json::Value("ZWD");
+            if (input == Currency::CurrencyAED)
+            {
+                output = Json::Value("AED");
+                return;
+            }
+            if (input == Currency::CurrencyAFN)
+            {
+                output = Json::Value("AFN");
+                return;
+            }
+            if (input == Currency::CurrencyALL)
+            {
+                output = Json::Value("ALL");
+                return;
+            }
+            if (input == Currency::CurrencyAMD)
+            {
+                output = Json::Value("AMD");
+                return;
+            }
+            if (input == Currency::CurrencyANG)
+            {
+                output = Json::Value("ANG");
+                return;
+            }
+            if (input == Currency::CurrencyAOA)
+            {
+                output = Json::Value("AOA");
+                return;
+            }
+            if (input == Currency::CurrencyARS)
+            {
+                output = Json::Value("ARS");
+                return;
+            }
+            if (input == Currency::CurrencyAUD)
+            {
+                output = Json::Value("AUD");
+                return;
+            }
+            if (input == Currency::CurrencyAWG)
+            {
+                output = Json::Value("AWG");
+                return;
+            }
+            if (input == Currency::CurrencyAZN)
+            {
+                output = Json::Value("AZN");
+                return;
+            }
+            if (input == Currency::CurrencyBAM)
+            {
+                output = Json::Value("BAM");
+                return;
+            }
+            if (input == Currency::CurrencyBBD)
+            {
+                output = Json::Value("BBD");
+                return;
+            }
+            if (input == Currency::CurrencyBDT)
+            {
+                output = Json::Value("BDT");
+                return;
+            }
+            if (input == Currency::CurrencyBGN)
+            {
+                output = Json::Value("BGN");
+                return;
+            }
+            if (input == Currency::CurrencyBHD)
+            {
+                output = Json::Value("BHD");
+                return;
+            }
+            if (input == Currency::CurrencyBIF)
+            {
+                output = Json::Value("BIF");
+                return;
+            }
+            if (input == Currency::CurrencyBMD)
+            {
+                output = Json::Value("BMD");
+                return;
+            }
+            if (input == Currency::CurrencyBND)
+            {
+                output = Json::Value("BND");
+                return;
+            }
+            if (input == Currency::CurrencyBOB)
+            {
+                output = Json::Value("BOB");
+                return;
+            }
+            if (input == Currency::CurrencyBRL)
+            {
+                output = Json::Value("BRL");
+                return;
+            }
+            if (input == Currency::CurrencyBSD)
+            {
+                output = Json::Value("BSD");
+                return;
+            }
+            if (input == Currency::CurrencyBTN)
+            {
+                output = Json::Value("BTN");
+                return;
+            }
+            if (input == Currency::CurrencyBWP)
+            {
+                output = Json::Value("BWP");
+                return;
+            }
+            if (input == Currency::CurrencyBYR)
+            {
+                output = Json::Value("BYR");
+                return;
+            }
+            if (input == Currency::CurrencyBZD)
+            {
+                output = Json::Value("BZD");
+                return;
+            }
+            if (input == Currency::CurrencyCAD)
+            {
+                output = Json::Value("CAD");
+                return;
+            }
+            if (input == Currency::CurrencyCDF)
+            {
+                output = Json::Value("CDF");
+                return;
+            }
+            if (input == Currency::CurrencyCHF)
+            {
+                output = Json::Value("CHF");
+                return;
+            }
+            if (input == Currency::CurrencyCLP)
+            {
+                output = Json::Value("CLP");
+                return;
+            }
+            if (input == Currency::CurrencyCNY)
+            {
+                output = Json::Value("CNY");
+                return;
+            }
+            if (input == Currency::CurrencyCOP)
+            {
+                output = Json::Value("COP");
+                return;
+            }
+            if (input == Currency::CurrencyCRC)
+            {
+                output = Json::Value("CRC");
+                return;
+            }
+            if (input == Currency::CurrencyCUC)
+            {
+                output = Json::Value("CUC");
+                return;
+            }
+            if (input == Currency::CurrencyCUP)
+            {
+                output = Json::Value("CUP");
+                return;
+            }
+            if (input == Currency::CurrencyCVE)
+            {
+                output = Json::Value("CVE");
+                return;
+            }
+            if (input == Currency::CurrencyCZK)
+            {
+                output = Json::Value("CZK");
+                return;
+            }
+            if (input == Currency::CurrencyDJF)
+            {
+                output = Json::Value("DJF");
+                return;
+            }
+            if (input == Currency::CurrencyDKK)
+            {
+                output = Json::Value("DKK");
+                return;
+            }
+            if (input == Currency::CurrencyDOP)
+            {
+                output = Json::Value("DOP");
+                return;
+            }
+            if (input == Currency::CurrencyDZD)
+            {
+                output = Json::Value("DZD");
+                return;
+            }
+            if (input == Currency::CurrencyEGP)
+            {
+                output = Json::Value("EGP");
+                return;
+            }
+            if (input == Currency::CurrencyERN)
+            {
+                output = Json::Value("ERN");
+                return;
+            }
+            if (input == Currency::CurrencyETB)
+            {
+                output = Json::Value("ETB");
+                return;
+            }
+            if (input == Currency::CurrencyEUR)
+            {
+                output = Json::Value("EUR");
+                return;
+            }
+            if (input == Currency::CurrencyFJD)
+            {
+                output = Json::Value("FJD");
+                return;
+            }
+            if (input == Currency::CurrencyFKP)
+            {
+                output = Json::Value("FKP");
+                return;
+            }
+            if (input == Currency::CurrencyGBP)
+            {
+                output = Json::Value("GBP");
+                return;
+            }
+            if (input == Currency::CurrencyGEL)
+            {
+                output = Json::Value("GEL");
+                return;
+            }
+            if (input == Currency::CurrencyGGP)
+            {
+                output = Json::Value("GGP");
+                return;
+            }
+            if (input == Currency::CurrencyGHS)
+            {
+                output = Json::Value("GHS");
+                return;
+            }
+            if (input == Currency::CurrencyGIP)
+            {
+                output = Json::Value("GIP");
+                return;
+            }
+            if (input == Currency::CurrencyGMD)
+            {
+                output = Json::Value("GMD");
+                return;
+            }
+            if (input == Currency::CurrencyGNF)
+            {
+                output = Json::Value("GNF");
+                return;
+            }
+            if (input == Currency::CurrencyGTQ)
+            {
+                output = Json::Value("GTQ");
+                return;
+            }
+            if (input == Currency::CurrencyGYD)
+            {
+                output = Json::Value("GYD");
+                return;
+            }
+            if (input == Currency::CurrencyHKD)
+            {
+                output = Json::Value("HKD");
+                return;
+            }
+            if (input == Currency::CurrencyHNL)
+            {
+                output = Json::Value("HNL");
+                return;
+            }
+            if (input == Currency::CurrencyHRK)
+            {
+                output = Json::Value("HRK");
+                return;
+            }
+            if (input == Currency::CurrencyHTG)
+            {
+                output = Json::Value("HTG");
+                return;
+            }
+            if (input == Currency::CurrencyHUF)
+            {
+                output = Json::Value("HUF");
+                return;
+            }
+            if (input == Currency::CurrencyIDR)
+            {
+                output = Json::Value("IDR");
+                return;
+            }
+            if (input == Currency::CurrencyILS)
+            {
+                output = Json::Value("ILS");
+                return;
+            }
+            if (input == Currency::CurrencyIMP)
+            {
+                output = Json::Value("IMP");
+                return;
+            }
+            if (input == Currency::CurrencyINR)
+            {
+                output = Json::Value("INR");
+                return;
+            }
+            if (input == Currency::CurrencyIQD)
+            {
+                output = Json::Value("IQD");
+                return;
+            }
+            if (input == Currency::CurrencyIRR)
+            {
+                output = Json::Value("IRR");
+                return;
+            }
+            if (input == Currency::CurrencyISK)
+            {
+                output = Json::Value("ISK");
+                return;
+            }
+            if (input == Currency::CurrencyJEP)
+            {
+                output = Json::Value("JEP");
+                return;
+            }
+            if (input == Currency::CurrencyJMD)
+            {
+                output = Json::Value("JMD");
+                return;
+            }
+            if (input == Currency::CurrencyJOD)
+            {
+                output = Json::Value("JOD");
+                return;
+            }
+            if (input == Currency::CurrencyJPY)
+            {
+                output = Json::Value("JPY");
+                return;
+            }
+            if (input == Currency::CurrencyKES)
+            {
+                output = Json::Value("KES");
+                return;
+            }
+            if (input == Currency::CurrencyKGS)
+            {
+                output = Json::Value("KGS");
+                return;
+            }
+            if (input == Currency::CurrencyKHR)
+            {
+                output = Json::Value("KHR");
+                return;
+            }
+            if (input == Currency::CurrencyKMF)
+            {
+                output = Json::Value("KMF");
+                return;
+            }
+            if (input == Currency::CurrencyKPW)
+            {
+                output = Json::Value("KPW");
+                return;
+            }
+            if (input == Currency::CurrencyKRW)
+            {
+                output = Json::Value("KRW");
+                return;
+            }
+            if (input == Currency::CurrencyKWD)
+            {
+                output = Json::Value("KWD");
+                return;
+            }
+            if (input == Currency::CurrencyKYD)
+            {
+                output = Json::Value("KYD");
+                return;
+            }
+            if (input == Currency::CurrencyKZT)
+            {
+                output = Json::Value("KZT");
+                return;
+            }
+            if (input == Currency::CurrencyLAK)
+            {
+                output = Json::Value("LAK");
+                return;
+            }
+            if (input == Currency::CurrencyLBP)
+            {
+                output = Json::Value("LBP");
+                return;
+            }
+            if (input == Currency::CurrencyLKR)
+            {
+                output = Json::Value("LKR");
+                return;
+            }
+            if (input == Currency::CurrencyLRD)
+            {
+                output = Json::Value("LRD");
+                return;
+            }
+            if (input == Currency::CurrencyLSL)
+            {
+                output = Json::Value("LSL");
+                return;
+            }
+            if (input == Currency::CurrencyLYD)
+            {
+                output = Json::Value("LYD");
+                return;
+            }
+            if (input == Currency::CurrencyMAD)
+            {
+                output = Json::Value("MAD");
+                return;
+            }
+            if (input == Currency::CurrencyMDL)
+            {
+                output = Json::Value("MDL");
+                return;
+            }
+            if (input == Currency::CurrencyMGA)
+            {
+                output = Json::Value("MGA");
+                return;
+            }
+            if (input == Currency::CurrencyMKD)
+            {
+                output = Json::Value("MKD");
+                return;
+            }
+            if (input == Currency::CurrencyMMK)
+            {
+                output = Json::Value("MMK");
+                return;
+            }
+            if (input == Currency::CurrencyMNT)
+            {
+                output = Json::Value("MNT");
+                return;
+            }
+            if (input == Currency::CurrencyMOP)
+            {
+                output = Json::Value("MOP");
+                return;
+            }
+            if (input == Currency::CurrencyMRO)
+            {
+                output = Json::Value("MRO");
+                return;
+            }
+            if (input == Currency::CurrencyMUR)
+            {
+                output = Json::Value("MUR");
+                return;
+            }
+            if (input == Currency::CurrencyMVR)
+            {
+                output = Json::Value("MVR");
+                return;
+            }
+            if (input == Currency::CurrencyMWK)
+            {
+                output = Json::Value("MWK");
+                return;
+            }
+            if (input == Currency::CurrencyMXN)
+            {
+                output = Json::Value("MXN");
+                return;
+            }
+            if (input == Currency::CurrencyMYR)
+            {
+                output = Json::Value("MYR");
+                return;
+            }
+            if (input == Currency::CurrencyMZN)
+            {
+                output = Json::Value("MZN");
+                return;
+            }
+            if (input == Currency::CurrencyNAD)
+            {
+                output = Json::Value("NAD");
+                return;
+            }
+            if (input == Currency::CurrencyNGN)
+            {
+                output = Json::Value("NGN");
+                return;
+            }
+            if (input == Currency::CurrencyNIO)
+            {
+                output = Json::Value("NIO");
+                return;
+            }
+            if (input == Currency::CurrencyNOK)
+            {
+                output = Json::Value("NOK");
+                return;
+            }
+            if (input == Currency::CurrencyNPR)
+            {
+                output = Json::Value("NPR");
+                return;
+            }
+            if (input == Currency::CurrencyNZD)
+            {
+                output = Json::Value("NZD");
+                return;
+            }
+            if (input == Currency::CurrencyOMR)
+            {
+                output = Json::Value("OMR");
+                return;
+            }
+            if (input == Currency::CurrencyPAB)
+            {
+                output = Json::Value("PAB");
+                return;
+            }
+            if (input == Currency::CurrencyPEN)
+            {
+                output = Json::Value("PEN");
+                return;
+            }
+            if (input == Currency::CurrencyPGK)
+            {
+                output = Json::Value("PGK");
+                return;
+            }
+            if (input == Currency::CurrencyPHP)
+            {
+                output = Json::Value("PHP");
+                return;
+            }
+            if (input == Currency::CurrencyPKR)
+            {
+                output = Json::Value("PKR");
+                return;
+            }
+            if (input == Currency::CurrencyPLN)
+            {
+                output = Json::Value("PLN");
+                return;
+            }
+            if (input == Currency::CurrencyPYG)
+            {
+                output = Json::Value("PYG");
+                return;
+            }
+            if (input == Currency::CurrencyQAR)
+            {
+                output = Json::Value("QAR");
+                return;
+            }
+            if (input == Currency::CurrencyRON)
+            {
+                output = Json::Value("RON");
+                return;
+            }
+            if (input == Currency::CurrencyRSD)
+            {
+                output = Json::Value("RSD");
+                return;
+            }
+            if (input == Currency::CurrencyRUB)
+            {
+                output = Json::Value("RUB");
+                return;
+            }
+            if (input == Currency::CurrencyRWF)
+            {
+                output = Json::Value("RWF");
+                return;
+            }
+            if (input == Currency::CurrencySAR)
+            {
+                output = Json::Value("SAR");
+                return;
+            }
+            if (input == Currency::CurrencySBD)
+            {
+                output = Json::Value("SBD");
+                return;
+            }
+            if (input == Currency::CurrencySCR)
+            {
+                output = Json::Value("SCR");
+                return;
+            }
+            if (input == Currency::CurrencySDG)
+            {
+                output = Json::Value("SDG");
+                return;
+            }
+            if (input == Currency::CurrencySEK)
+            {
+                output = Json::Value("SEK");
+                return;
+            }
+            if (input == Currency::CurrencySGD)
+            {
+                output = Json::Value("SGD");
+                return;
+            }
+            if (input == Currency::CurrencySHP)
+            {
+                output = Json::Value("SHP");
+                return;
+            }
+            if (input == Currency::CurrencySLL)
+            {
+                output = Json::Value("SLL");
+                return;
+            }
+            if (input == Currency::CurrencySOS)
+            {
+                output = Json::Value("SOS");
+                return;
+            }
+            if (input == Currency::CurrencySPL)
+            {
+                output = Json::Value("SPL");
+                return;
+            }
+            if (input == Currency::CurrencySRD)
+            {
+                output = Json::Value("SRD");
+                return;
+            }
+            if (input == Currency::CurrencySTD)
+            {
+                output = Json::Value("STD");
+                return;
+            }
+            if (input == Currency::CurrencySVC)
+            {
+                output = Json::Value("SVC");
+                return;
+            }
+            if (input == Currency::CurrencySYP)
+            {
+                output = Json::Value("SYP");
+                return;
+            }
+            if (input == Currency::CurrencySZL)
+            {
+                output = Json::Value("SZL");
+                return;
+            }
+            if (input == Currency::CurrencyTHB)
+            {
+                output = Json::Value("THB");
+                return;
+            }
+            if (input == Currency::CurrencyTJS)
+            {
+                output = Json::Value("TJS");
+                return;
+            }
+            if (input == Currency::CurrencyTMT)
+            {
+                output = Json::Value("TMT");
+                return;
+            }
+            if (input == Currency::CurrencyTND)
+            {
+                output = Json::Value("TND");
+                return;
+            }
+            if (input == Currency::CurrencyTOP)
+            {
+                output = Json::Value("TOP");
+                return;
+            }
+            if (input == Currency::CurrencyTRY)
+            {
+                output = Json::Value("TRY");
+                return;
+            }
+            if (input == Currency::CurrencyTTD)
+            {
+                output = Json::Value("TTD");
+                return;
+            }
+            if (input == Currency::CurrencyTVD)
+            {
+                output = Json::Value("TVD");
+                return;
+            }
+            if (input == Currency::CurrencyTWD)
+            {
+                output = Json::Value("TWD");
+                return;
+            }
+            if (input == Currency::CurrencyTZS)
+            {
+                output = Json::Value("TZS");
+                return;
+            }
+            if (input == Currency::CurrencyUAH)
+            {
+                output = Json::Value("UAH");
+                return;
+            }
+            if (input == Currency::CurrencyUGX)
+            {
+                output = Json::Value("UGX");
+                return;
+            }
+            if (input == Currency::CurrencyUSD)
+            {
+                output = Json::Value("USD");
+                return;
+            }
+            if (input == Currency::CurrencyUYU)
+            {
+                output = Json::Value("UYU");
+                return;
+            }
+            if (input == Currency::CurrencyUZS)
+            {
+                output = Json::Value("UZS");
+                return;
+            }
+            if (input == Currency::CurrencyVEF)
+            {
+                output = Json::Value("VEF");
+                return;
+            }
+            if (input == Currency::CurrencyVND)
+            {
+                output = Json::Value("VND");
+                return;
+            }
+            if (input == Currency::CurrencyVUV)
+            {
+                output = Json::Value("VUV");
+                return;
+            }
+            if (input == Currency::CurrencyWST)
+            {
+                output = Json::Value("WST");
+                return;
+            }
+            if (input == Currency::CurrencyXAF)
+            {
+                output = Json::Value("XAF");
+                return;
+            }
+            if (input == Currency::CurrencyXCD)
+            {
+                output = Json::Value("XCD");
+                return;
+            }
+            if (input == Currency::CurrencyXDR)
+            {
+                output = Json::Value("XDR");
+                return;
+            }
+            if (input == Currency::CurrencyXOF)
+            {
+                output = Json::Value("XOF");
+                return;
+            }
+            if (input == Currency::CurrencyXPF)
+            {
+                output = Json::Value("XPF");
+                return;
+            }
+            if (input == Currency::CurrencyYER)
+            {
+                output = Json::Value("YER");
+                return;
+            }
+            if (input == Currency::CurrencyZAR)
+            {
+                output = Json::Value("ZAR");
+                return;
+            }
+            if (input == Currency::CurrencyZMW)
+            {
+                output = Json::Value("ZMW");
+                return;
+            }
+            if (input == Currency::CurrencyZWD)
+            {
+                output = Json::Value("ZWD");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, Currency& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "AED") output = Currency::CurrencyAED;
-            if (inputStr == "AFN") output = Currency::CurrencyAFN;
-            if (inputStr == "ALL") output = Currency::CurrencyALL;
-            if (inputStr == "AMD") output = Currency::CurrencyAMD;
-            if (inputStr == "ANG") output = Currency::CurrencyANG;
-            if (inputStr == "AOA") output = Currency::CurrencyAOA;
-            if (inputStr == "ARS") output = Currency::CurrencyARS;
-            if (inputStr == "AUD") output = Currency::CurrencyAUD;
-            if (inputStr == "AWG") output = Currency::CurrencyAWG;
-            if (inputStr == "AZN") output = Currency::CurrencyAZN;
-            if (inputStr == "BAM") output = Currency::CurrencyBAM;
-            if (inputStr == "BBD") output = Currency::CurrencyBBD;
-            if (inputStr == "BDT") output = Currency::CurrencyBDT;
-            if (inputStr == "BGN") output = Currency::CurrencyBGN;
-            if (inputStr == "BHD") output = Currency::CurrencyBHD;
-            if (inputStr == "BIF") output = Currency::CurrencyBIF;
-            if (inputStr == "BMD") output = Currency::CurrencyBMD;
-            if (inputStr == "BND") output = Currency::CurrencyBND;
-            if (inputStr == "BOB") output = Currency::CurrencyBOB;
-            if (inputStr == "BRL") output = Currency::CurrencyBRL;
-            if (inputStr == "BSD") output = Currency::CurrencyBSD;
-            if (inputStr == "BTN") output = Currency::CurrencyBTN;
-            if (inputStr == "BWP") output = Currency::CurrencyBWP;
-            if (inputStr == "BYR") output = Currency::CurrencyBYR;
-            if (inputStr == "BZD") output = Currency::CurrencyBZD;
-            if (inputStr == "CAD") output = Currency::CurrencyCAD;
-            if (inputStr == "CDF") output = Currency::CurrencyCDF;
-            if (inputStr == "CHF") output = Currency::CurrencyCHF;
-            if (inputStr == "CLP") output = Currency::CurrencyCLP;
-            if (inputStr == "CNY") output = Currency::CurrencyCNY;
-            if (inputStr == "COP") output = Currency::CurrencyCOP;
-            if (inputStr == "CRC") output = Currency::CurrencyCRC;
-            if (inputStr == "CUC") output = Currency::CurrencyCUC;
-            if (inputStr == "CUP") output = Currency::CurrencyCUP;
-            if (inputStr == "CVE") output = Currency::CurrencyCVE;
-            if (inputStr == "CZK") output = Currency::CurrencyCZK;
-            if (inputStr == "DJF") output = Currency::CurrencyDJF;
-            if (inputStr == "DKK") output = Currency::CurrencyDKK;
-            if (inputStr == "DOP") output = Currency::CurrencyDOP;
-            if (inputStr == "DZD") output = Currency::CurrencyDZD;
-            if (inputStr == "EGP") output = Currency::CurrencyEGP;
-            if (inputStr == "ERN") output = Currency::CurrencyERN;
-            if (inputStr == "ETB") output = Currency::CurrencyETB;
-            if (inputStr == "EUR") output = Currency::CurrencyEUR;
-            if (inputStr == "FJD") output = Currency::CurrencyFJD;
-            if (inputStr == "FKP") output = Currency::CurrencyFKP;
-            if (inputStr == "GBP") output = Currency::CurrencyGBP;
-            if (inputStr == "GEL") output = Currency::CurrencyGEL;
-            if (inputStr == "GGP") output = Currency::CurrencyGGP;
-            if (inputStr == "GHS") output = Currency::CurrencyGHS;
-            if (inputStr == "GIP") output = Currency::CurrencyGIP;
-            if (inputStr == "GMD") output = Currency::CurrencyGMD;
-            if (inputStr == "GNF") output = Currency::CurrencyGNF;
-            if (inputStr == "GTQ") output = Currency::CurrencyGTQ;
-            if (inputStr == "GYD") output = Currency::CurrencyGYD;
-            if (inputStr == "HKD") output = Currency::CurrencyHKD;
-            if (inputStr == "HNL") output = Currency::CurrencyHNL;
-            if (inputStr == "HRK") output = Currency::CurrencyHRK;
-            if (inputStr == "HTG") output = Currency::CurrencyHTG;
-            if (inputStr == "HUF") output = Currency::CurrencyHUF;
-            if (inputStr == "IDR") output = Currency::CurrencyIDR;
-            if (inputStr == "ILS") output = Currency::CurrencyILS;
-            if (inputStr == "IMP") output = Currency::CurrencyIMP;
-            if (inputStr == "INR") output = Currency::CurrencyINR;
-            if (inputStr == "IQD") output = Currency::CurrencyIQD;
-            if (inputStr == "IRR") output = Currency::CurrencyIRR;
-            if (inputStr == "ISK") output = Currency::CurrencyISK;
-            if (inputStr == "JEP") output = Currency::CurrencyJEP;
-            if (inputStr == "JMD") output = Currency::CurrencyJMD;
-            if (inputStr == "JOD") output = Currency::CurrencyJOD;
-            if (inputStr == "JPY") output = Currency::CurrencyJPY;
-            if (inputStr == "KES") output = Currency::CurrencyKES;
-            if (inputStr == "KGS") output = Currency::CurrencyKGS;
-            if (inputStr == "KHR") output = Currency::CurrencyKHR;
-            if (inputStr == "KMF") output = Currency::CurrencyKMF;
-            if (inputStr == "KPW") output = Currency::CurrencyKPW;
-            if (inputStr == "KRW") output = Currency::CurrencyKRW;
-            if (inputStr == "KWD") output = Currency::CurrencyKWD;
-            if (inputStr == "KYD") output = Currency::CurrencyKYD;
-            if (inputStr == "KZT") output = Currency::CurrencyKZT;
-            if (inputStr == "LAK") output = Currency::CurrencyLAK;
-            if (inputStr == "LBP") output = Currency::CurrencyLBP;
-            if (inputStr == "LKR") output = Currency::CurrencyLKR;
-            if (inputStr == "LRD") output = Currency::CurrencyLRD;
-            if (inputStr == "LSL") output = Currency::CurrencyLSL;
-            if (inputStr == "LYD") output = Currency::CurrencyLYD;
-            if (inputStr == "MAD") output = Currency::CurrencyMAD;
-            if (inputStr == "MDL") output = Currency::CurrencyMDL;
-            if (inputStr == "MGA") output = Currency::CurrencyMGA;
-            if (inputStr == "MKD") output = Currency::CurrencyMKD;
-            if (inputStr == "MMK") output = Currency::CurrencyMMK;
-            if (inputStr == "MNT") output = Currency::CurrencyMNT;
-            if (inputStr == "MOP") output = Currency::CurrencyMOP;
-            if (inputStr == "MRO") output = Currency::CurrencyMRO;
-            if (inputStr == "MUR") output = Currency::CurrencyMUR;
-            if (inputStr == "MVR") output = Currency::CurrencyMVR;
-            if (inputStr == "MWK") output = Currency::CurrencyMWK;
-            if (inputStr == "MXN") output = Currency::CurrencyMXN;
-            if (inputStr == "MYR") output = Currency::CurrencyMYR;
-            if (inputStr == "MZN") output = Currency::CurrencyMZN;
-            if (inputStr == "NAD") output = Currency::CurrencyNAD;
-            if (inputStr == "NGN") output = Currency::CurrencyNGN;
-            if (inputStr == "NIO") output = Currency::CurrencyNIO;
-            if (inputStr == "NOK") output = Currency::CurrencyNOK;
-            if (inputStr == "NPR") output = Currency::CurrencyNPR;
-            if (inputStr == "NZD") output = Currency::CurrencyNZD;
-            if (inputStr == "OMR") output = Currency::CurrencyOMR;
-            if (inputStr == "PAB") output = Currency::CurrencyPAB;
-            if (inputStr == "PEN") output = Currency::CurrencyPEN;
-            if (inputStr == "PGK") output = Currency::CurrencyPGK;
-            if (inputStr == "PHP") output = Currency::CurrencyPHP;
-            if (inputStr == "PKR") output = Currency::CurrencyPKR;
-            if (inputStr == "PLN") output = Currency::CurrencyPLN;
-            if (inputStr == "PYG") output = Currency::CurrencyPYG;
-            if (inputStr == "QAR") output = Currency::CurrencyQAR;
-            if (inputStr == "RON") output = Currency::CurrencyRON;
-            if (inputStr == "RSD") output = Currency::CurrencyRSD;
-            if (inputStr == "RUB") output = Currency::CurrencyRUB;
-            if (inputStr == "RWF") output = Currency::CurrencyRWF;
-            if (inputStr == "SAR") output = Currency::CurrencySAR;
-            if (inputStr == "SBD") output = Currency::CurrencySBD;
-            if (inputStr == "SCR") output = Currency::CurrencySCR;
-            if (inputStr == "SDG") output = Currency::CurrencySDG;
-            if (inputStr == "SEK") output = Currency::CurrencySEK;
-            if (inputStr == "SGD") output = Currency::CurrencySGD;
-            if (inputStr == "SHP") output = Currency::CurrencySHP;
-            if (inputStr == "SLL") output = Currency::CurrencySLL;
-            if (inputStr == "SOS") output = Currency::CurrencySOS;
-            if (inputStr == "SPL") output = Currency::CurrencySPL;
-            if (inputStr == "SRD") output = Currency::CurrencySRD;
-            if (inputStr == "STD") output = Currency::CurrencySTD;
-            if (inputStr == "SVC") output = Currency::CurrencySVC;
-            if (inputStr == "SYP") output = Currency::CurrencySYP;
-            if (inputStr == "SZL") output = Currency::CurrencySZL;
-            if (inputStr == "THB") output = Currency::CurrencyTHB;
-            if (inputStr == "TJS") output = Currency::CurrencyTJS;
-            if (inputStr == "TMT") output = Currency::CurrencyTMT;
-            if (inputStr == "TND") output = Currency::CurrencyTND;
-            if (inputStr == "TOP") output = Currency::CurrencyTOP;
-            if (inputStr == "TRY") output = Currency::CurrencyTRY;
-            if (inputStr == "TTD") output = Currency::CurrencyTTD;
-            if (inputStr == "TVD") output = Currency::CurrencyTVD;
-            if (inputStr == "TWD") output = Currency::CurrencyTWD;
-            if (inputStr == "TZS") output = Currency::CurrencyTZS;
-            if (inputStr == "UAH") output = Currency::CurrencyUAH;
-            if (inputStr == "UGX") output = Currency::CurrencyUGX;
-            if (inputStr == "USD") output = Currency::CurrencyUSD;
-            if (inputStr == "UYU") output = Currency::CurrencyUYU;
-            if (inputStr == "UZS") output = Currency::CurrencyUZS;
-            if (inputStr == "VEF") output = Currency::CurrencyVEF;
-            if (inputStr == "VND") output = Currency::CurrencyVND;
-            if (inputStr == "VUV") output = Currency::CurrencyVUV;
-            if (inputStr == "WST") output = Currency::CurrencyWST;
-            if (inputStr == "XAF") output = Currency::CurrencyXAF;
-            if (inputStr == "XCD") output = Currency::CurrencyXCD;
-            if (inputStr == "XDR") output = Currency::CurrencyXDR;
-            if (inputStr == "XOF") output = Currency::CurrencyXOF;
-            if (inputStr == "XPF") output = Currency::CurrencyXPF;
-            if (inputStr == "YER") output = Currency::CurrencyYER;
-            if (inputStr == "ZAR") output = Currency::CurrencyZAR;
-            if (inputStr == "ZMW") output = Currency::CurrencyZMW;
-            if (inputStr == "ZWD") output = Currency::CurrencyZWD;
+            if (inputStr == "AED")
+            {
+                output = Currency::CurrencyAED;
+                return;
+            }
+            if (inputStr == "AFN")
+            {
+                output = Currency::CurrencyAFN;
+                return;
+            }
+            if (inputStr == "ALL")
+            {
+                output = Currency::CurrencyALL;
+                return;
+            }
+            if (inputStr == "AMD")
+            {
+                output = Currency::CurrencyAMD;
+                return;
+            }
+            if (inputStr == "ANG")
+            {
+                output = Currency::CurrencyANG;
+                return;
+            }
+            if (inputStr == "AOA")
+            {
+                output = Currency::CurrencyAOA;
+                return;
+            }
+            if (inputStr == "ARS")
+            {
+                output = Currency::CurrencyARS;
+                return;
+            }
+            if (inputStr == "AUD")
+            {
+                output = Currency::CurrencyAUD;
+                return;
+            }
+            if (inputStr == "AWG")
+            {
+                output = Currency::CurrencyAWG;
+                return;
+            }
+            if (inputStr == "AZN")
+            {
+                output = Currency::CurrencyAZN;
+                return;
+            }
+            if (inputStr == "BAM")
+            {
+                output = Currency::CurrencyBAM;
+                return;
+            }
+            if (inputStr == "BBD")
+            {
+                output = Currency::CurrencyBBD;
+                return;
+            }
+            if (inputStr == "BDT")
+            {
+                output = Currency::CurrencyBDT;
+                return;
+            }
+            if (inputStr == "BGN")
+            {
+                output = Currency::CurrencyBGN;
+                return;
+            }
+            if (inputStr == "BHD")
+            {
+                output = Currency::CurrencyBHD;
+                return;
+            }
+            if (inputStr == "BIF")
+            {
+                output = Currency::CurrencyBIF;
+                return;
+            }
+            if (inputStr == "BMD")
+            {
+                output = Currency::CurrencyBMD;
+                return;
+            }
+            if (inputStr == "BND")
+            {
+                output = Currency::CurrencyBND;
+                return;
+            }
+            if (inputStr == "BOB")
+            {
+                output = Currency::CurrencyBOB;
+                return;
+            }
+            if (inputStr == "BRL")
+            {
+                output = Currency::CurrencyBRL;
+                return;
+            }
+            if (inputStr == "BSD")
+            {
+                output = Currency::CurrencyBSD;
+                return;
+            }
+            if (inputStr == "BTN")
+            {
+                output = Currency::CurrencyBTN;
+                return;
+            }
+            if (inputStr == "BWP")
+            {
+                output = Currency::CurrencyBWP;
+                return;
+            }
+            if (inputStr == "BYR")
+            {
+                output = Currency::CurrencyBYR;
+                return;
+            }
+            if (inputStr == "BZD")
+            {
+                output = Currency::CurrencyBZD;
+                return;
+            }
+            if (inputStr == "CAD")
+            {
+                output = Currency::CurrencyCAD;
+                return;
+            }
+            if (inputStr == "CDF")
+            {
+                output = Currency::CurrencyCDF;
+                return;
+            }
+            if (inputStr == "CHF")
+            {
+                output = Currency::CurrencyCHF;
+                return;
+            }
+            if (inputStr == "CLP")
+            {
+                output = Currency::CurrencyCLP;
+                return;
+            }
+            if (inputStr == "CNY")
+            {
+                output = Currency::CurrencyCNY;
+                return;
+            }
+            if (inputStr == "COP")
+            {
+                output = Currency::CurrencyCOP;
+                return;
+            }
+            if (inputStr == "CRC")
+            {
+                output = Currency::CurrencyCRC;
+                return;
+            }
+            if (inputStr == "CUC")
+            {
+                output = Currency::CurrencyCUC;
+                return;
+            }
+            if (inputStr == "CUP")
+            {
+                output = Currency::CurrencyCUP;
+                return;
+            }
+            if (inputStr == "CVE")
+            {
+                output = Currency::CurrencyCVE;
+                return;
+            }
+            if (inputStr == "CZK")
+            {
+                output = Currency::CurrencyCZK;
+                return;
+            }
+            if (inputStr == "DJF")
+            {
+                output = Currency::CurrencyDJF;
+                return;
+            }
+            if (inputStr == "DKK")
+            {
+                output = Currency::CurrencyDKK;
+                return;
+            }
+            if (inputStr == "DOP")
+            {
+                output = Currency::CurrencyDOP;
+                return;
+            }
+            if (inputStr == "DZD")
+            {
+                output = Currency::CurrencyDZD;
+                return;
+            }
+            if (inputStr == "EGP")
+            {
+                output = Currency::CurrencyEGP;
+                return;
+            }
+            if (inputStr == "ERN")
+            {
+                output = Currency::CurrencyERN;
+                return;
+            }
+            if (inputStr == "ETB")
+            {
+                output = Currency::CurrencyETB;
+                return;
+            }
+            if (inputStr == "EUR")
+            {
+                output = Currency::CurrencyEUR;
+                return;
+            }
+            if (inputStr == "FJD")
+            {
+                output = Currency::CurrencyFJD;
+                return;
+            }
+            if (inputStr == "FKP")
+            {
+                output = Currency::CurrencyFKP;
+                return;
+            }
+            if (inputStr == "GBP")
+            {
+                output = Currency::CurrencyGBP;
+                return;
+            }
+            if (inputStr == "GEL")
+            {
+                output = Currency::CurrencyGEL;
+                return;
+            }
+            if (inputStr == "GGP")
+            {
+                output = Currency::CurrencyGGP;
+                return;
+            }
+            if (inputStr == "GHS")
+            {
+                output = Currency::CurrencyGHS;
+                return;
+            }
+            if (inputStr == "GIP")
+            {
+                output = Currency::CurrencyGIP;
+                return;
+            }
+            if (inputStr == "GMD")
+            {
+                output = Currency::CurrencyGMD;
+                return;
+            }
+            if (inputStr == "GNF")
+            {
+                output = Currency::CurrencyGNF;
+                return;
+            }
+            if (inputStr == "GTQ")
+            {
+                output = Currency::CurrencyGTQ;
+                return;
+            }
+            if (inputStr == "GYD")
+            {
+                output = Currency::CurrencyGYD;
+                return;
+            }
+            if (inputStr == "HKD")
+            {
+                output = Currency::CurrencyHKD;
+                return;
+            }
+            if (inputStr == "HNL")
+            {
+                output = Currency::CurrencyHNL;
+                return;
+            }
+            if (inputStr == "HRK")
+            {
+                output = Currency::CurrencyHRK;
+                return;
+            }
+            if (inputStr == "HTG")
+            {
+                output = Currency::CurrencyHTG;
+                return;
+            }
+            if (inputStr == "HUF")
+            {
+                output = Currency::CurrencyHUF;
+                return;
+            }
+            if (inputStr == "IDR")
+            {
+                output = Currency::CurrencyIDR;
+                return;
+            }
+            if (inputStr == "ILS")
+            {
+                output = Currency::CurrencyILS;
+                return;
+            }
+            if (inputStr == "IMP")
+            {
+                output = Currency::CurrencyIMP;
+                return;
+            }
+            if (inputStr == "INR")
+            {
+                output = Currency::CurrencyINR;
+                return;
+            }
+            if (inputStr == "IQD")
+            {
+                output = Currency::CurrencyIQD;
+                return;
+            }
+            if (inputStr == "IRR")
+            {
+                output = Currency::CurrencyIRR;
+                return;
+            }
+            if (inputStr == "ISK")
+            {
+                output = Currency::CurrencyISK;
+                return;
+            }
+            if (inputStr == "JEP")
+            {
+                output = Currency::CurrencyJEP;
+                return;
+            }
+            if (inputStr == "JMD")
+            {
+                output = Currency::CurrencyJMD;
+                return;
+            }
+            if (inputStr == "JOD")
+            {
+                output = Currency::CurrencyJOD;
+                return;
+            }
+            if (inputStr == "JPY")
+            {
+                output = Currency::CurrencyJPY;
+                return;
+            }
+            if (inputStr == "KES")
+            {
+                output = Currency::CurrencyKES;
+                return;
+            }
+            if (inputStr == "KGS")
+            {
+                output = Currency::CurrencyKGS;
+                return;
+            }
+            if (inputStr == "KHR")
+            {
+                output = Currency::CurrencyKHR;
+                return;
+            }
+            if (inputStr == "KMF")
+            {
+                output = Currency::CurrencyKMF;
+                return;
+            }
+            if (inputStr == "KPW")
+            {
+                output = Currency::CurrencyKPW;
+                return;
+            }
+            if (inputStr == "KRW")
+            {
+                output = Currency::CurrencyKRW;
+                return;
+            }
+            if (inputStr == "KWD")
+            {
+                output = Currency::CurrencyKWD;
+                return;
+            }
+            if (inputStr == "KYD")
+            {
+                output = Currency::CurrencyKYD;
+                return;
+            }
+            if (inputStr == "KZT")
+            {
+                output = Currency::CurrencyKZT;
+                return;
+            }
+            if (inputStr == "LAK")
+            {
+                output = Currency::CurrencyLAK;
+                return;
+            }
+            if (inputStr == "LBP")
+            {
+                output = Currency::CurrencyLBP;
+                return;
+            }
+            if (inputStr == "LKR")
+            {
+                output = Currency::CurrencyLKR;
+                return;
+            }
+            if (inputStr == "LRD")
+            {
+                output = Currency::CurrencyLRD;
+                return;
+            }
+            if (inputStr == "LSL")
+            {
+                output = Currency::CurrencyLSL;
+                return;
+            }
+            if (inputStr == "LYD")
+            {
+                output = Currency::CurrencyLYD;
+                return;
+            }
+            if (inputStr == "MAD")
+            {
+                output = Currency::CurrencyMAD;
+                return;
+            }
+            if (inputStr == "MDL")
+            {
+                output = Currency::CurrencyMDL;
+                return;
+            }
+            if (inputStr == "MGA")
+            {
+                output = Currency::CurrencyMGA;
+                return;
+            }
+            if (inputStr == "MKD")
+            {
+                output = Currency::CurrencyMKD;
+                return;
+            }
+            if (inputStr == "MMK")
+            {
+                output = Currency::CurrencyMMK;
+                return;
+            }
+            if (inputStr == "MNT")
+            {
+                output = Currency::CurrencyMNT;
+                return;
+            }
+            if (inputStr == "MOP")
+            {
+                output = Currency::CurrencyMOP;
+                return;
+            }
+            if (inputStr == "MRO")
+            {
+                output = Currency::CurrencyMRO;
+                return;
+            }
+            if (inputStr == "MUR")
+            {
+                output = Currency::CurrencyMUR;
+                return;
+            }
+            if (inputStr == "MVR")
+            {
+                output = Currency::CurrencyMVR;
+                return;
+            }
+            if (inputStr == "MWK")
+            {
+                output = Currency::CurrencyMWK;
+                return;
+            }
+            if (inputStr == "MXN")
+            {
+                output = Currency::CurrencyMXN;
+                return;
+            }
+            if (inputStr == "MYR")
+            {
+                output = Currency::CurrencyMYR;
+                return;
+            }
+            if (inputStr == "MZN")
+            {
+                output = Currency::CurrencyMZN;
+                return;
+            }
+            if (inputStr == "NAD")
+            {
+                output = Currency::CurrencyNAD;
+                return;
+            }
+            if (inputStr == "NGN")
+            {
+                output = Currency::CurrencyNGN;
+                return;
+            }
+            if (inputStr == "NIO")
+            {
+                output = Currency::CurrencyNIO;
+                return;
+            }
+            if (inputStr == "NOK")
+            {
+                output = Currency::CurrencyNOK;
+                return;
+            }
+            if (inputStr == "NPR")
+            {
+                output = Currency::CurrencyNPR;
+                return;
+            }
+            if (inputStr == "NZD")
+            {
+                output = Currency::CurrencyNZD;
+                return;
+            }
+            if (inputStr == "OMR")
+            {
+                output = Currency::CurrencyOMR;
+                return;
+            }
+            if (inputStr == "PAB")
+            {
+                output = Currency::CurrencyPAB;
+                return;
+            }
+            if (inputStr == "PEN")
+            {
+                output = Currency::CurrencyPEN;
+                return;
+            }
+            if (inputStr == "PGK")
+            {
+                output = Currency::CurrencyPGK;
+                return;
+            }
+            if (inputStr == "PHP")
+            {
+                output = Currency::CurrencyPHP;
+                return;
+            }
+            if (inputStr == "PKR")
+            {
+                output = Currency::CurrencyPKR;
+                return;
+            }
+            if (inputStr == "PLN")
+            {
+                output = Currency::CurrencyPLN;
+                return;
+            }
+            if (inputStr == "PYG")
+            {
+                output = Currency::CurrencyPYG;
+                return;
+            }
+            if (inputStr == "QAR")
+            {
+                output = Currency::CurrencyQAR;
+                return;
+            }
+            if (inputStr == "RON")
+            {
+                output = Currency::CurrencyRON;
+                return;
+            }
+            if (inputStr == "RSD")
+            {
+                output = Currency::CurrencyRSD;
+                return;
+            }
+            if (inputStr == "RUB")
+            {
+                output = Currency::CurrencyRUB;
+                return;
+            }
+            if (inputStr == "RWF")
+            {
+                output = Currency::CurrencyRWF;
+                return;
+            }
+            if (inputStr == "SAR")
+            {
+                output = Currency::CurrencySAR;
+                return;
+            }
+            if (inputStr == "SBD")
+            {
+                output = Currency::CurrencySBD;
+                return;
+            }
+            if (inputStr == "SCR")
+            {
+                output = Currency::CurrencySCR;
+                return;
+            }
+            if (inputStr == "SDG")
+            {
+                output = Currency::CurrencySDG;
+                return;
+            }
+            if (inputStr == "SEK")
+            {
+                output = Currency::CurrencySEK;
+                return;
+            }
+            if (inputStr == "SGD")
+            {
+                output = Currency::CurrencySGD;
+                return;
+            }
+            if (inputStr == "SHP")
+            {
+                output = Currency::CurrencySHP;
+                return;
+            }
+            if (inputStr == "SLL")
+            {
+                output = Currency::CurrencySLL;
+                return;
+            }
+            if (inputStr == "SOS")
+            {
+                output = Currency::CurrencySOS;
+                return;
+            }
+            if (inputStr == "SPL")
+            {
+                output = Currency::CurrencySPL;
+                return;
+            }
+            if (inputStr == "SRD")
+            {
+                output = Currency::CurrencySRD;
+                return;
+            }
+            if (inputStr == "STD")
+            {
+                output = Currency::CurrencySTD;
+                return;
+            }
+            if (inputStr == "SVC")
+            {
+                output = Currency::CurrencySVC;
+                return;
+            }
+            if (inputStr == "SYP")
+            {
+                output = Currency::CurrencySYP;
+                return;
+            }
+            if (inputStr == "SZL")
+            {
+                output = Currency::CurrencySZL;
+                return;
+            }
+            if (inputStr == "THB")
+            {
+                output = Currency::CurrencyTHB;
+                return;
+            }
+            if (inputStr == "TJS")
+            {
+                output = Currency::CurrencyTJS;
+                return;
+            }
+            if (inputStr == "TMT")
+            {
+                output = Currency::CurrencyTMT;
+                return;
+            }
+            if (inputStr == "TND")
+            {
+                output = Currency::CurrencyTND;
+                return;
+            }
+            if (inputStr == "TOP")
+            {
+                output = Currency::CurrencyTOP;
+                return;
+            }
+            if (inputStr == "TRY")
+            {
+                output = Currency::CurrencyTRY;
+                return;
+            }
+            if (inputStr == "TTD")
+            {
+                output = Currency::CurrencyTTD;
+                return;
+            }
+            if (inputStr == "TVD")
+            {
+                output = Currency::CurrencyTVD;
+                return;
+            }
+            if (inputStr == "TWD")
+            {
+                output = Currency::CurrencyTWD;
+                return;
+            }
+            if (inputStr == "TZS")
+            {
+                output = Currency::CurrencyTZS;
+                return;
+            }
+            if (inputStr == "UAH")
+            {
+                output = Currency::CurrencyUAH;
+                return;
+            }
+            if (inputStr == "UGX")
+            {
+                output = Currency::CurrencyUGX;
+                return;
+            }
+            if (inputStr == "USD")
+            {
+                output = Currency::CurrencyUSD;
+                return;
+            }
+            if (inputStr == "UYU")
+            {
+                output = Currency::CurrencyUYU;
+                return;
+            }
+            if (inputStr == "UZS")
+            {
+                output = Currency::CurrencyUZS;
+                return;
+            }
+            if (inputStr == "VEF")
+            {
+                output = Currency::CurrencyVEF;
+                return;
+            }
+            if (inputStr == "VND")
+            {
+                output = Currency::CurrencyVND;
+                return;
+            }
+            if (inputStr == "VUV")
+            {
+                output = Currency::CurrencyVUV;
+                return;
+            }
+            if (inputStr == "WST")
+            {
+                output = Currency::CurrencyWST;
+                return;
+            }
+            if (inputStr == "XAF")
+            {
+                output = Currency::CurrencyXAF;
+                return;
+            }
+            if (inputStr == "XCD")
+            {
+                output = Currency::CurrencyXCD;
+                return;
+            }
+            if (inputStr == "XDR")
+            {
+                output = Currency::CurrencyXDR;
+                return;
+            }
+            if (inputStr == "XOF")
+            {
+                output = Currency::CurrencyXOF;
+                return;
+            }
+            if (inputStr == "XPF")
+            {
+                output = Currency::CurrencyXPF;
+                return;
+            }
+            if (inputStr == "YER")
+            {
+                output = Currency::CurrencyYER;
+                return;
+            }
+            if (inputStr == "ZAR")
+            {
+                output = Currency::CurrencyZAR;
+                return;
+            }
+            if (inputStr == "ZMW")
+            {
+                output = Currency::CurrencyZMW;
+                return;
+            }
+            if (inputStr == "ZWD")
+            {
+                output = Currency::CurrencyZWD;
+                return;
+            }
         }
 
         enum class EmailVerificationStatus
@@ -1359,17 +4774,44 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const EmailVerificationStatus input, Json::Value& output)
         {
-            if (input == EmailVerificationStatus::EmailVerificationStatusUnverified) output = Json::Value("Unverified");
-            if (input == EmailVerificationStatus::EmailVerificationStatusPending) output = Json::Value("Pending");
-            if (input == EmailVerificationStatus::EmailVerificationStatusConfirmed) output = Json::Value("Confirmed");
+            if (input == EmailVerificationStatus::EmailVerificationStatusUnverified)
+            {
+                output = Json::Value("Unverified");
+                return;
+            }
+            if (input == EmailVerificationStatus::EmailVerificationStatusPending)
+            {
+                output = Json::Value("Pending");
+                return;
+            }
+            if (input == EmailVerificationStatus::EmailVerificationStatusConfirmed)
+            {
+                output = Json::Value("Confirmed");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, EmailVerificationStatus& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Unverified") output = EmailVerificationStatus::EmailVerificationStatusUnverified;
-            if (inputStr == "Pending") output = EmailVerificationStatus::EmailVerificationStatusPending;
-            if (inputStr == "Confirmed") output = EmailVerificationStatus::EmailVerificationStatusConfirmed;
+            if (inputStr == "Unverified")
+            {
+                output = EmailVerificationStatus::EmailVerificationStatusUnverified;
+                return;
+            }
+            if (inputStr == "Pending")
+            {
+                output = EmailVerificationStatus::EmailVerificationStatusPending;
+                return;
+            }
+            if (inputStr == "Confirmed")
+            {
+                output = EmailVerificationStatus::EmailVerificationStatusConfirmed;
+                return;
+            }
         }
 
         enum class GameInstanceState
@@ -1380,15 +4822,34 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const GameInstanceState input, Json::Value& output)
         {
-            if (input == GameInstanceState::GameInstanceStateOpen) output = Json::Value("Open");
-            if (input == GameInstanceState::GameInstanceStateClosed) output = Json::Value("Closed");
+            if (input == GameInstanceState::GameInstanceStateOpen)
+            {
+                output = Json::Value("Open");
+                return;
+            }
+            if (input == GameInstanceState::GameInstanceStateClosed)
+            {
+                output = Json::Value("Closed");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, GameInstanceState& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Open") output = GameInstanceState::GameInstanceStateOpen;
-            if (inputStr == "Closed") output = GameInstanceState::GameInstanceStateClosed;
+            if (inputStr == "Open")
+            {
+                output = GameInstanceState::GameInstanceStateOpen;
+                return;
+            }
+            if (inputStr == "Closed")
+            {
+                output = GameInstanceState::GameInstanceStateClosed;
+                return;
+            }
         }
 
         enum class LoginIdentityProvider
@@ -1411,54 +4872,231 @@ namespace PlayFabInternal
             LoginIdentityProviderCustomServer,
             LoginIdentityProviderNintendoSwitch,
             LoginIdentityProviderFacebookInstantGames,
-            LoginIdentityProviderOpenIdConnect
+            LoginIdentityProviderOpenIdConnect,
+            LoginIdentityProviderApple,
+            LoginIdentityProviderNintendoSwitchAccount
         };
 
         inline void ToJsonEnum(const LoginIdentityProvider input, Json::Value& output)
         {
-            if (input == LoginIdentityProvider::LoginIdentityProviderUnknown) output = Json::Value("Unknown");
-            if (input == LoginIdentityProvider::LoginIdentityProviderPlayFab) output = Json::Value("PlayFab");
-            if (input == LoginIdentityProvider::LoginIdentityProviderCustom) output = Json::Value("Custom");
-            if (input == LoginIdentityProvider::LoginIdentityProviderGameCenter) output = Json::Value("GameCenter");
-            if (input == LoginIdentityProvider::LoginIdentityProviderGooglePlay) output = Json::Value("GooglePlay");
-            if (input == LoginIdentityProvider::LoginIdentityProviderSteam) output = Json::Value("Steam");
-            if (input == LoginIdentityProvider::LoginIdentityProviderXBoxLive) output = Json::Value("XBoxLive");
-            if (input == LoginIdentityProvider::LoginIdentityProviderPSN) output = Json::Value("PSN");
-            if (input == LoginIdentityProvider::LoginIdentityProviderKongregate) output = Json::Value("Kongregate");
-            if (input == LoginIdentityProvider::LoginIdentityProviderFacebook) output = Json::Value("Facebook");
-            if (input == LoginIdentityProvider::LoginIdentityProviderIOSDevice) output = Json::Value("IOSDevice");
-            if (input == LoginIdentityProvider::LoginIdentityProviderAndroidDevice) output = Json::Value("AndroidDevice");
-            if (input == LoginIdentityProvider::LoginIdentityProviderTwitch) output = Json::Value("Twitch");
-            if (input == LoginIdentityProvider::LoginIdentityProviderWindowsHello) output = Json::Value("WindowsHello");
-            if (input == LoginIdentityProvider::LoginIdentityProviderGameServer) output = Json::Value("GameServer");
-            if (input == LoginIdentityProvider::LoginIdentityProviderCustomServer) output = Json::Value("CustomServer");
-            if (input == LoginIdentityProvider::LoginIdentityProviderNintendoSwitch) output = Json::Value("NintendoSwitch");
-            if (input == LoginIdentityProvider::LoginIdentityProviderFacebookInstantGames) output = Json::Value("FacebookInstantGames");
-            if (input == LoginIdentityProvider::LoginIdentityProviderOpenIdConnect) output = Json::Value("OpenIdConnect");
+            if (input == LoginIdentityProvider::LoginIdentityProviderUnknown)
+            {
+                output = Json::Value("Unknown");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderPlayFab)
+            {
+                output = Json::Value("PlayFab");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderCustom)
+            {
+                output = Json::Value("Custom");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderGameCenter)
+            {
+                output = Json::Value("GameCenter");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderGooglePlay)
+            {
+                output = Json::Value("GooglePlay");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderSteam)
+            {
+                output = Json::Value("Steam");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderXBoxLive)
+            {
+                output = Json::Value("XBoxLive");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderPSN)
+            {
+                output = Json::Value("PSN");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderKongregate)
+            {
+                output = Json::Value("Kongregate");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderFacebook)
+            {
+                output = Json::Value("Facebook");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderIOSDevice)
+            {
+                output = Json::Value("IOSDevice");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderAndroidDevice)
+            {
+                output = Json::Value("AndroidDevice");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderTwitch)
+            {
+                output = Json::Value("Twitch");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderWindowsHello)
+            {
+                output = Json::Value("WindowsHello");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderGameServer)
+            {
+                output = Json::Value("GameServer");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderCustomServer)
+            {
+                output = Json::Value("CustomServer");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderNintendoSwitch)
+            {
+                output = Json::Value("NintendoSwitch");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderFacebookInstantGames)
+            {
+                output = Json::Value("FacebookInstantGames");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderOpenIdConnect)
+            {
+                output = Json::Value("OpenIdConnect");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderApple)
+            {
+                output = Json::Value("Apple");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderNintendoSwitchAccount)
+            {
+                output = Json::Value("NintendoSwitchAccount");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, LoginIdentityProvider& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Unknown") output = LoginIdentityProvider::LoginIdentityProviderUnknown;
-            if (inputStr == "PlayFab") output = LoginIdentityProvider::LoginIdentityProviderPlayFab;
-            if (inputStr == "Custom") output = LoginIdentityProvider::LoginIdentityProviderCustom;
-            if (inputStr == "GameCenter") output = LoginIdentityProvider::LoginIdentityProviderGameCenter;
-            if (inputStr == "GooglePlay") output = LoginIdentityProvider::LoginIdentityProviderGooglePlay;
-            if (inputStr == "Steam") output = LoginIdentityProvider::LoginIdentityProviderSteam;
-            if (inputStr == "XBoxLive") output = LoginIdentityProvider::LoginIdentityProviderXBoxLive;
-            if (inputStr == "PSN") output = LoginIdentityProvider::LoginIdentityProviderPSN;
-            if (inputStr == "Kongregate") output = LoginIdentityProvider::LoginIdentityProviderKongregate;
-            if (inputStr == "Facebook") output = LoginIdentityProvider::LoginIdentityProviderFacebook;
-            if (inputStr == "IOSDevice") output = LoginIdentityProvider::LoginIdentityProviderIOSDevice;
-            if (inputStr == "AndroidDevice") output = LoginIdentityProvider::LoginIdentityProviderAndroidDevice;
-            if (inputStr == "Twitch") output = LoginIdentityProvider::LoginIdentityProviderTwitch;
-            if (inputStr == "WindowsHello") output = LoginIdentityProvider::LoginIdentityProviderWindowsHello;
-            if (inputStr == "GameServer") output = LoginIdentityProvider::LoginIdentityProviderGameServer;
-            if (inputStr == "CustomServer") output = LoginIdentityProvider::LoginIdentityProviderCustomServer;
-            if (inputStr == "NintendoSwitch") output = LoginIdentityProvider::LoginIdentityProviderNintendoSwitch;
-            if (inputStr == "FacebookInstantGames") output = LoginIdentityProvider::LoginIdentityProviderFacebookInstantGames;
-            if (inputStr == "OpenIdConnect") output = LoginIdentityProvider::LoginIdentityProviderOpenIdConnect;
+            if (inputStr == "Unknown")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderUnknown;
+                return;
+            }
+            if (inputStr == "PlayFab")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderPlayFab;
+                return;
+            }
+            if (inputStr == "Custom")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderCustom;
+                return;
+            }
+            if (inputStr == "GameCenter")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderGameCenter;
+                return;
+            }
+            if (inputStr == "GooglePlay")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderGooglePlay;
+                return;
+            }
+            if (inputStr == "Steam")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderSteam;
+                return;
+            }
+            if (inputStr == "XBoxLive")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderXBoxLive;
+                return;
+            }
+            if (inputStr == "PSN")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderPSN;
+                return;
+            }
+            if (inputStr == "Kongregate")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderKongregate;
+                return;
+            }
+            if (inputStr == "Facebook")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderFacebook;
+                return;
+            }
+            if (inputStr == "IOSDevice")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderIOSDevice;
+                return;
+            }
+            if (inputStr == "AndroidDevice")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderAndroidDevice;
+                return;
+            }
+            if (inputStr == "Twitch")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderTwitch;
+                return;
+            }
+            if (inputStr == "WindowsHello")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderWindowsHello;
+                return;
+            }
+            if (inputStr == "GameServer")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderGameServer;
+                return;
+            }
+            if (inputStr == "CustomServer")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderCustomServer;
+                return;
+            }
+            if (inputStr == "NintendoSwitch")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderNintendoSwitch;
+                return;
+            }
+            if (inputStr == "FacebookInstantGames")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderFacebookInstantGames;
+                return;
+            }
+            if (inputStr == "OpenIdConnect")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderOpenIdConnect;
+                return;
+            }
+            if (inputStr == "Apple")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderApple;
+                return;
+            }
+            if (inputStr == "NintendoSwitchAccount")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderNintendoSwitchAccount;
+                return;
+            }
         }
 
         enum class MatchmakeStatus
@@ -1472,21 +5110,64 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const MatchmakeStatus input, Json::Value& output)
         {
-            if (input == MatchmakeStatus::MatchmakeStatusComplete) output = Json::Value("Complete");
-            if (input == MatchmakeStatus::MatchmakeStatusWaiting) output = Json::Value("Waiting");
-            if (input == MatchmakeStatus::MatchmakeStatusGameNotFound) output = Json::Value("GameNotFound");
-            if (input == MatchmakeStatus::MatchmakeStatusNoAvailableSlots) output = Json::Value("NoAvailableSlots");
-            if (input == MatchmakeStatus::MatchmakeStatusSessionClosed) output = Json::Value("SessionClosed");
+            if (input == MatchmakeStatus::MatchmakeStatusComplete)
+            {
+                output = Json::Value("Complete");
+                return;
+            }
+            if (input == MatchmakeStatus::MatchmakeStatusWaiting)
+            {
+                output = Json::Value("Waiting");
+                return;
+            }
+            if (input == MatchmakeStatus::MatchmakeStatusGameNotFound)
+            {
+                output = Json::Value("GameNotFound");
+                return;
+            }
+            if (input == MatchmakeStatus::MatchmakeStatusNoAvailableSlots)
+            {
+                output = Json::Value("NoAvailableSlots");
+                return;
+            }
+            if (input == MatchmakeStatus::MatchmakeStatusSessionClosed)
+            {
+                output = Json::Value("SessionClosed");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, MatchmakeStatus& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Complete") output = MatchmakeStatus::MatchmakeStatusComplete;
-            if (inputStr == "Waiting") output = MatchmakeStatus::MatchmakeStatusWaiting;
-            if (inputStr == "GameNotFound") output = MatchmakeStatus::MatchmakeStatusGameNotFound;
-            if (inputStr == "NoAvailableSlots") output = MatchmakeStatus::MatchmakeStatusNoAvailableSlots;
-            if (inputStr == "SessionClosed") output = MatchmakeStatus::MatchmakeStatusSessionClosed;
+            if (inputStr == "Complete")
+            {
+                output = MatchmakeStatus::MatchmakeStatusComplete;
+                return;
+            }
+            if (inputStr == "Waiting")
+            {
+                output = MatchmakeStatus::MatchmakeStatusWaiting;
+                return;
+            }
+            if (inputStr == "GameNotFound")
+            {
+                output = MatchmakeStatus::MatchmakeStatusGameNotFound;
+                return;
+            }
+            if (inputStr == "NoAvailableSlots")
+            {
+                output = MatchmakeStatus::MatchmakeStatusNoAvailableSlots;
+                return;
+            }
+            if (inputStr == "SessionClosed")
+            {
+                output = MatchmakeStatus::MatchmakeStatusSessionClosed;
+                return;
+            }
         }
 
         enum class PushNotificationPlatform
@@ -1497,15 +5178,34 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const PushNotificationPlatform input, Json::Value& output)
         {
-            if (input == PushNotificationPlatform::PushNotificationPlatformApplePushNotificationService) output = Json::Value("ApplePushNotificationService");
-            if (input == PushNotificationPlatform::PushNotificationPlatformGoogleCloudMessaging) output = Json::Value("GoogleCloudMessaging");
+            if (input == PushNotificationPlatform::PushNotificationPlatformApplePushNotificationService)
+            {
+                output = Json::Value("ApplePushNotificationService");
+                return;
+            }
+            if (input == PushNotificationPlatform::PushNotificationPlatformGoogleCloudMessaging)
+            {
+                output = Json::Value("GoogleCloudMessaging");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, PushNotificationPlatform& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "ApplePushNotificationService") output = PushNotificationPlatform::PushNotificationPlatformApplePushNotificationService;
-            if (inputStr == "GoogleCloudMessaging") output = PushNotificationPlatform::PushNotificationPlatformGoogleCloudMessaging;
+            if (inputStr == "ApplePushNotificationService")
+            {
+                output = PushNotificationPlatform::PushNotificationPlatformApplePushNotificationService;
+                return;
+            }
+            if (inputStr == "GoogleCloudMessaging")
+            {
+                output = PushNotificationPlatform::PushNotificationPlatformGoogleCloudMessaging;
+                return;
+            }
         }
 
         enum class Region
@@ -1521,25 +5221,84 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const Region input, Json::Value& output)
         {
-            if (input == Region::RegionUSCentral) output = Json::Value("USCentral");
-            if (input == Region::RegionUSEast) output = Json::Value("USEast");
-            if (input == Region::RegionEUWest) output = Json::Value("EUWest");
-            if (input == Region::RegionSingapore) output = Json::Value("Singapore");
-            if (input == Region::RegionJapan) output = Json::Value("Japan");
-            if (input == Region::RegionBrazil) output = Json::Value("Brazil");
-            if (input == Region::RegionAustralia) output = Json::Value("Australia");
+            if (input == Region::RegionUSCentral)
+            {
+                output = Json::Value("USCentral");
+                return;
+            }
+            if (input == Region::RegionUSEast)
+            {
+                output = Json::Value("USEast");
+                return;
+            }
+            if (input == Region::RegionEUWest)
+            {
+                output = Json::Value("EUWest");
+                return;
+            }
+            if (input == Region::RegionSingapore)
+            {
+                output = Json::Value("Singapore");
+                return;
+            }
+            if (input == Region::RegionJapan)
+            {
+                output = Json::Value("Japan");
+                return;
+            }
+            if (input == Region::RegionBrazil)
+            {
+                output = Json::Value("Brazil");
+                return;
+            }
+            if (input == Region::RegionAustralia)
+            {
+                output = Json::Value("Australia");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, Region& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "USCentral") output = Region::RegionUSCentral;
-            if (inputStr == "USEast") output = Region::RegionUSEast;
-            if (inputStr == "EUWest") output = Region::RegionEUWest;
-            if (inputStr == "Singapore") output = Region::RegionSingapore;
-            if (inputStr == "Japan") output = Region::RegionJapan;
-            if (inputStr == "Brazil") output = Region::RegionBrazil;
-            if (inputStr == "Australia") output = Region::RegionAustralia;
+            if (inputStr == "USCentral")
+            {
+                output = Region::RegionUSCentral;
+                return;
+            }
+            if (inputStr == "USEast")
+            {
+                output = Region::RegionUSEast;
+                return;
+            }
+            if (inputStr == "EUWest")
+            {
+                output = Region::RegionEUWest;
+                return;
+            }
+            if (inputStr == "Singapore")
+            {
+                output = Region::RegionSingapore;
+                return;
+            }
+            if (inputStr == "Japan")
+            {
+                output = Region::RegionJapan;
+                return;
+            }
+            if (inputStr == "Brazil")
+            {
+                output = Region::RegionBrazil;
+                return;
+            }
+            if (inputStr == "Australia")
+            {
+                output = Region::RegionAustralia;
+                return;
+            }
         }
 
         enum class SourceType
@@ -1555,25 +5314,84 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const SourceType input, Json::Value& output)
         {
-            if (input == SourceType::SourceTypeAdmin) output = Json::Value("Admin");
-            if (input == SourceType::SourceTypeBackEnd) output = Json::Value("BackEnd");
-            if (input == SourceType::SourceTypeGameClient) output = Json::Value("GameClient");
-            if (input == SourceType::SourceTypeGameServer) output = Json::Value("GameServer");
-            if (input == SourceType::SourceTypePartner) output = Json::Value("Partner");
-            if (input == SourceType::SourceTypeCustom) output = Json::Value("Custom");
-            if (input == SourceType::SourceTypeAPI) output = Json::Value("API");
+            if (input == SourceType::SourceTypeAdmin)
+            {
+                output = Json::Value("Admin");
+                return;
+            }
+            if (input == SourceType::SourceTypeBackEnd)
+            {
+                output = Json::Value("BackEnd");
+                return;
+            }
+            if (input == SourceType::SourceTypeGameClient)
+            {
+                output = Json::Value("GameClient");
+                return;
+            }
+            if (input == SourceType::SourceTypeGameServer)
+            {
+                output = Json::Value("GameServer");
+                return;
+            }
+            if (input == SourceType::SourceTypePartner)
+            {
+                output = Json::Value("Partner");
+                return;
+            }
+            if (input == SourceType::SourceTypeCustom)
+            {
+                output = Json::Value("Custom");
+                return;
+            }
+            if (input == SourceType::SourceTypeAPI)
+            {
+                output = Json::Value("API");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, SourceType& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Admin") output = SourceType::SourceTypeAdmin;
-            if (inputStr == "BackEnd") output = SourceType::SourceTypeBackEnd;
-            if (inputStr == "GameClient") output = SourceType::SourceTypeGameClient;
-            if (inputStr == "GameServer") output = SourceType::SourceTypeGameServer;
-            if (inputStr == "Partner") output = SourceType::SourceTypePartner;
-            if (inputStr == "Custom") output = SourceType::SourceTypeCustom;
-            if (inputStr == "API") output = SourceType::SourceTypeAPI;
+            if (inputStr == "Admin")
+            {
+                output = SourceType::SourceTypeAdmin;
+                return;
+            }
+            if (inputStr == "BackEnd")
+            {
+                output = SourceType::SourceTypeBackEnd;
+                return;
+            }
+            if (inputStr == "GameClient")
+            {
+                output = SourceType::SourceTypeGameClient;
+                return;
+            }
+            if (inputStr == "GameServer")
+            {
+                output = SourceType::SourceTypeGameServer;
+                return;
+            }
+            if (inputStr == "Partner")
+            {
+                output = SourceType::SourceTypePartner;
+                return;
+            }
+            if (inputStr == "Custom")
+            {
+                output = SourceType::SourceTypeCustom;
+                return;
+            }
+            if (inputStr == "API")
+            {
+                output = SourceType::SourceTypeAPI;
+                return;
+            }
         }
 
         enum class SubscriptionProviderStatus
@@ -1590,27 +5408,94 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const SubscriptionProviderStatus input, Json::Value& output)
         {
-            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusNoError) output = Json::Value("NoError");
-            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusCancelled) output = Json::Value("Cancelled");
-            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusUnknownError) output = Json::Value("UnknownError");
-            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusBillingError) output = Json::Value("BillingError");
-            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusProductUnavailable) output = Json::Value("ProductUnavailable");
-            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusCustomerDidNotAcceptPriceChange) output = Json::Value("CustomerDidNotAcceptPriceChange");
-            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusFreeTrial) output = Json::Value("FreeTrial");
-            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusPaymentPending) output = Json::Value("PaymentPending");
+            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusNoError)
+            {
+                output = Json::Value("NoError");
+                return;
+            }
+            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusCancelled)
+            {
+                output = Json::Value("Cancelled");
+                return;
+            }
+            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusUnknownError)
+            {
+                output = Json::Value("UnknownError");
+                return;
+            }
+            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusBillingError)
+            {
+                output = Json::Value("BillingError");
+                return;
+            }
+            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusProductUnavailable)
+            {
+                output = Json::Value("ProductUnavailable");
+                return;
+            }
+            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusCustomerDidNotAcceptPriceChange)
+            {
+                output = Json::Value("CustomerDidNotAcceptPriceChange");
+                return;
+            }
+            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusFreeTrial)
+            {
+                output = Json::Value("FreeTrial");
+                return;
+            }
+            if (input == SubscriptionProviderStatus::SubscriptionProviderStatusPaymentPending)
+            {
+                output = Json::Value("PaymentPending");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, SubscriptionProviderStatus& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "NoError") output = SubscriptionProviderStatus::SubscriptionProviderStatusNoError;
-            if (inputStr == "Cancelled") output = SubscriptionProviderStatus::SubscriptionProviderStatusCancelled;
-            if (inputStr == "UnknownError") output = SubscriptionProviderStatus::SubscriptionProviderStatusUnknownError;
-            if (inputStr == "BillingError") output = SubscriptionProviderStatus::SubscriptionProviderStatusBillingError;
-            if (inputStr == "ProductUnavailable") output = SubscriptionProviderStatus::SubscriptionProviderStatusProductUnavailable;
-            if (inputStr == "CustomerDidNotAcceptPriceChange") output = SubscriptionProviderStatus::SubscriptionProviderStatusCustomerDidNotAcceptPriceChange;
-            if (inputStr == "FreeTrial") output = SubscriptionProviderStatus::SubscriptionProviderStatusFreeTrial;
-            if (inputStr == "PaymentPending") output = SubscriptionProviderStatus::SubscriptionProviderStatusPaymentPending;
+            if (inputStr == "NoError")
+            {
+                output = SubscriptionProviderStatus::SubscriptionProviderStatusNoError;
+                return;
+            }
+            if (inputStr == "Cancelled")
+            {
+                output = SubscriptionProviderStatus::SubscriptionProviderStatusCancelled;
+                return;
+            }
+            if (inputStr == "UnknownError")
+            {
+                output = SubscriptionProviderStatus::SubscriptionProviderStatusUnknownError;
+                return;
+            }
+            if (inputStr == "BillingError")
+            {
+                output = SubscriptionProviderStatus::SubscriptionProviderStatusBillingError;
+                return;
+            }
+            if (inputStr == "ProductUnavailable")
+            {
+                output = SubscriptionProviderStatus::SubscriptionProviderStatusProductUnavailable;
+                return;
+            }
+            if (inputStr == "CustomerDidNotAcceptPriceChange")
+            {
+                output = SubscriptionProviderStatus::SubscriptionProviderStatusCustomerDidNotAcceptPriceChange;
+                return;
+            }
+            if (inputStr == "FreeTrial")
+            {
+                output = SubscriptionProviderStatus::SubscriptionProviderStatusFreeTrial;
+                return;
+            }
+            if (inputStr == "PaymentPending")
+            {
+                output = SubscriptionProviderStatus::SubscriptionProviderStatusPaymentPending;
+                return;
+            }
         }
 
         enum class TitleActivationStatus
@@ -1624,21 +5509,64 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const TitleActivationStatus input, Json::Value& output)
         {
-            if (input == TitleActivationStatus::TitleActivationStatusNone) output = Json::Value("None");
-            if (input == TitleActivationStatus::TitleActivationStatusActivatedTitleKey) output = Json::Value("ActivatedTitleKey");
-            if (input == TitleActivationStatus::TitleActivationStatusPendingSteam) output = Json::Value("PendingSteam");
-            if (input == TitleActivationStatus::TitleActivationStatusActivatedSteam) output = Json::Value("ActivatedSteam");
-            if (input == TitleActivationStatus::TitleActivationStatusRevokedSteam) output = Json::Value("RevokedSteam");
+            if (input == TitleActivationStatus::TitleActivationStatusNone)
+            {
+                output = Json::Value("None");
+                return;
+            }
+            if (input == TitleActivationStatus::TitleActivationStatusActivatedTitleKey)
+            {
+                output = Json::Value("ActivatedTitleKey");
+                return;
+            }
+            if (input == TitleActivationStatus::TitleActivationStatusPendingSteam)
+            {
+                output = Json::Value("PendingSteam");
+                return;
+            }
+            if (input == TitleActivationStatus::TitleActivationStatusActivatedSteam)
+            {
+                output = Json::Value("ActivatedSteam");
+                return;
+            }
+            if (input == TitleActivationStatus::TitleActivationStatusRevokedSteam)
+            {
+                output = Json::Value("RevokedSteam");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, TitleActivationStatus& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "None") output = TitleActivationStatus::TitleActivationStatusNone;
-            if (inputStr == "ActivatedTitleKey") output = TitleActivationStatus::TitleActivationStatusActivatedTitleKey;
-            if (inputStr == "PendingSteam") output = TitleActivationStatus::TitleActivationStatusPendingSteam;
-            if (inputStr == "ActivatedSteam") output = TitleActivationStatus::TitleActivationStatusActivatedSteam;
-            if (inputStr == "RevokedSteam") output = TitleActivationStatus::TitleActivationStatusRevokedSteam;
+            if (inputStr == "None")
+            {
+                output = TitleActivationStatus::TitleActivationStatusNone;
+                return;
+            }
+            if (inputStr == "ActivatedTitleKey")
+            {
+                output = TitleActivationStatus::TitleActivationStatusActivatedTitleKey;
+                return;
+            }
+            if (inputStr == "PendingSteam")
+            {
+                output = TitleActivationStatus::TitleActivationStatusPendingSteam;
+                return;
+            }
+            if (inputStr == "ActivatedSteam")
+            {
+                output = TitleActivationStatus::TitleActivationStatusActivatedSteam;
+                return;
+            }
+            if (inputStr == "RevokedSteam")
+            {
+                output = TitleActivationStatus::TitleActivationStatusRevokedSteam;
+                return;
+            }
         }
 
         enum class TradeStatus
@@ -1654,25 +5582,84 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const TradeStatus input, Json::Value& output)
         {
-            if (input == TradeStatus::TradeStatusInvalid) output = Json::Value("Invalid");
-            if (input == TradeStatus::TradeStatusOpening) output = Json::Value("Opening");
-            if (input == TradeStatus::TradeStatusOpen) output = Json::Value("Open");
-            if (input == TradeStatus::TradeStatusAccepting) output = Json::Value("Accepting");
-            if (input == TradeStatus::TradeStatusAccepted) output = Json::Value("Accepted");
-            if (input == TradeStatus::TradeStatusFilled) output = Json::Value("Filled");
-            if (input == TradeStatus::TradeStatusCancelled) output = Json::Value("Cancelled");
+            if (input == TradeStatus::TradeStatusInvalid)
+            {
+                output = Json::Value("Invalid");
+                return;
+            }
+            if (input == TradeStatus::TradeStatusOpening)
+            {
+                output = Json::Value("Opening");
+                return;
+            }
+            if (input == TradeStatus::TradeStatusOpen)
+            {
+                output = Json::Value("Open");
+                return;
+            }
+            if (input == TradeStatus::TradeStatusAccepting)
+            {
+                output = Json::Value("Accepting");
+                return;
+            }
+            if (input == TradeStatus::TradeStatusAccepted)
+            {
+                output = Json::Value("Accepted");
+                return;
+            }
+            if (input == TradeStatus::TradeStatusFilled)
+            {
+                output = Json::Value("Filled");
+                return;
+            }
+            if (input == TradeStatus::TradeStatusCancelled)
+            {
+                output = Json::Value("Cancelled");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, TradeStatus& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Invalid") output = TradeStatus::TradeStatusInvalid;
-            if (inputStr == "Opening") output = TradeStatus::TradeStatusOpening;
-            if (inputStr == "Open") output = TradeStatus::TradeStatusOpen;
-            if (inputStr == "Accepting") output = TradeStatus::TradeStatusAccepting;
-            if (inputStr == "Accepted") output = TradeStatus::TradeStatusAccepted;
-            if (inputStr == "Filled") output = TradeStatus::TradeStatusFilled;
-            if (inputStr == "Cancelled") output = TradeStatus::TradeStatusCancelled;
+            if (inputStr == "Invalid")
+            {
+                output = TradeStatus::TradeStatusInvalid;
+                return;
+            }
+            if (inputStr == "Opening")
+            {
+                output = TradeStatus::TradeStatusOpening;
+                return;
+            }
+            if (inputStr == "Open")
+            {
+                output = TradeStatus::TradeStatusOpen;
+                return;
+            }
+            if (inputStr == "Accepting")
+            {
+                output = TradeStatus::TradeStatusAccepting;
+                return;
+            }
+            if (inputStr == "Accepted")
+            {
+                output = TradeStatus::TradeStatusAccepted;
+                return;
+            }
+            if (inputStr == "Filled")
+            {
+                output = TradeStatus::TradeStatusFilled;
+                return;
+            }
+            if (inputStr == "Cancelled")
+            {
+                output = TradeStatus::TradeStatusCancelled;
+                return;
+            }
         }
 
         enum class TransactionStatus
@@ -1701,51 +5688,214 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const TransactionStatus input, Json::Value& output)
         {
-            if (input == TransactionStatus::TransactionStatusCreateCart) output = Json::Value("CreateCart");
-            if (input == TransactionStatus::TransactionStatusInit) output = Json::Value("Init");
-            if (input == TransactionStatus::TransactionStatusApproved) output = Json::Value("Approved");
-            if (input == TransactionStatus::TransactionStatusSucceeded) output = Json::Value("Succeeded");
-            if (input == TransactionStatus::TransactionStatusFailedByProvider) output = Json::Value("FailedByProvider");
-            if (input == TransactionStatus::TransactionStatusDisputePending) output = Json::Value("DisputePending");
-            if (input == TransactionStatus::TransactionStatusRefundPending) output = Json::Value("RefundPending");
-            if (input == TransactionStatus::TransactionStatusRefunded) output = Json::Value("Refunded");
-            if (input == TransactionStatus::TransactionStatusRefundFailed) output = Json::Value("RefundFailed");
-            if (input == TransactionStatus::TransactionStatusChargedBack) output = Json::Value("ChargedBack");
-            if (input == TransactionStatus::TransactionStatusFailedByUber) output = Json::Value("FailedByUber");
-            if (input == TransactionStatus::TransactionStatusFailedByPlayFab) output = Json::Value("FailedByPlayFab");
-            if (input == TransactionStatus::TransactionStatusRevoked) output = Json::Value("Revoked");
-            if (input == TransactionStatus::TransactionStatusTradePending) output = Json::Value("TradePending");
-            if (input == TransactionStatus::TransactionStatusTraded) output = Json::Value("Traded");
-            if (input == TransactionStatus::TransactionStatusUpgraded) output = Json::Value("Upgraded");
-            if (input == TransactionStatus::TransactionStatusStackPending) output = Json::Value("StackPending");
-            if (input == TransactionStatus::TransactionStatusStacked) output = Json::Value("Stacked");
-            if (input == TransactionStatus::TransactionStatusOther) output = Json::Value("Other");
-            if (input == TransactionStatus::TransactionStatusFailed) output = Json::Value("Failed");
+            if (input == TransactionStatus::TransactionStatusCreateCart)
+            {
+                output = Json::Value("CreateCart");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusInit)
+            {
+                output = Json::Value("Init");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusApproved)
+            {
+                output = Json::Value("Approved");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusSucceeded)
+            {
+                output = Json::Value("Succeeded");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusFailedByProvider)
+            {
+                output = Json::Value("FailedByProvider");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusDisputePending)
+            {
+                output = Json::Value("DisputePending");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusRefundPending)
+            {
+                output = Json::Value("RefundPending");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusRefunded)
+            {
+                output = Json::Value("Refunded");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusRefundFailed)
+            {
+                output = Json::Value("RefundFailed");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusChargedBack)
+            {
+                output = Json::Value("ChargedBack");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusFailedByUber)
+            {
+                output = Json::Value("FailedByUber");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusFailedByPlayFab)
+            {
+                output = Json::Value("FailedByPlayFab");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusRevoked)
+            {
+                output = Json::Value("Revoked");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusTradePending)
+            {
+                output = Json::Value("TradePending");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusTraded)
+            {
+                output = Json::Value("Traded");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusUpgraded)
+            {
+                output = Json::Value("Upgraded");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusStackPending)
+            {
+                output = Json::Value("StackPending");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusStacked)
+            {
+                output = Json::Value("Stacked");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusOther)
+            {
+                output = Json::Value("Other");
+                return;
+            }
+            if (input == TransactionStatus::TransactionStatusFailed)
+            {
+                output = Json::Value("Failed");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, TransactionStatus& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "CreateCart") output = TransactionStatus::TransactionStatusCreateCart;
-            if (inputStr == "Init") output = TransactionStatus::TransactionStatusInit;
-            if (inputStr == "Approved") output = TransactionStatus::TransactionStatusApproved;
-            if (inputStr == "Succeeded") output = TransactionStatus::TransactionStatusSucceeded;
-            if (inputStr == "FailedByProvider") output = TransactionStatus::TransactionStatusFailedByProvider;
-            if (inputStr == "DisputePending") output = TransactionStatus::TransactionStatusDisputePending;
-            if (inputStr == "RefundPending") output = TransactionStatus::TransactionStatusRefundPending;
-            if (inputStr == "Refunded") output = TransactionStatus::TransactionStatusRefunded;
-            if (inputStr == "RefundFailed") output = TransactionStatus::TransactionStatusRefundFailed;
-            if (inputStr == "ChargedBack") output = TransactionStatus::TransactionStatusChargedBack;
-            if (inputStr == "FailedByUber") output = TransactionStatus::TransactionStatusFailedByUber;
-            if (inputStr == "FailedByPlayFab") output = TransactionStatus::TransactionStatusFailedByPlayFab;
-            if (inputStr == "Revoked") output = TransactionStatus::TransactionStatusRevoked;
-            if (inputStr == "TradePending") output = TransactionStatus::TransactionStatusTradePending;
-            if (inputStr == "Traded") output = TransactionStatus::TransactionStatusTraded;
-            if (inputStr == "Upgraded") output = TransactionStatus::TransactionStatusUpgraded;
-            if (inputStr == "StackPending") output = TransactionStatus::TransactionStatusStackPending;
-            if (inputStr == "Stacked") output = TransactionStatus::TransactionStatusStacked;
-            if (inputStr == "Other") output = TransactionStatus::TransactionStatusOther;
-            if (inputStr == "Failed") output = TransactionStatus::TransactionStatusFailed;
+            if (inputStr == "CreateCart")
+            {
+                output = TransactionStatus::TransactionStatusCreateCart;
+                return;
+            }
+            if (inputStr == "Init")
+            {
+                output = TransactionStatus::TransactionStatusInit;
+                return;
+            }
+            if (inputStr == "Approved")
+            {
+                output = TransactionStatus::TransactionStatusApproved;
+                return;
+            }
+            if (inputStr == "Succeeded")
+            {
+                output = TransactionStatus::TransactionStatusSucceeded;
+                return;
+            }
+            if (inputStr == "FailedByProvider")
+            {
+                output = TransactionStatus::TransactionStatusFailedByProvider;
+                return;
+            }
+            if (inputStr == "DisputePending")
+            {
+                output = TransactionStatus::TransactionStatusDisputePending;
+                return;
+            }
+            if (inputStr == "RefundPending")
+            {
+                output = TransactionStatus::TransactionStatusRefundPending;
+                return;
+            }
+            if (inputStr == "Refunded")
+            {
+                output = TransactionStatus::TransactionStatusRefunded;
+                return;
+            }
+            if (inputStr == "RefundFailed")
+            {
+                output = TransactionStatus::TransactionStatusRefundFailed;
+                return;
+            }
+            if (inputStr == "ChargedBack")
+            {
+                output = TransactionStatus::TransactionStatusChargedBack;
+                return;
+            }
+            if (inputStr == "FailedByUber")
+            {
+                output = TransactionStatus::TransactionStatusFailedByUber;
+                return;
+            }
+            if (inputStr == "FailedByPlayFab")
+            {
+                output = TransactionStatus::TransactionStatusFailedByPlayFab;
+                return;
+            }
+            if (inputStr == "Revoked")
+            {
+                output = TransactionStatus::TransactionStatusRevoked;
+                return;
+            }
+            if (inputStr == "TradePending")
+            {
+                output = TransactionStatus::TransactionStatusTradePending;
+                return;
+            }
+            if (inputStr == "Traded")
+            {
+                output = TransactionStatus::TransactionStatusTraded;
+                return;
+            }
+            if (inputStr == "Upgraded")
+            {
+                output = TransactionStatus::TransactionStatusUpgraded;
+                return;
+            }
+            if (inputStr == "StackPending")
+            {
+                output = TransactionStatus::TransactionStatusStackPending;
+                return;
+            }
+            if (inputStr == "Stacked")
+            {
+                output = TransactionStatus::TransactionStatusStacked;
+                return;
+            }
+            if (inputStr == "Other")
+            {
+                output = TransactionStatus::TransactionStatusOther;
+                return;
+            }
+            if (inputStr == "Failed")
+            {
+                output = TransactionStatus::TransactionStatusFailed;
+                return;
+            }
         }
 
         enum class UserDataPermission
@@ -1756,15 +5906,34 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const UserDataPermission input, Json::Value& output)
         {
-            if (input == UserDataPermission::UserDataPermissionPrivate) output = Json::Value("Private");
-            if (input == UserDataPermission::UserDataPermissionPublic) output = Json::Value("Public");
+            if (input == UserDataPermission::UserDataPermissionPrivate)
+            {
+                output = Json::Value("Private");
+                return;
+            }
+            if (input == UserDataPermission::UserDataPermissionPublic)
+            {
+                output = Json::Value("Public");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, UserDataPermission& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Private") output = UserDataPermission::UserDataPermissionPrivate;
-            if (inputStr == "Public") output = UserDataPermission::UserDataPermissionPublic;
+            if (inputStr == "Private")
+            {
+                output = UserDataPermission::UserDataPermissionPrivate;
+                return;
+            }
+            if (inputStr == "Public")
+            {
+                output = UserDataPermission::UserDataPermissionPublic;
+                return;
+            }
         }
 
         enum class UserOrigination
@@ -1786,64 +5955,254 @@ namespace PlayFabInternal
             UserOriginationXboxLive,
             UserOriginationParse,
             UserOriginationTwitch,
-            UserOriginationWindowsHello,
             UserOriginationServerCustomId,
             UserOriginationNintendoSwitchDeviceId,
             UserOriginationFacebookInstantGamesId,
-            UserOriginationOpenIdConnect
+            UserOriginationOpenIdConnect,
+            UserOriginationApple,
+            UserOriginationNintendoSwitchAccount
         };
 
         inline void ToJsonEnum(const UserOrigination input, Json::Value& output)
         {
-            if (input == UserOrigination::UserOriginationOrganic) output = Json::Value("Organic");
-            if (input == UserOrigination::UserOriginationSteam) output = Json::Value("Steam");
-            if (input == UserOrigination::UserOriginationGoogle) output = Json::Value("Google");
-            if (input == UserOrigination::UserOriginationAmazon) output = Json::Value("Amazon");
-            if (input == UserOrigination::UserOriginationFacebook) output = Json::Value("Facebook");
-            if (input == UserOrigination::UserOriginationKongregate) output = Json::Value("Kongregate");
-            if (input == UserOrigination::UserOriginationGamersFirst) output = Json::Value("GamersFirst");
-            if (input == UserOrigination::UserOriginationUnknown) output = Json::Value("Unknown");
-            if (input == UserOrigination::UserOriginationIOS) output = Json::Value("IOS");
-            if (input == UserOrigination::UserOriginationLoadTest) output = Json::Value("LoadTest");
-            if (input == UserOrigination::UserOriginationAndroid) output = Json::Value("Android");
-            if (input == UserOrigination::UserOriginationPSN) output = Json::Value("PSN");
-            if (input == UserOrigination::UserOriginationGameCenter) output = Json::Value("GameCenter");
-            if (input == UserOrigination::UserOriginationCustomId) output = Json::Value("CustomId");
-            if (input == UserOrigination::UserOriginationXboxLive) output = Json::Value("XboxLive");
-            if (input == UserOrigination::UserOriginationParse) output = Json::Value("Parse");
-            if (input == UserOrigination::UserOriginationTwitch) output = Json::Value("Twitch");
-            if (input == UserOrigination::UserOriginationWindowsHello) output = Json::Value("WindowsHello");
-            if (input == UserOrigination::UserOriginationServerCustomId) output = Json::Value("ServerCustomId");
-            if (input == UserOrigination::UserOriginationNintendoSwitchDeviceId) output = Json::Value("NintendoSwitchDeviceId");
-            if (input == UserOrigination::UserOriginationFacebookInstantGamesId) output = Json::Value("FacebookInstantGamesId");
-            if (input == UserOrigination::UserOriginationOpenIdConnect) output = Json::Value("OpenIdConnect");
+            if (input == UserOrigination::UserOriginationOrganic)
+            {
+                output = Json::Value("Organic");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationSteam)
+            {
+                output = Json::Value("Steam");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationGoogle)
+            {
+                output = Json::Value("Google");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationAmazon)
+            {
+                output = Json::Value("Amazon");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationFacebook)
+            {
+                output = Json::Value("Facebook");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationKongregate)
+            {
+                output = Json::Value("Kongregate");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationGamersFirst)
+            {
+                output = Json::Value("GamersFirst");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationUnknown)
+            {
+                output = Json::Value("Unknown");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationIOS)
+            {
+                output = Json::Value("IOS");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationLoadTest)
+            {
+                output = Json::Value("LoadTest");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationAndroid)
+            {
+                output = Json::Value("Android");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationPSN)
+            {
+                output = Json::Value("PSN");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationGameCenter)
+            {
+                output = Json::Value("GameCenter");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationCustomId)
+            {
+                output = Json::Value("CustomId");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationXboxLive)
+            {
+                output = Json::Value("XboxLive");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationParse)
+            {
+                output = Json::Value("Parse");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationTwitch)
+            {
+                output = Json::Value("Twitch");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationServerCustomId)
+            {
+                output = Json::Value("ServerCustomId");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationNintendoSwitchDeviceId)
+            {
+                output = Json::Value("NintendoSwitchDeviceId");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationFacebookInstantGamesId)
+            {
+                output = Json::Value("FacebookInstantGamesId");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationOpenIdConnect)
+            {
+                output = Json::Value("OpenIdConnect");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationApple)
+            {
+                output = Json::Value("Apple");
+                return;
+            }
+            if (input == UserOrigination::UserOriginationNintendoSwitchAccount)
+            {
+                output = Json::Value("NintendoSwitchAccount");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, UserOrigination& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Organic") output = UserOrigination::UserOriginationOrganic;
-            if (inputStr == "Steam") output = UserOrigination::UserOriginationSteam;
-            if (inputStr == "Google") output = UserOrigination::UserOriginationGoogle;
-            if (inputStr == "Amazon") output = UserOrigination::UserOriginationAmazon;
-            if (inputStr == "Facebook") output = UserOrigination::UserOriginationFacebook;
-            if (inputStr == "Kongregate") output = UserOrigination::UserOriginationKongregate;
-            if (inputStr == "GamersFirst") output = UserOrigination::UserOriginationGamersFirst;
-            if (inputStr == "Unknown") output = UserOrigination::UserOriginationUnknown;
-            if (inputStr == "IOS") output = UserOrigination::UserOriginationIOS;
-            if (inputStr == "LoadTest") output = UserOrigination::UserOriginationLoadTest;
-            if (inputStr == "Android") output = UserOrigination::UserOriginationAndroid;
-            if (inputStr == "PSN") output = UserOrigination::UserOriginationPSN;
-            if (inputStr == "GameCenter") output = UserOrigination::UserOriginationGameCenter;
-            if (inputStr == "CustomId") output = UserOrigination::UserOriginationCustomId;
-            if (inputStr == "XboxLive") output = UserOrigination::UserOriginationXboxLive;
-            if (inputStr == "Parse") output = UserOrigination::UserOriginationParse;
-            if (inputStr == "Twitch") output = UserOrigination::UserOriginationTwitch;
-            if (inputStr == "WindowsHello") output = UserOrigination::UserOriginationWindowsHello;
-            if (inputStr == "ServerCustomId") output = UserOrigination::UserOriginationServerCustomId;
-            if (inputStr == "NintendoSwitchDeviceId") output = UserOrigination::UserOriginationNintendoSwitchDeviceId;
-            if (inputStr == "FacebookInstantGamesId") output = UserOrigination::UserOriginationFacebookInstantGamesId;
-            if (inputStr == "OpenIdConnect") output = UserOrigination::UserOriginationOpenIdConnect;
+            if (inputStr == "Organic")
+            {
+                output = UserOrigination::UserOriginationOrganic;
+                return;
+            }
+            if (inputStr == "Steam")
+            {
+                output = UserOrigination::UserOriginationSteam;
+                return;
+            }
+            if (inputStr == "Google")
+            {
+                output = UserOrigination::UserOriginationGoogle;
+                return;
+            }
+            if (inputStr == "Amazon")
+            {
+                output = UserOrigination::UserOriginationAmazon;
+                return;
+            }
+            if (inputStr == "Facebook")
+            {
+                output = UserOrigination::UserOriginationFacebook;
+                return;
+            }
+            if (inputStr == "Kongregate")
+            {
+                output = UserOrigination::UserOriginationKongregate;
+                return;
+            }
+            if (inputStr == "GamersFirst")
+            {
+                output = UserOrigination::UserOriginationGamersFirst;
+                return;
+            }
+            if (inputStr == "Unknown")
+            {
+                output = UserOrigination::UserOriginationUnknown;
+                return;
+            }
+            if (inputStr == "IOS")
+            {
+                output = UserOrigination::UserOriginationIOS;
+                return;
+            }
+            if (inputStr == "LoadTest")
+            {
+                output = UserOrigination::UserOriginationLoadTest;
+                return;
+            }
+            if (inputStr == "Android")
+            {
+                output = UserOrigination::UserOriginationAndroid;
+                return;
+            }
+            if (inputStr == "PSN")
+            {
+                output = UserOrigination::UserOriginationPSN;
+                return;
+            }
+            if (inputStr == "GameCenter")
+            {
+                output = UserOrigination::UserOriginationGameCenter;
+                return;
+            }
+            if (inputStr == "CustomId")
+            {
+                output = UserOrigination::UserOriginationCustomId;
+                return;
+            }
+            if (inputStr == "XboxLive")
+            {
+                output = UserOrigination::UserOriginationXboxLive;
+                return;
+            }
+            if (inputStr == "Parse")
+            {
+                output = UserOrigination::UserOriginationParse;
+                return;
+            }
+            if (inputStr == "Twitch")
+            {
+                output = UserOrigination::UserOriginationTwitch;
+                return;
+            }
+            if (inputStr == "ServerCustomId")
+            {
+                output = UserOrigination::UserOriginationServerCustomId;
+                return;
+            }
+            if (inputStr == "NintendoSwitchDeviceId")
+            {
+                output = UserOrigination::UserOriginationNintendoSwitchDeviceId;
+                return;
+            }
+            if (inputStr == "FacebookInstantGamesId")
+            {
+                output = UserOrigination::UserOriginationFacebookInstantGamesId;
+                return;
+            }
+            if (inputStr == "OpenIdConnect")
+            {
+                output = UserOrigination::UserOriginationOpenIdConnect;
+                return;
+            }
+            if (inputStr == "Apple")
+            {
+                output = UserOrigination::UserOriginationApple;
+                return;
+            }
+            if (inputStr == "NintendoSwitchAccount")
+            {
+                output = UserOrigination::UserOriginationNintendoSwitchAccount;
+                return;
+            }
         }
 
         // Client Classes
@@ -2205,15 +6564,18 @@ namespace PlayFabInternal
 
         struct AddOrUpdateContactEmailRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string EmailAddress;
 
             AddOrUpdateContactEmailRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 EmailAddress()
             {}
 
             AddOrUpdateContactEmailRequest(const AddOrUpdateContactEmailRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 EmailAddress(src.EmailAddress)
             {}
 
@@ -2221,12 +6583,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EmailAddress"], EmailAddress);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EmailAddress; ToJsonUtilS(EmailAddress, each_EmailAddress); output["EmailAddress"] = each_EmailAddress;
                 return output;
             }
@@ -2316,12 +6680,14 @@ namespace PlayFabInternal
 
         struct AddUsernamePasswordRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string Email;
             std::string Password;
             std::string Username;
 
             AddUsernamePasswordRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Email(),
                 Password(),
                 Username()
@@ -2329,6 +6695,7 @@ namespace PlayFabInternal
 
             AddUsernamePasswordRequest(const AddUsernamePasswordRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Email(src.Email),
                 Password(src.Password),
                 Username(src.Username)
@@ -2338,6 +6705,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["Email"], Email);
                 FromJsonUtilS(input["Password"], Password);
                 FromJsonUtilS(input["Username"], Username);
@@ -2346,6 +6714,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Email; ToJsonUtilS(Email, each_Email); output["Email"] = each_Email;
                 Json::Value each_Password; ToJsonUtilS(Password, each_Password); output["Password"] = each_Password;
                 Json::Value each_Username; ToJsonUtilS(Username, each_Username); output["Username"] = each_Username;
@@ -2385,17 +6754,20 @@ namespace PlayFabInternal
         struct AddUserVirtualCurrencyRequest : public PlayFabRequestCommon
         {
             Int32 Amount;
+            std::map<std::string, std::string> CustomTags;
             std::string VirtualCurrency;
 
             AddUserVirtualCurrencyRequest() :
                 PlayFabRequestCommon(),
                 Amount(),
+                CustomTags(),
                 VirtualCurrency()
             {}
 
             AddUserVirtualCurrencyRequest(const AddUserVirtualCurrencyRequest& src) :
                 PlayFabRequestCommon(),
                 Amount(src.Amount),
+                CustomTags(src.CustomTags),
                 VirtualCurrency(src.VirtualCurrency)
             {}
 
@@ -2404,6 +6776,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["Amount"], Amount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["VirtualCurrency"], VirtualCurrency);
             }
 
@@ -2411,6 +6784,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_Amount; ToJsonUtilP(Amount, each_Amount); output["Amount"] = each_Amount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_VirtualCurrency; ToJsonUtilS(VirtualCurrency, each_VirtualCurrency); output["VirtualCurrency"] = each_VirtualCurrency;
                 return output;
             }
@@ -3338,15 +7712,18 @@ namespace PlayFabInternal
 
         struct ConfirmPurchaseRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string OrderId;
 
             ConfirmPurchaseRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 OrderId()
             {}
 
             ConfirmPurchaseRequest(const ConfirmPurchaseRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 OrderId(src.OrderId)
             {}
 
@@ -3354,12 +7731,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["OrderId"], OrderId);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_OrderId; ToJsonUtilS(OrderId, each_OrderId); output["OrderId"] = each_OrderId;
                 return output;
             }
@@ -3408,12 +7787,14 @@ namespace PlayFabInternal
         {
             std::string CharacterId;
             Int32 ConsumeCount;
+            std::map<std::string, std::string> CustomTags;
             std::string ItemInstanceId;
 
             ConsumeItemRequest() :
                 PlayFabRequestCommon(),
                 CharacterId(),
                 ConsumeCount(),
+                CustomTags(),
                 ItemInstanceId()
             {}
 
@@ -3421,6 +7802,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 CharacterId(src.CharacterId),
                 ConsumeCount(src.ConsumeCount),
+                CustomTags(src.CustomTags),
                 ItemInstanceId(src.ItemInstanceId)
             {}
 
@@ -3430,6 +7812,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["CharacterId"], CharacterId);
                 FromJsonUtilP(input["ConsumeCount"], ConsumeCount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["ItemInstanceId"], ItemInstanceId);
             }
 
@@ -3438,6 +7821,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_CharacterId; ToJsonUtilS(CharacterId, each_CharacterId); output["CharacterId"] = each_CharacterId;
                 Json::Value each_ConsumeCount; ToJsonUtilP(ConsumeCount, each_ConsumeCount); output["ConsumeCount"] = each_ConsumeCount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ItemInstanceId; ToJsonUtilS(ItemInstanceId, each_ItemInstanceId); output["ItemInstanceId"] = each_ItemInstanceId;
                 return output;
             }
@@ -3477,20 +7861,232 @@ namespace PlayFabInternal
             }
         };
 
+        struct MicrosoftStorePayload : public PlayFabBaseModel
+        {
+            std::string CollectionsMsIdKey;
+            std::string UserId;
+            std::string XboxToken;
+
+            MicrosoftStorePayload() :
+                PlayFabBaseModel(),
+                CollectionsMsIdKey(),
+                UserId(),
+                XboxToken()
+            {}
+
+            MicrosoftStorePayload(const MicrosoftStorePayload& src) :
+                PlayFabBaseModel(),
+                CollectionsMsIdKey(src.CollectionsMsIdKey),
+                UserId(src.UserId),
+                XboxToken(src.XboxToken)
+            {}
+
+            ~MicrosoftStorePayload() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["CollectionsMsIdKey"], CollectionsMsIdKey);
+                FromJsonUtilS(input["UserId"], UserId);
+                FromJsonUtilS(input["XboxToken"], XboxToken);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_CollectionsMsIdKey; ToJsonUtilS(CollectionsMsIdKey, each_CollectionsMsIdKey); output["CollectionsMsIdKey"] = each_CollectionsMsIdKey;
+                Json::Value each_UserId; ToJsonUtilS(UserId, each_UserId); output["UserId"] = each_UserId;
+                Json::Value each_XboxToken; ToJsonUtilS(XboxToken, each_XboxToken); output["XboxToken"] = each_XboxToken;
+                return output;
+            }
+        };
+
+        struct ConsumeMicrosoftStoreEntitlementsRequest : public PlayFabRequestCommon
+        {
+            std::string CatalogVersion;
+            std::map<std::string, std::string> CustomTags;
+            MicrosoftStorePayload MarketplaceSpecificData;
+
+            ConsumeMicrosoftStoreEntitlementsRequest() :
+                PlayFabRequestCommon(),
+                CatalogVersion(),
+                CustomTags(),
+                MarketplaceSpecificData()
+            {}
+
+            ConsumeMicrosoftStoreEntitlementsRequest(const ConsumeMicrosoftStoreEntitlementsRequest& src) :
+                PlayFabRequestCommon(),
+                CatalogVersion(src.CatalogVersion),
+                CustomTags(src.CustomTags),
+                MarketplaceSpecificData(src.MarketplaceSpecificData)
+            {}
+
+            ~ConsumeMicrosoftStoreEntitlementsRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
+                FromJsonUtilO(input["MarketplaceSpecificData"], MarketplaceSpecificData);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
+                Json::Value each_MarketplaceSpecificData; ToJsonUtilO(MarketplaceSpecificData, each_MarketplaceSpecificData); output["MarketplaceSpecificData"] = each_MarketplaceSpecificData;
+                return output;
+            }
+        };
+
+        struct ConsumeMicrosoftStoreEntitlementsResponse : public PlayFabResultCommon
+        {
+            std::list<ItemInstance> Items;
+
+            ConsumeMicrosoftStoreEntitlementsResponse() :
+                PlayFabResultCommon(),
+                Items()
+            {}
+
+            ConsumeMicrosoftStoreEntitlementsResponse(const ConsumeMicrosoftStoreEntitlementsResponse& src) :
+                PlayFabResultCommon(),
+                Items(src.Items)
+            {}
+
+            ~ConsumeMicrosoftStoreEntitlementsResponse() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilO(input["Items"], Items);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_Items; ToJsonUtilO(Items, each_Items); output["Items"] = each_Items;
+                return output;
+            }
+        };
+
+        struct PlayStation5Payload : public PlayFabBaseModel
+        {
+            std::list<std::string> Ids;
+            std::string ServiceLabel;
+
+            PlayStation5Payload() :
+                PlayFabBaseModel(),
+                Ids(),
+                ServiceLabel()
+            {}
+
+            PlayStation5Payload(const PlayStation5Payload& src) :
+                PlayFabBaseModel(),
+                Ids(src.Ids),
+                ServiceLabel(src.ServiceLabel)
+            {}
+
+            ~PlayStation5Payload() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["Ids"], Ids);
+                FromJsonUtilS(input["ServiceLabel"], ServiceLabel);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_Ids; ToJsonUtilS(Ids, each_Ids); output["Ids"] = each_Ids;
+                Json::Value each_ServiceLabel; ToJsonUtilS(ServiceLabel, each_ServiceLabel); output["ServiceLabel"] = each_ServiceLabel;
+                return output;
+            }
+        };
+
+        struct ConsumePS5EntitlementsRequest : public PlayFabRequestCommon
+        {
+            std::string CatalogVersion;
+            std::map<std::string, std::string> CustomTags;
+            PlayStation5Payload MarketplaceSpecificData;
+
+            ConsumePS5EntitlementsRequest() :
+                PlayFabRequestCommon(),
+                CatalogVersion(),
+                CustomTags(),
+                MarketplaceSpecificData()
+            {}
+
+            ConsumePS5EntitlementsRequest(const ConsumePS5EntitlementsRequest& src) :
+                PlayFabRequestCommon(),
+                CatalogVersion(src.CatalogVersion),
+                CustomTags(src.CustomTags),
+                MarketplaceSpecificData(src.MarketplaceSpecificData)
+            {}
+
+            ~ConsumePS5EntitlementsRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
+                FromJsonUtilO(input["MarketplaceSpecificData"], MarketplaceSpecificData);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
+                Json::Value each_MarketplaceSpecificData; ToJsonUtilO(MarketplaceSpecificData, each_MarketplaceSpecificData); output["MarketplaceSpecificData"] = each_MarketplaceSpecificData;
+                return output;
+            }
+        };
+
+        struct ConsumePS5EntitlementsResult : public PlayFabResultCommon
+        {
+            std::list<ItemInstance> Items;
+
+            ConsumePS5EntitlementsResult() :
+                PlayFabResultCommon(),
+                Items()
+            {}
+
+            ConsumePS5EntitlementsResult(const ConsumePS5EntitlementsResult& src) :
+                PlayFabResultCommon(),
+                Items(src.Items)
+            {}
+
+            ~ConsumePS5EntitlementsResult() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilO(input["Items"], Items);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_Items; ToJsonUtilO(Items, each_Items); output["Items"] = each_Items;
+                return output;
+            }
+        };
+
         struct ConsumePSNEntitlementsRequest : public PlayFabRequestCommon
         {
             std::string CatalogVersion;
+            std::map<std::string, std::string> CustomTags;
             Int32 ServiceLabel;
 
             ConsumePSNEntitlementsRequest() :
                 PlayFabRequestCommon(),
                 CatalogVersion(),
+                CustomTags(),
                 ServiceLabel()
             {}
 
             ConsumePSNEntitlementsRequest(const ConsumePSNEntitlementsRequest& src) :
                 PlayFabRequestCommon(),
                 CatalogVersion(src.CatalogVersion),
+                CustomTags(src.CustomTags),
                 ServiceLabel(src.ServiceLabel)
             {}
 
@@ -3499,6 +8095,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["ServiceLabel"], ServiceLabel);
             }
 
@@ -3506,6 +8103,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ServiceLabel; ToJsonUtilP(ServiceLabel, each_ServiceLabel); output["ServiceLabel"] = each_ServiceLabel;
                 return output;
             }
@@ -3543,17 +8141,20 @@ namespace PlayFabInternal
         struct ConsumeXboxEntitlementsRequest : public PlayFabRequestCommon
         {
             std::string CatalogVersion;
+            std::map<std::string, std::string> CustomTags;
             std::string XboxToken;
 
             ConsumeXboxEntitlementsRequest() :
                 PlayFabRequestCommon(),
                 CatalogVersion(),
+                CustomTags(),
                 XboxToken()
             {}
 
             ConsumeXboxEntitlementsRequest(const ConsumeXboxEntitlementsRequest& src) :
                 PlayFabRequestCommon(),
                 CatalogVersion(src.CatalogVersion),
+                CustomTags(src.CustomTags),
                 XboxToken(src.XboxToken)
             {}
 
@@ -3562,6 +8163,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["XboxToken"], XboxToken);
             }
 
@@ -3569,6 +8171,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_XboxToken; ToJsonUtilS(XboxToken, each_XboxToken); output["XboxToken"] = each_XboxToken;
                 return output;
             }
@@ -4044,6 +8647,7 @@ namespace PlayFabInternal
 
         struct ExecuteCloudScriptRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string FunctionName;
             Json::Value FunctionParameter;
             Boxed<bool> GeneratePlayStreamEvent;
@@ -4052,6 +8656,7 @@ namespace PlayFabInternal
 
             ExecuteCloudScriptRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 FunctionName(),
                 FunctionParameter(),
                 GeneratePlayStreamEvent(),
@@ -4061,6 +8666,7 @@ namespace PlayFabInternal
 
             ExecuteCloudScriptRequest(const ExecuteCloudScriptRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 FunctionName(src.FunctionName),
                 FunctionParameter(src.FunctionParameter),
                 GeneratePlayStreamEvent(src.GeneratePlayStreamEvent),
@@ -4072,6 +8678,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["FunctionName"], FunctionName);
                 FunctionParameter = input["FunctionParameter"];
                 FromJsonUtilP(input["GeneratePlayStreamEvent"], GeneratePlayStreamEvent);
@@ -4082,6 +8689,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_FunctionName; ToJsonUtilS(FunctionName, each_FunctionName); output["FunctionName"] = each_FunctionName;
                 output["FunctionParameter"] = FunctionParameter;
                 Json::Value each_GeneratePlayStreamEvent; ToJsonUtilP(GeneratePlayStreamEvent, each_GeneratePlayStreamEvent); output["GeneratePlayStreamEvent"] = each_GeneratePlayStreamEvent;
@@ -5284,6 +9892,35 @@ namespace PlayFabInternal
             }
         };
 
+        struct UserAppleIdInfo : public PlayFabBaseModel
+        {
+            std::string AppleSubjectId;
+
+            UserAppleIdInfo() :
+                PlayFabBaseModel(),
+                AppleSubjectId()
+            {}
+
+            UserAppleIdInfo(const UserAppleIdInfo& src) :
+                PlayFabBaseModel(),
+                AppleSubjectId(src.AppleSubjectId)
+            {}
+
+            ~UserAppleIdInfo() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["AppleSubjectId"], AppleSubjectId);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_AppleSubjectId; ToJsonUtilS(AppleSubjectId, each_AppleSubjectId); output["AppleSubjectId"] = each_AppleSubjectId;
+                return output;
+            }
+        };
+
         struct UserCustomIdInfo : public PlayFabBaseModel
         {
             std::string CustomId;
@@ -5450,6 +10087,35 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_KongregateId; ToJsonUtilS(KongregateId, each_KongregateId); output["KongregateId"] = each_KongregateId;
                 Json::Value each_KongregateName; ToJsonUtilS(KongregateName, each_KongregateName); output["KongregateName"] = each_KongregateName;
+                return output;
+            }
+        };
+
+        struct UserNintendoSwitchAccountIdInfo : public PlayFabBaseModel
+        {
+            std::string NintendoSwitchAccountSubjectId;
+
+            UserNintendoSwitchAccountIdInfo() :
+                PlayFabBaseModel(),
+                NintendoSwitchAccountSubjectId()
+            {}
+
+            UserNintendoSwitchAccountIdInfo(const UserNintendoSwitchAccountIdInfo& src) :
+                PlayFabBaseModel(),
+                NintendoSwitchAccountSubjectId(src.NintendoSwitchAccountSubjectId)
+            {}
+
+            ~UserNintendoSwitchAccountIdInfo() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["NintendoSwitchAccountSubjectId"], NintendoSwitchAccountSubjectId);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_NintendoSwitchAccountSubjectId; ToJsonUtilS(NintendoSwitchAccountSubjectId, each_NintendoSwitchAccountSubjectId); output["NintendoSwitchAccountSubjectId"] = each_NintendoSwitchAccountSubjectId;
                 return output;
             }
         };
@@ -5649,43 +10315,10 @@ namespace PlayFabInternal
             }
         };
 
-        struct UserWindowsHelloInfo : public PlayFabBaseModel
-        {
-            std::string WindowsHelloDeviceName;
-            std::string WindowsHelloPublicKeyHash;
-
-            UserWindowsHelloInfo() :
-                PlayFabBaseModel(),
-                WindowsHelloDeviceName(),
-                WindowsHelloPublicKeyHash()
-            {}
-
-            UserWindowsHelloInfo(const UserWindowsHelloInfo& src) :
-                PlayFabBaseModel(),
-                WindowsHelloDeviceName(src.WindowsHelloDeviceName),
-                WindowsHelloPublicKeyHash(src.WindowsHelloPublicKeyHash)
-            {}
-
-            ~UserWindowsHelloInfo() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["WindowsHelloDeviceName"], WindowsHelloDeviceName);
-                FromJsonUtilS(input["WindowsHelloPublicKeyHash"], WindowsHelloPublicKeyHash);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_WindowsHelloDeviceName; ToJsonUtilS(WindowsHelloDeviceName, each_WindowsHelloDeviceName); output["WindowsHelloDeviceName"] = each_WindowsHelloDeviceName;
-                Json::Value each_WindowsHelloPublicKeyHash; ToJsonUtilS(WindowsHelloPublicKeyHash, each_WindowsHelloPublicKeyHash); output["WindowsHelloPublicKeyHash"] = each_WindowsHelloPublicKeyHash;
-                return output;
-            }
-        };
-
         struct UserAccountInfo : public PlayFabBaseModel
         {
             Boxed<UserAndroidDeviceInfo> AndroidDeviceInfo;
+            Boxed<UserAppleIdInfo> AppleAccountInfo;
             time_t Created;
             Boxed<UserCustomIdInfo> CustomIdInfo;
             Boxed<UserFacebookInfo> FacebookInfo;
@@ -5694,6 +10327,7 @@ namespace PlayFabInternal
             Boxed<UserGoogleInfo> GoogleInfo;
             Boxed<UserIosDeviceInfo> IosDeviceInfo;
             Boxed<UserKongregateInfo> KongregateInfo;
+            Boxed<UserNintendoSwitchAccountIdInfo> NintendoSwitchAccountInfo;
             Boxed<UserNintendoSwitchDeviceIdInfo> NintendoSwitchDeviceIdInfo;
             std::list<UserOpenIdInfo> OpenIdInfo;
             std::string PlayFabId;
@@ -5703,12 +10337,12 @@ namespace PlayFabInternal
             Boxed<UserTitleInfo> TitleInfo;
             Boxed<UserTwitchInfo> TwitchInfo;
             std::string Username;
-            Boxed<UserWindowsHelloInfo> WindowsHelloInfo;
             Boxed<UserXboxInfo> XboxInfo;
 
             UserAccountInfo() :
                 PlayFabBaseModel(),
                 AndroidDeviceInfo(),
+                AppleAccountInfo(),
                 Created(),
                 CustomIdInfo(),
                 FacebookInfo(),
@@ -5717,6 +10351,7 @@ namespace PlayFabInternal
                 GoogleInfo(),
                 IosDeviceInfo(),
                 KongregateInfo(),
+                NintendoSwitchAccountInfo(),
                 NintendoSwitchDeviceIdInfo(),
                 OpenIdInfo(),
                 PlayFabId(),
@@ -5726,13 +10361,13 @@ namespace PlayFabInternal
                 TitleInfo(),
                 TwitchInfo(),
                 Username(),
-                WindowsHelloInfo(),
                 XboxInfo()
             {}
 
             UserAccountInfo(const UserAccountInfo& src) :
                 PlayFabBaseModel(),
                 AndroidDeviceInfo(src.AndroidDeviceInfo),
+                AppleAccountInfo(src.AppleAccountInfo),
                 Created(src.Created),
                 CustomIdInfo(src.CustomIdInfo),
                 FacebookInfo(src.FacebookInfo),
@@ -5741,6 +10376,7 @@ namespace PlayFabInternal
                 GoogleInfo(src.GoogleInfo),
                 IosDeviceInfo(src.IosDeviceInfo),
                 KongregateInfo(src.KongregateInfo),
+                NintendoSwitchAccountInfo(src.NintendoSwitchAccountInfo),
                 NintendoSwitchDeviceIdInfo(src.NintendoSwitchDeviceIdInfo),
                 OpenIdInfo(src.OpenIdInfo),
                 PlayFabId(src.PlayFabId),
@@ -5750,7 +10386,6 @@ namespace PlayFabInternal
                 TitleInfo(src.TitleInfo),
                 TwitchInfo(src.TwitchInfo),
                 Username(src.Username),
-                WindowsHelloInfo(src.WindowsHelloInfo),
                 XboxInfo(src.XboxInfo)
             {}
 
@@ -5759,6 +10394,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["AndroidDeviceInfo"], AndroidDeviceInfo);
+                FromJsonUtilO(input["AppleAccountInfo"], AppleAccountInfo);
                 FromJsonUtilT(input["Created"], Created);
                 FromJsonUtilO(input["CustomIdInfo"], CustomIdInfo);
                 FromJsonUtilO(input["FacebookInfo"], FacebookInfo);
@@ -5767,6 +10403,7 @@ namespace PlayFabInternal
                 FromJsonUtilO(input["GoogleInfo"], GoogleInfo);
                 FromJsonUtilO(input["IosDeviceInfo"], IosDeviceInfo);
                 FromJsonUtilO(input["KongregateInfo"], KongregateInfo);
+                FromJsonUtilO(input["NintendoSwitchAccountInfo"], NintendoSwitchAccountInfo);
                 FromJsonUtilO(input["NintendoSwitchDeviceIdInfo"], NintendoSwitchDeviceIdInfo);
                 FromJsonUtilO(input["OpenIdInfo"], OpenIdInfo);
                 FromJsonUtilS(input["PlayFabId"], PlayFabId);
@@ -5776,7 +10413,6 @@ namespace PlayFabInternal
                 FromJsonUtilO(input["TitleInfo"], TitleInfo);
                 FromJsonUtilO(input["TwitchInfo"], TwitchInfo);
                 FromJsonUtilS(input["Username"], Username);
-                FromJsonUtilO(input["WindowsHelloInfo"], WindowsHelloInfo);
                 FromJsonUtilO(input["XboxInfo"], XboxInfo);
             }
 
@@ -5784,6 +10420,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_AndroidDeviceInfo; ToJsonUtilO(AndroidDeviceInfo, each_AndroidDeviceInfo); output["AndroidDeviceInfo"] = each_AndroidDeviceInfo;
+                Json::Value each_AppleAccountInfo; ToJsonUtilO(AppleAccountInfo, each_AppleAccountInfo); output["AppleAccountInfo"] = each_AppleAccountInfo;
                 Json::Value each_Created; ToJsonUtilT(Created, each_Created); output["Created"] = each_Created;
                 Json::Value each_CustomIdInfo; ToJsonUtilO(CustomIdInfo, each_CustomIdInfo); output["CustomIdInfo"] = each_CustomIdInfo;
                 Json::Value each_FacebookInfo; ToJsonUtilO(FacebookInfo, each_FacebookInfo); output["FacebookInfo"] = each_FacebookInfo;
@@ -5792,6 +10429,7 @@ namespace PlayFabInternal
                 Json::Value each_GoogleInfo; ToJsonUtilO(GoogleInfo, each_GoogleInfo); output["GoogleInfo"] = each_GoogleInfo;
                 Json::Value each_IosDeviceInfo; ToJsonUtilO(IosDeviceInfo, each_IosDeviceInfo); output["IosDeviceInfo"] = each_IosDeviceInfo;
                 Json::Value each_KongregateInfo; ToJsonUtilO(KongregateInfo, each_KongregateInfo); output["KongregateInfo"] = each_KongregateInfo;
+                Json::Value each_NintendoSwitchAccountInfo; ToJsonUtilO(NintendoSwitchAccountInfo, each_NintendoSwitchAccountInfo); output["NintendoSwitchAccountInfo"] = each_NintendoSwitchAccountInfo;
                 Json::Value each_NintendoSwitchDeviceIdInfo; ToJsonUtilO(NintendoSwitchDeviceIdInfo, each_NintendoSwitchDeviceIdInfo); output["NintendoSwitchDeviceIdInfo"] = each_NintendoSwitchDeviceIdInfo;
                 Json::Value each_OpenIdInfo; ToJsonUtilO(OpenIdInfo, each_OpenIdInfo); output["OpenIdInfo"] = each_OpenIdInfo;
                 Json::Value each_PlayFabId; ToJsonUtilS(PlayFabId, each_PlayFabId); output["PlayFabId"] = each_PlayFabId;
@@ -5801,7 +10439,6 @@ namespace PlayFabInternal
                 Json::Value each_TitleInfo; ToJsonUtilO(TitleInfo, each_TitleInfo); output["TitleInfo"] = each_TitleInfo;
                 Json::Value each_TwitchInfo; ToJsonUtilO(TwitchInfo, each_TwitchInfo); output["TwitchInfo"] = each_TwitchInfo;
                 Json::Value each_Username; ToJsonUtilS(Username, each_Username); output["Username"] = each_Username;
-                Json::Value each_WindowsHelloInfo; ToJsonUtilO(WindowsHelloInfo, each_WindowsHelloInfo); output["WindowsHelloInfo"] = each_WindowsHelloInfo;
                 Json::Value each_XboxInfo; ToJsonUtilO(XboxInfo, each_XboxInfo); output["XboxInfo"] = each_XboxInfo;
                 return output;
             }
@@ -6117,17 +10754,20 @@ namespace PlayFabInternal
         {
             std::string CatalogVersion;
             std::string CharacterId;
+            std::map<std::string, std::string> CustomTags;
 
             GetCharacterInventoryRequest() :
                 PlayFabRequestCommon(),
                 CatalogVersion(),
-                CharacterId()
+                CharacterId(),
+                CustomTags()
             {}
 
             GetCharacterInventoryRequest(const GetCharacterInventoryRequest& src) :
                 PlayFabRequestCommon(),
                 CatalogVersion(src.CatalogVersion),
-                CharacterId(src.CharacterId)
+                CharacterId(src.CharacterId),
+                CustomTags(src.CustomTags)
             {}
 
             ~GetCharacterInventoryRequest() = default;
@@ -6136,6 +10776,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
                 FromJsonUtilS(input["CharacterId"], CharacterId);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
@@ -6143,6 +10784,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
                 Json::Value each_CharacterId; ToJsonUtilS(CharacterId, each_CharacterId); output["CharacterId"] = each_CharacterId;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -6540,6 +11182,7 @@ namespace PlayFabInternal
 
         struct GetFriendLeaderboardAroundPlayerRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> IncludeFacebookFriends;
             Boxed<bool> IncludeSteamFriends;
             Boxed<Int32> MaxResultsCount;
@@ -6551,6 +11194,7 @@ namespace PlayFabInternal
 
             GetFriendLeaderboardAroundPlayerRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 IncludeFacebookFriends(),
                 IncludeSteamFriends(),
                 MaxResultsCount(),
@@ -6563,6 +11207,7 @@ namespace PlayFabInternal
 
             GetFriendLeaderboardAroundPlayerRequest(const GetFriendLeaderboardAroundPlayerRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 IncludeFacebookFriends(src.IncludeFacebookFriends),
                 IncludeSteamFriends(src.IncludeSteamFriends),
                 MaxResultsCount(src.MaxResultsCount),
@@ -6577,6 +11222,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["IncludeFacebookFriends"], IncludeFacebookFriends);
                 FromJsonUtilP(input["IncludeSteamFriends"], IncludeSteamFriends);
                 FromJsonUtilP(input["MaxResultsCount"], MaxResultsCount);
@@ -6590,6 +11236,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_IncludeFacebookFriends; ToJsonUtilP(IncludeFacebookFriends, each_IncludeFacebookFriends); output["IncludeFacebookFriends"] = each_IncludeFacebookFriends;
                 Json::Value each_IncludeSteamFriends; ToJsonUtilP(IncludeSteamFriends, each_IncludeSteamFriends); output["IncludeSteamFriends"] = each_IncludeSteamFriends;
                 Json::Value each_MaxResultsCount; ToJsonUtilP(MaxResultsCount, each_MaxResultsCount); output["MaxResultsCount"] = each_MaxResultsCount;
@@ -6692,6 +11339,7 @@ namespace PlayFabInternal
 
         struct GetFriendLeaderboardRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> IncludeFacebookFriends;
             Boxed<bool> IncludeSteamFriends;
             Boxed<Int32> MaxResultsCount;
@@ -6703,6 +11351,7 @@ namespace PlayFabInternal
 
             GetFriendLeaderboardRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 IncludeFacebookFriends(),
                 IncludeSteamFriends(),
                 MaxResultsCount(),
@@ -6715,6 +11364,7 @@ namespace PlayFabInternal
 
             GetFriendLeaderboardRequest(const GetFriendLeaderboardRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 IncludeFacebookFriends(src.IncludeFacebookFriends),
                 IncludeSteamFriends(src.IncludeSteamFriends),
                 MaxResultsCount(src.MaxResultsCount),
@@ -6729,6 +11379,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["IncludeFacebookFriends"], IncludeFacebookFriends);
                 FromJsonUtilP(input["IncludeSteamFriends"], IncludeSteamFriends);
                 FromJsonUtilP(input["MaxResultsCount"], MaxResultsCount);
@@ -6742,6 +11393,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_IncludeFacebookFriends; ToJsonUtilP(IncludeFacebookFriends, each_IncludeFacebookFriends); output["IncludeFacebookFriends"] = each_IncludeFacebookFriends;
                 Json::Value each_IncludeSteamFriends; ToJsonUtilP(IncludeSteamFriends, each_IncludeSteamFriends); output["IncludeSteamFriends"] = each_IncludeSteamFriends;
                 Json::Value each_MaxResultsCount; ToJsonUtilP(MaxResultsCount, each_MaxResultsCount); output["MaxResultsCount"] = each_MaxResultsCount;
@@ -6756,6 +11408,7 @@ namespace PlayFabInternal
 
         struct GetFriendsListRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> IncludeFacebookFriends;
             Boxed<bool> IncludeSteamFriends;
             Boxed<PlayerProfileViewConstraints> ProfileConstraints;
@@ -6763,6 +11416,7 @@ namespace PlayFabInternal
 
             GetFriendsListRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 IncludeFacebookFriends(),
                 IncludeSteamFriends(),
                 ProfileConstraints(),
@@ -6771,6 +11425,7 @@ namespace PlayFabInternal
 
             GetFriendsListRequest(const GetFriendsListRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 IncludeFacebookFriends(src.IncludeFacebookFriends),
                 IncludeSteamFriends(src.IncludeSteamFriends),
                 ProfileConstraints(src.ProfileConstraints),
@@ -6781,6 +11436,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["IncludeFacebookFriends"], IncludeFacebookFriends);
                 FromJsonUtilP(input["IncludeSteamFriends"], IncludeSteamFriends);
                 FromJsonUtilO(input["ProfileConstraints"], ProfileConstraints);
@@ -6790,6 +11446,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_IncludeFacebookFriends; ToJsonUtilP(IncludeFacebookFriends, each_IncludeFacebookFriends); output["IncludeFacebookFriends"] = each_IncludeFacebookFriends;
                 Json::Value each_IncludeSteamFriends; ToJsonUtilP(IncludeSteamFriends, each_IncludeSteamFriends); output["IncludeSteamFriends"] = each_IncludeSteamFriends;
                 Json::Value each_ProfileConstraints; ToJsonUtilO(ProfileConstraints, each_ProfileConstraints); output["ProfileConstraints"] = each_ProfileConstraints;
@@ -6902,6 +11559,7 @@ namespace PlayFabInternal
 
         struct GetLeaderboardAroundPlayerRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<Int32> MaxResultsCount;
             std::string PlayFabId;
             Boxed<PlayerProfileViewConstraints> ProfileConstraints;
@@ -6910,6 +11568,7 @@ namespace PlayFabInternal
 
             GetLeaderboardAroundPlayerRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 MaxResultsCount(),
                 PlayFabId(),
                 ProfileConstraints(),
@@ -6919,6 +11578,7 @@ namespace PlayFabInternal
 
             GetLeaderboardAroundPlayerRequest(const GetLeaderboardAroundPlayerRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 MaxResultsCount(src.MaxResultsCount),
                 PlayFabId(src.PlayFabId),
                 ProfileConstraints(src.ProfileConstraints),
@@ -6930,6 +11590,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["MaxResultsCount"], MaxResultsCount);
                 FromJsonUtilS(input["PlayFabId"], PlayFabId);
                 FromJsonUtilO(input["ProfileConstraints"], ProfileConstraints);
@@ -6940,6 +11601,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_MaxResultsCount; ToJsonUtilP(MaxResultsCount, each_MaxResultsCount); output["MaxResultsCount"] = each_MaxResultsCount;
                 Json::Value each_PlayFabId; ToJsonUtilS(PlayFabId, each_PlayFabId); output["PlayFabId"] = each_PlayFabId;
                 Json::Value each_ProfileConstraints; ToJsonUtilO(ProfileConstraints, each_ProfileConstraints); output["ProfileConstraints"] = each_ProfileConstraints;
@@ -6990,18 +11652,15 @@ namespace PlayFabInternal
 
         struct GetLeaderboardForUsersCharactersRequest : public PlayFabRequestCommon
         {
-            Int32 MaxResultsCount;
             std::string StatisticName;
 
             GetLeaderboardForUsersCharactersRequest() :
                 PlayFabRequestCommon(),
-                MaxResultsCount(),
                 StatisticName()
             {}
 
             GetLeaderboardForUsersCharactersRequest(const GetLeaderboardForUsersCharactersRequest& src) :
                 PlayFabRequestCommon(),
-                MaxResultsCount(src.MaxResultsCount),
                 StatisticName(src.StatisticName)
             {}
 
@@ -7009,14 +11668,12 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
-                FromJsonUtilP(input["MaxResultsCount"], MaxResultsCount);
                 FromJsonUtilS(input["StatisticName"], StatisticName);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
-                Json::Value each_MaxResultsCount; ToJsonUtilP(MaxResultsCount, each_MaxResultsCount); output["MaxResultsCount"] = each_MaxResultsCount;
                 Json::Value each_StatisticName; ToJsonUtilS(StatisticName, each_StatisticName); output["StatisticName"] = each_StatisticName;
                 return output;
             }
@@ -7053,6 +11710,7 @@ namespace PlayFabInternal
 
         struct GetLeaderboardRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<Int32> MaxResultsCount;
             Boxed<PlayerProfileViewConstraints> ProfileConstraints;
             Int32 StartPosition;
@@ -7061,6 +11719,7 @@ namespace PlayFabInternal
 
             GetLeaderboardRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 MaxResultsCount(),
                 ProfileConstraints(),
                 StartPosition(),
@@ -7070,6 +11729,7 @@ namespace PlayFabInternal
 
             GetLeaderboardRequest(const GetLeaderboardRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 MaxResultsCount(src.MaxResultsCount),
                 ProfileConstraints(src.ProfileConstraints),
                 StartPosition(src.StartPosition),
@@ -7081,6 +11741,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["MaxResultsCount"], MaxResultsCount);
                 FromJsonUtilO(input["ProfileConstraints"], ProfileConstraints);
                 FromJsonUtilP(input["StartPosition"], StartPosition);
@@ -7091,6 +11752,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_MaxResultsCount; ToJsonUtilP(MaxResultsCount, each_MaxResultsCount); output["MaxResultsCount"] = each_MaxResultsCount;
                 Json::Value each_ProfileConstraints; ToJsonUtilO(ProfileConstraints, each_ProfileConstraints); output["ProfileConstraints"] = each_ProfileConstraints;
                 Json::Value each_StartPosition; ToJsonUtilP(StartPosition, each_StartPosition); output["StartPosition"] = each_StartPosition;
@@ -7361,17 +12023,20 @@ namespace PlayFabInternal
 
         struct GetPlayerCombinedInfoRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             GetPlayerCombinedInfoRequestParams InfoRequestParameters;
             std::string PlayFabId;
 
             GetPlayerCombinedInfoRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 InfoRequestParameters(),
                 PlayFabId()
             {}
 
             GetPlayerCombinedInfoRequest(const GetPlayerCombinedInfoRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 InfoRequestParameters(src.InfoRequestParameters),
                 PlayFabId(src.PlayFabId)
             {}
@@ -7380,6 +12045,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
                 FromJsonUtilS(input["PlayFabId"], PlayFabId);
             }
@@ -7387,6 +12053,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
                 Json::Value each_PlayFabId; ToJsonUtilS(PlayFabId, each_PlayFabId); output["PlayFabId"] = each_PlayFabId;
                 return output;
@@ -7557,17 +12224,20 @@ namespace PlayFabInternal
 
         struct GetPlayerProfileRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string PlayFabId;
             Boxed<PlayerProfileViewConstraints> ProfileConstraints;
 
             GetPlayerProfileRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 PlayFabId(),
                 ProfileConstraints()
             {}
 
             GetPlayerProfileRequest(const GetPlayerProfileRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 PlayFabId(src.PlayFabId),
                 ProfileConstraints(src.ProfileConstraints)
             {}
@@ -7576,6 +12246,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["PlayFabId"], PlayFabId);
                 FromJsonUtilO(input["ProfileConstraints"], ProfileConstraints);
             }
@@ -7583,6 +12254,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_PlayFabId; ToJsonUtilS(PlayFabId, each_PlayFabId); output["PlayFabId"] = each_PlayFabId;
                 Json::Value each_ProfileConstraints; ToJsonUtilO(ProfileConstraints, each_ProfileConstraints); output["ProfileConstraints"] = each_ProfileConstraints;
                 return output;
@@ -7746,17 +12418,20 @@ namespace PlayFabInternal
 
         struct GetPlayerStatisticsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::list<std::string> StatisticNames;
             std::list<StatisticNameVersion> StatisticNameVersions;
 
             GetPlayerStatisticsRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 StatisticNames(),
                 StatisticNameVersions()
             {}
 
             GetPlayerStatisticsRequest(const GetPlayerStatisticsRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 StatisticNames(src.StatisticNames),
                 StatisticNameVersions(src.StatisticNameVersions)
             {}
@@ -7765,6 +12440,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["StatisticNames"], StatisticNames);
                 FromJsonUtilO(input["StatisticNameVersions"], StatisticNameVersions);
             }
@@ -7772,6 +12448,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_StatisticNames; ToJsonUtilS(StatisticNames, each_StatisticNames); output["StatisticNames"] = each_StatisticNames;
                 Json::Value each_StatisticNameVersions; ToJsonUtilO(StatisticNameVersions, each_StatisticNameVersions); output["StatisticNameVersions"] = each_StatisticNameVersions;
                 return output;
@@ -7809,15 +12486,18 @@ namespace PlayFabInternal
 
         struct GetPlayerStatisticVersionsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string StatisticName;
 
             GetPlayerStatisticVersionsRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 StatisticName()
             {}
 
             GetPlayerStatisticVersionsRequest(const GetPlayerStatisticVersionsRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 StatisticName(src.StatisticName)
             {}
 
@@ -7825,12 +12505,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["StatisticName"], StatisticName);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_StatisticName; ToJsonUtilS(StatisticName, each_StatisticName); output["StatisticName"] = each_StatisticName;
                 return output;
             }
@@ -7921,17 +12603,20 @@ namespace PlayFabInternal
 
         struct GetPlayerTagsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string Namespace;
             std::string PlayFabId;
 
             GetPlayerTagsRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Namespace(),
                 PlayFabId()
             {}
 
             GetPlayerTagsRequest(const GetPlayerTagsRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Namespace(src.Namespace),
                 PlayFabId(src.PlayFabId)
             {}
@@ -7940,6 +12625,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["Namespace"], Namespace);
                 FromJsonUtilS(input["PlayFabId"], PlayFabId);
             }
@@ -7947,6 +12633,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Namespace; ToJsonUtilS(Namespace, each_Namespace); output["Namespace"] = each_Namespace;
                 Json::Value each_PlayFabId; ToJsonUtilS(PlayFabId, each_PlayFabId); output["PlayFabId"] = each_PlayFabId;
                 return output;
@@ -9416,15 +14103,18 @@ namespace PlayFabInternal
         struct GetTitleDataRequest : public PlayFabRequestCommon
         {
             std::list<std::string> Keys;
+            std::string OverrideLabel;
 
             GetTitleDataRequest() :
                 PlayFabRequestCommon(),
-                Keys()
+                Keys(),
+                OverrideLabel()
             {}
 
             GetTitleDataRequest(const GetTitleDataRequest& src) :
                 PlayFabRequestCommon(),
-                Keys(src.Keys)
+                Keys(src.Keys),
+                OverrideLabel(src.OverrideLabel)
             {}
 
             ~GetTitleDataRequest() = default;
@@ -9432,12 +14122,14 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Keys"], Keys);
+                FromJsonUtilS(input["OverrideLabel"], OverrideLabel);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
                 Json::Value each_Keys; ToJsonUtilS(Keys, each_Keys); output["Keys"] = each_Keys;
+                Json::Value each_OverrideLabel; ToJsonUtilS(OverrideLabel, each_OverrideLabel); output["OverrideLabel"] = each_OverrideLabel;
                 return output;
             }
         };
@@ -9774,24 +14466,29 @@ namespace PlayFabInternal
 
         struct GetUserInventoryRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
 
             GetUserInventoryRequest() :
-                PlayFabRequestCommon()
+                PlayFabRequestCommon(),
+                CustomTags()
             {}
 
-            GetUserInventoryRequest(const GetUserInventoryRequest&) :
-                PlayFabRequestCommon()
+            GetUserInventoryRequest(const GetUserInventoryRequest& src) :
+                PlayFabRequestCommon(),
+                CustomTags(src.CustomTags)
             {}
 
             ~GetUserInventoryRequest() = default;
 
-            void FromJson(const Json::Value&) override
+            void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -9835,79 +14532,18 @@ namespace PlayFabInternal
             }
         };
 
-        struct GetWindowsHelloChallengeRequest : public PlayFabRequestCommon
-        {
-            std::string PublicKeyHint;
-            std::string TitleId;
-
-            GetWindowsHelloChallengeRequest() :
-                PlayFabRequestCommon(),
-                PublicKeyHint(),
-                TitleId()
-            {}
-
-            GetWindowsHelloChallengeRequest(const GetWindowsHelloChallengeRequest& src) :
-                PlayFabRequestCommon(),
-                PublicKeyHint(src.PublicKeyHint),
-                TitleId(src.TitleId)
-            {}
-
-            ~GetWindowsHelloChallengeRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["PublicKeyHint"], PublicKeyHint);
-                FromJsonUtilS(input["TitleId"], TitleId);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_PublicKeyHint; ToJsonUtilS(PublicKeyHint, each_PublicKeyHint); output["PublicKeyHint"] = each_PublicKeyHint;
-                Json::Value each_TitleId; ToJsonUtilS(TitleId, each_TitleId); output["TitleId"] = each_TitleId;
-                return output;
-            }
-        };
-
-        struct GetWindowsHelloChallengeResponse : public PlayFabResultCommon
-        {
-            std::string Challenge;
-
-            GetWindowsHelloChallengeResponse() :
-                PlayFabResultCommon(),
-                Challenge()
-            {}
-
-            GetWindowsHelloChallengeResponse(const GetWindowsHelloChallengeResponse& src) :
-                PlayFabResultCommon(),
-                Challenge(src.Challenge)
-            {}
-
-            ~GetWindowsHelloChallengeResponse() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["Challenge"], Challenge);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Challenge; ToJsonUtilS(Challenge, each_Challenge); output["Challenge"] = each_Challenge;
-                return output;
-            }
-        };
-
         struct GrantCharacterToUserRequest : public PlayFabRequestCommon
         {
             std::string CatalogVersion;
             std::string CharacterName;
+            std::map<std::string, std::string> CustomTags;
             std::string ItemId;
 
             GrantCharacterToUserRequest() :
                 PlayFabRequestCommon(),
                 CatalogVersion(),
                 CharacterName(),
+                CustomTags(),
                 ItemId()
             {}
 
@@ -9915,6 +14551,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 CatalogVersion(src.CatalogVersion),
                 CharacterName(src.CharacterName),
+                CustomTags(src.CustomTags),
                 ItemId(src.ItemId)
             {}
 
@@ -9924,6 +14561,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
                 FromJsonUtilS(input["CharacterName"], CharacterName);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["ItemId"], ItemId);
             }
 
@@ -9932,6 +14570,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
                 Json::Value each_CharacterName; ToJsonUtilS(CharacterName, each_CharacterName); output["CharacterName"] = each_CharacterName;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ItemId; ToJsonUtilS(ItemId, each_ItemId); output["ItemId"] = each_ItemId;
                 return output;
             }
@@ -10024,6 +14663,7 @@ namespace PlayFabInternal
         {
             std::string AndroidDevice;
             std::string AndroidDeviceId;
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> ForceLink;
             std::string OS;
 
@@ -10031,6 +14671,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 AndroidDevice(),
                 AndroidDeviceId(),
+                CustomTags(),
                 ForceLink(),
                 OS()
             {}
@@ -10039,6 +14680,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 AndroidDevice(src.AndroidDevice),
                 AndroidDeviceId(src.AndroidDeviceId),
+                CustomTags(src.CustomTags),
                 ForceLink(src.ForceLink),
                 OS(src.OS)
             {}
@@ -10049,6 +14691,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["AndroidDevice"], AndroidDevice);
                 FromJsonUtilS(input["AndroidDeviceId"], AndroidDeviceId);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["ForceLink"], ForceLink);
                 FromJsonUtilS(input["OS"], OS);
             }
@@ -10058,6 +14701,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_AndroidDevice; ToJsonUtilS(AndroidDevice, each_AndroidDevice); output["AndroidDevice"] = each_AndroidDevice;
                 Json::Value each_AndroidDeviceId; ToJsonUtilS(AndroidDeviceId, each_AndroidDeviceId); output["AndroidDeviceId"] = each_AndroidDeviceId;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
                 Json::Value each_OS; ToJsonUtilS(OS, each_OS); output["OS"] = each_OS;
                 return output;
@@ -10088,20 +14732,62 @@ namespace PlayFabInternal
             }
         };
 
+        struct LinkAppleRequest : public PlayFabRequestCommon
+        {
+            std::map<std::string, std::string> CustomTags;
+            Boxed<bool> ForceLink;
+            std::string IdentityToken;
+
+            LinkAppleRequest() :
+                PlayFabRequestCommon(),
+                CustomTags(),
+                ForceLink(),
+                IdentityToken()
+            {}
+
+            LinkAppleRequest(const LinkAppleRequest& src) :
+                PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
+                ForceLink(src.ForceLink),
+                IdentityToken(src.IdentityToken)
+            {}
+
+            ~LinkAppleRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
+                FromJsonUtilP(input["ForceLink"], ForceLink);
+                FromJsonUtilS(input["IdentityToken"], IdentityToken);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
+                Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
+                Json::Value each_IdentityToken; ToJsonUtilS(IdentityToken, each_IdentityToken); output["IdentityToken"] = each_IdentityToken;
+                return output;
+            }
+        };
+
         struct LinkCustomIDRequest : public PlayFabRequestCommon
         {
             std::string CustomId;
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> ForceLink;
 
             LinkCustomIDRequest() :
                 PlayFabRequestCommon(),
                 CustomId(),
+                CustomTags(),
                 ForceLink()
             {}
 
             LinkCustomIDRequest(const LinkCustomIDRequest& src) :
                 PlayFabRequestCommon(),
                 CustomId(src.CustomId),
+                CustomTags(src.CustomTags),
                 ForceLink(src.ForceLink)
             {}
 
@@ -10110,6 +14796,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["CustomId"], CustomId);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["ForceLink"], ForceLink);
             }
 
@@ -10117,6 +14804,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_CustomId; ToJsonUtilS(CustomId, each_CustomId); output["CustomId"] = each_CustomId;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
                 return output;
             }
@@ -10149,17 +14837,20 @@ namespace PlayFabInternal
         struct LinkFacebookAccountRequest : public PlayFabRequestCommon
         {
             std::string AccessToken;
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> ForceLink;
 
             LinkFacebookAccountRequest() :
                 PlayFabRequestCommon(),
                 AccessToken(),
+                CustomTags(),
                 ForceLink()
             {}
 
             LinkFacebookAccountRequest(const LinkFacebookAccountRequest& src) :
                 PlayFabRequestCommon(),
                 AccessToken(src.AccessToken),
+                CustomTags(src.CustomTags),
                 ForceLink(src.ForceLink)
             {}
 
@@ -10168,6 +14859,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["AccessToken"], AccessToken);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["ForceLink"], ForceLink);
             }
 
@@ -10175,6 +14867,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_AccessToken; ToJsonUtilS(AccessToken, each_AccessToken); output["AccessToken"] = each_AccessToken;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
                 return output;
             }
@@ -10206,17 +14899,20 @@ namespace PlayFabInternal
 
         struct LinkFacebookInstantGamesIdRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string FacebookInstantGamesSignature;
             Boxed<bool> ForceLink;
 
             LinkFacebookInstantGamesIdRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 FacebookInstantGamesSignature(),
                 ForceLink()
             {}
 
             LinkFacebookInstantGamesIdRequest(const LinkFacebookInstantGamesIdRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 FacebookInstantGamesSignature(src.FacebookInstantGamesSignature),
                 ForceLink(src.ForceLink)
             {}
@@ -10225,6 +14921,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["FacebookInstantGamesSignature"], FacebookInstantGamesSignature);
                 FromJsonUtilP(input["ForceLink"], ForceLink);
             }
@@ -10232,6 +14929,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_FacebookInstantGamesSignature; ToJsonUtilS(FacebookInstantGamesSignature, each_FacebookInstantGamesSignature); output["FacebookInstantGamesSignature"] = each_FacebookInstantGamesSignature;
                 Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
                 return output;
@@ -10264,6 +14962,7 @@ namespace PlayFabInternal
 
         struct LinkGameCenterAccountRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> ForceLink;
             std::string GameCenterId;
             std::string PublicKeyUrl;
@@ -10273,6 +14972,7 @@ namespace PlayFabInternal
 
             LinkGameCenterAccountRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 ForceLink(),
                 GameCenterId(),
                 PublicKeyUrl(),
@@ -10283,6 +14983,7 @@ namespace PlayFabInternal
 
             LinkGameCenterAccountRequest(const LinkGameCenterAccountRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 ForceLink(src.ForceLink),
                 GameCenterId(src.GameCenterId),
                 PublicKeyUrl(src.PublicKeyUrl),
@@ -10295,6 +14996,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["ForceLink"], ForceLink);
                 FromJsonUtilS(input["GameCenterId"], GameCenterId);
                 FromJsonUtilS(input["PublicKeyUrl"], PublicKeyUrl);
@@ -10306,6 +15008,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
                 Json::Value each_GameCenterId; ToJsonUtilS(GameCenterId, each_GameCenterId); output["GameCenterId"] = each_GameCenterId;
                 Json::Value each_PublicKeyUrl; ToJsonUtilS(PublicKeyUrl, each_PublicKeyUrl); output["PublicKeyUrl"] = each_PublicKeyUrl;
@@ -10342,17 +15045,20 @@ namespace PlayFabInternal
 
         struct LinkGoogleAccountRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> ForceLink;
             std::string ServerAuthCode;
 
             LinkGoogleAccountRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 ForceLink(),
                 ServerAuthCode()
             {}
 
             LinkGoogleAccountRequest(const LinkGoogleAccountRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 ForceLink(src.ForceLink),
                 ServerAuthCode(src.ServerAuthCode)
             {}
@@ -10361,6 +15067,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["ForceLink"], ForceLink);
                 FromJsonUtilS(input["ServerAuthCode"], ServerAuthCode);
             }
@@ -10368,6 +15075,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
                 Json::Value each_ServerAuthCode; ToJsonUtilS(ServerAuthCode, each_ServerAuthCode); output["ServerAuthCode"] = each_ServerAuthCode;
                 return output;
@@ -10400,6 +15108,7 @@ namespace PlayFabInternal
 
         struct LinkIOSDeviceIDRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string DeviceId;
             std::string DeviceModel;
             Boxed<bool> ForceLink;
@@ -10407,6 +15116,7 @@ namespace PlayFabInternal
 
             LinkIOSDeviceIDRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 DeviceId(),
                 DeviceModel(),
                 ForceLink(),
@@ -10415,6 +15125,7 @@ namespace PlayFabInternal
 
             LinkIOSDeviceIDRequest(const LinkIOSDeviceIDRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 DeviceId(src.DeviceId),
                 DeviceModel(src.DeviceModel),
                 ForceLink(src.ForceLink),
@@ -10425,6 +15136,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["DeviceId"], DeviceId);
                 FromJsonUtilS(input["DeviceModel"], DeviceModel);
                 FromJsonUtilP(input["ForceLink"], ForceLink);
@@ -10434,6 +15146,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_DeviceId; ToJsonUtilS(DeviceId, each_DeviceId); output["DeviceId"] = each_DeviceId;
                 Json::Value each_DeviceModel; ToJsonUtilS(DeviceModel, each_DeviceModel); output["DeviceModel"] = each_DeviceModel;
                 Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
@@ -10469,12 +15182,14 @@ namespace PlayFabInternal
         struct LinkKongregateAccountRequest : public PlayFabRequestCommon
         {
             std::string AuthTicket;
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> ForceLink;
             std::string KongregateId;
 
             LinkKongregateAccountRequest() :
                 PlayFabRequestCommon(),
                 AuthTicket(),
+                CustomTags(),
                 ForceLink(),
                 KongregateId()
             {}
@@ -10482,6 +15197,7 @@ namespace PlayFabInternal
             LinkKongregateAccountRequest(const LinkKongregateAccountRequest& src) :
                 PlayFabRequestCommon(),
                 AuthTicket(src.AuthTicket),
+                CustomTags(src.CustomTags),
                 ForceLink(src.ForceLink),
                 KongregateId(src.KongregateId)
             {}
@@ -10491,6 +15207,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["AuthTicket"], AuthTicket);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["ForceLink"], ForceLink);
                 FromJsonUtilS(input["KongregateId"], KongregateId);
             }
@@ -10499,6 +15216,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_AuthTicket; ToJsonUtilS(AuthTicket, each_AuthTicket); output["AuthTicket"] = each_AuthTicket;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
                 Json::Value each_KongregateId; ToJsonUtilS(KongregateId, each_KongregateId); output["KongregateId"] = each_KongregateId;
                 return output;
@@ -10529,19 +15247,61 @@ namespace PlayFabInternal
             }
         };
 
+        struct LinkNintendoServiceAccountRequest : public PlayFabRequestCommon
+        {
+            std::map<std::string, std::string> CustomTags;
+            Boxed<bool> ForceLink;
+            std::string IdentityToken;
+
+            LinkNintendoServiceAccountRequest() :
+                PlayFabRequestCommon(),
+                CustomTags(),
+                ForceLink(),
+                IdentityToken()
+            {}
+
+            LinkNintendoServiceAccountRequest(const LinkNintendoServiceAccountRequest& src) :
+                PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
+                ForceLink(src.ForceLink),
+                IdentityToken(src.IdentityToken)
+            {}
+
+            ~LinkNintendoServiceAccountRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
+                FromJsonUtilP(input["ForceLink"], ForceLink);
+                FromJsonUtilS(input["IdentityToken"], IdentityToken);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
+                Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
+                Json::Value each_IdentityToken; ToJsonUtilS(IdentityToken, each_IdentityToken); output["IdentityToken"] = each_IdentityToken;
+                return output;
+            }
+        };
+
         struct LinkNintendoSwitchDeviceIdRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> ForceLink;
             std::string NintendoSwitchDeviceId;
 
             LinkNintendoSwitchDeviceIdRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 ForceLink(),
                 NintendoSwitchDeviceId()
             {}
 
             LinkNintendoSwitchDeviceIdRequest(const LinkNintendoSwitchDeviceIdRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 ForceLink(src.ForceLink),
                 NintendoSwitchDeviceId(src.NintendoSwitchDeviceId)
             {}
@@ -10550,6 +15310,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["ForceLink"], ForceLink);
                 FromJsonUtilS(input["NintendoSwitchDeviceId"], NintendoSwitchDeviceId);
             }
@@ -10557,6 +15318,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
                 Json::Value each_NintendoSwitchDeviceId; ToJsonUtilS(NintendoSwitchDeviceId, each_NintendoSwitchDeviceId); output["NintendoSwitchDeviceId"] = each_NintendoSwitchDeviceId;
                 return output;
@@ -10590,12 +15352,14 @@ namespace PlayFabInternal
         struct LinkOpenIdConnectRequest : public PlayFabRequestCommon
         {
             std::string ConnectionId;
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> ForceLink;
             std::string IdToken;
 
             LinkOpenIdConnectRequest() :
                 PlayFabRequestCommon(),
                 ConnectionId(),
+                CustomTags(),
                 ForceLink(),
                 IdToken()
             {}
@@ -10603,6 +15367,7 @@ namespace PlayFabInternal
             LinkOpenIdConnectRequest(const LinkOpenIdConnectRequest& src) :
                 PlayFabRequestCommon(),
                 ConnectionId(src.ConnectionId),
+                CustomTags(src.CustomTags),
                 ForceLink(src.ForceLink),
                 IdToken(src.IdToken)
             {}
@@ -10612,6 +15377,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["ConnectionId"], ConnectionId);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["ForceLink"], ForceLink);
                 FromJsonUtilS(input["IdToken"], IdToken);
             }
@@ -10620,6 +15386,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_ConnectionId; ToJsonUtilS(ConnectionId, each_ConnectionId); output["ConnectionId"] = each_ConnectionId;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
                 Json::Value each_IdToken; ToJsonUtilS(IdToken, each_IdToken); output["IdToken"] = each_IdToken;
                 return output;
@@ -10629,6 +15396,7 @@ namespace PlayFabInternal
         struct LinkPSNAccountRequest : public PlayFabRequestCommon
         {
             std::string AuthCode;
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> ForceLink;
             Boxed<Int32> IssuerId;
             std::string RedirectUri;
@@ -10636,6 +15404,7 @@ namespace PlayFabInternal
             LinkPSNAccountRequest() :
                 PlayFabRequestCommon(),
                 AuthCode(),
+                CustomTags(),
                 ForceLink(),
                 IssuerId(),
                 RedirectUri()
@@ -10644,6 +15413,7 @@ namespace PlayFabInternal
             LinkPSNAccountRequest(const LinkPSNAccountRequest& src) :
                 PlayFabRequestCommon(),
                 AuthCode(src.AuthCode),
+                CustomTags(src.CustomTags),
                 ForceLink(src.ForceLink),
                 IssuerId(src.IssuerId),
                 RedirectUri(src.RedirectUri)
@@ -10654,6 +15424,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["AuthCode"], AuthCode);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["ForceLink"], ForceLink);
                 FromJsonUtilP(input["IssuerId"], IssuerId);
                 FromJsonUtilS(input["RedirectUri"], RedirectUri);
@@ -10663,6 +15434,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_AuthCode; ToJsonUtilS(AuthCode, each_AuthCode); output["AuthCode"] = each_AuthCode;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
                 Json::Value each_IssuerId; ToJsonUtilP(IssuerId, each_IssuerId); output["IssuerId"] = each_IssuerId;
                 Json::Value each_RedirectUri; ToJsonUtilS(RedirectUri, each_RedirectUri); output["RedirectUri"] = each_RedirectUri;
@@ -10696,17 +15468,20 @@ namespace PlayFabInternal
 
         struct LinkSteamAccountRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> ForceLink;
             std::string SteamTicket;
 
             LinkSteamAccountRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 ForceLink(),
                 SteamTicket()
             {}
 
             LinkSteamAccountRequest(const LinkSteamAccountRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 ForceLink(src.ForceLink),
                 SteamTicket(src.SteamTicket)
             {}
@@ -10715,6 +15490,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["ForceLink"], ForceLink);
                 FromJsonUtilS(input["SteamTicket"], SteamTicket);
             }
@@ -10722,6 +15498,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
                 Json::Value each_SteamTicket; ToJsonUtilS(SteamTicket, each_SteamTicket); output["SteamTicket"] = each_SteamTicket;
                 return output;
@@ -10755,17 +15532,20 @@ namespace PlayFabInternal
         struct LinkTwitchAccountRequest : public PlayFabRequestCommon
         {
             std::string AccessToken;
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> ForceLink;
 
             LinkTwitchAccountRequest() :
                 PlayFabRequestCommon(),
                 AccessToken(),
+                CustomTags(),
                 ForceLink()
             {}
 
             LinkTwitchAccountRequest(const LinkTwitchAccountRequest& src) :
                 PlayFabRequestCommon(),
                 AccessToken(src.AccessToken),
+                CustomTags(src.CustomTags),
                 ForceLink(src.ForceLink)
             {}
 
@@ -10774,6 +15554,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["AccessToken"], AccessToken);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["ForceLink"], ForceLink);
             }
 
@@ -10781,6 +15562,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_AccessToken; ToJsonUtilS(AccessToken, each_AccessToken); output["AccessToken"] = each_AccessToken;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
                 return output;
             }
@@ -10810,87 +15592,22 @@ namespace PlayFabInternal
             }
         };
 
-        struct LinkWindowsHelloAccountRequest : public PlayFabRequestCommon
-        {
-            std::string DeviceName;
-            Boxed<bool> ForceLink;
-            std::string PublicKey;
-            std::string UserName;
-
-            LinkWindowsHelloAccountRequest() :
-                PlayFabRequestCommon(),
-                DeviceName(),
-                ForceLink(),
-                PublicKey(),
-                UserName()
-            {}
-
-            LinkWindowsHelloAccountRequest(const LinkWindowsHelloAccountRequest& src) :
-                PlayFabRequestCommon(),
-                DeviceName(src.DeviceName),
-                ForceLink(src.ForceLink),
-                PublicKey(src.PublicKey),
-                UserName(src.UserName)
-            {}
-
-            ~LinkWindowsHelloAccountRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["DeviceName"], DeviceName);
-                FromJsonUtilP(input["ForceLink"], ForceLink);
-                FromJsonUtilS(input["PublicKey"], PublicKey);
-                FromJsonUtilS(input["UserName"], UserName);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_DeviceName; ToJsonUtilS(DeviceName, each_DeviceName); output["DeviceName"] = each_DeviceName;
-                Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
-                Json::Value each_PublicKey; ToJsonUtilS(PublicKey, each_PublicKey); output["PublicKey"] = each_PublicKey;
-                Json::Value each_UserName; ToJsonUtilS(UserName, each_UserName); output["UserName"] = each_UserName;
-                return output;
-            }
-        };
-
-        struct LinkWindowsHelloAccountResponse : public PlayFabResultCommon
-        {
-
-            LinkWindowsHelloAccountResponse() :
-                PlayFabResultCommon()
-            {}
-
-            LinkWindowsHelloAccountResponse(const LinkWindowsHelloAccountResponse&) :
-                PlayFabResultCommon()
-            {}
-
-            ~LinkWindowsHelloAccountResponse() = default;
-
-            void FromJson(const Json::Value&) override
-            {
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                return output;
-            }
-        };
-
         struct LinkXboxAccountRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> ForceLink;
             std::string XboxToken;
 
             LinkXboxAccountRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 ForceLink(),
                 XboxToken()
             {}
 
             LinkXboxAccountRequest(const LinkXboxAccountRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 ForceLink(src.ForceLink),
                 XboxToken(src.XboxToken)
             {}
@@ -10899,6 +15616,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["ForceLink"], ForceLink);
                 FromJsonUtilS(input["XboxToken"], XboxToken);
             }
@@ -10906,6 +15624,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ForceLink; ToJsonUtilP(ForceLink, each_ForceLink); output["ForceLink"] = each_ForceLink;
                 Json::Value each_XboxToken; ToJsonUtilS(XboxToken, each_XboxToken); output["XboxToken"] = each_XboxToken;
                 return output;
@@ -11170,6 +15889,7 @@ namespace PlayFabInternal
             std::string AndroidDevice;
             std::string AndroidDeviceId;
             Boxed<bool> CreateAccount;
+            std::map<std::string, std::string> CustomTags;
             std::string EncryptedRequest;
             Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
             std::string OS;
@@ -11181,6 +15901,7 @@ namespace PlayFabInternal
                 AndroidDevice(),
                 AndroidDeviceId(),
                 CreateAccount(),
+                CustomTags(),
                 EncryptedRequest(),
                 InfoRequestParameters(),
                 OS(),
@@ -11193,6 +15914,7 @@ namespace PlayFabInternal
                 AndroidDevice(src.AndroidDevice),
                 AndroidDeviceId(src.AndroidDeviceId),
                 CreateAccount(src.CreateAccount),
+                CustomTags(src.CustomTags),
                 EncryptedRequest(src.EncryptedRequest),
                 InfoRequestParameters(src.InfoRequestParameters),
                 OS(src.OS),
@@ -11207,6 +15929,7 @@ namespace PlayFabInternal
                 FromJsonUtilS(input["AndroidDevice"], AndroidDevice);
                 FromJsonUtilS(input["AndroidDeviceId"], AndroidDeviceId);
                 FromJsonUtilP(input["CreateAccount"], CreateAccount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
                 FromJsonUtilS(input["OS"], OS);
@@ -11220,9 +15943,69 @@ namespace PlayFabInternal
                 Json::Value each_AndroidDevice; ToJsonUtilS(AndroidDevice, each_AndroidDevice); output["AndroidDevice"] = each_AndroidDevice;
                 Json::Value each_AndroidDeviceId; ToJsonUtilS(AndroidDeviceId, each_AndroidDeviceId); output["AndroidDeviceId"] = each_AndroidDeviceId;
                 Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
                 Json::Value each_OS; ToJsonUtilS(OS, each_OS); output["OS"] = each_OS;
+                Json::Value each_PlayerSecret; ToJsonUtilS(PlayerSecret, each_PlayerSecret); output["PlayerSecret"] = each_PlayerSecret;
+                Json::Value each_TitleId; ToJsonUtilS(TitleId, each_TitleId); output["TitleId"] = each_TitleId;
+                return output;
+            }
+        };
+
+        struct LoginWithAppleRequest : public PlayFabRequestCommon
+        {
+            Boxed<bool> CreateAccount;
+            std::map<std::string, std::string> CustomTags;
+            std::string EncryptedRequest;
+            std::string IdentityToken;
+            Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+            std::string PlayerSecret;
+            std::string TitleId;
+
+            LoginWithAppleRequest() :
+                PlayFabRequestCommon(),
+                CreateAccount(),
+                CustomTags(),
+                EncryptedRequest(),
+                IdentityToken(),
+                InfoRequestParameters(),
+                PlayerSecret(),
+                TitleId()
+            {}
+
+            LoginWithAppleRequest(const LoginWithAppleRequest& src) :
+                PlayFabRequestCommon(),
+                CreateAccount(src.CreateAccount),
+                CustomTags(src.CustomTags),
+                EncryptedRequest(src.EncryptedRequest),
+                IdentityToken(src.IdentityToken),
+                InfoRequestParameters(src.InfoRequestParameters),
+                PlayerSecret(src.PlayerSecret),
+                TitleId(src.TitleId)
+            {}
+
+            ~LoginWithAppleRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilP(input["CreateAccount"], CreateAccount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
+                FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
+                FromJsonUtilS(input["IdentityToken"], IdentityToken);
+                FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
+                FromJsonUtilS(input["PlayerSecret"], PlayerSecret);
+                FromJsonUtilS(input["TitleId"], TitleId);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
+                Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
+                Json::Value each_IdentityToken; ToJsonUtilS(IdentityToken, each_IdentityToken); output["IdentityToken"] = each_IdentityToken;
+                Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
                 Json::Value each_PlayerSecret; ToJsonUtilS(PlayerSecret, each_PlayerSecret); output["PlayerSecret"] = each_PlayerSecret;
                 Json::Value each_TitleId; ToJsonUtilS(TitleId, each_TitleId); output["TitleId"] = each_TitleId;
                 return output;
@@ -11233,6 +16016,7 @@ namespace PlayFabInternal
         {
             Boxed<bool> CreateAccount;
             std::string CustomId;
+            std::map<std::string, std::string> CustomTags;
             std::string EncryptedRequest;
             Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
             std::string PlayerSecret;
@@ -11242,6 +16026,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 CreateAccount(),
                 CustomId(),
+                CustomTags(),
                 EncryptedRequest(),
                 InfoRequestParameters(),
                 PlayerSecret(),
@@ -11252,6 +16037,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 CreateAccount(src.CreateAccount),
                 CustomId(src.CustomId),
+                CustomTags(src.CustomTags),
                 EncryptedRequest(src.EncryptedRequest),
                 InfoRequestParameters(src.InfoRequestParameters),
                 PlayerSecret(src.PlayerSecret),
@@ -11264,6 +16050,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilP(input["CreateAccount"], CreateAccount);
                 FromJsonUtilS(input["CustomId"], CustomId);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
                 FromJsonUtilS(input["PlayerSecret"], PlayerSecret);
@@ -11275,6 +16062,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
                 Json::Value each_CustomId; ToJsonUtilS(CustomId, each_CustomId); output["CustomId"] = each_CustomId;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
                 Json::Value each_PlayerSecret; ToJsonUtilS(PlayerSecret, each_PlayerSecret); output["PlayerSecret"] = each_PlayerSecret;
@@ -11285,6 +16073,7 @@ namespace PlayFabInternal
 
         struct LoginWithEmailAddressRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string Email;
             Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
             std::string Password;
@@ -11292,6 +16081,7 @@ namespace PlayFabInternal
 
             LoginWithEmailAddressRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Email(),
                 InfoRequestParameters(),
                 Password(),
@@ -11300,6 +16090,7 @@ namespace PlayFabInternal
 
             LoginWithEmailAddressRequest(const LoginWithEmailAddressRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Email(src.Email),
                 InfoRequestParameters(src.InfoRequestParameters),
                 Password(src.Password),
@@ -11310,6 +16101,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["Email"], Email);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
                 FromJsonUtilS(input["Password"], Password);
@@ -11319,6 +16111,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Email; ToJsonUtilS(Email, each_Email); output["Email"] = each_Email;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
                 Json::Value each_Password; ToJsonUtilS(Password, each_Password); output["Password"] = each_Password;
@@ -11330,6 +16123,7 @@ namespace PlayFabInternal
         struct LoginWithFacebookInstantGamesIdRequest : public PlayFabRequestCommon
         {
             Boxed<bool> CreateAccount;
+            std::map<std::string, std::string> CustomTags;
             std::string EncryptedRequest;
             std::string FacebookInstantGamesSignature;
             Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
@@ -11339,6 +16133,7 @@ namespace PlayFabInternal
             LoginWithFacebookInstantGamesIdRequest() :
                 PlayFabRequestCommon(),
                 CreateAccount(),
+                CustomTags(),
                 EncryptedRequest(),
                 FacebookInstantGamesSignature(),
                 InfoRequestParameters(),
@@ -11349,6 +16144,7 @@ namespace PlayFabInternal
             LoginWithFacebookInstantGamesIdRequest(const LoginWithFacebookInstantGamesIdRequest& src) :
                 PlayFabRequestCommon(),
                 CreateAccount(src.CreateAccount),
+                CustomTags(src.CustomTags),
                 EncryptedRequest(src.EncryptedRequest),
                 FacebookInstantGamesSignature(src.FacebookInstantGamesSignature),
                 InfoRequestParameters(src.InfoRequestParameters),
@@ -11361,6 +16157,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["CreateAccount"], CreateAccount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
                 FromJsonUtilS(input["FacebookInstantGamesSignature"], FacebookInstantGamesSignature);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
@@ -11372,6 +16169,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
                 Json::Value each_FacebookInstantGamesSignature; ToJsonUtilS(FacebookInstantGamesSignature, each_FacebookInstantGamesSignature); output["FacebookInstantGamesSignature"] = each_FacebookInstantGamesSignature;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
@@ -11385,6 +16183,7 @@ namespace PlayFabInternal
         {
             std::string AccessToken;
             Boxed<bool> CreateAccount;
+            std::map<std::string, std::string> CustomTags;
             std::string EncryptedRequest;
             Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
             std::string PlayerSecret;
@@ -11394,6 +16193,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 AccessToken(),
                 CreateAccount(),
+                CustomTags(),
                 EncryptedRequest(),
                 InfoRequestParameters(),
                 PlayerSecret(),
@@ -11404,6 +16204,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 AccessToken(src.AccessToken),
                 CreateAccount(src.CreateAccount),
+                CustomTags(src.CustomTags),
                 EncryptedRequest(src.EncryptedRequest),
                 InfoRequestParameters(src.InfoRequestParameters),
                 PlayerSecret(src.PlayerSecret),
@@ -11416,6 +16217,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["AccessToken"], AccessToken);
                 FromJsonUtilP(input["CreateAccount"], CreateAccount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
                 FromJsonUtilS(input["PlayerSecret"], PlayerSecret);
@@ -11427,6 +16229,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_AccessToken; ToJsonUtilS(AccessToken, each_AccessToken); output["AccessToken"] = each_AccessToken;
                 Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
                 Json::Value each_PlayerSecret; ToJsonUtilS(PlayerSecret, each_PlayerSecret); output["PlayerSecret"] = each_PlayerSecret;
@@ -11438,6 +16241,7 @@ namespace PlayFabInternal
         struct LoginWithGameCenterRequest : public PlayFabRequestCommon
         {
             Boxed<bool> CreateAccount;
+            std::map<std::string, std::string> CustomTags;
             std::string EncryptedRequest;
             Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
             std::string PlayerId;
@@ -11451,6 +16255,7 @@ namespace PlayFabInternal
             LoginWithGameCenterRequest() :
                 PlayFabRequestCommon(),
                 CreateAccount(),
+                CustomTags(),
                 EncryptedRequest(),
                 InfoRequestParameters(),
                 PlayerId(),
@@ -11465,6 +16270,7 @@ namespace PlayFabInternal
             LoginWithGameCenterRequest(const LoginWithGameCenterRequest& src) :
                 PlayFabRequestCommon(),
                 CreateAccount(src.CreateAccount),
+                CustomTags(src.CustomTags),
                 EncryptedRequest(src.EncryptedRequest),
                 InfoRequestParameters(src.InfoRequestParameters),
                 PlayerId(src.PlayerId),
@@ -11481,6 +16287,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["CreateAccount"], CreateAccount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
                 FromJsonUtilS(input["PlayerId"], PlayerId);
@@ -11496,6 +16303,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
                 Json::Value each_PlayerId; ToJsonUtilS(PlayerId, each_PlayerId); output["PlayerId"] = each_PlayerId;
@@ -11512,6 +16320,7 @@ namespace PlayFabInternal
         struct LoginWithGoogleAccountRequest : public PlayFabRequestCommon
         {
             Boxed<bool> CreateAccount;
+            std::map<std::string, std::string> CustomTags;
             std::string EncryptedRequest;
             Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
             std::string PlayerSecret;
@@ -11521,6 +16330,7 @@ namespace PlayFabInternal
             LoginWithGoogleAccountRequest() :
                 PlayFabRequestCommon(),
                 CreateAccount(),
+                CustomTags(),
                 EncryptedRequest(),
                 InfoRequestParameters(),
                 PlayerSecret(),
@@ -11531,6 +16341,7 @@ namespace PlayFabInternal
             LoginWithGoogleAccountRequest(const LoginWithGoogleAccountRequest& src) :
                 PlayFabRequestCommon(),
                 CreateAccount(src.CreateAccount),
+                CustomTags(src.CustomTags),
                 EncryptedRequest(src.EncryptedRequest),
                 InfoRequestParameters(src.InfoRequestParameters),
                 PlayerSecret(src.PlayerSecret),
@@ -11543,6 +16354,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["CreateAccount"], CreateAccount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
                 FromJsonUtilS(input["PlayerSecret"], PlayerSecret);
@@ -11554,6 +16366,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
                 Json::Value each_PlayerSecret; ToJsonUtilS(PlayerSecret, each_PlayerSecret); output["PlayerSecret"] = each_PlayerSecret;
@@ -11566,6 +16379,7 @@ namespace PlayFabInternal
         struct LoginWithIOSDeviceIDRequest : public PlayFabRequestCommon
         {
             Boxed<bool> CreateAccount;
+            std::map<std::string, std::string> CustomTags;
             std::string DeviceId;
             std::string DeviceModel;
             std::string EncryptedRequest;
@@ -11577,6 +16391,7 @@ namespace PlayFabInternal
             LoginWithIOSDeviceIDRequest() :
                 PlayFabRequestCommon(),
                 CreateAccount(),
+                CustomTags(),
                 DeviceId(),
                 DeviceModel(),
                 EncryptedRequest(),
@@ -11589,6 +16404,7 @@ namespace PlayFabInternal
             LoginWithIOSDeviceIDRequest(const LoginWithIOSDeviceIDRequest& src) :
                 PlayFabRequestCommon(),
                 CreateAccount(src.CreateAccount),
+                CustomTags(src.CustomTags),
                 DeviceId(src.DeviceId),
                 DeviceModel(src.DeviceModel),
                 EncryptedRequest(src.EncryptedRequest),
@@ -11603,6 +16419,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["CreateAccount"], CreateAccount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["DeviceId"], DeviceId);
                 FromJsonUtilS(input["DeviceModel"], DeviceModel);
                 FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
@@ -11616,6 +16433,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_DeviceId; ToJsonUtilS(DeviceId, each_DeviceId); output["DeviceId"] = each_DeviceId;
                 Json::Value each_DeviceModel; ToJsonUtilS(DeviceModel, each_DeviceModel); output["DeviceModel"] = each_DeviceModel;
                 Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
@@ -11631,6 +16449,7 @@ namespace PlayFabInternal
         {
             std::string AuthTicket;
             Boxed<bool> CreateAccount;
+            std::map<std::string, std::string> CustomTags;
             std::string EncryptedRequest;
             Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
             std::string KongregateId;
@@ -11641,6 +16460,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 AuthTicket(),
                 CreateAccount(),
+                CustomTags(),
                 EncryptedRequest(),
                 InfoRequestParameters(),
                 KongregateId(),
@@ -11652,6 +16472,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 AuthTicket(src.AuthTicket),
                 CreateAccount(src.CreateAccount),
+                CustomTags(src.CustomTags),
                 EncryptedRequest(src.EncryptedRequest),
                 InfoRequestParameters(src.InfoRequestParameters),
                 KongregateId(src.KongregateId),
@@ -11665,6 +16486,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["AuthTicket"], AuthTicket);
                 FromJsonUtilP(input["CreateAccount"], CreateAccount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
                 FromJsonUtilS(input["KongregateId"], KongregateId);
@@ -11677,6 +16499,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_AuthTicket; ToJsonUtilS(AuthTicket, each_AuthTicket); output["AuthTicket"] = each_AuthTicket;
                 Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
                 Json::Value each_KongregateId; ToJsonUtilS(KongregateId, each_KongregateId); output["KongregateId"] = each_KongregateId;
@@ -11686,9 +16509,69 @@ namespace PlayFabInternal
             }
         };
 
+        struct LoginWithNintendoServiceAccountRequest : public PlayFabRequestCommon
+        {
+            Boxed<bool> CreateAccount;
+            std::map<std::string, std::string> CustomTags;
+            std::string EncryptedRequest;
+            std::string IdentityToken;
+            Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+            std::string PlayerSecret;
+            std::string TitleId;
+
+            LoginWithNintendoServiceAccountRequest() :
+                PlayFabRequestCommon(),
+                CreateAccount(),
+                CustomTags(),
+                EncryptedRequest(),
+                IdentityToken(),
+                InfoRequestParameters(),
+                PlayerSecret(),
+                TitleId()
+            {}
+
+            LoginWithNintendoServiceAccountRequest(const LoginWithNintendoServiceAccountRequest& src) :
+                PlayFabRequestCommon(),
+                CreateAccount(src.CreateAccount),
+                CustomTags(src.CustomTags),
+                EncryptedRequest(src.EncryptedRequest),
+                IdentityToken(src.IdentityToken),
+                InfoRequestParameters(src.InfoRequestParameters),
+                PlayerSecret(src.PlayerSecret),
+                TitleId(src.TitleId)
+            {}
+
+            ~LoginWithNintendoServiceAccountRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilP(input["CreateAccount"], CreateAccount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
+                FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
+                FromJsonUtilS(input["IdentityToken"], IdentityToken);
+                FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
+                FromJsonUtilS(input["PlayerSecret"], PlayerSecret);
+                FromJsonUtilS(input["TitleId"], TitleId);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
+                Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
+                Json::Value each_IdentityToken; ToJsonUtilS(IdentityToken, each_IdentityToken); output["IdentityToken"] = each_IdentityToken;
+                Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
+                Json::Value each_PlayerSecret; ToJsonUtilS(PlayerSecret, each_PlayerSecret); output["PlayerSecret"] = each_PlayerSecret;
+                Json::Value each_TitleId; ToJsonUtilS(TitleId, each_TitleId); output["TitleId"] = each_TitleId;
+                return output;
+            }
+        };
+
         struct LoginWithNintendoSwitchDeviceIdRequest : public PlayFabRequestCommon
         {
             Boxed<bool> CreateAccount;
+            std::map<std::string, std::string> CustomTags;
             std::string EncryptedRequest;
             Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
             std::string NintendoSwitchDeviceId;
@@ -11698,6 +16581,7 @@ namespace PlayFabInternal
             LoginWithNintendoSwitchDeviceIdRequest() :
                 PlayFabRequestCommon(),
                 CreateAccount(),
+                CustomTags(),
                 EncryptedRequest(),
                 InfoRequestParameters(),
                 NintendoSwitchDeviceId(),
@@ -11708,6 +16592,7 @@ namespace PlayFabInternal
             LoginWithNintendoSwitchDeviceIdRequest(const LoginWithNintendoSwitchDeviceIdRequest& src) :
                 PlayFabRequestCommon(),
                 CreateAccount(src.CreateAccount),
+                CustomTags(src.CustomTags),
                 EncryptedRequest(src.EncryptedRequest),
                 InfoRequestParameters(src.InfoRequestParameters),
                 NintendoSwitchDeviceId(src.NintendoSwitchDeviceId),
@@ -11720,6 +16605,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["CreateAccount"], CreateAccount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
                 FromJsonUtilS(input["NintendoSwitchDeviceId"], NintendoSwitchDeviceId);
@@ -11731,6 +16617,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
                 Json::Value each_NintendoSwitchDeviceId; ToJsonUtilS(NintendoSwitchDeviceId, each_NintendoSwitchDeviceId); output["NintendoSwitchDeviceId"] = each_NintendoSwitchDeviceId;
@@ -11744,6 +16631,7 @@ namespace PlayFabInternal
         {
             std::string ConnectionId;
             Boxed<bool> CreateAccount;
+            std::map<std::string, std::string> CustomTags;
             std::string EncryptedRequest;
             std::string IdToken;
             Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
@@ -11754,6 +16642,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 ConnectionId(),
                 CreateAccount(),
+                CustomTags(),
                 EncryptedRequest(),
                 IdToken(),
                 InfoRequestParameters(),
@@ -11765,6 +16654,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 ConnectionId(src.ConnectionId),
                 CreateAccount(src.CreateAccount),
+                CustomTags(src.CustomTags),
                 EncryptedRequest(src.EncryptedRequest),
                 IdToken(src.IdToken),
                 InfoRequestParameters(src.InfoRequestParameters),
@@ -11778,6 +16668,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["ConnectionId"], ConnectionId);
                 FromJsonUtilP(input["CreateAccount"], CreateAccount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
                 FromJsonUtilS(input["IdToken"], IdToken);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
@@ -11790,6 +16681,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_ConnectionId; ToJsonUtilS(ConnectionId, each_ConnectionId); output["ConnectionId"] = each_ConnectionId;
                 Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
                 Json::Value each_IdToken; ToJsonUtilS(IdToken, each_IdToken); output["IdToken"] = each_IdToken;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
@@ -11801,6 +16693,7 @@ namespace PlayFabInternal
 
         struct LoginWithPlayFabRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
             std::string Password;
             std::string TitleId;
@@ -11808,6 +16701,7 @@ namespace PlayFabInternal
 
             LoginWithPlayFabRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 InfoRequestParameters(),
                 Password(),
                 TitleId(),
@@ -11816,6 +16710,7 @@ namespace PlayFabInternal
 
             LoginWithPlayFabRequest(const LoginWithPlayFabRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 InfoRequestParameters(src.InfoRequestParameters),
                 Password(src.Password),
                 TitleId(src.TitleId),
@@ -11826,6 +16721,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
                 FromJsonUtilS(input["Password"], Password);
                 FromJsonUtilS(input["TitleId"], TitleId);
@@ -11835,6 +16731,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
                 Json::Value each_Password; ToJsonUtilS(Password, each_Password); output["Password"] = each_Password;
                 Json::Value each_TitleId; ToJsonUtilS(TitleId, each_TitleId); output["TitleId"] = each_TitleId;
@@ -11847,6 +16744,7 @@ namespace PlayFabInternal
         {
             std::string AuthCode;
             Boxed<bool> CreateAccount;
+            std::map<std::string, std::string> CustomTags;
             std::string EncryptedRequest;
             Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
             Boxed<Int32> IssuerId;
@@ -11858,6 +16756,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 AuthCode(),
                 CreateAccount(),
+                CustomTags(),
                 EncryptedRequest(),
                 InfoRequestParameters(),
                 IssuerId(),
@@ -11870,6 +16769,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 AuthCode(src.AuthCode),
                 CreateAccount(src.CreateAccount),
+                CustomTags(src.CustomTags),
                 EncryptedRequest(src.EncryptedRequest),
                 InfoRequestParameters(src.InfoRequestParameters),
                 IssuerId(src.IssuerId),
@@ -11884,6 +16784,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["AuthCode"], AuthCode);
                 FromJsonUtilP(input["CreateAccount"], CreateAccount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
                 FromJsonUtilP(input["IssuerId"], IssuerId);
@@ -11897,6 +16798,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_AuthCode; ToJsonUtilS(AuthCode, each_AuthCode); output["AuthCode"] = each_AuthCode;
                 Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
                 Json::Value each_IssuerId; ToJsonUtilP(IssuerId, each_IssuerId); output["IssuerId"] = each_IssuerId;
@@ -11910,6 +16812,7 @@ namespace PlayFabInternal
         struct LoginWithSteamRequest : public PlayFabRequestCommon
         {
             Boxed<bool> CreateAccount;
+            std::map<std::string, std::string> CustomTags;
             std::string EncryptedRequest;
             Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
             std::string PlayerSecret;
@@ -11919,6 +16822,7 @@ namespace PlayFabInternal
             LoginWithSteamRequest() :
                 PlayFabRequestCommon(),
                 CreateAccount(),
+                CustomTags(),
                 EncryptedRequest(),
                 InfoRequestParameters(),
                 PlayerSecret(),
@@ -11929,6 +16833,7 @@ namespace PlayFabInternal
             LoginWithSteamRequest(const LoginWithSteamRequest& src) :
                 PlayFabRequestCommon(),
                 CreateAccount(src.CreateAccount),
+                CustomTags(src.CustomTags),
                 EncryptedRequest(src.EncryptedRequest),
                 InfoRequestParameters(src.InfoRequestParameters),
                 PlayerSecret(src.PlayerSecret),
@@ -11941,6 +16846,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["CreateAccount"], CreateAccount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
                 FromJsonUtilS(input["PlayerSecret"], PlayerSecret);
@@ -11952,6 +16858,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
                 Json::Value each_PlayerSecret; ToJsonUtilS(PlayerSecret, each_PlayerSecret); output["PlayerSecret"] = each_PlayerSecret;
@@ -11965,6 +16872,7 @@ namespace PlayFabInternal
         {
             std::string AccessToken;
             Boxed<bool> CreateAccount;
+            std::map<std::string, std::string> CustomTags;
             std::string EncryptedRequest;
             Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
             std::string PlayerSecret;
@@ -11974,6 +16882,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 AccessToken(),
                 CreateAccount(),
+                CustomTags(),
                 EncryptedRequest(),
                 InfoRequestParameters(),
                 PlayerSecret(),
@@ -11984,6 +16893,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 AccessToken(src.AccessToken),
                 CreateAccount(src.CreateAccount),
+                CustomTags(src.CustomTags),
                 EncryptedRequest(src.EncryptedRequest),
                 InfoRequestParameters(src.InfoRequestParameters),
                 PlayerSecret(src.PlayerSecret),
@@ -11996,6 +16906,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["AccessToken"], AccessToken);
                 FromJsonUtilP(input["CreateAccount"], CreateAccount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
                 FromJsonUtilS(input["PlayerSecret"], PlayerSecret);
@@ -12007,6 +16918,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_AccessToken; ToJsonUtilS(AccessToken, each_AccessToken); output["AccessToken"] = each_AccessToken;
                 Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
                 Json::Value each_PlayerSecret; ToJsonUtilS(PlayerSecret, each_PlayerSecret); output["PlayerSecret"] = each_PlayerSecret;
@@ -12015,53 +16927,10 @@ namespace PlayFabInternal
             }
         };
 
-        struct LoginWithWindowsHelloRequest : public PlayFabRequestCommon
-        {
-            std::string ChallengeSignature;
-            Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
-            std::string PublicKeyHint;
-            std::string TitleId;
-
-            LoginWithWindowsHelloRequest() :
-                PlayFabRequestCommon(),
-                ChallengeSignature(),
-                InfoRequestParameters(),
-                PublicKeyHint(),
-                TitleId()
-            {}
-
-            LoginWithWindowsHelloRequest(const LoginWithWindowsHelloRequest& src) :
-                PlayFabRequestCommon(),
-                ChallengeSignature(src.ChallengeSignature),
-                InfoRequestParameters(src.InfoRequestParameters),
-                PublicKeyHint(src.PublicKeyHint),
-                TitleId(src.TitleId)
-            {}
-
-            ~LoginWithWindowsHelloRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["ChallengeSignature"], ChallengeSignature);
-                FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
-                FromJsonUtilS(input["PublicKeyHint"], PublicKeyHint);
-                FromJsonUtilS(input["TitleId"], TitleId);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_ChallengeSignature; ToJsonUtilS(ChallengeSignature, each_ChallengeSignature); output["ChallengeSignature"] = each_ChallengeSignature;
-                Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
-                Json::Value each_PublicKeyHint; ToJsonUtilS(PublicKeyHint, each_PublicKeyHint); output["PublicKeyHint"] = each_PublicKeyHint;
-                Json::Value each_TitleId; ToJsonUtilS(TitleId, each_TitleId); output["TitleId"] = each_TitleId;
-                return output;
-            }
-        };
-
         struct LoginWithXboxRequest : public PlayFabRequestCommon
         {
             Boxed<bool> CreateAccount;
+            std::map<std::string, std::string> CustomTags;
             std::string EncryptedRequest;
             Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
             std::string PlayerSecret;
@@ -12071,6 +16940,7 @@ namespace PlayFabInternal
             LoginWithXboxRequest() :
                 PlayFabRequestCommon(),
                 CreateAccount(),
+                CustomTags(),
                 EncryptedRequest(),
                 InfoRequestParameters(),
                 PlayerSecret(),
@@ -12081,6 +16951,7 @@ namespace PlayFabInternal
             LoginWithXboxRequest(const LoginWithXboxRequest& src) :
                 PlayFabRequestCommon(),
                 CreateAccount(src.CreateAccount),
+                CustomTags(src.CustomTags),
                 EncryptedRequest(src.EncryptedRequest),
                 InfoRequestParameters(src.InfoRequestParameters),
                 PlayerSecret(src.PlayerSecret),
@@ -12093,6 +16964,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["CreateAccount"], CreateAccount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
                 FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
                 FromJsonUtilS(input["PlayerSecret"], PlayerSecret);
@@ -12104,6 +16976,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_CreateAccount; ToJsonUtilP(CreateAccount, each_CreateAccount); output["CreateAccount"] = each_CreateAccount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
                 Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
                 Json::Value each_PlayerSecret; ToJsonUtilS(PlayerSecret, each_PlayerSecret); output["PlayerSecret"] = each_PlayerSecret;
@@ -12117,6 +16990,7 @@ namespace PlayFabInternal
         {
             std::string BuildVersion;
             std::string CharacterId;
+            std::map<std::string, std::string> CustomTags;
             std::string GameMode;
             std::string LobbyId;
             Boxed<Region> pfRegion;
@@ -12128,6 +17002,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 BuildVersion(),
                 CharacterId(),
+                CustomTags(),
                 GameMode(),
                 LobbyId(),
                 pfRegion(),
@@ -12140,6 +17015,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 BuildVersion(src.BuildVersion),
                 CharacterId(src.CharacterId),
+                CustomTags(src.CustomTags),
                 GameMode(src.GameMode),
                 LobbyId(src.LobbyId),
                 pfRegion(src.pfRegion),
@@ -12154,6 +17030,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["BuildVersion"], BuildVersion);
                 FromJsonUtilS(input["CharacterId"], CharacterId);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["GameMode"], GameMode);
                 FromJsonUtilS(input["LobbyId"], LobbyId);
                 FromJsonUtilE(input["Region"], pfRegion);
@@ -12167,6 +17044,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_BuildVersion; ToJsonUtilS(BuildVersion, each_BuildVersion); output["BuildVersion"] = each_BuildVersion;
                 Json::Value each_CharacterId; ToJsonUtilS(CharacterId, each_CharacterId); output["CharacterId"] = each_CharacterId;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_GameMode; ToJsonUtilS(GameMode, each_GameMode); output["GameMode"] = each_GameMode;
                 Json::Value each_LobbyId; ToJsonUtilS(LobbyId, each_LobbyId); output["LobbyId"] = each_LobbyId;
                 Json::Value each_pfRegion; ToJsonUtilE(pfRegion, each_pfRegion); output["Region"] = each_pfRegion;
@@ -12361,6 +17239,7 @@ namespace PlayFabInternal
         struct PayForPurchaseRequest : public PlayFabRequestCommon
         {
             std::string Currency;
+            std::map<std::string, std::string> CustomTags;
             std::string OrderId;
             std::string ProviderName;
             std::string ProviderTransactionId;
@@ -12368,6 +17247,7 @@ namespace PlayFabInternal
             PayForPurchaseRequest() :
                 PlayFabRequestCommon(),
                 Currency(),
+                CustomTags(),
                 OrderId(),
                 ProviderName(),
                 ProviderTransactionId()
@@ -12376,6 +17256,7 @@ namespace PlayFabInternal
             PayForPurchaseRequest(const PayForPurchaseRequest& src) :
                 PlayFabRequestCommon(),
                 Currency(src.Currency),
+                CustomTags(src.CustomTags),
                 OrderId(src.OrderId),
                 ProviderName(src.ProviderName),
                 ProviderTransactionId(src.ProviderTransactionId)
@@ -12386,6 +17267,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Currency"], Currency);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["OrderId"], OrderId);
                 FromJsonUtilS(input["ProviderName"], ProviderName);
                 FromJsonUtilS(input["ProviderTransactionId"], ProviderTransactionId);
@@ -12395,6 +17277,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_Currency; ToJsonUtilS(Currency, each_Currency); output["Currency"] = each_Currency;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_OrderId; ToJsonUtilS(OrderId, each_OrderId); output["OrderId"] = each_OrderId;
                 Json::Value each_ProviderName; ToJsonUtilS(ProviderName, each_ProviderName); output["ProviderName"] = each_ProviderName;
                 Json::Value each_ProviderTransactionId; ToJsonUtilS(ProviderTransactionId, each_ProviderTransactionId); output["ProviderTransactionId"] = each_ProviderTransactionId;
@@ -12524,6 +17407,7 @@ namespace PlayFabInternal
         {
             std::string CatalogVersion;
             std::string CharacterId;
+            std::map<std::string, std::string> CustomTags;
             std::string ItemId;
             Int32 Price;
             std::string StoreId;
@@ -12533,6 +17417,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 CatalogVersion(),
                 CharacterId(),
+                CustomTags(),
                 ItemId(),
                 Price(),
                 StoreId(),
@@ -12543,6 +17428,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 CatalogVersion(src.CatalogVersion),
                 CharacterId(src.CharacterId),
+                CustomTags(src.CustomTags),
                 ItemId(src.ItemId),
                 Price(src.Price),
                 StoreId(src.StoreId),
@@ -12555,6 +17441,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
                 FromJsonUtilS(input["CharacterId"], CharacterId);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["ItemId"], ItemId);
                 FromJsonUtilP(input["Price"], Price);
                 FromJsonUtilS(input["StoreId"], StoreId);
@@ -12566,6 +17453,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
                 Json::Value each_CharacterId; ToJsonUtilS(CharacterId, each_CharacterId); output["CharacterId"] = each_CharacterId;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ItemId; ToJsonUtilS(ItemId, each_ItemId); output["ItemId"] = each_ItemId;
                 Json::Value each_Price; ToJsonUtilP(Price, each_Price); output["Price"] = each_Price;
                 Json::Value each_StoreId; ToJsonUtilS(StoreId, each_StoreId); output["StoreId"] = each_StoreId;
@@ -12652,19 +17540,22 @@ namespace PlayFabInternal
             std::string CatalogVersion;
             std::string CharacterId;
             std::string CouponCode;
+            std::map<std::string, std::string> CustomTags;
 
             RedeemCouponRequest() :
                 PlayFabRequestCommon(),
                 CatalogVersion(),
                 CharacterId(),
-                CouponCode()
+                CouponCode(),
+                CustomTags()
             {}
 
             RedeemCouponRequest(const RedeemCouponRequest& src) :
                 PlayFabRequestCommon(),
                 CatalogVersion(src.CatalogVersion),
                 CharacterId(src.CharacterId),
-                CouponCode(src.CouponCode)
+                CouponCode(src.CouponCode),
+                CustomTags(src.CustomTags)
             {}
 
             ~RedeemCouponRequest() = default;
@@ -12674,6 +17565,7 @@ namespace PlayFabInternal
                 FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
                 FromJsonUtilS(input["CharacterId"], CharacterId);
                 FromJsonUtilS(input["CouponCode"], CouponCode);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
@@ -12682,6 +17574,7 @@ namespace PlayFabInternal
                 Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
                 Json::Value each_CharacterId; ToJsonUtilS(CharacterId, each_CharacterId); output["CharacterId"] = each_CharacterId;
                 Json::Value each_CouponCode; ToJsonUtilS(CouponCode, each_CouponCode); output["CouponCode"] = each_CouponCode;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -12819,6 +17712,7 @@ namespace PlayFabInternal
 
         struct RegisterPlayFabUserRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string DisplayName;
             std::string Email;
             std::string EncryptedRequest;
@@ -12831,6 +17725,7 @@ namespace PlayFabInternal
 
             RegisterPlayFabUserRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 DisplayName(),
                 Email(),
                 EncryptedRequest(),
@@ -12844,6 +17739,7 @@ namespace PlayFabInternal
 
             RegisterPlayFabUserRequest(const RegisterPlayFabUserRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 DisplayName(src.DisplayName),
                 Email(src.Email),
                 EncryptedRequest(src.EncryptedRequest),
@@ -12859,6 +17755,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["DisplayName"], DisplayName);
                 FromJsonUtilS(input["Email"], Email);
                 FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
@@ -12873,6 +17770,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_DisplayName; ToJsonUtilS(DisplayName, each_DisplayName); output["DisplayName"] = each_DisplayName;
                 Json::Value each_Email; ToJsonUtilS(Email, each_Email); output["Email"] = each_Email;
                 Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
@@ -12935,85 +17833,31 @@ namespace PlayFabInternal
             }
         };
 
-        struct RegisterWithWindowsHelloRequest : public PlayFabRequestCommon
-        {
-            std::string DeviceName;
-            std::string EncryptedRequest;
-            Boxed<GetPlayerCombinedInfoRequestParams> InfoRequestParameters;
-            std::string PlayerSecret;
-            std::string PublicKey;
-            std::string TitleId;
-            std::string UserName;
-
-            RegisterWithWindowsHelloRequest() :
-                PlayFabRequestCommon(),
-                DeviceName(),
-                EncryptedRequest(),
-                InfoRequestParameters(),
-                PlayerSecret(),
-                PublicKey(),
-                TitleId(),
-                UserName()
-            {}
-
-            RegisterWithWindowsHelloRequest(const RegisterWithWindowsHelloRequest& src) :
-                PlayFabRequestCommon(),
-                DeviceName(src.DeviceName),
-                EncryptedRequest(src.EncryptedRequest),
-                InfoRequestParameters(src.InfoRequestParameters),
-                PlayerSecret(src.PlayerSecret),
-                PublicKey(src.PublicKey),
-                TitleId(src.TitleId),
-                UserName(src.UserName)
-            {}
-
-            ~RegisterWithWindowsHelloRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["DeviceName"], DeviceName);
-                FromJsonUtilS(input["EncryptedRequest"], EncryptedRequest);
-                FromJsonUtilO(input["InfoRequestParameters"], InfoRequestParameters);
-                FromJsonUtilS(input["PlayerSecret"], PlayerSecret);
-                FromJsonUtilS(input["PublicKey"], PublicKey);
-                FromJsonUtilS(input["TitleId"], TitleId);
-                FromJsonUtilS(input["UserName"], UserName);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_DeviceName; ToJsonUtilS(DeviceName, each_DeviceName); output["DeviceName"] = each_DeviceName;
-                Json::Value each_EncryptedRequest; ToJsonUtilS(EncryptedRequest, each_EncryptedRequest); output["EncryptedRequest"] = each_EncryptedRequest;
-                Json::Value each_InfoRequestParameters; ToJsonUtilO(InfoRequestParameters, each_InfoRequestParameters); output["InfoRequestParameters"] = each_InfoRequestParameters;
-                Json::Value each_PlayerSecret; ToJsonUtilS(PlayerSecret, each_PlayerSecret); output["PlayerSecret"] = each_PlayerSecret;
-                Json::Value each_PublicKey; ToJsonUtilS(PublicKey, each_PublicKey); output["PublicKey"] = each_PublicKey;
-                Json::Value each_TitleId; ToJsonUtilS(TitleId, each_TitleId); output["TitleId"] = each_TitleId;
-                Json::Value each_UserName; ToJsonUtilS(UserName, each_UserName); output["UserName"] = each_UserName;
-                return output;
-            }
-        };
-
         struct RemoveContactEmailRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
 
             RemoveContactEmailRequest() :
-                PlayFabRequestCommon()
+                PlayFabRequestCommon(),
+                CustomTags()
             {}
 
-            RemoveContactEmailRequest(const RemoveContactEmailRequest&) :
-                PlayFabRequestCommon()
+            RemoveContactEmailRequest(const RemoveContactEmailRequest& src) :
+                PlayFabRequestCommon(),
+                CustomTags(src.CustomTags)
             {}
 
             ~RemoveContactEmailRequest() = default;
 
-            void FromJson(const Json::Value&) override
+            void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -13209,12 +18053,14 @@ namespace PlayFabInternal
         struct ReportAdActivityRequest : public PlayFabRequestCommon
         {
             AdActivity Activity;
+            std::map<std::string, std::string> CustomTags;
             std::string PlacementId;
             std::string RewardId;
 
             ReportAdActivityRequest() :
                 PlayFabRequestCommon(),
                 Activity(),
+                CustomTags(),
                 PlacementId(),
                 RewardId()
             {}
@@ -13222,6 +18068,7 @@ namespace PlayFabInternal
             ReportAdActivityRequest(const ReportAdActivityRequest& src) :
                 PlayFabRequestCommon(),
                 Activity(src.Activity),
+                CustomTags(src.CustomTags),
                 PlacementId(src.PlacementId),
                 RewardId(src.RewardId)
             {}
@@ -13231,6 +18078,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonEnum(input["Activity"], Activity);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["PlacementId"], PlacementId);
                 FromJsonUtilS(input["RewardId"], RewardId);
             }
@@ -13239,6 +18087,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_Activity; ToJsonEnum(Activity, each_Activity); output["Activity"] = each_Activity;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_PlacementId; ToJsonUtilS(PlacementId, each_PlacementId); output["PlacementId"] = each_PlacementId;
                 Json::Value each_RewardId; ToJsonUtilS(RewardId, each_RewardId); output["RewardId"] = each_RewardId;
                 return output;
@@ -13272,17 +18121,20 @@ namespace PlayFabInternal
         struct ReportPlayerClientRequest : public PlayFabRequestCommon
         {
             std::string Comment;
+            std::map<std::string, std::string> CustomTags;
             std::string ReporteeId;
 
             ReportPlayerClientRequest() :
                 PlayFabRequestCommon(),
                 Comment(),
+                CustomTags(),
                 ReporteeId()
             {}
 
             ReportPlayerClientRequest(const ReportPlayerClientRequest& src) :
                 PlayFabRequestCommon(),
                 Comment(src.Comment),
+                CustomTags(src.CustomTags),
                 ReporteeId(src.ReporteeId)
             {}
 
@@ -13291,6 +18143,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["Comment"], Comment);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["ReporteeId"], ReporteeId);
             }
 
@@ -13298,6 +18151,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_Comment; ToJsonUtilS(Comment, each_Comment); output["Comment"] = each_Comment;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ReporteeId; ToJsonUtilS(ReporteeId, each_ReporteeId); output["ReporteeId"] = each_ReporteeId;
                 return output;
             }
@@ -13335,17 +18189,20 @@ namespace PlayFabInternal
         struct RestoreIOSPurchasesRequest : public PlayFabRequestCommon
         {
             std::string CatalogVersion;
+            std::map<std::string, std::string> CustomTags;
             std::string ReceiptData;
 
             RestoreIOSPurchasesRequest() :
                 PlayFabRequestCommon(),
                 CatalogVersion(),
+                CustomTags(),
                 ReceiptData()
             {}
 
             RestoreIOSPurchasesRequest(const RestoreIOSPurchasesRequest& src) :
                 PlayFabRequestCommon(),
                 CatalogVersion(src.CatalogVersion),
+                CustomTags(src.CustomTags),
                 ReceiptData(src.ReceiptData)
             {}
 
@@ -13354,6 +18211,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["ReceiptData"], ReceiptData);
             }
 
@@ -13361,6 +18219,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ReceiptData; ToJsonUtilS(ReceiptData, each_ReceiptData); output["ReceiptData"] = each_ReceiptData;
                 return output;
             }
@@ -13397,17 +18256,20 @@ namespace PlayFabInternal
 
         struct RewardAdActivityRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string PlacementId;
             std::string RewardId;
 
             RewardAdActivityRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 PlacementId(),
                 RewardId()
             {}
 
             RewardAdActivityRequest(const RewardAdActivityRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 PlacementId(src.PlacementId),
                 RewardId(src.RewardId)
             {}
@@ -13416,6 +18278,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["PlacementId"], PlacementId);
                 FromJsonUtilS(input["RewardId"], RewardId);
             }
@@ -13423,6 +18286,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_PlacementId; ToJsonUtilS(PlacementId, each_PlacementId); output["PlacementId"] = each_PlacementId;
                 Json::Value each_RewardId; ToJsonUtilS(RewardId, each_RewardId); output["RewardId"] = each_RewardId;
                 return output;
@@ -13490,12 +18354,14 @@ namespace PlayFabInternal
 
         struct SendAccountRecoveryEmailRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string Email;
             std::string EmailTemplateId;
             std::string TitleId;
 
             SendAccountRecoveryEmailRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Email(),
                 EmailTemplateId(),
                 TitleId()
@@ -13503,6 +18369,7 @@ namespace PlayFabInternal
 
             SendAccountRecoveryEmailRequest(const SendAccountRecoveryEmailRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Email(src.Email),
                 EmailTemplateId(src.EmailTemplateId),
                 TitleId(src.TitleId)
@@ -13512,6 +18379,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["Email"], Email);
                 FromJsonUtilS(input["EmailTemplateId"], EmailTemplateId);
                 FromJsonUtilS(input["TitleId"], TitleId);
@@ -13520,6 +18388,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Email; ToJsonUtilS(Email, each_Email); output["Email"] = each_Email;
                 Json::Value each_EmailTemplateId; ToJsonUtilS(EmailTemplateId, each_EmailTemplateId); output["EmailTemplateId"] = each_EmailTemplateId;
                 Json::Value each_TitleId; ToJsonUtilS(TitleId, each_TitleId); output["TitleId"] = each_TitleId;
@@ -13667,133 +18536,17 @@ namespace PlayFabInternal
             }
         };
 
-        struct StartGameRequest : public PlayFabRequestCommon
-        {
-            std::string BuildVersion;
-            std::string CharacterId;
-            std::string CustomCommandLineData;
-            std::string GameMode;
-            Region pfRegion;
-            std::string StatisticName;
-
-            StartGameRequest() :
-                PlayFabRequestCommon(),
-                BuildVersion(),
-                CharacterId(),
-                CustomCommandLineData(),
-                GameMode(),
-                pfRegion(),
-                StatisticName()
-            {}
-
-            StartGameRequest(const StartGameRequest& src) :
-                PlayFabRequestCommon(),
-                BuildVersion(src.BuildVersion),
-                CharacterId(src.CharacterId),
-                CustomCommandLineData(src.CustomCommandLineData),
-                GameMode(src.GameMode),
-                pfRegion(src.pfRegion),
-                StatisticName(src.StatisticName)
-            {}
-
-            ~StartGameRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["BuildVersion"], BuildVersion);
-                FromJsonUtilS(input["CharacterId"], CharacterId);
-                FromJsonUtilS(input["CustomCommandLineData"], CustomCommandLineData);
-                FromJsonUtilS(input["GameMode"], GameMode);
-                FromJsonEnum(input["Region"], pfRegion);
-                FromJsonUtilS(input["StatisticName"], StatisticName);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_BuildVersion; ToJsonUtilS(BuildVersion, each_BuildVersion); output["BuildVersion"] = each_BuildVersion;
-                Json::Value each_CharacterId; ToJsonUtilS(CharacterId, each_CharacterId); output["CharacterId"] = each_CharacterId;
-                Json::Value each_CustomCommandLineData; ToJsonUtilS(CustomCommandLineData, each_CustomCommandLineData); output["CustomCommandLineData"] = each_CustomCommandLineData;
-                Json::Value each_GameMode; ToJsonUtilS(GameMode, each_GameMode); output["GameMode"] = each_GameMode;
-                Json::Value each_pfRegion; ToJsonEnum(pfRegion, each_pfRegion); output["Region"] = each_pfRegion;
-                Json::Value each_StatisticName; ToJsonUtilS(StatisticName, each_StatisticName); output["StatisticName"] = each_StatisticName;
-                return output;
-            }
-        };
-
-        struct StartGameResult : public PlayFabResultCommon
-        {
-            std::string Expires;
-            std::string LobbyID;
-            std::string Password;
-            std::string ServerIPV4Address;
-            std::string ServerIPV6Address;
-            Boxed<Int32> ServerPort;
-            std::string ServerPublicDNSName;
-            std::string Ticket;
-
-            StartGameResult() :
-                PlayFabResultCommon(),
-                Expires(),
-                LobbyID(),
-                Password(),
-                ServerIPV4Address(),
-                ServerIPV6Address(),
-                ServerPort(),
-                ServerPublicDNSName(),
-                Ticket()
-            {}
-
-            StartGameResult(const StartGameResult& src) :
-                PlayFabResultCommon(),
-                Expires(src.Expires),
-                LobbyID(src.LobbyID),
-                Password(src.Password),
-                ServerIPV4Address(src.ServerIPV4Address),
-                ServerIPV6Address(src.ServerIPV6Address),
-                ServerPort(src.ServerPort),
-                ServerPublicDNSName(src.ServerPublicDNSName),
-                Ticket(src.Ticket)
-            {}
-
-            ~StartGameResult() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["Expires"], Expires);
-                FromJsonUtilS(input["LobbyID"], LobbyID);
-                FromJsonUtilS(input["Password"], Password);
-                FromJsonUtilS(input["ServerIPV4Address"], ServerIPV4Address);
-                FromJsonUtilS(input["ServerIPV6Address"], ServerIPV6Address);
-                FromJsonUtilP(input["ServerPort"], ServerPort);
-                FromJsonUtilS(input["ServerPublicDNSName"], ServerPublicDNSName);
-                FromJsonUtilS(input["Ticket"], Ticket);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Expires; ToJsonUtilS(Expires, each_Expires); output["Expires"] = each_Expires;
-                Json::Value each_LobbyID; ToJsonUtilS(LobbyID, each_LobbyID); output["LobbyID"] = each_LobbyID;
-                Json::Value each_Password; ToJsonUtilS(Password, each_Password); output["Password"] = each_Password;
-                Json::Value each_ServerIPV4Address; ToJsonUtilS(ServerIPV4Address, each_ServerIPV4Address); output["ServerIPV4Address"] = each_ServerIPV4Address;
-                Json::Value each_ServerIPV6Address; ToJsonUtilS(ServerIPV6Address, each_ServerIPV6Address); output["ServerIPV6Address"] = each_ServerIPV6Address;
-                Json::Value each_ServerPort; ToJsonUtilP(ServerPort, each_ServerPort); output["ServerPort"] = each_ServerPort;
-                Json::Value each_ServerPublicDNSName; ToJsonUtilS(ServerPublicDNSName, each_ServerPublicDNSName); output["ServerPublicDNSName"] = each_ServerPublicDNSName;
-                Json::Value each_Ticket; ToJsonUtilS(Ticket, each_Ticket); output["Ticket"] = each_Ticket;
-                return output;
-            }
-        };
-
         struct StartPurchaseRequest : public PlayFabRequestCommon
         {
             std::string CatalogVersion;
+            std::map<std::string, std::string> CustomTags;
             std::list<ItemPurchaseRequest> Items;
             std::string StoreId;
 
             StartPurchaseRequest() :
                 PlayFabRequestCommon(),
                 CatalogVersion(),
+                CustomTags(),
                 Items(),
                 StoreId()
             {}
@@ -13801,6 +18554,7 @@ namespace PlayFabInternal
             StartPurchaseRequest(const StartPurchaseRequest& src) :
                 PlayFabRequestCommon(),
                 CatalogVersion(src.CatalogVersion),
+                CustomTags(src.CustomTags),
                 Items(src.Items),
                 StoreId(src.StoreId)
             {}
@@ -13810,6 +18564,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Items"], Items);
                 FromJsonUtilS(input["StoreId"], StoreId);
             }
@@ -13818,6 +18573,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Items; ToJsonUtilO(Items, each_Items); output["Items"] = each_Items;
                 Json::Value each_StoreId; ToJsonUtilS(StoreId, each_StoreId); output["StoreId"] = each_StoreId;
                 return output;
@@ -13910,17 +18666,20 @@ namespace PlayFabInternal
         struct SubtractUserVirtualCurrencyRequest : public PlayFabRequestCommon
         {
             Int32 Amount;
+            std::map<std::string, std::string> CustomTags;
             std::string VirtualCurrency;
 
             SubtractUserVirtualCurrencyRequest() :
                 PlayFabRequestCommon(),
                 Amount(),
+                CustomTags(),
                 VirtualCurrency()
             {}
 
             SubtractUserVirtualCurrencyRequest(const SubtractUserVirtualCurrencyRequest& src) :
                 PlayFabRequestCommon(),
                 Amount(src.Amount),
+                CustomTags(src.CustomTags),
                 VirtualCurrency(src.VirtualCurrency)
             {}
 
@@ -13929,6 +18688,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["Amount"], Amount);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["VirtualCurrency"], VirtualCurrency);
             }
 
@@ -13936,36 +18696,8 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_Amount; ToJsonUtilP(Amount, each_Amount); output["Amount"] = each_Amount;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_VirtualCurrency; ToJsonUtilS(VirtualCurrency, each_VirtualCurrency); output["VirtualCurrency"] = each_VirtualCurrency;
-                return output;
-            }
-        };
-
-        struct UninkOpenIdConnectRequest : public PlayFabRequestCommon
-        {
-            std::string ConnectionId;
-
-            UninkOpenIdConnectRequest() :
-                PlayFabRequestCommon(),
-                ConnectionId()
-            {}
-
-            UninkOpenIdConnectRequest(const UninkOpenIdConnectRequest& src) :
-                PlayFabRequestCommon(),
-                ConnectionId(src.ConnectionId)
-            {}
-
-            ~UninkOpenIdConnectRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["ConnectionId"], ConnectionId);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_ConnectionId; ToJsonUtilS(ConnectionId, each_ConnectionId); output["ConnectionId"] = each_ConnectionId;
                 return output;
             }
         };
@@ -13973,15 +18705,18 @@ namespace PlayFabInternal
         struct UnlinkAndroidDeviceIDRequest : public PlayFabRequestCommon
         {
             std::string AndroidDeviceId;
+            std::map<std::string, std::string> CustomTags;
 
             UnlinkAndroidDeviceIDRequest() :
                 PlayFabRequestCommon(),
-                AndroidDeviceId()
+                AndroidDeviceId(),
+                CustomTags()
             {}
 
             UnlinkAndroidDeviceIDRequest(const UnlinkAndroidDeviceIDRequest& src) :
                 PlayFabRequestCommon(),
-                AndroidDeviceId(src.AndroidDeviceId)
+                AndroidDeviceId(src.AndroidDeviceId),
+                CustomTags(src.CustomTags)
             {}
 
             ~UnlinkAndroidDeviceIDRequest() = default;
@@ -13989,12 +18724,14 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["AndroidDeviceId"], AndroidDeviceId);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
                 Json::Value each_AndroidDeviceId; ToJsonUtilS(AndroidDeviceId, each_AndroidDeviceId); output["AndroidDeviceId"] = each_AndroidDeviceId;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -14023,18 +18760,50 @@ namespace PlayFabInternal
             }
         };
 
+        struct UnlinkAppleRequest : public PlayFabRequestCommon
+        {
+            std::map<std::string, std::string> CustomTags;
+
+            UnlinkAppleRequest() :
+                PlayFabRequestCommon(),
+                CustomTags()
+            {}
+
+            UnlinkAppleRequest(const UnlinkAppleRequest& src) :
+                PlayFabRequestCommon(),
+                CustomTags(src.CustomTags)
+            {}
+
+            ~UnlinkAppleRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
+                return output;
+            }
+        };
+
         struct UnlinkCustomIDRequest : public PlayFabRequestCommon
         {
             std::string CustomId;
+            std::map<std::string, std::string> CustomTags;
 
             UnlinkCustomIDRequest() :
                 PlayFabRequestCommon(),
-                CustomId()
+                CustomId(),
+                CustomTags()
             {}
 
             UnlinkCustomIDRequest(const UnlinkCustomIDRequest& src) :
                 PlayFabRequestCommon(),
-                CustomId(src.CustomId)
+                CustomId(src.CustomId),
+                CustomTags(src.CustomTags)
             {}
 
             ~UnlinkCustomIDRequest() = default;
@@ -14042,12 +18811,14 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["CustomId"], CustomId);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
                 Json::Value each_CustomId; ToJsonUtilS(CustomId, each_CustomId); output["CustomId"] = each_CustomId;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -14078,24 +18849,29 @@ namespace PlayFabInternal
 
         struct UnlinkFacebookAccountRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
 
             UnlinkFacebookAccountRequest() :
-                PlayFabRequestCommon()
+                PlayFabRequestCommon(),
+                CustomTags()
             {}
 
-            UnlinkFacebookAccountRequest(const UnlinkFacebookAccountRequest&) :
-                PlayFabRequestCommon()
+            UnlinkFacebookAccountRequest(const UnlinkFacebookAccountRequest& src) :
+                PlayFabRequestCommon(),
+                CustomTags(src.CustomTags)
             {}
 
             ~UnlinkFacebookAccountRequest() = default;
 
-            void FromJson(const Json::Value&) override
+            void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -14126,15 +18902,18 @@ namespace PlayFabInternal
 
         struct UnlinkFacebookInstantGamesIdRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string FacebookInstantGamesId;
 
             UnlinkFacebookInstantGamesIdRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 FacebookInstantGamesId()
             {}
 
             UnlinkFacebookInstantGamesIdRequest(const UnlinkFacebookInstantGamesIdRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 FacebookInstantGamesId(src.FacebookInstantGamesId)
             {}
 
@@ -14142,12 +18921,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["FacebookInstantGamesId"], FacebookInstantGamesId);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_FacebookInstantGamesId; ToJsonUtilS(FacebookInstantGamesId, each_FacebookInstantGamesId); output["FacebookInstantGamesId"] = each_FacebookInstantGamesId;
                 return output;
             }
@@ -14179,24 +18960,29 @@ namespace PlayFabInternal
 
         struct UnlinkGameCenterAccountRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
 
             UnlinkGameCenterAccountRequest() :
-                PlayFabRequestCommon()
+                PlayFabRequestCommon(),
+                CustomTags()
             {}
 
-            UnlinkGameCenterAccountRequest(const UnlinkGameCenterAccountRequest&) :
-                PlayFabRequestCommon()
+            UnlinkGameCenterAccountRequest(const UnlinkGameCenterAccountRequest& src) :
+                PlayFabRequestCommon(),
+                CustomTags(src.CustomTags)
             {}
 
             ~UnlinkGameCenterAccountRequest() = default;
 
-            void FromJson(const Json::Value&) override
+            void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -14227,24 +19013,29 @@ namespace PlayFabInternal
 
         struct UnlinkGoogleAccountRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
 
             UnlinkGoogleAccountRequest() :
-                PlayFabRequestCommon()
+                PlayFabRequestCommon(),
+                CustomTags()
             {}
 
-            UnlinkGoogleAccountRequest(const UnlinkGoogleAccountRequest&) :
-                PlayFabRequestCommon()
+            UnlinkGoogleAccountRequest(const UnlinkGoogleAccountRequest& src) :
+                PlayFabRequestCommon(),
+                CustomTags(src.CustomTags)
             {}
 
             ~UnlinkGoogleAccountRequest() = default;
 
-            void FromJson(const Json::Value&) override
+            void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -14275,15 +19066,18 @@ namespace PlayFabInternal
 
         struct UnlinkIOSDeviceIDRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string DeviceId;
 
             UnlinkIOSDeviceIDRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 DeviceId()
             {}
 
             UnlinkIOSDeviceIDRequest(const UnlinkIOSDeviceIDRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 DeviceId(src.DeviceId)
             {}
 
@@ -14291,12 +19085,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["DeviceId"], DeviceId);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_DeviceId; ToJsonUtilS(DeviceId, each_DeviceId); output["DeviceId"] = each_DeviceId;
                 return output;
             }
@@ -14328,24 +19124,29 @@ namespace PlayFabInternal
 
         struct UnlinkKongregateAccountRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
 
             UnlinkKongregateAccountRequest() :
-                PlayFabRequestCommon()
+                PlayFabRequestCommon(),
+                CustomTags()
             {}
 
-            UnlinkKongregateAccountRequest(const UnlinkKongregateAccountRequest&) :
-                PlayFabRequestCommon()
+            UnlinkKongregateAccountRequest(const UnlinkKongregateAccountRequest& src) :
+                PlayFabRequestCommon(),
+                CustomTags(src.CustomTags)
             {}
 
             ~UnlinkKongregateAccountRequest() = default;
 
-            void FromJson(const Json::Value&) override
+            void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -14374,17 +19175,49 @@ namespace PlayFabInternal
             }
         };
 
+        struct UnlinkNintendoServiceAccountRequest : public PlayFabRequestCommon
+        {
+            std::map<std::string, std::string> CustomTags;
+
+            UnlinkNintendoServiceAccountRequest() :
+                PlayFabRequestCommon(),
+                CustomTags()
+            {}
+
+            UnlinkNintendoServiceAccountRequest(const UnlinkNintendoServiceAccountRequest& src) :
+                PlayFabRequestCommon(),
+                CustomTags(src.CustomTags)
+            {}
+
+            ~UnlinkNintendoServiceAccountRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
+                return output;
+            }
+        };
+
         struct UnlinkNintendoSwitchDeviceIdRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string NintendoSwitchDeviceId;
 
             UnlinkNintendoSwitchDeviceIdRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 NintendoSwitchDeviceId()
             {}
 
             UnlinkNintendoSwitchDeviceIdRequest(const UnlinkNintendoSwitchDeviceIdRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 NintendoSwitchDeviceId(src.NintendoSwitchDeviceId)
             {}
 
@@ -14392,12 +19225,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["NintendoSwitchDeviceId"], NintendoSwitchDeviceId);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_NintendoSwitchDeviceId; ToJsonUtilS(NintendoSwitchDeviceId, each_NintendoSwitchDeviceId); output["NintendoSwitchDeviceId"] = each_NintendoSwitchDeviceId;
                 return output;
             }
@@ -14427,26 +19262,65 @@ namespace PlayFabInternal
             }
         };
 
-        struct UnlinkPSNAccountRequest : public PlayFabRequestCommon
+        struct UnlinkOpenIdConnectRequest : public PlayFabRequestCommon
         {
+            std::string ConnectionId;
+            std::map<std::string, std::string> CustomTags;
 
-            UnlinkPSNAccountRequest() :
-                PlayFabRequestCommon()
+            UnlinkOpenIdConnectRequest() :
+                PlayFabRequestCommon(),
+                ConnectionId(),
+                CustomTags()
             {}
 
-            UnlinkPSNAccountRequest(const UnlinkPSNAccountRequest&) :
-                PlayFabRequestCommon()
+            UnlinkOpenIdConnectRequest(const UnlinkOpenIdConnectRequest& src) :
+                PlayFabRequestCommon(),
+                ConnectionId(src.ConnectionId),
+                CustomTags(src.CustomTags)
             {}
 
-            ~UnlinkPSNAccountRequest() = default;
+            ~UnlinkOpenIdConnectRequest() = default;
 
-            void FromJson(const Json::Value&) override
+            void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["ConnectionId"], ConnectionId);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_ConnectionId; ToJsonUtilS(ConnectionId, each_ConnectionId); output["ConnectionId"] = each_ConnectionId;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
+                return output;
+            }
+        };
+
+        struct UnlinkPSNAccountRequest : public PlayFabRequestCommon
+        {
+            std::map<std::string, std::string> CustomTags;
+
+            UnlinkPSNAccountRequest() :
+                PlayFabRequestCommon(),
+                CustomTags()
+            {}
+
+            UnlinkPSNAccountRequest(const UnlinkPSNAccountRequest& src) :
+                PlayFabRequestCommon(),
+                CustomTags(src.CustomTags)
+            {}
+
+            ~UnlinkPSNAccountRequest() = default;
+
+            void FromJson(const Json::Value& input) override
+            {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
+            }
+
+            Json::Value ToJson() const override
+            {
+                Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -14477,24 +19351,29 @@ namespace PlayFabInternal
 
         struct UnlinkSteamAccountRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
 
             UnlinkSteamAccountRequest() :
-                PlayFabRequestCommon()
+                PlayFabRequestCommon(),
+                CustomTags()
             {}
 
-            UnlinkSteamAccountRequest(const UnlinkSteamAccountRequest&) :
-                PlayFabRequestCommon()
+            UnlinkSteamAccountRequest(const UnlinkSteamAccountRequest& src) :
+                PlayFabRequestCommon(),
+                CustomTags(src.CustomTags)
             {}
 
             ~UnlinkSteamAccountRequest() = default;
 
-            void FromJson(const Json::Value&) override
+            void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -14525,24 +19404,34 @@ namespace PlayFabInternal
 
         struct UnlinkTwitchAccountRequest : public PlayFabRequestCommon
         {
+            std::string AccessToken;
+            std::map<std::string, std::string> CustomTags;
 
             UnlinkTwitchAccountRequest() :
-                PlayFabRequestCommon()
+                PlayFabRequestCommon(),
+                AccessToken(),
+                CustomTags()
             {}
 
-            UnlinkTwitchAccountRequest(const UnlinkTwitchAccountRequest&) :
-                PlayFabRequestCommon()
+            UnlinkTwitchAccountRequest(const UnlinkTwitchAccountRequest& src) :
+                PlayFabRequestCommon(),
+                AccessToken(src.AccessToken),
+                CustomTags(src.CustomTags)
             {}
 
             ~UnlinkTwitchAccountRequest() = default;
 
-            void FromJson(const Json::Value&) override
+            void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["AccessToken"], AccessToken);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_AccessToken; ToJsonUtilS(AccessToken, each_AccessToken); output["AccessToken"] = each_AccessToken;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -14571,84 +19460,31 @@ namespace PlayFabInternal
             }
         };
 
-        struct UnlinkWindowsHelloAccountRequest : public PlayFabRequestCommon
-        {
-            std::string PublicKeyHint;
-
-            UnlinkWindowsHelloAccountRequest() :
-                PlayFabRequestCommon(),
-                PublicKeyHint()
-            {}
-
-            UnlinkWindowsHelloAccountRequest(const UnlinkWindowsHelloAccountRequest& src) :
-                PlayFabRequestCommon(),
-                PublicKeyHint(src.PublicKeyHint)
-            {}
-
-            ~UnlinkWindowsHelloAccountRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["PublicKeyHint"], PublicKeyHint);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_PublicKeyHint; ToJsonUtilS(PublicKeyHint, each_PublicKeyHint); output["PublicKeyHint"] = each_PublicKeyHint;
-                return output;
-            }
-        };
-
-        struct UnlinkWindowsHelloAccountResponse : public PlayFabResultCommon
-        {
-
-            UnlinkWindowsHelloAccountResponse() :
-                PlayFabResultCommon()
-            {}
-
-            UnlinkWindowsHelloAccountResponse(const UnlinkWindowsHelloAccountResponse&) :
-                PlayFabResultCommon()
-            {}
-
-            ~UnlinkWindowsHelloAccountResponse() = default;
-
-            void FromJson(const Json::Value&) override
-            {
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                return output;
-            }
-        };
-
         struct UnlinkXboxAccountRequest : public PlayFabRequestCommon
         {
-            std::string XboxToken;
+            std::map<std::string, std::string> CustomTags;
 
             UnlinkXboxAccountRequest() :
                 PlayFabRequestCommon(),
-                XboxToken()
+                CustomTags()
             {}
 
             UnlinkXboxAccountRequest(const UnlinkXboxAccountRequest& src) :
                 PlayFabRequestCommon(),
-                XboxToken(src.XboxToken)
+                CustomTags(src.CustomTags)
             {}
 
             ~UnlinkXboxAccountRequest() = default;
 
             void FromJson(const Json::Value& input) override
             {
-                FromJsonUtilS(input["XboxToken"], XboxToken);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
-                Json::Value each_XboxToken; ToJsonUtilS(XboxToken, each_XboxToken); output["XboxToken"] = each_XboxToken;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -14682,6 +19518,7 @@ namespace PlayFabInternal
             std::string CatalogVersion;
             std::string CharacterId;
             std::string ContainerItemInstanceId;
+            std::map<std::string, std::string> CustomTags;
             std::string KeyItemInstanceId;
 
             UnlockContainerInstanceRequest() :
@@ -14689,6 +19526,7 @@ namespace PlayFabInternal
                 CatalogVersion(),
                 CharacterId(),
                 ContainerItemInstanceId(),
+                CustomTags(),
                 KeyItemInstanceId()
             {}
 
@@ -14697,6 +19535,7 @@ namespace PlayFabInternal
                 CatalogVersion(src.CatalogVersion),
                 CharacterId(src.CharacterId),
                 ContainerItemInstanceId(src.ContainerItemInstanceId),
+                CustomTags(src.CustomTags),
                 KeyItemInstanceId(src.KeyItemInstanceId)
             {}
 
@@ -14707,6 +19546,7 @@ namespace PlayFabInternal
                 FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
                 FromJsonUtilS(input["CharacterId"], CharacterId);
                 FromJsonUtilS(input["ContainerItemInstanceId"], ContainerItemInstanceId);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["KeyItemInstanceId"], KeyItemInstanceId);
             }
 
@@ -14716,6 +19556,7 @@ namespace PlayFabInternal
                 Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
                 Json::Value each_CharacterId; ToJsonUtilS(CharacterId, each_CharacterId); output["CharacterId"] = each_CharacterId;
                 Json::Value each_ContainerItemInstanceId; ToJsonUtilS(ContainerItemInstanceId, each_ContainerItemInstanceId); output["ContainerItemInstanceId"] = each_ContainerItemInstanceId;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_KeyItemInstanceId; ToJsonUtilS(KeyItemInstanceId, each_KeyItemInstanceId); output["KeyItemInstanceId"] = each_KeyItemInstanceId;
                 return output;
             }
@@ -14726,19 +19567,22 @@ namespace PlayFabInternal
             std::string CatalogVersion;
             std::string CharacterId;
             std::string ContainerItemId;
+            std::map<std::string, std::string> CustomTags;
 
             UnlockContainerItemRequest() :
                 PlayFabRequestCommon(),
                 CatalogVersion(),
                 CharacterId(),
-                ContainerItemId()
+                ContainerItemId(),
+                CustomTags()
             {}
 
             UnlockContainerItemRequest(const UnlockContainerItemRequest& src) :
                 PlayFabRequestCommon(),
                 CatalogVersion(src.CatalogVersion),
                 CharacterId(src.CharacterId),
-                ContainerItemId(src.ContainerItemId)
+                ContainerItemId(src.ContainerItemId),
+                CustomTags(src.CustomTags)
             {}
 
             ~UnlockContainerItemRequest() = default;
@@ -14748,6 +19592,7 @@ namespace PlayFabInternal
                 FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
                 FromJsonUtilS(input["CharacterId"], CharacterId);
                 FromJsonUtilS(input["ContainerItemId"], ContainerItemId);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
@@ -14756,6 +19601,7 @@ namespace PlayFabInternal
                 Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
                 Json::Value each_CharacterId; ToJsonUtilS(CharacterId, each_CharacterId); output["CharacterId"] = each_CharacterId;
                 Json::Value each_ContainerItemId; ToJsonUtilS(ContainerItemId, each_ContainerItemId); output["ContainerItemId"] = each_ContainerItemId;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -14836,6 +19682,7 @@ namespace PlayFabInternal
         struct UpdateCharacterDataRequest : public PlayFabRequestCommon
         {
             std::string CharacterId;
+            std::map<std::string, std::string> CustomTags;
             std::map<std::string, std::string> Data;
             std::list<std::string> KeysToRemove;
             Boxed<UserDataPermission> Permission;
@@ -14843,6 +19690,7 @@ namespace PlayFabInternal
             UpdateCharacterDataRequest() :
                 PlayFabRequestCommon(),
                 CharacterId(),
+                CustomTags(),
                 Data(),
                 KeysToRemove(),
                 Permission()
@@ -14851,6 +19699,7 @@ namespace PlayFabInternal
             UpdateCharacterDataRequest(const UpdateCharacterDataRequest& src) :
                 PlayFabRequestCommon(),
                 CharacterId(src.CharacterId),
+                CustomTags(src.CustomTags),
                 Data(src.Data),
                 KeysToRemove(src.KeysToRemove),
                 Permission(src.Permission)
@@ -14861,6 +19710,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["CharacterId"], CharacterId);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["Data"], Data);
                 FromJsonUtilS(input["KeysToRemove"], KeysToRemove);
                 FromJsonUtilE(input["Permission"], Permission);
@@ -14870,6 +19720,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_CharacterId; ToJsonUtilS(CharacterId, each_CharacterId); output["CharacterId"] = each_CharacterId;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Data; ToJsonUtilS(Data, each_Data); output["Data"] = each_Data;
                 Json::Value each_KeysToRemove; ToJsonUtilS(KeysToRemove, each_KeysToRemove); output["KeysToRemove"] = each_KeysToRemove;
                 Json::Value each_Permission; ToJsonUtilE(Permission, each_Permission); output["Permission"] = each_Permission;
@@ -14910,17 +19761,20 @@ namespace PlayFabInternal
         {
             std::string CharacterId;
             std::map<std::string, Int32> CharacterStatistics;
+            std::map<std::string, std::string> CustomTags;
 
             UpdateCharacterStatisticsRequest() :
                 PlayFabRequestCommon(),
                 CharacterId(),
-                CharacterStatistics()
+                CharacterStatistics(),
+                CustomTags()
             {}
 
             UpdateCharacterStatisticsRequest(const UpdateCharacterStatisticsRequest& src) :
                 PlayFabRequestCommon(),
                 CharacterId(src.CharacterId),
-                CharacterStatistics(src.CharacterStatistics)
+                CharacterStatistics(src.CharacterStatistics),
+                CustomTags(src.CustomTags)
             {}
 
             ~UpdateCharacterStatisticsRequest() = default;
@@ -14929,6 +19783,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["CharacterId"], CharacterId);
                 FromJsonUtilP(input["CharacterStatistics"], CharacterStatistics);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
@@ -14936,6 +19791,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_CharacterId; ToJsonUtilS(CharacterId, each_CharacterId); output["CharacterId"] = each_CharacterId;
                 Json::Value each_CharacterStatistics; ToJsonUtilP(CharacterStatistics, each_CharacterStatistics); output["CharacterStatistics"] = each_CharacterStatistics;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -14966,15 +19822,18 @@ namespace PlayFabInternal
 
         struct UpdatePlayerStatisticsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::list<StatisticUpdate> Statistics;
 
             UpdatePlayerStatisticsRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Statistics()
             {}
 
             UpdatePlayerStatisticsRequest(const UpdatePlayerStatisticsRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Statistics(src.Statistics)
             {}
 
@@ -14982,12 +19841,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Statistics"], Statistics);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Statistics; ToJsonUtilO(Statistics, each_Statistics); output["Statistics"] = each_Statistics;
                 return output;
             }
@@ -15019,6 +19880,7 @@ namespace PlayFabInternal
 
         struct UpdateSharedGroupDataRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::map<std::string, std::string> Data;
             std::list<std::string> KeysToRemove;
             Boxed<UserDataPermission> Permission;
@@ -15026,6 +19888,7 @@ namespace PlayFabInternal
 
             UpdateSharedGroupDataRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Data(),
                 KeysToRemove(),
                 Permission(),
@@ -15034,6 +19897,7 @@ namespace PlayFabInternal
 
             UpdateSharedGroupDataRequest(const UpdateSharedGroupDataRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Data(src.Data),
                 KeysToRemove(src.KeysToRemove),
                 Permission(src.Permission),
@@ -15044,6 +19908,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["Data"], Data);
                 FromJsonUtilS(input["KeysToRemove"], KeysToRemove);
                 FromJsonUtilE(input["Permission"], Permission);
@@ -15053,6 +19918,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Data; ToJsonUtilS(Data, each_Data); output["Data"] = each_Data;
                 Json::Value each_KeysToRemove; ToJsonUtilS(KeysToRemove, each_KeysToRemove); output["KeysToRemove"] = each_KeysToRemove;
                 Json::Value each_Permission; ToJsonUtilE(Permission, each_Permission); output["Permission"] = each_Permission;
@@ -15087,12 +19953,14 @@ namespace PlayFabInternal
 
         struct UpdateUserDataRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::map<std::string, std::string> Data;
             std::list<std::string> KeysToRemove;
             Boxed<UserDataPermission> Permission;
 
             UpdateUserDataRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Data(),
                 KeysToRemove(),
                 Permission()
@@ -15100,6 +19968,7 @@ namespace PlayFabInternal
 
             UpdateUserDataRequest(const UpdateUserDataRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Data(src.Data),
                 KeysToRemove(src.KeysToRemove),
                 Permission(src.Permission)
@@ -15109,6 +19978,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["Data"], Data);
                 FromJsonUtilS(input["KeysToRemove"], KeysToRemove);
                 FromJsonUtilE(input["Permission"], Permission);
@@ -15117,6 +19987,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Data; ToJsonUtilS(Data, each_Data); output["Data"] = each_Data;
                 Json::Value each_KeysToRemove; ToJsonUtilS(KeysToRemove, each_KeysToRemove); output["KeysToRemove"] = each_KeysToRemove;
                 Json::Value each_Permission; ToJsonUtilE(Permission, each_Permission); output["Permission"] = each_Permission;
@@ -15155,15 +20026,18 @@ namespace PlayFabInternal
 
         struct UpdateUserTitleDisplayNameRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string DisplayName;
 
             UpdateUserTitleDisplayNameRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 DisplayName()
             {}
 
             UpdateUserTitleDisplayNameRequest(const UpdateUserTitleDisplayNameRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 DisplayName(src.DisplayName)
             {}
 
@@ -15171,12 +20045,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["DisplayName"], DisplayName);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_DisplayName; ToJsonUtilS(DisplayName, each_DisplayName); output["DisplayName"] = each_DisplayName;
                 return output;
             }
@@ -15215,6 +20091,7 @@ namespace PlayFabInternal
         {
             std::string CatalogVersion;
             std::string CurrencyCode;
+            std::map<std::string, std::string> CustomTags;
             Int32 PurchasePrice;
             std::string ReceiptId;
             std::string UserId;
@@ -15223,6 +20100,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 CatalogVersion(),
                 CurrencyCode(),
+                CustomTags(),
                 PurchasePrice(),
                 ReceiptId(),
                 UserId()
@@ -15232,6 +20110,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 CatalogVersion(src.CatalogVersion),
                 CurrencyCode(src.CurrencyCode),
+                CustomTags(src.CustomTags),
                 PurchasePrice(src.PurchasePrice),
                 ReceiptId(src.ReceiptId),
                 UserId(src.UserId)
@@ -15243,6 +20122,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
                 FromJsonUtilS(input["CurrencyCode"], CurrencyCode);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["PurchasePrice"], PurchasePrice);
                 FromJsonUtilS(input["ReceiptId"], ReceiptId);
                 FromJsonUtilS(input["UserId"], UserId);
@@ -15253,6 +20133,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
                 Json::Value each_CurrencyCode; ToJsonUtilS(CurrencyCode, each_CurrencyCode); output["CurrencyCode"] = each_CurrencyCode;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_PurchasePrice; ToJsonUtilP(PurchasePrice, each_PurchasePrice); output["PurchasePrice"] = each_PurchasePrice;
                 Json::Value each_ReceiptId; ToJsonUtilS(ReceiptId, each_ReceiptId); output["ReceiptId"] = each_ReceiptId;
                 Json::Value each_UserId; ToJsonUtilS(UserId, each_UserId); output["UserId"] = each_UserId;
@@ -15293,6 +20174,7 @@ namespace PlayFabInternal
         {
             std::string CatalogVersion;
             std::string CurrencyCode;
+            std::map<std::string, std::string> CustomTags;
             Boxed<Uint32> PurchasePrice;
             std::string ReceiptJson;
             std::string Signature;
@@ -15301,6 +20183,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 CatalogVersion(),
                 CurrencyCode(),
+                CustomTags(),
                 PurchasePrice(),
                 ReceiptJson(),
                 Signature()
@@ -15310,6 +20193,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 CatalogVersion(src.CatalogVersion),
                 CurrencyCode(src.CurrencyCode),
+                CustomTags(src.CustomTags),
                 PurchasePrice(src.PurchasePrice),
                 ReceiptJson(src.ReceiptJson),
                 Signature(src.Signature)
@@ -15321,6 +20205,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
                 FromJsonUtilS(input["CurrencyCode"], CurrencyCode);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["PurchasePrice"], PurchasePrice);
                 FromJsonUtilS(input["ReceiptJson"], ReceiptJson);
                 FromJsonUtilS(input["Signature"], Signature);
@@ -15331,6 +20216,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
                 Json::Value each_CurrencyCode; ToJsonUtilS(CurrencyCode, each_CurrencyCode); output["CurrencyCode"] = each_CurrencyCode;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_PurchasePrice; ToJsonUtilP(PurchasePrice, each_PurchasePrice); output["PurchasePrice"] = each_PurchasePrice;
                 Json::Value each_ReceiptJson; ToJsonUtilS(ReceiptJson, each_ReceiptJson); output["ReceiptJson"] = each_ReceiptJson;
                 Json::Value each_Signature; ToJsonUtilS(Signature, each_Signature); output["Signature"] = each_Signature;
@@ -15371,6 +20257,7 @@ namespace PlayFabInternal
         {
             std::string CatalogVersion;
             std::string CurrencyCode;
+            std::map<std::string, std::string> CustomTags;
             Int32 PurchasePrice;
             std::string ReceiptData;
 
@@ -15378,6 +20265,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 CatalogVersion(),
                 CurrencyCode(),
+                CustomTags(),
                 PurchasePrice(),
                 ReceiptData()
             {}
@@ -15386,6 +20274,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 CatalogVersion(src.CatalogVersion),
                 CurrencyCode(src.CurrencyCode),
+                CustomTags(src.CustomTags),
                 PurchasePrice(src.PurchasePrice),
                 ReceiptData(src.ReceiptData)
             {}
@@ -15396,6 +20285,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
                 FromJsonUtilS(input["CurrencyCode"], CurrencyCode);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["PurchasePrice"], PurchasePrice);
                 FromJsonUtilS(input["ReceiptData"], ReceiptData);
             }
@@ -15405,6 +20295,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
                 Json::Value each_CurrencyCode; ToJsonUtilS(CurrencyCode, each_CurrencyCode); output["CurrencyCode"] = each_CurrencyCode;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_PurchasePrice; ToJsonUtilP(PurchasePrice, each_PurchasePrice); output["PurchasePrice"] = each_PurchasePrice;
                 Json::Value each_ReceiptData; ToJsonUtilS(ReceiptData, each_ReceiptData); output["ReceiptData"] = each_ReceiptData;
                 return output;
@@ -15444,6 +20335,7 @@ namespace PlayFabInternal
         {
             std::string CatalogVersion;
             std::string CurrencyCode;
+            std::map<std::string, std::string> CustomTags;
             Uint32 PurchasePrice;
             std::string Receipt;
 
@@ -15451,6 +20343,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 CatalogVersion(),
                 CurrencyCode(),
+                CustomTags(),
                 PurchasePrice(),
                 Receipt()
             {}
@@ -15459,6 +20352,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 CatalogVersion(src.CatalogVersion),
                 CurrencyCode(src.CurrencyCode),
+                CustomTags(src.CustomTags),
                 PurchasePrice(src.PurchasePrice),
                 Receipt(src.Receipt)
             {}
@@ -15469,6 +20363,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["CatalogVersion"], CatalogVersion);
                 FromJsonUtilS(input["CurrencyCode"], CurrencyCode);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["PurchasePrice"], PurchasePrice);
                 FromJsonUtilS(input["Receipt"], Receipt);
             }
@@ -15478,6 +20373,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_CatalogVersion; ToJsonUtilS(CatalogVersion, each_CatalogVersion); output["CatalogVersion"] = each_CatalogVersion;
                 Json::Value each_CurrencyCode; ToJsonUtilS(CurrencyCode, each_CurrencyCode); output["CurrencyCode"] = each_CurrencyCode;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_PurchasePrice; ToJsonUtilP(PurchasePrice, each_PurchasePrice); output["PurchasePrice"] = each_PurchasePrice;
                 Json::Value each_Receipt; ToJsonUtilS(Receipt, each_Receipt); output["Receipt"] = each_Receipt;
                 return output;
@@ -15517,6 +20413,7 @@ namespace PlayFabInternal
         {
             Json::Value Body; // Not truly arbitrary. See documentation for restrictions on format
             std::string CharacterId;
+            std::map<std::string, std::string> CustomTags;
             std::string EventName;
             Boxed<time_t> Timestamp;
 
@@ -15524,6 +20421,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 Body(),
                 CharacterId(),
+                CustomTags(),
                 EventName(),
                 Timestamp()
             {}
@@ -15532,6 +20430,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 Body(src.Body),
                 CharacterId(src.CharacterId),
+                CustomTags(src.CustomTags),
                 EventName(src.EventName),
                 Timestamp(src.Timestamp)
             {}
@@ -15542,6 +20441,7 @@ namespace PlayFabInternal
             {
                 Body = input["Body"];
                 FromJsonUtilS(input["CharacterId"], CharacterId);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EventName"], EventName);
                 FromJsonUtilT(input["Timestamp"], Timestamp);
             }
@@ -15551,6 +20451,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 output["Body"] = Body;
                 Json::Value each_CharacterId; ToJsonUtilS(CharacterId, each_CharacterId); output["CharacterId"] = each_CharacterId;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EventName; ToJsonUtilS(EventName, each_EventName); output["EventName"] = each_EventName;
                 Json::Value each_Timestamp; ToJsonUtilT(Timestamp, each_Timestamp); output["Timestamp"] = each_Timestamp;
                 return output;
@@ -15560,12 +20461,14 @@ namespace PlayFabInternal
         struct WriteClientPlayerEventRequest : public PlayFabRequestCommon
         {
             Json::Value Body; // Not truly arbitrary. See documentation for restrictions on format
+            std::map<std::string, std::string> CustomTags;
             std::string EventName;
             Boxed<time_t> Timestamp;
 
             WriteClientPlayerEventRequest() :
                 PlayFabRequestCommon(),
                 Body(),
+                CustomTags(),
                 EventName(),
                 Timestamp()
             {}
@@ -15573,6 +20476,7 @@ namespace PlayFabInternal
             WriteClientPlayerEventRequest(const WriteClientPlayerEventRequest& src) :
                 PlayFabRequestCommon(),
                 Body(src.Body),
+                CustomTags(src.CustomTags),
                 EventName(src.EventName),
                 Timestamp(src.Timestamp)
             {}
@@ -15582,6 +20486,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 Body = input["Body"];
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EventName"], EventName);
                 FromJsonUtilT(input["Timestamp"], Timestamp);
             }
@@ -15590,6 +20495,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 output["Body"] = Body;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EventName; ToJsonUtilS(EventName, each_EventName); output["EventName"] = each_EventName;
                 Json::Value each_Timestamp; ToJsonUtilT(Timestamp, each_Timestamp); output["Timestamp"] = each_Timestamp;
                 return output;
@@ -15628,12 +20534,14 @@ namespace PlayFabInternal
         struct WriteTitleEventRequest : public PlayFabRequestCommon
         {
             Json::Value Body; // Not truly arbitrary. See documentation for restrictions on format
+            std::map<std::string, std::string> CustomTags;
             std::string EventName;
             Boxed<time_t> Timestamp;
 
             WriteTitleEventRequest() :
                 PlayFabRequestCommon(),
                 Body(),
+                CustomTags(),
                 EventName(),
                 Timestamp()
             {}
@@ -15641,6 +20549,7 @@ namespace PlayFabInternal
             WriteTitleEventRequest(const WriteTitleEventRequest& src) :
                 PlayFabRequestCommon(),
                 Body(src.Body),
+                CustomTags(src.CustomTags),
                 EventName(src.EventName),
                 Timestamp(src.Timestamp)
             {}
@@ -15650,6 +20559,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 Body = input["Body"];
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EventName"], EventName);
                 FromJsonUtilT(input["Timestamp"], Timestamp);
             }
@@ -15658,6 +20568,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 output["Body"] = Body;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EventName; ToJsonUtilS(EventName, each_EventName); output["EventName"] = each_EventName;
                 Json::Value each_Timestamp; ToJsonUtilT(Timestamp, each_Timestamp); output["Timestamp"] = each_Timestamp;
                 return output;

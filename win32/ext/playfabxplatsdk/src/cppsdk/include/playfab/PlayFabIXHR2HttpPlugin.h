@@ -1,4 +1,5 @@
 #pragma once
+#if defined(PLAYFAB_PLATFORM_XBOX)
 
 #include <playfab/PlayFabCallRequestContainer.h>
 #include <playfab/PlayFabPluginManager.h>
@@ -10,10 +11,10 @@
 #include <mutex>
 #include <atomic>
 
-#include <json/json.h>
+#include <json/value.h>
 #include <playfab/PlayFabIXHR2HttpRequest.h>
 
-namespace PlayFabInternal
+namespace PlayFab
 {
     /// <summary>
     /// PlayFabIXHR2HttpPlugin is the default https implementation for xbox to interact with PlayFab services using IXHR2 API.
@@ -45,3 +46,4 @@ namespace PlayFabInternal
         std::deque<std::unique_ptr<CallRequestContainerBase>> pendingResults;
     };
 }
+#endif // defined(PLAYFAB_PLATFORM_XBOX)

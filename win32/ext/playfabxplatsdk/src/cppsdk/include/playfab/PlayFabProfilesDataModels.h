@@ -1,11 +1,11 @@
 #pragma once
 
-#ifndef DISABLE_PLAYFABENTITY_API
+#if !defined(DISABLE_PLAYFABENTITY_API)
 
 #include <playfab/PlayFabBaseModel.h>
 #include <playfab/PlayFabJsonHeaders.h>
 
-namespace PlayFabInternal
+namespace PlayFab
 {
     namespace ProfilesModels
     {
@@ -18,15 +18,34 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const EffectType input, Json::Value& output)
         {
-            if (input == EffectType::EffectTypeAllow) output = Json::Value("Allow");
-            if (input == EffectType::EffectTypeDeny) output = Json::Value("Deny");
+            if (input == EffectType::EffectTypeAllow)
+            {
+                output = Json::Value("Allow");
+                return;
+            }
+            if (input == EffectType::EffectTypeDeny)
+            {
+                output = Json::Value("Deny");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, EffectType& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Allow") output = EffectType::EffectTypeAllow;
-            if (inputStr == "Deny") output = EffectType::EffectTypeDeny;
+            if (inputStr == "Allow")
+            {
+                output = EffectType::EffectTypeAllow;
+                return;
+            }
+            if (inputStr == "Deny")
+            {
+                output = EffectType::EffectTypeDeny;
+                return;
+            }
         }
 
         enum class OperationTypes
@@ -39,19 +58,54 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const OperationTypes input, Json::Value& output)
         {
-            if (input == OperationTypes::OperationTypesCreated) output = Json::Value("Created");
-            if (input == OperationTypes::OperationTypesUpdated) output = Json::Value("Updated");
-            if (input == OperationTypes::OperationTypesDeleted) output = Json::Value("Deleted");
-            if (input == OperationTypes::OperationTypesNone) output = Json::Value("None");
+            if (input == OperationTypes::OperationTypesCreated)
+            {
+                output = Json::Value("Created");
+                return;
+            }
+            if (input == OperationTypes::OperationTypesUpdated)
+            {
+                output = Json::Value("Updated");
+                return;
+            }
+            if (input == OperationTypes::OperationTypesDeleted)
+            {
+                output = Json::Value("Deleted");
+                return;
+            }
+            if (input == OperationTypes::OperationTypesNone)
+            {
+                output = Json::Value("None");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, OperationTypes& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Created") output = OperationTypes::OperationTypesCreated;
-            if (inputStr == "Updated") output = OperationTypes::OperationTypesUpdated;
-            if (inputStr == "Deleted") output = OperationTypes::OperationTypesDeleted;
-            if (inputStr == "None") output = OperationTypes::OperationTypesNone;
+            if (inputStr == "Created")
+            {
+                output = OperationTypes::OperationTypesCreated;
+                return;
+            }
+            if (inputStr == "Updated")
+            {
+                output = OperationTypes::OperationTypesUpdated;
+                return;
+            }
+            if (inputStr == "Deleted")
+            {
+                output = OperationTypes::OperationTypesDeleted;
+                return;
+            }
+            if (inputStr == "None")
+            {
+                output = OperationTypes::OperationTypesNone;
+                return;
+            }
         }
 
         // Profiles Classes
@@ -464,17 +518,20 @@ namespace PlayFabInternal
 
         struct GetEntityProfileRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> DataAsObject;
             Boxed<EntityKey> Entity;
 
             GetEntityProfileRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 DataAsObject(),
                 Entity()
             {}
 
             GetEntityProfileRequest(const GetEntityProfileRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 DataAsObject(src.DataAsObject),
                 Entity(src.Entity)
             {}
@@ -483,6 +540,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["DataAsObject"], DataAsObject);
                 FromJsonUtilO(input["Entity"], Entity);
             }
@@ -490,6 +548,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_DataAsObject; ToJsonUtilP(DataAsObject, each_DataAsObject); output["DataAsObject"] = each_DataAsObject;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 return output;
@@ -527,17 +586,20 @@ namespace PlayFabInternal
 
         struct GetEntityProfilesRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<bool> DataAsObject;
             std::list<EntityKey> Entities;
 
             GetEntityProfilesRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 DataAsObject(),
                 Entities()
             {}
 
             GetEntityProfilesRequest(const GetEntityProfilesRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 DataAsObject(src.DataAsObject),
                 Entities(src.Entities)
             {}
@@ -546,6 +608,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["DataAsObject"], DataAsObject);
                 FromJsonUtilO(input["Entities"], Entities);
             }
@@ -553,6 +616,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_DataAsObject; ToJsonUtilP(DataAsObject, each_DataAsObject); output["DataAsObject"] = each_DataAsObject;
                 Json::Value each_Entities; ToJsonUtilO(Entities, each_Entities); output["Entities"] = each_Entities;
                 return output;
@@ -590,24 +654,29 @@ namespace PlayFabInternal
 
         struct GetGlobalPolicyRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
 
             GetGlobalPolicyRequest() :
-                PlayFabRequestCommon()
+                PlayFabRequestCommon(),
+                CustomTags()
             {}
 
-            GetGlobalPolicyRequest(const GetGlobalPolicyRequest&) :
-                PlayFabRequestCommon()
+            GetGlobalPolicyRequest(const GetGlobalPolicyRequest& src) :
+                PlayFabRequestCommon(),
+                CustomTags(src.CustomTags)
             {}
 
             ~GetGlobalPolicyRequest() = default;
 
-            void FromJson(const Json::Value&) override
+            void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -643,17 +712,20 @@ namespace PlayFabInternal
 
         struct GetTitlePlayersFromMasterPlayerAccountIdsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::list<std::string> MasterPlayerAccountIds;
             std::string TitleId;
 
             GetTitlePlayersFromMasterPlayerAccountIdsRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 MasterPlayerAccountIds(),
                 TitleId()
             {}
 
             GetTitlePlayersFromMasterPlayerAccountIdsRequest(const GetTitlePlayersFromMasterPlayerAccountIdsRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 MasterPlayerAccountIds(src.MasterPlayerAccountIds),
                 TitleId(src.TitleId)
             {}
@@ -662,6 +734,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["MasterPlayerAccountIds"], MasterPlayerAccountIds);
                 FromJsonUtilS(input["TitleId"], TitleId);
             }
@@ -669,6 +742,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_MasterPlayerAccountIds; ToJsonUtilS(MasterPlayerAccountIds, each_MasterPlayerAccountIds); output["MasterPlayerAccountIds"] = each_MasterPlayerAccountIds;
                 Json::Value each_TitleId; ToJsonUtilS(TitleId, each_TitleId); output["TitleId"] = each_TitleId;
                 return output;
@@ -709,170 +783,22 @@ namespace PlayFabInternal
             }
         };
 
-        struct SetAvatarUrlRequest : public PlayFabRequestCommon
-        {
-            std::string AvatarUrl;
-            Boxed<EntityKey> Entity;
-            Boxed<Int32> ProfileVersion;
-
-            SetAvatarUrlRequest() :
-                PlayFabRequestCommon(),
-                AvatarUrl(),
-                Entity(),
-                ProfileVersion()
-            {}
-
-            SetAvatarUrlRequest(const SetAvatarUrlRequest& src) :
-                PlayFabRequestCommon(),
-                AvatarUrl(src.AvatarUrl),
-                Entity(src.Entity),
-                ProfileVersion(src.ProfileVersion)
-            {}
-
-            ~SetAvatarUrlRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["AvatarUrl"], AvatarUrl);
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_AvatarUrl; ToJsonUtilS(AvatarUrl, each_AvatarUrl); output["AvatarUrl"] = each_AvatarUrl;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
-                return output;
-            }
-        };
-
-        struct SetAvatarUrlResponse : public PlayFabResultCommon
-        {
-            Boxed<EntityKey> Entity;
-            Boxed<OperationTypes> OperationResult;
-            Boxed<Int32> ProfileVersion;
-
-            SetAvatarUrlResponse() :
-                PlayFabResultCommon(),
-                Entity(),
-                OperationResult(),
-                ProfileVersion()
-            {}
-
-            SetAvatarUrlResponse(const SetAvatarUrlResponse& src) :
-                PlayFabResultCommon(),
-                Entity(src.Entity),
-                OperationResult(src.OperationResult),
-                ProfileVersion(src.ProfileVersion)
-            {}
-
-            ~SetAvatarUrlResponse() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilE(input["OperationResult"], OperationResult);
-                FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_OperationResult; ToJsonUtilE(OperationResult, each_OperationResult); output["OperationResult"] = each_OperationResult;
-                Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
-                return output;
-            }
-        };
-
-        struct SetDisplayNameRequest : public PlayFabRequestCommon
-        {
-            std::string DisplayName;
-            Boxed<EntityKey> Entity;
-            Boxed<Int32> ExpectedVersion;
-
-            SetDisplayNameRequest() :
-                PlayFabRequestCommon(),
-                DisplayName(),
-                Entity(),
-                ExpectedVersion()
-            {}
-
-            SetDisplayNameRequest(const SetDisplayNameRequest& src) :
-                PlayFabRequestCommon(),
-                DisplayName(src.DisplayName),
-                Entity(src.Entity),
-                ExpectedVersion(src.ExpectedVersion)
-            {}
-
-            ~SetDisplayNameRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["DisplayName"], DisplayName);
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilP(input["ExpectedVersion"], ExpectedVersion);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_DisplayName; ToJsonUtilS(DisplayName, each_DisplayName); output["DisplayName"] = each_DisplayName;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_ExpectedVersion; ToJsonUtilP(ExpectedVersion, each_ExpectedVersion); output["ExpectedVersion"] = each_ExpectedVersion;
-                return output;
-            }
-        };
-
-        struct SetDisplayNameResponse : public PlayFabResultCommon
-        {
-            Boxed<OperationTypes> OperationResult;
-            Boxed<Int32> VersionNumber;
-
-            SetDisplayNameResponse() :
-                PlayFabResultCommon(),
-                OperationResult(),
-                VersionNumber()
-            {}
-
-            SetDisplayNameResponse(const SetDisplayNameResponse& src) :
-                PlayFabResultCommon(),
-                OperationResult(src.OperationResult),
-                VersionNumber(src.VersionNumber)
-            {}
-
-            ~SetDisplayNameResponse() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilE(input["OperationResult"], OperationResult);
-                FromJsonUtilP(input["VersionNumber"], VersionNumber);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_OperationResult; ToJsonUtilE(OperationResult, each_OperationResult); output["OperationResult"] = each_OperationResult;
-                Json::Value each_VersionNumber; ToJsonUtilP(VersionNumber, each_VersionNumber); output["VersionNumber"] = each_VersionNumber;
-                return output;
-            }
-        };
-
         struct SetEntityProfilePolicyRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Entity;
             std::list<EntityPermissionStatement> Statements;
 
             SetEntityProfilePolicyRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 Statements()
             {}
 
             SetEntityProfilePolicyRequest(const SetEntityProfilePolicyRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 Statements(src.Statements)
             {}
@@ -881,6 +807,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Statements"], Statements);
             }
@@ -888,6 +815,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_Statements; ToJsonUtilO(Statements, each_Statements); output["Statements"] = each_Statements;
                 return output;
@@ -925,15 +853,18 @@ namespace PlayFabInternal
 
         struct SetGlobalPolicyRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::list<EntityPermissionStatement> Permissions;
 
             SetGlobalPolicyRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Permissions()
             {}
 
             SetGlobalPolicyRequest(const SetGlobalPolicyRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Permissions(src.Permissions)
             {}
 
@@ -941,12 +872,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Permissions"], Permissions);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Permissions; ToJsonUtilO(Permissions, each_Permissions); output["Permissions"] = each_Permissions;
                 return output;
             }
@@ -978,12 +911,14 @@ namespace PlayFabInternal
 
         struct SetProfileLanguageRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<EntityKey> Entity;
             Boxed<Int32> ExpectedVersion;
             std::string Language;
 
             SetProfileLanguageRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 ExpectedVersion(),
                 Language()
@@ -991,6 +926,7 @@ namespace PlayFabInternal
 
             SetProfileLanguageRequest(const SetProfileLanguageRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 ExpectedVersion(src.ExpectedVersion),
                 Language(src.Language)
@@ -1000,6 +936,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilP(input["ExpectedVersion"], ExpectedVersion);
                 FromJsonUtilS(input["Language"], Language);
@@ -1008,6 +945,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_ExpectedVersion; ToJsonUtilP(ExpectedVersion, each_ExpectedVersion); output["ExpectedVersion"] = each_ExpectedVersion;
                 Json::Value each_Language; ToJsonUtilS(Language, each_Language); output["Language"] = each_Language;

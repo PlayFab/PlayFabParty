@@ -3,12 +3,14 @@
 /// </summary>
 
 #pragma once
-#include <iostream>
 
 // define body for logging or debug output
 #define LOG_QOS(S) /*std::cout << S;*/
 
-namespace PlayFabInternal
+#if defined (PLAYFAB_PLATFORM_WINDOWS) || defined (PLAYFAB_PLATFORM_XBOX)
+#include <iostream>
+
+namespace PlayFab
 {
     namespace QoS
     {
@@ -35,3 +37,4 @@ namespace PlayFabInternal
         };
     }
 }
+#endif // defined (PLAYFAB_PLATFORM_WINDOWS) || defined (PLAYFAB_PLATFORM_XBOX)

@@ -1,15 +1,64 @@
 #pragma once
 
-#ifndef DISABLE_PLAYFABENTITY_API
+#if !defined(DISABLE_PLAYFABENTITY_API)
 
 #include <playfab/PlayFabBaseModel.h>
 #include <playfab/PlayFabJsonHeaders.h>
 
-namespace PlayFabInternal
+namespace PlayFab
 {
     namespace AuthenticationModels
     {
         // Authentication Enums
+        enum class IdentifiedDeviceType
+        {
+            IdentifiedDeviceTypeUnknown,
+            IdentifiedDeviceTypeXboxOne,
+            IdentifiedDeviceTypeScarlett
+        };
+
+        inline void ToJsonEnum(const IdentifiedDeviceType input, Json::Value& output)
+        {
+            if (input == IdentifiedDeviceType::IdentifiedDeviceTypeUnknown)
+            {
+                output = Json::Value("Unknown");
+                return;
+            }
+            if (input == IdentifiedDeviceType::IdentifiedDeviceTypeXboxOne)
+            {
+                output = Json::Value("XboxOne");
+                return;
+            }
+            if (input == IdentifiedDeviceType::IdentifiedDeviceTypeScarlett)
+            {
+                output = Json::Value("Scarlett");
+                return;
+            }
+        }
+        inline void FromJsonEnum(const Json::Value& input, IdentifiedDeviceType& output)
+        {
+            if (!input.isString())
+            {
+                return;
+            }
+            const std::string& inputStr = input.asString();
+            if (inputStr == "Unknown")
+            {
+                output = IdentifiedDeviceType::IdentifiedDeviceTypeUnknown;
+                return;
+            }
+            if (inputStr == "XboxOne")
+            {
+                output = IdentifiedDeviceType::IdentifiedDeviceTypeXboxOne;
+                return;
+            }
+            if (inputStr == "Scarlett")
+            {
+                output = IdentifiedDeviceType::IdentifiedDeviceTypeScarlett;
+                return;
+            }
+        }
+
         enum class LoginIdentityProvider
         {
             LoginIdentityProviderUnknown,
@@ -30,54 +79,231 @@ namespace PlayFabInternal
             LoginIdentityProviderCustomServer,
             LoginIdentityProviderNintendoSwitch,
             LoginIdentityProviderFacebookInstantGames,
-            LoginIdentityProviderOpenIdConnect
+            LoginIdentityProviderOpenIdConnect,
+            LoginIdentityProviderApple,
+            LoginIdentityProviderNintendoSwitchAccount
         };
 
         inline void ToJsonEnum(const LoginIdentityProvider input, Json::Value& output)
         {
-            if (input == LoginIdentityProvider::LoginIdentityProviderUnknown) output = Json::Value("Unknown");
-            if (input == LoginIdentityProvider::LoginIdentityProviderPlayFab) output = Json::Value("PlayFab");
-            if (input == LoginIdentityProvider::LoginIdentityProviderCustom) output = Json::Value("Custom");
-            if (input == LoginIdentityProvider::LoginIdentityProviderGameCenter) output = Json::Value("GameCenter");
-            if (input == LoginIdentityProvider::LoginIdentityProviderGooglePlay) output = Json::Value("GooglePlay");
-            if (input == LoginIdentityProvider::LoginIdentityProviderSteam) output = Json::Value("Steam");
-            if (input == LoginIdentityProvider::LoginIdentityProviderXBoxLive) output = Json::Value("XBoxLive");
-            if (input == LoginIdentityProvider::LoginIdentityProviderPSN) output = Json::Value("PSN");
-            if (input == LoginIdentityProvider::LoginIdentityProviderKongregate) output = Json::Value("Kongregate");
-            if (input == LoginIdentityProvider::LoginIdentityProviderFacebook) output = Json::Value("Facebook");
-            if (input == LoginIdentityProvider::LoginIdentityProviderIOSDevice) output = Json::Value("IOSDevice");
-            if (input == LoginIdentityProvider::LoginIdentityProviderAndroidDevice) output = Json::Value("AndroidDevice");
-            if (input == LoginIdentityProvider::LoginIdentityProviderTwitch) output = Json::Value("Twitch");
-            if (input == LoginIdentityProvider::LoginIdentityProviderWindowsHello) output = Json::Value("WindowsHello");
-            if (input == LoginIdentityProvider::LoginIdentityProviderGameServer) output = Json::Value("GameServer");
-            if (input == LoginIdentityProvider::LoginIdentityProviderCustomServer) output = Json::Value("CustomServer");
-            if (input == LoginIdentityProvider::LoginIdentityProviderNintendoSwitch) output = Json::Value("NintendoSwitch");
-            if (input == LoginIdentityProvider::LoginIdentityProviderFacebookInstantGames) output = Json::Value("FacebookInstantGames");
-            if (input == LoginIdentityProvider::LoginIdentityProviderOpenIdConnect) output = Json::Value("OpenIdConnect");
+            if (input == LoginIdentityProvider::LoginIdentityProviderUnknown)
+            {
+                output = Json::Value("Unknown");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderPlayFab)
+            {
+                output = Json::Value("PlayFab");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderCustom)
+            {
+                output = Json::Value("Custom");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderGameCenter)
+            {
+                output = Json::Value("GameCenter");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderGooglePlay)
+            {
+                output = Json::Value("GooglePlay");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderSteam)
+            {
+                output = Json::Value("Steam");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderXBoxLive)
+            {
+                output = Json::Value("XBoxLive");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderPSN)
+            {
+                output = Json::Value("PSN");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderKongregate)
+            {
+                output = Json::Value("Kongregate");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderFacebook)
+            {
+                output = Json::Value("Facebook");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderIOSDevice)
+            {
+                output = Json::Value("IOSDevice");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderAndroidDevice)
+            {
+                output = Json::Value("AndroidDevice");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderTwitch)
+            {
+                output = Json::Value("Twitch");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderWindowsHello)
+            {
+                output = Json::Value("WindowsHello");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderGameServer)
+            {
+                output = Json::Value("GameServer");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderCustomServer)
+            {
+                output = Json::Value("CustomServer");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderNintendoSwitch)
+            {
+                output = Json::Value("NintendoSwitch");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderFacebookInstantGames)
+            {
+                output = Json::Value("FacebookInstantGames");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderOpenIdConnect)
+            {
+                output = Json::Value("OpenIdConnect");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderApple)
+            {
+                output = Json::Value("Apple");
+                return;
+            }
+            if (input == LoginIdentityProvider::LoginIdentityProviderNintendoSwitchAccount)
+            {
+                output = Json::Value("NintendoSwitchAccount");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, LoginIdentityProvider& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Unknown") output = LoginIdentityProvider::LoginIdentityProviderUnknown;
-            if (inputStr == "PlayFab") output = LoginIdentityProvider::LoginIdentityProviderPlayFab;
-            if (inputStr == "Custom") output = LoginIdentityProvider::LoginIdentityProviderCustom;
-            if (inputStr == "GameCenter") output = LoginIdentityProvider::LoginIdentityProviderGameCenter;
-            if (inputStr == "GooglePlay") output = LoginIdentityProvider::LoginIdentityProviderGooglePlay;
-            if (inputStr == "Steam") output = LoginIdentityProvider::LoginIdentityProviderSteam;
-            if (inputStr == "XBoxLive") output = LoginIdentityProvider::LoginIdentityProviderXBoxLive;
-            if (inputStr == "PSN") output = LoginIdentityProvider::LoginIdentityProviderPSN;
-            if (inputStr == "Kongregate") output = LoginIdentityProvider::LoginIdentityProviderKongregate;
-            if (inputStr == "Facebook") output = LoginIdentityProvider::LoginIdentityProviderFacebook;
-            if (inputStr == "IOSDevice") output = LoginIdentityProvider::LoginIdentityProviderIOSDevice;
-            if (inputStr == "AndroidDevice") output = LoginIdentityProvider::LoginIdentityProviderAndroidDevice;
-            if (inputStr == "Twitch") output = LoginIdentityProvider::LoginIdentityProviderTwitch;
-            if (inputStr == "WindowsHello") output = LoginIdentityProvider::LoginIdentityProviderWindowsHello;
-            if (inputStr == "GameServer") output = LoginIdentityProvider::LoginIdentityProviderGameServer;
-            if (inputStr == "CustomServer") output = LoginIdentityProvider::LoginIdentityProviderCustomServer;
-            if (inputStr == "NintendoSwitch") output = LoginIdentityProvider::LoginIdentityProviderNintendoSwitch;
-            if (inputStr == "FacebookInstantGames") output = LoginIdentityProvider::LoginIdentityProviderFacebookInstantGames;
-            if (inputStr == "OpenIdConnect") output = LoginIdentityProvider::LoginIdentityProviderOpenIdConnect;
+            if (inputStr == "Unknown")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderUnknown;
+                return;
+            }
+            if (inputStr == "PlayFab")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderPlayFab;
+                return;
+            }
+            if (inputStr == "Custom")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderCustom;
+                return;
+            }
+            if (inputStr == "GameCenter")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderGameCenter;
+                return;
+            }
+            if (inputStr == "GooglePlay")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderGooglePlay;
+                return;
+            }
+            if (inputStr == "Steam")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderSteam;
+                return;
+            }
+            if (inputStr == "XBoxLive")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderXBoxLive;
+                return;
+            }
+            if (inputStr == "PSN")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderPSN;
+                return;
+            }
+            if (inputStr == "Kongregate")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderKongregate;
+                return;
+            }
+            if (inputStr == "Facebook")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderFacebook;
+                return;
+            }
+            if (inputStr == "IOSDevice")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderIOSDevice;
+                return;
+            }
+            if (inputStr == "AndroidDevice")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderAndroidDevice;
+                return;
+            }
+            if (inputStr == "Twitch")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderTwitch;
+                return;
+            }
+            if (inputStr == "WindowsHello")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderWindowsHello;
+                return;
+            }
+            if (inputStr == "GameServer")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderGameServer;
+                return;
+            }
+            if (inputStr == "CustomServer")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderCustomServer;
+                return;
+            }
+            if (inputStr == "NintendoSwitch")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderNintendoSwitch;
+                return;
+            }
+            if (inputStr == "FacebookInstantGames")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderFacebookInstantGames;
+                return;
+            }
+            if (inputStr == "OpenIdConnect")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderOpenIdConnect;
+                return;
+            }
+            if (inputStr == "Apple")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderApple;
+                return;
+            }
+            if (inputStr == "NintendoSwitchAccount")
+            {
+                output = LoginIdentityProvider::LoginIdentityProviderNintendoSwitchAccount;
+                return;
+            }
         }
 
         // Authentication Classes
@@ -111,287 +337,6 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_Id; ToJsonUtilS(Id, each_Id); output["Id"] = each_Id;
                 Json::Value each_Type; ToJsonUtilS(Type, each_Type); output["Type"] = each_Type;
-                return output;
-            }
-        };
-
-        struct ActivateAPIKeyRequest : public PlayFabRequestCommon
-        {
-            std::string APIKeyId;
-            Boxed<EntityKey> Entity;
-
-            ActivateAPIKeyRequest() :
-                PlayFabRequestCommon(),
-                APIKeyId(),
-                Entity()
-            {}
-
-            ActivateAPIKeyRequest(const ActivateAPIKeyRequest& src) :
-                PlayFabRequestCommon(),
-                APIKeyId(src.APIKeyId),
-                Entity(src.Entity)
-            {}
-
-            ~ActivateAPIKeyRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["APIKeyId"], APIKeyId);
-                FromJsonUtilO(input["Entity"], Entity);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_APIKeyId; ToJsonUtilS(APIKeyId, each_APIKeyId); output["APIKeyId"] = each_APIKeyId;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                return output;
-            }
-        };
-
-        struct ActivateAPIKeyResponse : public PlayFabResultCommon
-        {
-
-            ActivateAPIKeyResponse() :
-                PlayFabResultCommon()
-            {}
-
-            ActivateAPIKeyResponse(const ActivateAPIKeyResponse&) :
-                PlayFabResultCommon()
-            {}
-
-            ~ActivateAPIKeyResponse() = default;
-
-            void FromJson(const Json::Value&) override
-            {
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                return output;
-            }
-        };
-
-        struct CreateAPIKeyDetails : public PlayFabBaseModel
-        {
-            bool Active;
-            std::string APIKeyId;
-            std::string APIKeySecret;
-            time_t Created;
-
-            CreateAPIKeyDetails() :
-                PlayFabBaseModel(),
-                Active(),
-                APIKeyId(),
-                APIKeySecret(),
-                Created()
-            {}
-
-            CreateAPIKeyDetails(const CreateAPIKeyDetails& src) :
-                PlayFabBaseModel(),
-                Active(src.Active),
-                APIKeyId(src.APIKeyId),
-                APIKeySecret(src.APIKeySecret),
-                Created(src.Created)
-            {}
-
-            ~CreateAPIKeyDetails() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilP(input["Active"], Active);
-                FromJsonUtilS(input["APIKeyId"], APIKeyId);
-                FromJsonUtilS(input["APIKeySecret"], APIKeySecret);
-                FromJsonUtilT(input["Created"], Created);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Active; ToJsonUtilP(Active, each_Active); output["Active"] = each_Active;
-                Json::Value each_APIKeyId; ToJsonUtilS(APIKeyId, each_APIKeyId); output["APIKeyId"] = each_APIKeyId;
-                Json::Value each_APIKeySecret; ToJsonUtilS(APIKeySecret, each_APIKeySecret); output["APIKeySecret"] = each_APIKeySecret;
-                Json::Value each_Created; ToJsonUtilT(Created, each_Created); output["Created"] = each_Created;
-                return output;
-            }
-        };
-
-        struct CreateAPIKeyRequest : public PlayFabRequestCommon
-        {
-            Boxed<EntityKey> Entity;
-
-            CreateAPIKeyRequest() :
-                PlayFabRequestCommon(),
-                Entity()
-            {}
-
-            CreateAPIKeyRequest(const CreateAPIKeyRequest& src) :
-                PlayFabRequestCommon(),
-                Entity(src.Entity)
-            {}
-
-            ~CreateAPIKeyRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilO(input["Entity"], Entity);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                return output;
-            }
-        };
-
-        struct CreateAPIKeyResponse : public PlayFabResultCommon
-        {
-            Boxed<EntityKey> Entity;
-            Boxed<CreateAPIKeyDetails> Key;
-
-            CreateAPIKeyResponse() :
-                PlayFabResultCommon(),
-                Entity(),
-                Key()
-            {}
-
-            CreateAPIKeyResponse(const CreateAPIKeyResponse& src) :
-                PlayFabResultCommon(),
-                Entity(src.Entity),
-                Key(src.Key)
-            {}
-
-            ~CreateAPIKeyResponse() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilO(input["Key"], Key);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_Key; ToJsonUtilO(Key, each_Key); output["Key"] = each_Key;
-                return output;
-            }
-        };
-
-        struct DeactivateAPIKeyRequest : public PlayFabRequestCommon
-        {
-            std::string APIKeyId;
-            Boxed<EntityKey> Entity;
-
-            DeactivateAPIKeyRequest() :
-                PlayFabRequestCommon(),
-                APIKeyId(),
-                Entity()
-            {}
-
-            DeactivateAPIKeyRequest(const DeactivateAPIKeyRequest& src) :
-                PlayFabRequestCommon(),
-                APIKeyId(src.APIKeyId),
-                Entity(src.Entity)
-            {}
-
-            ~DeactivateAPIKeyRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["APIKeyId"], APIKeyId);
-                FromJsonUtilO(input["Entity"], Entity);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_APIKeyId; ToJsonUtilS(APIKeyId, each_APIKeyId); output["APIKeyId"] = each_APIKeyId;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                return output;
-            }
-        };
-
-        struct DeactivateAPIKeyResponse : public PlayFabResultCommon
-        {
-
-            DeactivateAPIKeyResponse() :
-                PlayFabResultCommon()
-            {}
-
-            DeactivateAPIKeyResponse(const DeactivateAPIKeyResponse&) :
-                PlayFabResultCommon()
-            {}
-
-            ~DeactivateAPIKeyResponse() = default;
-
-            void FromJson(const Json::Value&) override
-            {
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                return output;
-            }
-        };
-
-        struct DeleteAPIKeyRequest : public PlayFabRequestCommon
-        {
-            std::string APIKeyId;
-            Boxed<EntityKey> Entity;
-
-            DeleteAPIKeyRequest() :
-                PlayFabRequestCommon(),
-                APIKeyId(),
-                Entity()
-            {}
-
-            DeleteAPIKeyRequest(const DeleteAPIKeyRequest& src) :
-                PlayFabRequestCommon(),
-                APIKeyId(src.APIKeyId),
-                Entity(src.Entity)
-            {}
-
-            ~DeleteAPIKeyRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["APIKeyId"], APIKeyId);
-                FromJsonUtilO(input["Entity"], Entity);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_APIKeyId; ToJsonUtilS(APIKeyId, each_APIKeyId); output["APIKeyId"] = each_APIKeyId;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                return output;
-            }
-        };
-
-        struct DeleteAPIKeyResponse : public PlayFabResultCommon
-        {
-
-            DeleteAPIKeyResponse() :
-                PlayFabResultCommon()
-            {}
-
-            DeleteAPIKeyResponse(const DeleteAPIKeyResponse&) :
-                PlayFabResultCommon()
-            {}
-
-            ~DeleteAPIKeyResponse() = default;
-
-            void FromJson(const Json::Value&) override
-            {
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
                 return output;
             }
         };
@@ -450,119 +395,20 @@ namespace PlayFabInternal
             }
         };
 
-        struct GetAPIKeyDetails : public PlayFabBaseModel
-        {
-            bool Active;
-            std::string APIKeyId;
-            time_t Created;
-
-            GetAPIKeyDetails() :
-                PlayFabBaseModel(),
-                Active(),
-                APIKeyId(),
-                Created()
-            {}
-
-            GetAPIKeyDetails(const GetAPIKeyDetails& src) :
-                PlayFabBaseModel(),
-                Active(src.Active),
-                APIKeyId(src.APIKeyId),
-                Created(src.Created)
-            {}
-
-            ~GetAPIKeyDetails() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilP(input["Active"], Active);
-                FromJsonUtilS(input["APIKeyId"], APIKeyId);
-                FromJsonUtilT(input["Created"], Created);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Active; ToJsonUtilP(Active, each_Active); output["Active"] = each_Active;
-                Json::Value each_APIKeyId; ToJsonUtilS(APIKeyId, each_APIKeyId); output["APIKeyId"] = each_APIKeyId;
-                Json::Value each_Created; ToJsonUtilT(Created, each_Created); output["Created"] = each_Created;
-                return output;
-            }
-        };
-
-        struct GetAPIKeysRequest : public PlayFabRequestCommon
-        {
-            Boxed<EntityKey> Entity;
-
-            GetAPIKeysRequest() :
-                PlayFabRequestCommon(),
-                Entity()
-            {}
-
-            GetAPIKeysRequest(const GetAPIKeysRequest& src) :
-                PlayFabRequestCommon(),
-                Entity(src.Entity)
-            {}
-
-            ~GetAPIKeysRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilO(input["Entity"], Entity);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                return output;
-            }
-        };
-
-        struct GetAPIKeysResponse : public PlayFabResultCommon
-        {
-            Boxed<EntityKey> Entity;
-            std::list<GetAPIKeyDetails> Keys;
-
-            GetAPIKeysResponse() :
-                PlayFabResultCommon(),
-                Entity(),
-                Keys()
-            {}
-
-            GetAPIKeysResponse(const GetAPIKeysResponse& src) :
-                PlayFabResultCommon(),
-                Entity(src.Entity),
-                Keys(src.Keys)
-            {}
-
-            ~GetAPIKeysResponse() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilO(input["Keys"], Keys);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_Keys; ToJsonUtilO(Keys, each_Keys); output["Keys"] = each_Keys;
-                return output;
-            }
-        };
-
         struct GetEntityTokenRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<EntityKey> Entity;
 
             GetEntityTokenRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity()
             {}
 
             GetEntityTokenRequest(const GetEntityTokenRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity)
             {}
 
@@ -570,12 +416,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 return output;
             }
@@ -622,15 +470,18 @@ namespace PlayFabInternal
 
         struct ValidateEntityTokenRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string EntityToken;
 
             ValidateEntityTokenRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 EntityToken()
             {}
 
             ValidateEntityTokenRequest(const ValidateEntityTokenRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 EntityToken(src.EntityToken)
             {}
 
@@ -638,12 +489,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EntityToken"], EntityToken);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EntityToken; ToJsonUtilS(EntityToken, each_EntityToken); output["EntityToken"] = each_EntityToken;
                 return output;
             }
@@ -652,20 +505,26 @@ namespace PlayFabInternal
         struct ValidateEntityTokenResponse : public PlayFabResultCommon
         {
             Boxed<EntityKey> Entity;
+            Boxed<IdentifiedDeviceType> pfIdentifiedDeviceType;
             Boxed<LoginIdentityProvider> IdentityProvider;
+            std::string IdentityProviderIssuedId;
             Boxed<EntityLineage> Lineage;
 
             ValidateEntityTokenResponse() :
                 PlayFabResultCommon(),
                 Entity(),
+                pfIdentifiedDeviceType(),
                 IdentityProvider(),
+                IdentityProviderIssuedId(),
                 Lineage()
             {}
 
             ValidateEntityTokenResponse(const ValidateEntityTokenResponse& src) :
                 PlayFabResultCommon(),
                 Entity(src.Entity),
+                pfIdentifiedDeviceType(src.pfIdentifiedDeviceType),
                 IdentityProvider(src.IdentityProvider),
+                IdentityProviderIssuedId(src.IdentityProviderIssuedId),
                 Lineage(src.Lineage)
             {}
 
@@ -674,7 +533,9 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilO(input["Entity"], Entity);
+                FromJsonUtilE(input["IdentifiedDeviceType"], pfIdentifiedDeviceType);
                 FromJsonUtilE(input["IdentityProvider"], IdentityProvider);
+                FromJsonUtilS(input["IdentityProviderIssuedId"], IdentityProviderIssuedId);
                 FromJsonUtilO(input["Lineage"], Lineage);
             }
 
@@ -682,7 +543,9 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
+                Json::Value each_pfIdentifiedDeviceType; ToJsonUtilE(pfIdentifiedDeviceType, each_pfIdentifiedDeviceType); output["IdentifiedDeviceType"] = each_pfIdentifiedDeviceType;
                 Json::Value each_IdentityProvider; ToJsonUtilE(IdentityProvider, each_IdentityProvider); output["IdentityProvider"] = each_IdentityProvider;
+                Json::Value each_IdentityProviderIssuedId; ToJsonUtilS(IdentityProviderIssuedId, each_IdentityProviderIssuedId); output["IdentityProviderIssuedId"] = each_IdentityProviderIssuedId;
                 Json::Value each_Lineage; ToJsonUtilO(Lineage, each_Lineage); output["Lineage"] = each_Lineage;
                 return output;
             }

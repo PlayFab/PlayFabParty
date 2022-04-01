@@ -1,18 +1,29 @@
 #pragma once
 
-#ifndef DISABLE_PLAYFABENTITY_API
+#if !defined(DISABLE_PLAYFABENTITY_API)
 
-#include <playfab/PlayFabCallRequestContainer.h>
 #include <playfab/PlayFabProfilesDataModels.h>
+#include <playfab/PlayFabError.h>
 
-namespace PlayFabInternal
+namespace PlayFab
 {
+    class CallRequestContainerBase;
+    class CallRequestContainer;
+
     /// <summary>
     /// Main interface for PlayFab Sdk, specifically all Profiles APIs
     /// </summary>
     class PlayFabProfilesAPI
     {
     public:
+        /// <summary>
+        /// Calls the Update function on your implementation of the IHttpPlugin to check for responses to HTTP requests.
+        /// All api's (Client, Server, Admin etc.) share the same IHttpPlugin. 
+        /// This means that you only need to call Update() on one API to retrieve the responses for all APIs.
+        /// Additional calls to Update (on any API) during the same tick are unlikely to retrieve additional responses.
+        /// Call Update when your game ticks as follows:
+        ///     Profiles.Update();
+        /// </summary>
         static size_t Update();
         static void ForgetAllCredentials();
 
@@ -22,8 +33,6 @@ namespace PlayFabInternal
         static void GetProfile(ProfilesModels::GetEntityProfileRequest& request, const ProcessApiCallback<ProfilesModels::GetEntityProfileResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void GetProfiles(ProfilesModels::GetEntityProfilesRequest& request, const ProcessApiCallback<ProfilesModels::GetEntityProfilesResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void GetTitlePlayersFromMasterPlayerAccountIds(ProfilesModels::GetTitlePlayersFromMasterPlayerAccountIdsRequest& request, const ProcessApiCallback<ProfilesModels::GetTitlePlayersFromMasterPlayerAccountIdsResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void SetAvatarUrl(ProfilesModels::SetAvatarUrlRequest& request, const ProcessApiCallback<ProfilesModels::SetAvatarUrlResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void SetDisplayName(ProfilesModels::SetDisplayNameRequest& request, const ProcessApiCallback<ProfilesModels::SetDisplayNameResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void SetGlobalPolicy(ProfilesModels::SetGlobalPolicyRequest& request, const ProcessApiCallback<ProfilesModels::SetGlobalPolicyResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void SetProfileLanguage(ProfilesModels::SetProfileLanguageRequest& request, const ProcessApiCallback<ProfilesModels::SetProfileLanguageResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void SetProfilePolicy(ProfilesModels::SetEntityProfilePolicyRequest& request, const ProcessApiCallback<ProfilesModels::SetEntityProfilePolicyResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
@@ -37,8 +46,6 @@ namespace PlayFabInternal
         static void OnGetProfileResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnGetProfilesResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnGetTitlePlayersFromMasterPlayerAccountIdsResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnSetAvatarUrlResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnSetDisplayNameResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnSetGlobalPolicyResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnSetProfileLanguageResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnSetProfilePolicyResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
@@ -47,4 +54,4 @@ namespace PlayFabInternal
     };
 }
 
-#endif
+#endif // #if !defined(DISABLE_PLAYFABENTITY_API)

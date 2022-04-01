@@ -5,7 +5,7 @@
 #include <playfab/PlayFabEvent.h>
 #include <playfab/PlayFabEventRouter.h>
 
-namespace PlayFabInternal
+namespace PlayFab
 {
     /// <summary>
     /// Main interface for PlayFab Sdk, specifically all Lightweight/Heavyweight Event APIs.
@@ -14,10 +14,7 @@ namespace PlayFabInternal
     class PlayFabEventAPI
     {
     public:
-        PlayFabEventAPI(); // Default constructor
-
-        // BUMBLELION: enable manual pumping of event pipeline
-        PlayFabEventAPI(bool threadedEventPipeline);
+        PlayFabEventAPI(bool threadedEventPipeline=true);
 
         std::shared_ptr<IPlayFabEventRouter> GetEventRouter() const;
 
@@ -30,7 +27,10 @@ namespace PlayFabInternal
 
         void EmitEvent(std::unique_ptr<const IPlayFabEvent> event, std::function<void(std::shared_ptr<const IPlayFabEvent>, std::shared_ptr<const IPlayFabEmitEventResponse>)> callback) const;
 
-        // BUMBLELION: enable manual pumping of event pipeline
+        /// <summary>
+        /// Updates the underlying event router which in turn will update the eventpipeline.
+        /// This function must be called every game tick if threadedEventPipeline is set to false
+        /// </summary>
         void Update();
 
     private:

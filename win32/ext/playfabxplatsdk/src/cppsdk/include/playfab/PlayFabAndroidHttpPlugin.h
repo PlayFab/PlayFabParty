@@ -1,17 +1,15 @@
 #pragma once
 
-#include <jni.h>
 #include <playfab/PlayFabCallRequestContainer.h>
 #include <playfab/PlayFabPluginManager.h>
 #include <thread>
 #include <mutex>
 #include <atomic>
-#include "PlayFabCallRequestContainerBase.h"
 
-namespace PlayFabInternal
+namespace PlayFab
 {
     /// <summary>
-    /// PlayFabAndroidHttpPlugin is an https implementation to interact with PlayFab services using okhttp3 via JNI.
+    /// PlayFabAndroidHttpPlugin is an https implementation to interact with PlayFab services using WinHTTP.
     /// </summary>
     class PlayFabAndroidHttpPlugin : public IPlayFabHttpPlugin
     {
@@ -34,9 +32,8 @@ namespace PlayFabInternal
         bool CheckResponse(RequestTask& requestTask);
         void SetResponseAsBadRequest(RequestTask& requestTask);
 
-        virtual std::string GetUrl(RequestTask& requestTask) const;
-        virtual void SetPredefinedHeaders(RequestTask& requestTask);
-        virtual void SetHeader(RequestTask& requestTask, const char* name, const char* value);
+        virtual void SetPredefinedHeaders(const RequestTask& requestTask);
+        virtual void SetHeader(const RequestTask& requestTask, const char* name, const char* value);
         virtual bool GetBinaryPayload(RequestTask& requestTask, void*& payload, size_t& payloadSize) const;
         virtual void ProcessResponse(RequestTask& requestTask, const int httpCode);
         virtual void HandleResults(RequestTask& requestTask);
@@ -49,10 +46,10 @@ namespace PlayFabInternal
 
             bool Initialize(std::unique_ptr<CallRequestContainerBase>& requestContainer);
             
-            enum State:int
+            enum class State:int
             {
                 None = 0,
-                Pending = RequestTask::None,
+                Pending = (int)RequestTask::State::None,
                 Requesting,
                 Finished
             };
@@ -60,9 +57,13 @@ namespace PlayFabInternal
             {
                 return *dynamic_cast<CallRequestContainer*>(requestContainer.get());
             }
+            std::string GetRequestContainerUrl() const
+            {
+                return requestContainer->GetUrl();
+            }
             std::atomic<State> state;
             std::unique_ptr<CallRequestContainerBase> requestContainer;
-            RequestImpl* impl;
+            std::unique_ptr<PlayFabAndroidHttpPlugin::RequestImpl> impl;
         };
         std::unique_ptr<std::thread> workerThread;
         std::mutex httpRequestMutex;
@@ -70,6 +71,5 @@ namespace PlayFabInternal
         std::deque<std::shared_ptr<RequestTask>> pendingRequests;
         std::shared_ptr<RequestTask> requestingTask;
         std::deque<std::shared_ptr<RequestTask>> pendingResults;
-        jmethodID setHeaderMethodId;
     };
 }

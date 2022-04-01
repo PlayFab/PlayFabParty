@@ -1,10 +1,9 @@
 #pragma once
 
-#include <playfab/PlayFabApiSettings.h>
 #include <unordered_map>
 #include <memory>
 
-namespace PlayFabInternal
+namespace PlayFab
 {
     class CallRequestContainerBase;
     typedef std::function<void(int, std::string, std::shared_ptr<CallRequestContainerBase>)> CallRequestContainerCallback;
@@ -23,21 +22,17 @@ namespace PlayFabInternal
         /// - callback is a general callback that will handle any further logic, it is always called whether a call was successful or not
         /// - customData can be any object a user expects to be associated with this particular transaction (id/hash/tag etc.). It is simply relayed to callback.
         CallRequestContainerBase(
-            std::string url,
+            const std::string& url,
             const std::unordered_map<std::string, std::string>& headers,
-            std::string requestBody,
+            const std::string& requestBody,
             CallRequestContainerCallback callback,
-            void* customData = nullptr,
-            std::shared_ptr<PlayFabApiSettings> apiSettings = nullptr);
+            void* customData = nullptr);
 
         virtual ~CallRequestContainerBase() = default;
 
         std::string GetUrl() const;
         std::unordered_map<std::string, std::string> GetRequestHeaders() const;
-        std::string GetRequestId() const;
-        void SetRequestId(std::string newRequestId);
         std::string GetRequestBody() const;
-        std::shared_ptr<PlayFabApiSettings> GetApiSettings() const;
 
         /// <summary>
         /// This function is meant to handle logic of calling the error callback or success
@@ -50,8 +45,6 @@ namespace PlayFabInternal
         std::string url;
         std::unordered_map<std::string, std::string> requestHeaders;
         std::string requestBody;
-        std::string requestId;
-        std::shared_ptr<PlayFabApiSettings> apiSettings;
         CallRequestContainerCallback callback;
 
         // I never own this, I can never destroy it

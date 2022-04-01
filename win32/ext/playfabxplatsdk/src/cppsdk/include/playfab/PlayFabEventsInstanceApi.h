@@ -1,39 +1,46 @@
 #pragma once
 
-#ifndef DISABLE_PLAYFABENTITY_API
+#if !defined(DISABLE_PLAYFABENTITY_API)
 
-#include <playfab/PlayFabCallRequestContainer.h>
-#include <playfab/PlayFabApiSettings.h>
-#include <playfab/PlayFabAuthenticationContext.h>
 #include <playfab/PlayFabEventsDataModels.h>
-#include <memory>
+#include <playfab/PlayFabError.h>
 
-namespace PlayFabInternal
+namespace PlayFab
 {
+    class CallRequestContainerBase;
+    class CallRequestContainer;
+    class PlayFabApiSettings;
+    class PlayFabAuthenticationContext;
+
     /// <summary>
     /// Main interface for PlayFab Sdk, specifically all Events APIs
     /// </summary>
     class PlayFabEventsInstanceAPI
     {
     private:
-        std::shared_ptr<PlayFabApiSettings> settings;
-        std::shared_ptr<PlayFabAuthenticationContext> authContext;
+        std::shared_ptr<PlayFabApiSettings> m_settings;
+        std::shared_ptr<PlayFabAuthenticationContext> m_context;
 
     public:
-        PlayFabEventsInstanceAPI();
-        explicit PlayFabEventsInstanceAPI(std::shared_ptr<PlayFabApiSettings> apiSettings);
-        explicit PlayFabEventsInstanceAPI(std::shared_ptr<PlayFabAuthenticationContext> authenticationContext);
-        PlayFabEventsInstanceAPI(std::shared_ptr<PlayFabApiSettings> apiSettings, std::shared_ptr<PlayFabAuthenticationContext> authenticationContext);
-        ~PlayFabEventsInstanceAPI();
+        PlayFabEventsInstanceAPI(const std::shared_ptr<PlayFabAuthenticationContext>& authenticationContext);
+        PlayFabEventsInstanceAPI(const std::shared_ptr<PlayFabApiSettings>& apiSettings, const std::shared_ptr<PlayFabAuthenticationContext>& authenticationContext);
+
+        ~PlayFabEventsInstanceAPI() = default;
         PlayFabEventsInstanceAPI(const PlayFabEventsInstanceAPI& source) = delete; // disable copy
         PlayFabEventsInstanceAPI(PlayFabEventsInstanceAPI&&) = delete; // disable move
         PlayFabEventsInstanceAPI& operator=(const PlayFabEventsInstanceAPI& source) = delete; // disable assignment
         PlayFabEventsInstanceAPI& operator=(PlayFabEventsInstanceAPI&& other) = delete; // disable move assignment
 
         std::shared_ptr<PlayFabApiSettings> GetSettings() const;
-        void SetSettings(std::shared_ptr<PlayFabApiSettings> apiSettings);
         std::shared_ptr<PlayFabAuthenticationContext> GetAuthenticationContext() const;
-        void SetAuthenticationContext(std::shared_ptr<PlayFabAuthenticationContext> authenticationContext);
+        /// <summary>
+        /// Calls the Update function on your implementation of the IHttpPlugin to check for responses to HTTP requests.
+        /// All api's (Client, Server, Admin etc.) share the same IHttpPlugin. 
+        /// This means that you only need to call Update() on one API to retrieve the responses for all APIs.
+        /// Additional calls to Update (on any API) during the same tick are unlikely to retrieve additional responses.
+        /// Call Update when your game ticks as follows:
+        ///     Events.Update();
+        /// </summary>
         size_t Update();
         void ForgetAllCredentials();
 
@@ -44,9 +51,8 @@ namespace PlayFabInternal
         // ------------ Generated result handlers
         void OnWriteEventsResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnWriteTelemetryEventsResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
+
         bool ValidateResult(PlayFabResultCommon& resultCommon, const CallRequestContainer& container);
-    private:
-        std::shared_ptr<PlayFabAuthenticationContext> GetOrCreateAuthenticationContext();
     };
 }
 

@@ -3,7 +3,7 @@
 #include <atomic>
 #include <thread>
 
-namespace PlayFabInternal
+namespace PlayFab
 {
     /// <summary>
     /// The implementation of a lightweight atomic spin that allows to control access to critical sections of code
