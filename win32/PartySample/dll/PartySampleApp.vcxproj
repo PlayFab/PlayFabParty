@@ -95,15 +95,14 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;PARTYSAMPLEAPP_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_PUBLIC_PLAYFAB_SDK;WIN32;_DEBUG;PARTYSAMPLEAPP_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <!-- FIXME: PublicSamples should not depend on include paths outside of the PublicSamples directory -->
       <AdditionalIncludeDirectories>
-        $(ProjectDir)..\..\PartySampleNetworkCommon\inc;
-        $(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include;
+        $(ProjectDir)..\PartySampleNetworkCommon\inc;
+        $(ProjectDir)..\..\ext\playfabxplatsdk\src\cppsdk\include;
         %(AdditionalIncludeDirectories)
       </AdditionalIncludeDirectories>
     </ClCompile>
@@ -124,15 +123,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;PARTYSAMPLEAPP_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_PUBLIC_PLAYFAB_SDK;WIN32;NDEBUG;PARTYSAMPLEAPP_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <!-- FIXME: PublicSamples should not depend on include paths outside of the PublicSamples directory -->
       <AdditionalIncludeDirectories>
-        $(ProjectDir)..\..\PartySampleNetworkCommon\inc;
-        $(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include;
+        $(ProjectDir)..\PartySampleNetworkCommon\inc;
+        $(ProjectDir)..\..\ext\playfabxplatsdk\src\cppsdk\include;
         %(AdditionalIncludeDirectories)
       </AdditionalIncludeDirectories>
     </ClCompile>
@@ -153,15 +151,14 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;PARTYSAMPLEAPP_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_PUBLIC_PLAYFAB_SDK;_DEBUG;PARTYSAMPLEAPP_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <!-- FIXME: PublicSamples should not depend on include paths outside of the PublicSamples directory -->
       <AdditionalIncludeDirectories>
-        $(ProjectDir)..\..\PartySampleNetworkCommon\inc;
-        $(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include;
+        $(ProjectDir)..\PartySampleNetworkCommon\inc;
+        $(ProjectDir)..\..\ext\playfabxplatsdk\src\cppsdk\include;
         %(AdditionalIncludeDirectories)
       </AdditionalIncludeDirectories>
     </ClCompile>
@@ -182,15 +179,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;PARTYSAMPLEAPP_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_PUBLIC_PLAYFAB_SDK;NDEBUG;PARTYSAMPLEAPP_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <!-- FIXME: PublicSamples should not depend on include paths outside of the PublicSamples directory -->
       <AdditionalIncludeDirectories>
-        $(ProjectDir)..\..\PartySampleNetworkCommon\inc;
-        $(ProjectDir)..\..\..\..\external\playfabxplatsdk\src\cppsdk\include;
+        $(ProjectDir)..\PartySampleNetworkCommon\inc;
+        $(ProjectDir)..\..\ext\playfabxplatsdk\src\cppsdk\include;
         %(AdditionalIncludeDirectories)
       </AdditionalIncludeDirectories>
     </ClCompile>
