@@ -1,0 +1,18 @@
+The Party Sample Network folder contains the core functionality to interact with the PlayFab and Party libraries.
+
+To initialize the Library, call:
+    Managers::Initialize<T>();
+	
+Where T is a class that implements the INetworkStateChangeManager interface.
+
+Note that the core classes need to have update called every frame:
+    Managers::Get<NetworkManager>()->DoWork();
+    Managers::Get<PlayFabManager>()->Tick();
+
+The relevant APIs are accessed through the managers class.
+
+Examples:
+    Managers::Get<PlayFabManager>()->SignIn(...)
+    Managers::Get<PlayFabManager>()->GetDescriptor(...)
+    Managers::Get<NetworkManager>()->Initialize();
+    Managers::Get<NetworkManager>()->CreateAndConnectToNetwork(...)
