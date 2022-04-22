@@ -937,7 +937,7 @@ NetworkManager::DoWork()
                 // Send the current users display name to the other chat controls.
                 const std::string& displayName = Managers::Get<PlayFabManager>()->displayName();
                 PartyEndpoint* newRemoteEndpoint = result->endpoint;
-                // FIXME: tmp SendNetworkMessage(1, &newRemoteEndpoint, NetworkMessage { NetworkMessageType::UserDisplayName, displayName });
+                SendNetworkMessage(1, &newRemoteEndpoint, NetworkMessage { NetworkMessageType::UserDisplayName, displayName });
             }
             else
             {
