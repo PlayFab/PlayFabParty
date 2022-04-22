@@ -994,7 +994,7 @@ NetworkManager::DoWork()
                 if (PARTY_SUCCEEDED(err))
                 {
                     std::string displayName(packet.StringValue());
-                    Managers::Get<INetworkStateChangeManager>()->ProcessPlayerJoined(senderEntityId, displayName);
+                    HandlePlayerJoined(senderEntityId, displayName);
                 }
                 else
                 {
@@ -1013,13 +1013,11 @@ NetworkManager::DoWork()
             DEBUGLOG("PartyStateChange: PartyStateChangeType::ChatTextReceived\n");
             auto result = static_cast<const PartyChatTextReceivedStateChange*>(change);
 
-            PartyString sender = nullptr;
-            err = result->senderChatControl->GetEntityId(&sender);
+            PartyString senderEntityId = nullptr;
+            err = result->senderChatControl->GetEntityId(&senderEntityId);
 
             if (PARTY_SUCCEEDED(err))
             {
-                std::string senderId(sender);
-
                 // If we have translations, find the translation for our language code.
                 std::string message = findExpectedTranslation(result->translations, result->translationCount);
 
@@ -1029,8 +1027,7 @@ NetworkManager::DoWork()
                     message = std::string(result->chatText);
                 }
 
-                // A text message has been received. Notify the relevant manager.
-                Managers::Get<INetworkStateChangeManager>()->ProcessTextMessage(senderId, message);
+                HandleIncomingTextMessage(senderEntityId, message);
             }
             else
             {
@@ -1139,8 +1136,9 @@ NetworkManager::DoWork()
             else
             {
                 DEBUGLOG("Destroyed ChatControl from %s\n", sender);
-                Managers::Get<INetworkStateChangeManager>()->ProcessPlayerLeft(sender);
                 m_chatControls.erase(sender);
+
+                HandlePlayerLeft(sender);
             }
             break;
         }
@@ -1275,9 +1273,9 @@ NetworkManager::DoWork()
         {
             DEBUGLOG("PartyStateChange: PartyStateChangeType::VoiceChatTranscriptionReceived\n");
             auto result = static_cast<const PartyVoiceChatTranscriptionReceivedStateChange*>(change);
-            PartyString sender = nullptr;
+            PartyString senderEntityId = nullptr;
 
-            err = result->senderChatControl->GetEntityId(&sender);
+            err = result->senderChatControl->GetEntityId(&senderEntityId);
             if (PARTY_FAILED(err))
             {
                 DEBUGLOG("GetEntityId failed: %s\n", GetErrorMessage(err));
@@ -1287,8 +1285,6 @@ NetworkManager::DoWork()
                 // Only add the transcription if it is a final phrase, and not a prediction phrase.
                 if (result->type == PartyVoiceChatTranscriptionPhraseType::Final)
                 {
-                    std::string senderId(sender);
-
                     // If we have translations, find the translation for our language code.
                     std::string message = findExpectedTranslation(result->translations, result->translationCount);
 
@@ -1301,7 +1297,7 @@ NetworkManager::DoWork()
                     if (!message.empty())
                     {
                         // A voice transcription has been received. Notify the relevant manager.
-                        Managers::Get<INetworkStateChangeManager>()->ProcessVoiceMessage(senderId, message);
+                        HandleIncomingVoiceTranscription(senderEntityId, message);
                     }
                 }
             }
@@ -1641,7 +1637,7 @@ void NetworkManager::ProcessChatIndicatorUpdates()
 
         if (m_remoteChatControlIndicatorCache[chatControl] != chatIndicator)
         {
-            Managers::Get<INetworkStateChangeManager>()->ProcessRemoteChatIndicatorChange(remotePlayerEntityId, chatIndicator);
+            HandleRemoteChatIndicatorUpdate(remotePlayerEntityId, chatIndicator);
             m_remoteChatControlIndicatorCache[chatControl] = chatIndicator;
         }
     }
@@ -1657,7 +1653,7 @@ void NetworkManager::ProcessChatIndicatorUpdates()
         {
             if (m_localChatControlIndicatorCache[m_localChatControl] != localChatIndicator)
             {
-                Managers::Get<INetworkStateChangeManager>()->ProcessLocalChatIndicatorChange(localPlayerEntityId, localChatIndicator);
+                HandleLocalChatIndicatorUpdate(localPlayerEntityId, localChatIndicator);
                 m_localChatControlIndicatorCache[m_localChatControl] = localChatIndicator;
             }
         }
@@ -1670,4 +1666,83 @@ void NetworkManager::ProcessChatIndicatorUpdates()
     {
         DEBUGLOG("Failed to query for local chat control's chat indicator! %s", GetErrorMessage(err));
     }
+}
+
+void NetworkManager::HandlePlayerJoined(
+    const std::string& newPlayerEntityId,
+    const std::string& newPlayerDisplayName
+    )
+{
+    // Ignore a player unexpectedly joining multiple times.
+    if (m_remotePlayers.find(newPlayerEntityId) != m_remotePlayers.end())
+    {
+        return;
+    }
+
+    m_remotePlayers.insert(newPlayerEntityId);
+    Managers::Get<INetworkStateChangeManager>()->ProcessPlayerJoined(newPlayerEntityId, newPlayerDisplayName);
+}
+
+void NetworkManager::HandleIncomingTextMessage(
+    const std::string& senderPlayerEntityId,
+    const std::string& message
+    )
+{
+    // Drop all text messages from players that haven't sent us their display name yet.
+    if (m_remotePlayers.find(senderPlayerEntityId) == m_remotePlayers.end())
+    {
+        return;
+    }
+
+    Managers::Get<INetworkStateChangeManager>()->ProcessTextMessage(senderPlayerEntityId, message);
+}
+
+void NetworkManager::HandleIncomingVoiceTranscription(
+    const std::string& senderPlayerEntityId,
+    const std::string& transcription
+    )
+{
+    // Drop all transcriptions from players that haven't sent us their display name yet.
+    if (m_remotePlayers.find(senderPlayerEntityId) == m_remotePlayers.end())
+    {
+        return;
+    }
+
+    Managers::Get<INetworkStateChangeManager>()->ProcessVoiceMessage(senderPlayerEntityId, transcription);
+}
+
+void NetworkManager::HandleLocalChatIndicatorUpdate(
+    const std::string& localPlayerEntityId,
+    Party::PartyLocalChatControlChatIndicator chatIndicator
+    )
+{
+    Managers::Get<INetworkStateChangeManager>()->ProcessLocalChatIndicatorChange(localPlayerEntityId, chatIndicator);
+}
+
+void NetworkManager::HandleRemoteChatIndicatorUpdate(
+    const std::string& remotePlayerEntityId,
+    Party::PartyChatControlChatIndicator chatIndicator
+    )
+{
+    // Drop all chat indicator updates from players that haven't sent us their display name yet.
+    if (m_remotePlayers.find(remotePlayerEntityId) == m_remotePlayers.end())
+    {
+        return;
+    }
+
+    Managers::Get<INetworkStateChangeManager>()->ProcessRemoteChatIndicatorChange(remotePlayerEntityId, chatIndicator);
+}
+
+void NetworkManager::HandlePlayerLeft(
+    const std::string& playerEntityId
+    )
+{
+    // If the player never shared their display name and never joined, ignore them leaving.
+    if (m_remotePlayers.find(playerEntityId) == m_remotePlayers.end())
+    {
+        return;
+    }
+
+    m_remotePlayers.erase(playerEntityId);
+    Managers::Get<INetworkStateChangeManager>()->ProcessPlayerLeft(playerEntityId);
 }
