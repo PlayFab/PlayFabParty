@@ -255,6 +255,11 @@ SimpleClient* m_client;
     [self updateButtonStatus:YES];
 }
 
+-(void) onGetDescriptorCompleted:(NSString*) networkId withNetworkDescriptor:(NSString*) networkDescriptor
+{
+    
+}
+
 -(void) onJoinedNetwork
 {
     [self updateButtonStatus:YES];

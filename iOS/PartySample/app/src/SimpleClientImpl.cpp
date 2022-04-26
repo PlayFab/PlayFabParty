@@ -178,6 +178,8 @@ SimpleClientImpl::ConnectToNetwork(
     bool rejoining
     )
 {
+    Managers::Get<NetworkManager>()->Initialize(g_pfTitle.c_str());
+    m_messageHandler->OnStartLoading();
     Managers::Get<NetworkManager>()->ConnectToNetwork(
         networkId.c_str(),
         message.c_str(),
@@ -420,10 +422,17 @@ exit:
     m_messageHandler->OnPlayerStatusUpdateEnd();
 }
 
+static void PipeErrorSignalHandler(int sig_num)
+{
+    /* re-set the signal handler again to catch_int, for next time */
+    signal(SIGPIPE, PipeErrorSignalHandler);
+}
+
 void
 SimpleClientImpl::GlobalInitialize()
 {
     // Add intialization tasks here
+    signal(SIGPIPE, PipeErrorSignalHandler);
 }
 
 void
