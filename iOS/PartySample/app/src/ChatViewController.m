@@ -257,7 +257,6 @@ SimpleClient* m_client;
 
 -(void) onGetDescriptorCompleted:(NSString*) networkId withNetworkDescriptor:(NSString*) networkDescriptor
 {
-    
 }
 
 -(void) onJoinedNetwork
