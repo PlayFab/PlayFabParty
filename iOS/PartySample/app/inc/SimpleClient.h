@@ -11,9 +11,24 @@
 #import <Foundation/Foundation.h>
 #import "ChatEventHandler.h"
 
-@interface SimpleClient : NSObject
+@class NotificationReceiver;
+
+@protocol NotificationReceiver
+
+- (void)didEnterBackground;
+- (void)willEnterForeground;
+
+@end
+
+@interface SimpleClient : NSObject <ChatEventHandler, NotificationReceiver> {
+    NSString* _networkId;
+    NSString* _networkDescriptor;
+
+}
 
 @property (nonatomic) id<ChatEventHandler> chatEventHandler;
+
+@property (nonatomic)  NotificationReceiver *notificationReceiver;
 
 -(void) initialize:(NSString*)pfTitle;
 -(void) setHandler:(id<ChatEventHandler>) messageHandler;

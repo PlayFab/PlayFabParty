@@ -11,6 +11,7 @@
 @protocol ChatEventHandler
 
 -(void) onNetworkCreated:(NSString*) networkDescriptor;
+-(void) onGetDescriptorCompleted:(NSString*) networkId withNetworkDescriptor:(NSString*) networkDescriptor;
 -(void) onJoinedNetwork;
 -(void) onPlayerJoin:(NSString*) userId;
 -(void) onPlayerLeft:(NSString*) userId;

@@ -27,91 +27,57 @@ public:
     
     void OnNetworkCreated(std::string &networkDescriptor) override
     {
-        std::string l_networkDescriptor = networkDescriptor;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [m_eventHandler onNetworkCreated:StringToNSString(l_networkDescriptor)];
-        });
+        [m_eventHandler onNetworkCreated:StringToNSString(networkDescriptor)];
     }
         
     void OnJoinedNetwork() override
     {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [m_eventHandler onJoinedNetwork];
-        });
+        [m_eventHandler onJoinedNetwork];
     }
     
     void OnPlayerJoin(std::string &playerId) override
     {
-        std::string l_playerId = playerId;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [m_eventHandler onPlayerJoin:StringToNSString(l_playerId)];
-        });
+        [m_eventHandler onPlayerJoin:StringToNSString(playerId)];
     }
 
     void OnPlayerStatusUpdateStart(void) override
     {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [m_eventHandler onPlayerStatusUpdateStart];
-        });
+        [m_eventHandler onPlayerStatusUpdateStart];
     }
     
     void OnPlayerStatusChange(const std::string &playerId, std::string &chatIndicator) override
     {
-        std::string l_playerId = playerId;
-        std::string l_chatIndicator = chatIndicator;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [m_eventHandler onPlayerStatusChange:StringToNSString(l_playerId) withIndicator:StringToNSString(l_chatIndicator)];
-        });
+        [m_eventHandler onPlayerStatusChange:StringToNSString(playerId) withIndicator:StringToNSString(chatIndicator)];
     }
 
     void OnPlayerStatusUpdateEnd(void) override
     {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [m_eventHandler onPlayerStatusUpdateEnd];
-        });
+        [m_eventHandler onPlayerStatusUpdateEnd];
     }
 
     void OnPlayerLeft(std::string &playerId) override
     {
-        std::string l_playerId = playerId;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [m_eventHandler onPlayerLeft:StringToNSString(l_playerId)];
-        });
+        [m_eventHandler onPlayerLeft:StringToNSString(playerId)];
     }
     
     void OnTextMessageReceived(std::string &senderId, std::string &message, bool isTranscript) override
     {
-        std::string l_senderId = senderId;
-        std::string l_message = message;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [m_eventHandler onTextMessageReceived:StringToNSString(l_senderId) withText:StringToNSString(l_message) isTranscription:isTranscript];
-        });
+        [m_eventHandler onTextMessageReceived:StringToNSString(senderId) withText:StringToNSString(message) isTranscription:(BOOL)isTranscript];
     }
 
     void OnGetDescriptorCompleted(std::string networkId, std::string message) override
     {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            m_impl->ConnectToNetwork(networkId, message, false);
-        });
+        [m_eventHandler onGetDescriptorCompleted:StringToNSString(networkId) withNetworkDescriptor:StringToNSString(message)];
     }
 
     void OnStartLoading(void) override
     {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [m_eventHandler onStartLoading];
-        });
+        [m_eventHandler onStartLoading];
     }
     
     void OnEndLoading(void) override
     {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [m_eventHandler onEndLoading];
-        });
+        [m_eventHandler onEndLoading];
     }
 
 private:
@@ -120,11 +86,68 @@ private:
 };
 
 
+@interface NotificationReceiver : NSObject {
+    id<NotificationReceiver> receiver;
+}
+
+@property(nonatomic, assign) id<NotificationReceiver> receiver;
+
+- (id)init:(id<NotificationReceiver>)receiver;
+
+@end
+
+@implementation NotificationReceiver
+
+@synthesize receiver = _receiver;
+
+- (id)init:(id<NotificationReceiver>)receiver
+{
+    self = [super init];
+    
+    self.receiver = receiver;
+    
+    return self;
+}
+
+- (void)addObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationHandlerDidEnterBackground:)
+                                                 name:@"PartySample.DidEnterBackground" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationHandlerWillEnterForeground:)
+                                                 name:@"PartySample.WillEnterForeground" object:nil];
+}
+
+- (void)removeObservers
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)notificationHandlerDidEnterBackground:(NSNotification*)notification
+{
+    [self.receiver didEnterBackground];
+}
+
+- (void)notificationHandlerWillEnterForeground:(NSNotification*)notification
+{
+    [self.receiver willEnterForeground];
+}
+
+@end
+
+
+
 @interface SimpleClient ()
+
+@property(nonatomic, retain) NSString* networkId;
+@property(nonatomic, retain) NSString* networkDescriptor;
 
 @end
 
 @implementation SimpleClient
+
+@synthesize notificationReceiver = _notificationReceiver;
+@synthesize networkId = _networkId;
+@synthesize networkDescriptor = _networkDescriptor;
 
 SimpleClientImpl* m_impl;
 SimpleClientEventHandler* clientEventHandler;
@@ -137,6 +160,9 @@ SimpleClientEventHandler* clientEventHandler;
     {
         m_impl = new SimpleClientImpl();
         _chatEventHandler = nil;
+        
+        self.notificationReceiver = [[NotificationReceiver alloc] init:self];
+        [self.notificationReceiver addObservers];
     }
     
     return self;
@@ -144,6 +170,8 @@ SimpleClientEventHandler* clientEventHandler;
 
 - (void)dealloc
 {
+    [self.notificationReceiver removeObservers];
+    
     if (nullptr != clientEventHandler)
     {
         delete clientEventHandler;
@@ -162,7 +190,7 @@ SimpleClientEventHandler* clientEventHandler;
     {
         return;
     }
-
+    
     m_impl->Initialize([pfTitle UTF8String]);
 }
 
@@ -172,7 +200,7 @@ SimpleClientEventHandler* clientEventHandler;
     
     if (nullptr != m_impl)
     {
-        clientEventHandler = new SimpleClientEventHandler(_chatEventHandler, m_impl);
+        clientEventHandler = new SimpleClientEventHandler(self, m_impl);
         m_impl->SetNetworkMessageHandler(clientEventHandler);
     }
 }
@@ -193,6 +221,7 @@ SimpleClientEventHandler* clientEventHandler;
         return;
     }
     
+    self.networkId = networkId;
     std::string convertedStr([networkId cStringUsingEncoding:NSUTF8StringEncoding]);
     
     m_impl->CreateNetwork(convertedStr);
@@ -205,6 +234,7 @@ SimpleClientEventHandler* clientEventHandler;
         return;
     }
     
+    self.networkId = networkId;
     std::string convertedStr([networkId cStringUsingEncoding:NSUTF8StringEncoding]);
     
     m_impl->JoinNetwork(convertedStr);
@@ -216,7 +246,9 @@ SimpleClientEventHandler* clientEventHandler;
     {
         return;
     }
-    
+
+    self.networkId = nil;
+    self.networkDescriptor = nil;
     m_impl->LeaveNetwork();
 }
 
@@ -330,7 +362,114 @@ NSString* StringToNSString (const std::string& str)
                        encoding : CFStringConvertEncodingToNSStringEncoding ( kCFStringEncodingUTF8 ) ];
   return pString;
 }
-                   
+
+#pragma mark - ChatEventHandler
+-(void) onNetworkCreated:(NSString*) networkDescriptor
+{
+    self.networkDescriptor = networkDescriptor;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->_chatEventHandler onNetworkCreated:networkDescriptor];
+    });
+}
+
+-(void) onGetDescriptorCompleted:(NSString*) networkId withNetworkDescriptor:(NSString*) networkDescriptor
+{
+    self.networkId = networkId;
+    self.networkDescriptor = networkDescriptor;
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        m_impl->ConnectToNetwork(NSStringToString(networkId), NSStringToString(networkDescriptor), false);
+    });
+}
+
+-(void) onJoinedNetwork
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->_chatEventHandler onJoinedNetwork];
+    });
+}
+
+-(void) onPlayerJoin:(NSString*) userId
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->_chatEventHandler onPlayerJoin:userId];
+    });
+}
+
+-(void) onPlayerLeft:(NSString*) userId
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->_chatEventHandler onPlayerLeft:userId];
+    });
+}
+
+-(void) onPlayerStatusUpdateStart
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->_chatEventHandler onPlayerStatusUpdateStart];
+    });
+}
+
+-(void) onPlayerStatusChange:(NSString*)playerId withIndicator:(NSString*)indicatorName
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->_chatEventHandler onPlayerStatusChange:playerId withIndicator:indicatorName];
+    });
+}
+
+-(void) onPlayerStatusUpdateEnd
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->_chatEventHandler onPlayerStatusUpdateEnd];
+    });
+}
+
+-(void) onTextMessageReceived:(NSString*) userId withText:(NSString*) text isTranscription:(BOOL) isTranscription
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->_chatEventHandler onTextMessageReceived:userId withText:text isTranscription:isTranscription];
+    });
+}
+
+-(void) onToastMessage:(NSString*) text
+{
+    [_chatEventHandler onToastMessage:text];
+}
+
+-(void) onStartLoading
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->_chatEventHandler onStartLoading];
+    });
+}
+
+-(void) onEndLoading
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->_chatEventHandler onEndLoading];
+    });
+}
+
+#pragma mark - NotificationReceiver
+- (void)didEnterBackground
+{
+    if(self.networkId.length > 0 && self.networkDescriptor.length > 0)
+    {
+        m_impl->LeaveNetwork();
+    }
+}
+
+- (void)willEnterForeground
+{
+    if(self.networkId.length > 0 && self.networkDescriptor.length > 0)
+    {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            m_impl->ConnectToNetwork(NSStringToString(self.networkId), NSStringToString(self.networkDescriptor), true);
+        });
+    }
+}
+
 @end
 
 
