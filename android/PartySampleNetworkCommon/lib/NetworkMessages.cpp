@@ -13,7 +13,7 @@ NetworkMessage::~NetworkMessage()
 }
 
 NetworkMessage::NetworkMessage(
-    NetworkMessageType type, 
+    NetworkMessageType type,
     unsigned data
     )
 {
@@ -23,8 +23,8 @@ NetworkMessage::NetworkMessage(
 }
 
 NetworkMessage::NetworkMessage(
-    NetworkMessageType type, 
-    const std::string &data
+    NetworkMessageType type,
+    const std::string& data
     )
 {
     m_type = type;
@@ -32,14 +32,14 @@ NetworkMessage::NetworkMessage(
     CopyMemory(m_data.data(), reinterpret_cast<const uint8_t*>(data.c_str()), m_data.size());
 }
 
-NetworkMessage::NetworkMessage(NetworkMessageType type, const std::vector<uint8_t> &data)
+NetworkMessage::NetworkMessage(NetworkMessageType type, const std::vector<uint8_t>& data)
 {
     m_type = type;
     m_data = data;
 }
 
 NetworkMessage::NetworkMessage(
-    const std::vector<uint8_t> &data
+    const std::vector<uint8_t>& data
     )
 {
     if (data.size() < (sizeof(NetworkMessageType) + sizeof(uint8_t)))
