@@ -33,12 +33,14 @@ namespace PartySample
         // And sets up chat controls for when the user is connected to a network.
         void Initialize(const char* titleId);
 
-        //Creates a new network and registers it with the playfab title, storing connection information by keying off the network Id.
-        void CreateAndConnectToNetwork(const char *networkId, std::function<void(std::string)> callback = nullptr, std::function<void(PartyError)> errorCallback = nullptr);
-        //Connects the current user and chat control to the specified network descriptor using the network Id as an invite Id.
-        void ConnectToNetwork(const char *networkId, const char* descriptor, std::function<void(void)> callback = nullptr, std::function<void(PartyError)> errorCallback = nullptr);
+        // Creates a new network and registers it with the playfab title, storing connection information by keying off the network Id.
+        void CreateAndConnectToNetwork(const char* networkId, std::function<void(std::string)> callback = nullptr, std::function<void(PartyError)> errorCallback = nullptr);
+        // Connects the current user and chat control to the specified network descriptor using the network Id as an invite Id.
+        void ConnectToNetwork(const char* networkId, const char* descriptor, std::function<void(void)> callback = nullptr, std::function<void(PartyError)> errorCallback = nullptr);
         // Sends an endpoint message containing non chat information.
-        void SendNetworkMessage(const NetworkMessage& message);
+        void SendNetworkMessage(uint32_t targetCount, Party::PartyEndpoint** targets, const NetworkMessage& message);
+        // Broadcasts an endpoint message containing non chat information.
+        void BroadcastNetworkMessage(const NetworkMessage& message);
         // Sends a message as a synthesized voice message to all available chat controls.
         void SendTextAsVoice(std::string text);
         // Sends a message as plain text to all available chat controls.
@@ -63,7 +65,9 @@ namespace PartySample
         Party::PartyLocalChatControl* GetLocalChatControl() { return m_localChatControl; }
 
         // Mute or unmute the microphone.
-        void setAudioInputEnabled(bool enabled);
+        void SetLocalPlayerMuted(bool isMuted);
+        // Mute or unmute a remote player
+        void SetRemotePlayerMuted(const std::string& remotePlayerEntityId, bool isMuted);
 
         // Returns whether the chat control has been connected, to show user join or left messages
         bool getIsChatControlConnected();
@@ -98,10 +102,40 @@ namespace PartySample
 
     private:
         PartyError CreateChatControlIfNecessary();
-        bool InternalConnectToNetwork(const Party::PartyNetworkDescriptor& descriptor, const char *networkId, std::function<void(PartyError)> errorCallback);
+        bool InternalConnectToNetwork(const Party::PartyNetworkDescriptor& descriptor, const char* networkId, std::function<void(PartyError)> errorCallback);
         void setTextToSpeechProfile();
         bool isTranslationInTheLocalLanguage(Party::PartyTranslation translation);
-        std::string findExpectedTranslation(Party::PartyTranslation *translations, int translationCount);
+        std::string findExpectedTranslation(Party::PartyTranslation* translations, int translationCount);
+        void ProcessChatIndicatorUpdates();
+
+        void HandlePlayerJoined(
+            const std::string& newPlayerEntityId,
+            const std::string& newPlayerDisplayName
+            );
+
+        void HandleIncomingTextMessage(
+            const std::string& senderPlayerEntityId,
+            const std::string& message
+            );
+
+        void HandleIncomingVoiceTranscription(
+            const std::string& senderPlayerEntityId,
+            const std::string& transcription
+            );
+
+        void HandleLocalChatIndicatorUpdate(
+            const std::string& localPlayerEntityId,
+            Party::PartyLocalChatControlChatIndicator chatIndicator
+            );
+
+        void HandleRemoteChatIndicatorUpdate(
+            const std::string& remotePlayerEntityId,
+            Party::PartyChatControlChatIndicator chatIndicator
+            );
+
+        void HandlePlayerLeft(
+            const std::string& playerEntityId
+            );
 
         std::function<void(std::string)> m_onNetworkCreated;
         std::function<void(PartyError)> m_onNetworkCreatedError;
@@ -124,5 +158,14 @@ namespace PartySample
         std::atomic_bool m_ttsProfileNeedsUpdate;
         std::mutex m_networkLock;
         float m_renderVolume;
+
+        // These players have (1) Joined the network and (2) sent their display name to other players
+        std::set<std::string> m_remotePlayers;
+
+        // PlayFab Party is responsive enough that a UI which can handle frequent updates can poll for the chat
+        // indicators every frame. Since this code is shared across a number of UI frameworks, we'll cache the chat
+        // indicators and only alert the UI when they've changed.
+        std::map<Party::PartyLocalChatControl*, Party::PartyLocalChatControlChatIndicator> m_localChatControlIndicatorCache;
+        std::map<Party::PartyChatControl*, Party::PartyChatControlChatIndicator> m_remoteChatControlIndicatorCache;
     };
 }

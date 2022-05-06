@@ -9,7 +9,7 @@ Note that the core classes need to have update called every frame:
     Managers::Get<NetworkManager>()->DoWork();
     Managers::Get<PlayFabManager>()->Tick();
 
-The relevant APIs are accesed through the managers class.
+The relevant APIs are accessed through the managers class.
 
 Examples:
     Managers::Get<PlayFabManager>()->SignIn(...)

@@ -120,11 +120,7 @@ PartySample::PlayFabManager::SetDescriptor(
     request.FunctionParameter = param;
 
     // Put a message in the chat window indicating that the descriptor is being saved
-    char messageBuffer[500];
-    sprintf(messageBuffer, "Saving out network data: %s.", descriptor.c_str());
-    std::string sender("System");
-    std::string message(messageBuffer);
-    Managers::Get<INetworkStateChangeManager>()->ProcessTextMessage(sender, message);
+    Managers::Get<INetworkStateChangeManager>()->ProcessStatusMessage("System", "Saving out network data: " + descriptor + ".");
 
     // Execute the above cloud script.
     PlayFabClientAPI::ExecuteCloudScript(request, onSetDescriptorSuccessCallback, onSetDescriptorFailCallback);
@@ -144,9 +140,9 @@ issued with an empty string.
 ```C++
 void 
 PartySample::PlayFabManager::GetDescriptor(
-	std::string key, 
-	std::function<void(std::string)> onComplete
-	)
+    std::string key, 
+    std::function<void(std::string)> onComplete
+    )
 {
 	// Set the completion callback.
 	m_onCompletedGettingDescriptor = onComplete;
