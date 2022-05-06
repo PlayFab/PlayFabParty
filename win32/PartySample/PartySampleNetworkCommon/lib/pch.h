@@ -5,6 +5,7 @@
 #include <string>
 #include <queue>
 #include <errno.h>
+#include <set>
 
 //Include platform specific definitions
 #if defined(__ANDROID__) || defined(__APPLE__)

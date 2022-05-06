@@ -106,7 +106,37 @@ namespace PartySample
         void setTextToSpeechProfile();
         bool isTranslationInTheLocalLanguage(Party::PartyTranslation translation);
         std::string findExpectedTranslation(Party::PartyTranslation* translations, int translationCount);
+
         void ProcessChatIndicatorUpdates();
+
+        void HandlePlayerJoined(
+            const std::string& newPlayerEntityId,
+            const std::string& newPlayerDisplayName
+            );
+
+        void HandleIncomingTextMessage(
+            const std::string& senderPlayerEntityId,
+            const std::string& message
+            );
+
+        void HandleIncomingVoiceTranscription(
+            const std::string& senderPlayerEntityId,
+            const std::string& transcription
+            );
+
+        void HandleLocalChatIndicatorUpdate(
+            const std::string& localPlayerEntityId,
+            Party::PartyLocalChatControlChatIndicator chatIndicator
+            );
+
+        void HandleRemoteChatIndicatorUpdate(
+            const std::string& remotePlayerEntityId,
+            Party::PartyChatControlChatIndicator chatIndicator
+            );
+
+        void HandlePlayerLeft(
+            const std::string& playerEntityId
+            );
 
         std::function<void(std::string)> m_onNetworkCreated;
         std::function<void(PartyError)> m_onNetworkCreatedError;
@@ -129,6 +159,9 @@ namespace PartySample
         std::atomic_bool m_ttsProfileNeedsUpdate;
         std::mutex m_networkLock;
         float m_renderVolume;
+
+        // These players have (1) Joined the network and (2) sent their display name to other players
+        std::set<std::string> m_remotePlayers;
 
         // PlayFab Party is responsive enough that a UI which can handle frequent updates can poll for the chat
         // indicators every frame. Since this code is shared across a number of UI frameworks, we'll cache the chat

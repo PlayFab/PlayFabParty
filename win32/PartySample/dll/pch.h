@@ -12,6 +12,7 @@
 #include <thread>
 #include <mutex>
 #include <vector>
+#include <set>
 
 // External dependencies
 #include <Party.h>
