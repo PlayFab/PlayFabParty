@@ -1,1 +1,0 @@
-Copy PlayFabParty.framework and libplayfabxplatcppsdk.a into this folder.
