@@ -1,1 +1,2 @@
 # There is no PartySample for Linux at this time. 
+## Download the preview binaries from the appropriate prerelease on the Releases page and configure your project with the contained headers and dynamic library.
