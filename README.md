@@ -9,3 +9,4 @@ Please download, unzip, and copy the corresponding asset folder for your platfor
 * iOS - `/iOS/bin/Release`
 * Android - `/android/bin`
 * Win32 - The win32 binaries are not included in the zip assets. They are available on download on [nuget](https://www.nuget.org/packages/Microsoft.PlayFab.PlayFabParty.Cpp.Windows).
+* Linux - `/x64/Release/libparty.so`
