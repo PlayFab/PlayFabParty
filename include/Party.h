@@ -2842,10 +2842,10 @@ enum class PartyChatTextReceivedOptions
 
     /// <summary>
     /// The incoming text was unable to be filtered, and the entire text has been replaced by asterisks.
+    /// </summary>
     /// <remarks>
     /// This value is exclusive to FilteredOffensiveTerms and FilteredEntireMessage.
     /// </remarks>
-    /// </summary>
     FilteredDueToError = 0x4,
 };
 
@@ -3314,8 +3314,7 @@ struct PartyTranslation
     /// Profanity masking is applied after translating the unmasked source transcription. Depending on context, it's
     /// possible for the transcription to contain masked profanity but not the translation. Similarly, it's possible for
     /// the translation to contain masked profanity but not the original transcription. Profanity masking can be
-    /// disabled via
-    /// <seealso cref="PartyVoiceChatTranscriptionOptions::DisableProfanityMasking" />.
+    /// disabled via <see cref="PartyVoiceChatTranscriptionOptions::DisableProfanityMasking" />.
     /// <para>
     /// The translation string may be up to <c>c_maxChatTextMessageLength</c> characters long, not including the null
     /// terminator. Truncation occurs if the translated string length would exceed that limit, which can happen due to
@@ -3386,11 +3385,10 @@ struct PartyAudioManipulationSourceStreamConfiguration
     /// </summary>
     /// <remarks>
     /// This defines the limit for the total amount of audio internally queued by the source stream, but not yet
-    /// retrieved via
-    /// <seealso cref="PartyAudioManipulationSourceStream::GetNextBuffer" />,
-    /// plus the total amount of audio retrieved by the app, but not yet returned to the library via
-    /// <seealso cref="PartyAudioManipulationSourceStream::ReturnBuffer" />.
-    /// When this total is reached, the source stream will stop producing additional buffers.
+    /// retrieved via <see cref="PartyAudioManipulationSourceStream::GetNextBuffer" />, plus the total amount of audio
+    /// retrieved by the app, but not yet returned to the library via
+    /// <see cref="PartyAudioManipulationSourceStream::ReturnBuffer" />. When this total is reached, the source stream
+    /// will stop producing additional buffers.
     /// <para>
     /// Because the library processes audio in 40 millisecond intervals, the effective maximum is the nearest multiple
     /// of 40 less than the specified maximum. The minimum is 40 milliseconds.
@@ -8670,8 +8668,8 @@ public:
     /// device when it does appear.
     /// </para>
     /// <para>
-    /// When using the <c>PlatformUserDefault</c> option on the Xbox platform, the Xbox User Identifier (XUID) must
-    /// be passed as the <c>audioDeviceSelectionContext</c> value.
+    /// When using the <c>PlatformUserDefault</c> option on the Xbox platform, the Xbox User Identifier (XUID) must be
+    /// passed as the <c>audioDeviceSelectionContext</c> value.
     /// </para>
     /// </remarks>
     /// <param name="audioDeviceSelectionType">
@@ -8762,8 +8760,8 @@ public:
     /// device when it does appear.
     /// </para>
     /// <para>
-    /// When using the <c>PlatformUserDefault</c> option on the Xbox platform, the Xbox User Identifier (XUID) must
-    /// be passed as the <c>audioDeviceSelectionContext</c> value.
+    /// When using the <c>PlatformUserDefault</c> option on the Xbox platform, the Xbox User Identifier (XUID) must be
+    /// passed as the <c>audioDeviceSelectionContext</c> value.
     /// </para>
     /// </remarks>
     /// <param name="audioDeviceSelectionType">
@@ -10061,7 +10059,7 @@ public:
     /// </summary>
     /// <remarks>
     /// This method enables the title to configure the processor affinity for internal Party library threads of a given
-    /// type. On Windows, the <c>Audio</c> type affects both library's directly-owned threads and threads owned by 
+    /// type. On Windows, the <c>Audio</c> type affects both library's directly-owned threads and threads owned by
     /// XAudio2. For more information, see <see cref="PartyThreadId" />.
     /// <para>
     /// This method may be called at any time before or after <see cref="Initialize()" /> and will take effect
