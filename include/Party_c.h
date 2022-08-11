@@ -11,7 +11,7 @@ extern "C"
 
 #if defined(__ORBIS__)
 #define PARTY_API_ATTRIBUTES __declspec(dllexport)
-#elif (defined(LINUX) || defined(NX))
+#elif defined(NX)
 #define PARTY_API_ATTRIBUTES __attribute__((visibility("default")))
 #else
 #define PARTY_API_ATTRIBUTES
