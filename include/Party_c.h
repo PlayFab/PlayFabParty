@@ -9,11 +9,9 @@ extern "C"
 
 #define PARTY_API __stdcall
 
-#if defined(PAVO)
+#if defined(__ORBIS__)
 #define PARTY_API_ATTRIBUTES __declspec(dllexport)
-#elif defined(NORMA)
-#define PARTY_API_ATTRIBUTES __attribute__((visibility("default")))
-#elif(defined(SCORPIUS) || defined(LINUX))
+#elif (defined(LINUX) || defined(NX) || defined(SCORPIUS))
 #define PARTY_API_ATTRIBUTES __attribute__((visibility("default")))
 #else
 #define PARTY_API_ATTRIBUTES
