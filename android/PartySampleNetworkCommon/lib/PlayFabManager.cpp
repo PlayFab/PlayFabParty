@@ -31,7 +31,7 @@ void PlayFabManager::Initialize(
     )
 {
     // Set the title id to be used for all future calls.
-    PlayFabSettings::staticSettings->titleId = titleId;
+    PlayFabSettings::titleId = titleId;
 }
 
 // Authenticate the user with playfab using the specified custom id and setting the display name to that id.
