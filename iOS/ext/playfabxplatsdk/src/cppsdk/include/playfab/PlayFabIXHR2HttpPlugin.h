@@ -1,4 +1,5 @@
 #pragma once
+#if defined(PLAYFAB_PLATFORM_XBOX) || defined(PLAYFAB_PLATFORM_UWP)
 
 #include <playfab/PlayFabCallRequestContainer.h>
 #include <playfab/PlayFabPluginManager.h>
@@ -10,7 +11,7 @@
 #include <mutex>
 #include <atomic>
 
-#include <json/json.h>
+#include <json/value.h>
 #include <playfab/PlayFabIXHR2HttpRequest.h>
 
 namespace PlayFabInternal
@@ -45,3 +46,4 @@ namespace PlayFabInternal
         std::deque<std::unique_ptr<CallRequestContainerBase>> pendingResults;
     };
 }
+#endif // defined(PLAYFAB_PLATFORM_XBOX) || defined(PLAYFAB_PLATFORM_UWP)

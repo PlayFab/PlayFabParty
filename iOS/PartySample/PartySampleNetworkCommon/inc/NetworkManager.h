@@ -8,6 +8,7 @@
 #include "pch.h"
 #include "PlayFabManager.h"
 #include "NetworkMessages.h"
+#include <set>
 
 namespace PartySample
 {

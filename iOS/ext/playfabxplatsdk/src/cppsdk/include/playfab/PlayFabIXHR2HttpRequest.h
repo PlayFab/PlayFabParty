@@ -1,3 +1,5 @@
+#pragma once
+#if defined(PLAYFAB_PLATFORM_XBOX) || defined(PLAYFAB_PLATFORM_UWP)
 //------------------------------------------------------------------------------
 // HttpRequest.h
 //
@@ -8,7 +10,6 @@
 // Copyright (C) Microsoft Corporation. All rights reserved.
 //------------------------------------------------------------------------------
 
-#pragma once
 
 #include <objbase.h>
 #include <windows.h>
@@ -26,8 +27,7 @@
 #include <ctime>
 #include <chrono>
 
-// BUMBLELION: The header we need to include depends on the platform.
-#ifdef PLAYFAB_XBOX
+#if defined(PLAYFAB_XBOX)
 #include <ixmlhttprequest2.h>
 #else // defined(PLAYFAB_XBOX)
 #include <msxml6.h>
@@ -88,8 +88,8 @@ namespace PlayFabInternal
     // ----------------------------------------------------------------------------
     // Name: RequestStream
     // Desc: Encapsulates a request data stream. It inherits ISequentialStream,
-    // which the IXMLHTTPRequest2 class uses to read from our buffer. It also
-    // inherits IDispatch, which the IXMLHTTPRequest2 interface on Xbox One requires
+    // which the IXMLHTTPRequest2 class uses to read from our buffer. It also 
+    // inherits IDispatch, which the IXMLHTTPRequest2 interface on Xbox One requires 
     // (unlike on Windows, where only ISequentialStream is necessary).
     // ----------------------------------------------------------------------------
     class RequestStream : public Microsoft::WRL::RuntimeClass<RuntimeClassFlags<ClassicCom>, ISequentialStream, IDispatch>
@@ -170,3 +170,4 @@ namespace PlayFabInternal
     };
 
 }  // namespace PlayFabInternal
+#endif // defined(PLAYFAB_PLATFORM_XBOX) || defined(PLAYFAB_PLATFORM_UWP)
