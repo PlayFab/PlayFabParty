@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef ENABLE_PLAYFABSERVER_API
+#if defined(ENABLE_PLAYFABSERVER_API)
 
 #include <playfab/PlayFabBaseModel.h>
 #include <playfab/PlayFabJsonHeaders.h>
@@ -23,25 +23,84 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const Region input, Json::Value& output)
         {
-            if (input == Region::RegionUSCentral) output = Json::Value("USCentral");
-            if (input == Region::RegionUSEast) output = Json::Value("USEast");
-            if (input == Region::RegionEUWest) output = Json::Value("EUWest");
-            if (input == Region::RegionSingapore) output = Json::Value("Singapore");
-            if (input == Region::RegionJapan) output = Json::Value("Japan");
-            if (input == Region::RegionBrazil) output = Json::Value("Brazil");
-            if (input == Region::RegionAustralia) output = Json::Value("Australia");
+            if (input == Region::RegionUSCentral)
+            {
+                output = Json::Value("USCentral");
+                return;
+            }
+            if (input == Region::RegionUSEast)
+            {
+                output = Json::Value("USEast");
+                return;
+            }
+            if (input == Region::RegionEUWest)
+            {
+                output = Json::Value("EUWest");
+                return;
+            }
+            if (input == Region::RegionSingapore)
+            {
+                output = Json::Value("Singapore");
+                return;
+            }
+            if (input == Region::RegionJapan)
+            {
+                output = Json::Value("Japan");
+                return;
+            }
+            if (input == Region::RegionBrazil)
+            {
+                output = Json::Value("Brazil");
+                return;
+            }
+            if (input == Region::RegionAustralia)
+            {
+                output = Json::Value("Australia");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, Region& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "USCentral") output = Region::RegionUSCentral;
-            if (inputStr == "USEast") output = Region::RegionUSEast;
-            if (inputStr == "EUWest") output = Region::RegionEUWest;
-            if (inputStr == "Singapore") output = Region::RegionSingapore;
-            if (inputStr == "Japan") output = Region::RegionJapan;
-            if (inputStr == "Brazil") output = Region::RegionBrazil;
-            if (inputStr == "Australia") output = Region::RegionAustralia;
+            if (inputStr == "USCentral")
+            {
+                output = Region::RegionUSCentral;
+                return;
+            }
+            if (inputStr == "USEast")
+            {
+                output = Region::RegionUSEast;
+                return;
+            }
+            if (inputStr == "EUWest")
+            {
+                output = Region::RegionEUWest;
+                return;
+            }
+            if (inputStr == "Singapore")
+            {
+                output = Region::RegionSingapore;
+                return;
+            }
+            if (inputStr == "Japan")
+            {
+                output = Region::RegionJapan;
+                return;
+            }
+            if (inputStr == "Brazil")
+            {
+                output = Region::RegionBrazil;
+                return;
+            }
+            if (inputStr == "Australia")
+            {
+                output = Region::RegionAustralia;
+                return;
+            }
         }
 
         // Matchmaker Classes
@@ -209,17 +268,20 @@ namespace PlayFabInternal
 
         struct PlayerJoinedRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string LobbyId;
             std::string PlayFabId;
 
             PlayerJoinedRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 LobbyId(),
                 PlayFabId()
             {}
 
             PlayerJoinedRequest(const PlayerJoinedRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 LobbyId(src.LobbyId),
                 PlayFabId(src.PlayFabId)
             {}
@@ -228,6 +290,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["LobbyId"], LobbyId);
                 FromJsonUtilS(input["PlayFabId"], PlayFabId);
             }
@@ -235,6 +298,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_LobbyId; ToJsonUtilS(LobbyId, each_LobbyId); output["LobbyId"] = each_LobbyId;
                 Json::Value each_PlayFabId; ToJsonUtilS(PlayFabId, each_PlayFabId); output["PlayFabId"] = each_PlayFabId;
                 return output;
@@ -267,17 +331,20 @@ namespace PlayFabInternal
 
         struct PlayerLeftRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string LobbyId;
             std::string PlayFabId;
 
             PlayerLeftRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 LobbyId(),
                 PlayFabId()
             {}
 
             PlayerLeftRequest(const PlayerLeftRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 LobbyId(src.LobbyId),
                 PlayFabId(src.PlayFabId)
             {}
@@ -286,6 +353,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["LobbyId"], LobbyId);
                 FromJsonUtilS(input["PlayFabId"], PlayFabId);
             }
@@ -293,6 +361,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_LobbyId; ToJsonUtilS(LobbyId, each_LobbyId); output["LobbyId"] = each_LobbyId;
                 Json::Value each_PlayFabId; ToJsonUtilS(PlayFabId, each_PlayFabId); output["PlayFabId"] = each_PlayFabId;
                 return output;
@@ -327,6 +396,7 @@ namespace PlayFabInternal
         {
             std::string Build;
             std::string CustomCommandLineData;
+            std::map<std::string, std::string> CustomTags;
             std::string ExternalMatchmakerEventEndpoint;
             std::string GameMode;
             Region pfRegion;
@@ -335,6 +405,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 Build(),
                 CustomCommandLineData(),
+                CustomTags(),
                 ExternalMatchmakerEventEndpoint(),
                 GameMode(),
                 pfRegion()
@@ -344,6 +415,7 @@ namespace PlayFabInternal
                 PlayFabRequestCommon(),
                 Build(src.Build),
                 CustomCommandLineData(src.CustomCommandLineData),
+                CustomTags(src.CustomTags),
                 ExternalMatchmakerEventEndpoint(src.ExternalMatchmakerEventEndpoint),
                 GameMode(src.GameMode),
                 pfRegion(src.pfRegion)
@@ -355,6 +427,7 @@ namespace PlayFabInternal
             {
                 FromJsonUtilS(input["Build"], Build);
                 FromJsonUtilS(input["CustomCommandLineData"], CustomCommandLineData);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["ExternalMatchmakerEventEndpoint"], ExternalMatchmakerEventEndpoint);
                 FromJsonUtilS(input["GameMode"], GameMode);
                 FromJsonEnum(input["Region"], pfRegion);
@@ -365,6 +438,7 @@ namespace PlayFabInternal
                 Json::Value output;
                 Json::Value each_Build; ToJsonUtilS(Build, each_Build); output["Build"] = each_Build;
                 Json::Value each_CustomCommandLineData; ToJsonUtilS(CustomCommandLineData, each_CustomCommandLineData); output["CustomCommandLineData"] = each_CustomCommandLineData;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ExternalMatchmakerEventEndpoint; ToJsonUtilS(ExternalMatchmakerEventEndpoint, each_ExternalMatchmakerEventEndpoint); output["ExternalMatchmakerEventEndpoint"] = each_ExternalMatchmakerEventEndpoint;
                 Json::Value each_GameMode; ToJsonUtilS(GameMode, each_GameMode); output["GameMode"] = each_GameMode;
                 Json::Value each_pfRegion; ToJsonEnum(pfRegion, each_pfRegion); output["Region"] = each_pfRegion;
@@ -423,17 +497,20 @@ namespace PlayFabInternal
 
         struct UserInfoRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Int32 MinCatalogVersion;
             std::string PlayFabId;
 
             UserInfoRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 MinCatalogVersion(),
                 PlayFabId()
             {}
 
             UserInfoRequest(const UserInfoRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 MinCatalogVersion(src.MinCatalogVersion),
                 PlayFabId(src.PlayFabId)
             {}
@@ -442,6 +519,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["MinCatalogVersion"], MinCatalogVersion);
                 FromJsonUtilS(input["PlayFabId"], PlayFabId);
             }
@@ -449,6 +527,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_MinCatalogVersion; ToJsonUtilP(MinCatalogVersion, each_MinCatalogVersion); output["MinCatalogVersion"] = each_MinCatalogVersion;
                 Json::Value each_PlayFabId; ToJsonUtilS(PlayFabId, each_PlayFabId); output["PlayFabId"] = each_PlayFabId;
                 return output;

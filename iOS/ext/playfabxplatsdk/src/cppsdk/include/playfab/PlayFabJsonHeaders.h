@@ -6,10 +6,17 @@
 
 #include <playfab/PlayFabPlatformMacros.h>
 
-#if defined(PLAYFAB_PLATFORM_WINDOWS) || defined(PLAYFAB_PLATFORM_XBOX)
-#include <jsoncpp/json/json.h>
-#endif // PLAYFAB_PLATFORM_WINDOWS || PLAYFAB_PLATFORM_XBOX
+/*
+BUMBLELION CHANGE
+Adjusted the #include paths to always pull from the jsoncpp source code included locally here in our copy of the 
+PlayFabXPlatSDK
+*/
 
-#if defined(PLAYFAB_PLATFORM_LINUX) || defined(PLAYFAB_PLATFORM_IOS) || defined(PLAYFAB_PLATFORM_ANDROID)
 #include <jsoncpp/json/json.h>
-#endif // PLAYFAB_PLATFORM_LINUX
+
+#if defined(PLAYFAB_PLATFORM_SWITCH)
+#include <jsoncpp/json/json-forwards.h>
+#else // PLAYFAB_PLATFORM_SWITCH
+#include <jsoncpp/json/reader.h>
+#include <jsoncpp/json/value.h>
+#endif // PLAYFAB_PLATFORM_SWITCH

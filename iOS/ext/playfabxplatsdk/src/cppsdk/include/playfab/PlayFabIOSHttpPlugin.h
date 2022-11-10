@@ -50,22 +50,36 @@ namespace PlayFabInternal
                 Requesting,
                 Finished
             };
+
             CallRequestContainer& RequestContainer()
             {
                 return *dynamic_cast<CallRequestContainer*>(requestContainer.get());
             }
+
+            const CallRequestContainer& ConstRequestContainer() const
+            {
+                return *dynamic_cast<CallRequestContainer*>(requestContainer.get());
+            }
+
             std::string GetRequestContainerUrl() const
             {
                 return requestContainer->GetUrl();
             }
+
+            std::string GetRequestContainerFullUrl() const
+            {
+                return ConstRequestContainer().GetFullUrl();
+            }
+
             void Cancel();
             std::atomic<State> state;
             std::unique_ptr<CallRequestContainerBase> requestContainer;
             RequestImpl* impl;
         };
-        std::unique_ptr<std::thread> workerThread;
+        std::thread workerThread;
         std::mutex httpRequestMutex;
-        std::atomic<bool> threadRunning;
+        std::atomic<bool> threadCanStop;
+        std::condition_variable httpRequestCv;
         std::deque<std::shared_ptr<RequestTask>> pendingRequests;
         std::shared_ptr<RequestTask> requestingTask;
         std::deque<std::shared_ptr<RequestTask>> pendingResults;

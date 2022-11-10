@@ -1,22 +1,29 @@
 #pragma once
 
-#include <future>
-#include <chrono>
+#if defined (PLAYFAB_PLATFORM_WINDOWS) || defined (PLAYFAB_PLATFORM_XBOX)
 
 #include <playfab/QoS/QoS.h>
 #include <playfab/QoS/QoSResult.h>
 #include <playfab/QoS/QoSSocket.h>
-#include <playfab/PlayFabMultiplayerDataModels.h>
 #include <playfab/PlayFabEventsDataModels.h>
 #include <playfab/PlayFabError.h>
 
+#include <chrono>
+#include <future>
+#include <unordered_map>
+
 namespace PlayFabInternal
 {
+    class PlayFabEventsInstanceAPI;
+    class PlayFabMultiplayerInstanceAPI;
+
     namespace QoS
     {
         class PlayFabQoSApi
         {
         public:
+            PlayFabQoSApi();
+
             // Runs a QoS operation asynchronously. The operation pings a set of regions and returns a result with average response times.
             std::future<QoSResult> GetQoSResultAsync(unsigned int numThreads, unsigned int timeoutMs = DEFAULT_TIMEOUT_MS);
 
@@ -24,6 +31,9 @@ namespace PlayFabInternal
             QoSResult GetQoSResult(unsigned int numThreads, unsigned int timeoutMs = DEFAULT_TIMEOUT_MS);
 
         private:
+            std::shared_ptr<PlayFabEventsInstanceAPI> eventsApi;
+            std::shared_ptr<PlayFabMultiplayerInstanceAPI> multiplayerApi;
+
             std::vector<std::string> GetPingList(unsigned int serverCount);
             void InitializeAccumulatedPingResults(std::unordered_map<std::string, PingResult>& accumulatedPingResults);
             int SetupSockets(std::vector<std::shared_ptr<QoSSocket>>& sockets, unsigned int numThreads, unsigned int timeoutMs);
@@ -33,8 +43,8 @@ namespace PlayFabInternal
             QoSResult GetResult(unsigned int numThreads, unsigned int timeoutMs);
 
             void PingThunderheadForServerList();
-            static void ListQosServersSuccessCallBack(const PlayFabInternal::MultiplayerModels::ListQosServersResponse& result, void* customData);
-            static void ListQosServersFailureCallBack(const PlayFabInternal::PlayFabError& error, void* customData);
+            static void ListQosServersForTitleSuccessCallBack(const PlayFabInternal::MultiplayerModels::ListQosServersForTitleResponse& result, void* customData);
+            static void ListQosServersForTitleFailureCallBack(const PlayFabInternal::PlayFabError& error, void* customData);
 
             void SendResultsToPlayFab(const QoSResult& result);
             static void WriteEventsSuccessCallBack(const PlayFabInternal::EventsModels::WriteEventsResponse& result, void*);
@@ -51,3 +61,4 @@ namespace PlayFabInternal
         };
     }
 }
+#endif // defined (PLAYFAB_PLATFORM_WINDOWS) || defined (PLAYFAB_PLATFORM_XBOX)
