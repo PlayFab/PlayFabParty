@@ -19,16 +19,16 @@ namespace PartySample
     public:
         NetworkMessage();
         NetworkMessage(NetworkMessageType type, unsigned data);
-        NetworkMessage(NetworkMessageType type, const std::string &data);
-        NetworkMessage(NetworkMessageType type, const std::vector<uint8_t> &data);
-        NetworkMessage(const std::vector<uint8_t> &data);
+        NetworkMessage(NetworkMessageType type, const std::string& data);
+        NetworkMessage(NetworkMessageType type, const std::vector<uint8_t>& data);
+        NetworkMessage(const std::vector<uint8_t>& data);
         ~NetworkMessage();
 
         NetworkMessageType MessageType() const { return m_type; }
         void MessageType(NetworkMessageType type) { m_type = type; }
 
-        inline const std::vector<uint8_t> &RawData() { return m_data; }
-        inline void RawData(const std::vector<uint8_t> &data) { m_data = data; }
+        inline const std::vector<uint8_t>& RawData() { return m_data; }
+        inline void RawData(const std::vector<uint8_t>& data) { m_data = data; }
 
         std::string StringValue();
         unsigned UnsignedValue();
@@ -36,10 +36,10 @@ namespace PartySample
         std::vector<uint8_t> Serialize() const;
 
         inline
-            static
-            Party::PartyDataBuffer
-            PartyStringAsDataBuffer(
-                PartyString s
+        static
+        Party::PartyDataBuffer
+        PartyStringAsDataBuffer(
+            PartyString s
             )
         {
             return { s, static_cast<uint32_t>((strlen(s) + 1) * sizeof(s[0])) };

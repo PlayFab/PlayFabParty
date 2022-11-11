@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+#include <unordered_map>
 
 bool g_isRunning = false;
 bool g_initializeCompleted = false;

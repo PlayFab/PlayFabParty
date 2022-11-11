@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef DISABLE_PLAYFABENTITY_API
+#if !defined(DISABLE_PLAYFABENTITY_API)
 
 #include <playfab/PlayFabBaseModel.h>
 #include <playfab/PlayFabJsonHeaders.h>
@@ -20,19 +20,54 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const OperationTypes input, Json::Value& output)
         {
-            if (input == OperationTypes::OperationTypesCreated) output = Json::Value("Created");
-            if (input == OperationTypes::OperationTypesUpdated) output = Json::Value("Updated");
-            if (input == OperationTypes::OperationTypesDeleted) output = Json::Value("Deleted");
-            if (input == OperationTypes::OperationTypesNone) output = Json::Value("None");
+            if (input == OperationTypes::OperationTypesCreated)
+            {
+                output = Json::Value("Created");
+                return;
+            }
+            if (input == OperationTypes::OperationTypesUpdated)
+            {
+                output = Json::Value("Updated");
+                return;
+            }
+            if (input == OperationTypes::OperationTypesDeleted)
+            {
+                output = Json::Value("Deleted");
+                return;
+            }
+            if (input == OperationTypes::OperationTypesNone)
+            {
+                output = Json::Value("None");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, OperationTypes& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Created") output = OperationTypes::OperationTypesCreated;
-            if (inputStr == "Updated") output = OperationTypes::OperationTypesUpdated;
-            if (inputStr == "Deleted") output = OperationTypes::OperationTypesDeleted;
-            if (inputStr == "None") output = OperationTypes::OperationTypesNone;
+            if (inputStr == "Created")
+            {
+                output = OperationTypes::OperationTypesCreated;
+                return;
+            }
+            if (inputStr == "Updated")
+            {
+                output = OperationTypes::OperationTypesUpdated;
+                return;
+            }
+            if (inputStr == "Deleted")
+            {
+                output = OperationTypes::OperationTypesDeleted;
+                return;
+            }
+            if (inputStr == "None")
+            {
+                output = OperationTypes::OperationTypesNone;
+                return;
+            }
         }
 
         // Data Classes
@@ -72,12 +107,14 @@ namespace PlayFabInternal
 
         struct AbortFileUploadsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Entity;
             std::list<std::string> FileNames;
             Boxed<Int32> ProfileVersion;
 
             AbortFileUploadsRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 FileNames(),
                 ProfileVersion()
@@ -85,6 +122,7 @@ namespace PlayFabInternal
 
             AbortFileUploadsRequest(const AbortFileUploadsRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 FileNames(src.FileNames),
                 ProfileVersion(src.ProfileVersion)
@@ -94,6 +132,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["FileNames"], FileNames);
                 FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
@@ -102,6 +141,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_FileNames; ToJsonUtilS(FileNames, each_FileNames); output["FileNames"] = each_FileNames;
                 Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
@@ -145,12 +185,14 @@ namespace PlayFabInternal
 
         struct DeleteFilesRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Entity;
             std::list<std::string> FileNames;
             Boxed<Int32> ProfileVersion;
 
             DeleteFilesRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 FileNames(),
                 ProfileVersion()
@@ -158,6 +200,7 @@ namespace PlayFabInternal
 
             DeleteFilesRequest(const DeleteFilesRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 FileNames(src.FileNames),
                 ProfileVersion(src.ProfileVersion)
@@ -167,6 +210,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["FileNames"], FileNames);
                 FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
@@ -175,6 +219,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_FileNames; ToJsonUtilS(FileNames, each_FileNames); output["FileNames"] = each_FileNames;
                 Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
@@ -218,34 +263,44 @@ namespace PlayFabInternal
 
         struct FinalizeFileUploadsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Entity;
             std::list<std::string> FileNames;
+            Int32 ProfileVersion;
 
             FinalizeFileUploadsRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
-                FileNames()
+                FileNames(),
+                ProfileVersion()
             {}
 
             FinalizeFileUploadsRequest(const FinalizeFileUploadsRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
-                FileNames(src.FileNames)
+                FileNames(src.FileNames),
+                ProfileVersion(src.ProfileVersion)
             {}
 
             ~FinalizeFileUploadsRequest() = default;
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["FileNames"], FileNames);
+                FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_FileNames; ToJsonUtilS(FileNames, each_FileNames); output["FileNames"] = each_FileNames;
+                Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
                 return output;
             }
         };
@@ -340,15 +395,18 @@ namespace PlayFabInternal
 
         struct GetFilesRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Entity;
 
             GetFilesRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity()
             {}
 
             GetFilesRequest(const GetFilesRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity)
             {}
 
@@ -356,12 +414,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 return output;
             }
@@ -408,17 +468,20 @@ namespace PlayFabInternal
 
         struct GetObjectsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Entity;
             Boxed<bool> EscapeObject;
 
             GetObjectsRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 EscapeObject()
             {}
 
             GetObjectsRequest(const GetObjectsRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 EscapeObject(src.EscapeObject)
             {}
@@ -427,6 +490,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilP(input["EscapeObject"], EscapeObject);
             }
@@ -434,6 +498,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_EscapeObject; ToJsonUtilP(EscapeObject, each_EscapeObject); output["EscapeObject"] = each_EscapeObject;
                 return output;
@@ -554,12 +619,14 @@ namespace PlayFabInternal
 
         struct InitiateFileUploadsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Entity;
             std::list<std::string> FileNames;
             Boxed<Int32> ProfileVersion;
 
             InitiateFileUploadsRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 FileNames(),
                 ProfileVersion()
@@ -567,6 +634,7 @@ namespace PlayFabInternal
 
             InitiateFileUploadsRequest(const InitiateFileUploadsRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 FileNames(src.FileNames),
                 ProfileVersion(src.ProfileVersion)
@@ -576,6 +644,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["FileNames"], FileNames);
                 FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
@@ -584,6 +653,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_FileNames; ToJsonUtilS(FileNames, each_FileNames); output["FileNames"] = each_FileNames;
                 Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
@@ -715,12 +785,14 @@ namespace PlayFabInternal
 
         struct SetObjectsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Entity;
             Boxed<Int32> ExpectedProfileVersion;
             std::list<SetObject> Objects;
 
             SetObjectsRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 ExpectedProfileVersion(),
                 Objects()
@@ -728,6 +800,7 @@ namespace PlayFabInternal
 
             SetObjectsRequest(const SetObjectsRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 ExpectedProfileVersion(src.ExpectedProfileVersion),
                 Objects(src.Objects)
@@ -737,6 +810,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilP(input["ExpectedProfileVersion"], ExpectedProfileVersion);
                 FromJsonUtilO(input["Objects"], Objects);
@@ -745,6 +819,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_ExpectedProfileVersion; ToJsonUtilP(ExpectedProfileVersion, each_ExpectedProfileVersion); output["ExpectedProfileVersion"] = each_ExpectedProfileVersion;
                 Json::Value each_Objects; ToJsonUtilO(Objects, each_Objects); output["Objects"] = each_Objects;

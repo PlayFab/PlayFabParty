@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef DISABLE_PLAYFABENTITY_API
+#if !defined(DISABLE_PLAYFABENTITY_API)
 
 #include <playfab/PlayFabBaseModel.h>
 #include <playfab/PlayFabJsonHeaders.h>
@@ -18,15 +18,34 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const LeaderboardSortDirection input, Json::Value& output)
         {
-            if (input == LeaderboardSortDirection::LeaderboardSortDirectionDescending) output = Json::Value("Descending");
-            if (input == LeaderboardSortDirection::LeaderboardSortDirectionAscending) output = Json::Value("Ascending");
+            if (input == LeaderboardSortDirection::LeaderboardSortDirectionDescending)
+            {
+                output = Json::Value("Descending");
+                return;
+            }
+            if (input == LeaderboardSortDirection::LeaderboardSortDirectionAscending)
+            {
+                output = Json::Value("Ascending");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, LeaderboardSortDirection& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Descending") output = LeaderboardSortDirection::LeaderboardSortDirectionDescending;
-            if (inputStr == "Ascending") output = LeaderboardSortDirection::LeaderboardSortDirectionAscending;
+            if (inputStr == "Descending")
+            {
+                output = LeaderboardSortDirection::LeaderboardSortDirectionDescending;
+                return;
+            }
+            if (inputStr == "Ascending")
+            {
+                output = LeaderboardSortDirection::LeaderboardSortDirectionAscending;
+                return;
+            }
         }
 
         enum class StatisticAggregationMethod
@@ -39,19 +58,54 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const StatisticAggregationMethod input, Json::Value& output)
         {
-            if (input == StatisticAggregationMethod::StatisticAggregationMethodLast) output = Json::Value("Last");
-            if (input == StatisticAggregationMethod::StatisticAggregationMethodMin) output = Json::Value("Min");
-            if (input == StatisticAggregationMethod::StatisticAggregationMethodMax) output = Json::Value("Max");
-            if (input == StatisticAggregationMethod::StatisticAggregationMethodSum) output = Json::Value("Sum");
+            if (input == StatisticAggregationMethod::StatisticAggregationMethodLast)
+            {
+                output = Json::Value("Last");
+                return;
+            }
+            if (input == StatisticAggregationMethod::StatisticAggregationMethodMin)
+            {
+                output = Json::Value("Min");
+                return;
+            }
+            if (input == StatisticAggregationMethod::StatisticAggregationMethodMax)
+            {
+                output = Json::Value("Max");
+                return;
+            }
+            if (input == StatisticAggregationMethod::StatisticAggregationMethodSum)
+            {
+                output = Json::Value("Sum");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, StatisticAggregationMethod& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Last") output = StatisticAggregationMethod::StatisticAggregationMethodLast;
-            if (inputStr == "Min") output = StatisticAggregationMethod::StatisticAggregationMethodMin;
-            if (inputStr == "Max") output = StatisticAggregationMethod::StatisticAggregationMethodMax;
-            if (inputStr == "Sum") output = StatisticAggregationMethod::StatisticAggregationMethodSum;
+            if (inputStr == "Last")
+            {
+                output = StatisticAggregationMethod::StatisticAggregationMethodLast;
+                return;
+            }
+            if (inputStr == "Min")
+            {
+                output = StatisticAggregationMethod::StatisticAggregationMethodMin;
+                return;
+            }
+            if (inputStr == "Max")
+            {
+                output = StatisticAggregationMethod::StatisticAggregationMethodMax;
+                return;
+            }
+            if (inputStr == "Sum")
+            {
+                output = StatisticAggregationMethod::StatisticAggregationMethodSum;
+                return;
+            }
         }
 
         // Leaderboards Classes
@@ -102,12 +156,14 @@ namespace PlayFabInternal
         struct CreateStatisticDefinitionRequest : public PlayFabRequestCommon
         {
             Boxed<StatisticAggregationMethod> AggregationMethod;
+            std::map<std::string, std::string> CustomTags;
             Boxed<LeaderboardDefinition> pfLeaderboardDefinition;
             std::string Name;
 
             CreateStatisticDefinitionRequest() :
                 PlayFabRequestCommon(),
                 AggregationMethod(),
+                CustomTags(),
                 pfLeaderboardDefinition(),
                 Name()
             {}
@@ -115,6 +171,7 @@ namespace PlayFabInternal
             CreateStatisticDefinitionRequest(const CreateStatisticDefinitionRequest& src) :
                 PlayFabRequestCommon(),
                 AggregationMethod(src.AggregationMethod),
+                CustomTags(src.CustomTags),
                 pfLeaderboardDefinition(src.pfLeaderboardDefinition),
                 Name(src.Name)
             {}
@@ -124,6 +181,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilE(input["AggregationMethod"], AggregationMethod);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["LeaderboardDefinition"], pfLeaderboardDefinition);
                 FromJsonUtilS(input["Name"], Name);
             }
@@ -132,6 +190,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_AggregationMethod; ToJsonUtilE(AggregationMethod, each_AggregationMethod); output["AggregationMethod"] = each_AggregationMethod;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_pfLeaderboardDefinition; ToJsonUtilO(pfLeaderboardDefinition, each_pfLeaderboardDefinition); output["LeaderboardDefinition"] = each_pfLeaderboardDefinition;
                 Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
                 return output;
@@ -140,15 +199,18 @@ namespace PlayFabInternal
 
         struct DeleteStatisticDefinitionRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string Name;
 
             DeleteStatisticDefinitionRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Name()
             {}
 
             DeleteStatisticDefinitionRequest(const DeleteStatisticDefinitionRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Name(src.Name)
             {}
 
@@ -156,12 +218,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["Name"], Name);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
                 return output;
             }
@@ -242,12 +306,14 @@ namespace PlayFabInternal
 
         struct DeleteStatisticsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<EntityKey> Entity;
             Boxed<Int32> ExpectedProfileVersion;
             std::list<StatisticDelete> Statistics;
 
             DeleteStatisticsRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 ExpectedProfileVersion(),
                 Statistics()
@@ -255,6 +321,7 @@ namespace PlayFabInternal
 
             DeleteStatisticsRequest(const DeleteStatisticsRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 ExpectedProfileVersion(src.ExpectedProfileVersion),
                 Statistics(src.Statistics)
@@ -264,6 +331,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilP(input["ExpectedProfileVersion"], ExpectedProfileVersion);
                 FromJsonUtilO(input["Statistics"], Statistics);
@@ -272,6 +340,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_ExpectedProfileVersion; ToJsonUtilP(ExpectedProfileVersion, each_ExpectedProfileVersion); output["ExpectedProfileVersion"] = each_ExpectedProfileVersion;
                 Json::Value each_Statistics; ToJsonUtilO(Statistics, each_Statistics); output["Statistics"] = each_Statistics;
@@ -546,6 +615,7 @@ namespace PlayFabInternal
         struct GetEntityLeaderboardRequest : public PlayFabRequestCommon
         {
             std::string ChildName;
+            std::map<std::string, std::string> CustomTags;
             std::string EntityType;
             Uint32 MaxResults;
             Boxed<Uint32> StartingPosition;
@@ -555,6 +625,7 @@ namespace PlayFabInternal
             GetEntityLeaderboardRequest() :
                 PlayFabRequestCommon(),
                 ChildName(),
+                CustomTags(),
                 EntityType(),
                 MaxResults(),
                 StartingPosition(),
@@ -565,6 +636,7 @@ namespace PlayFabInternal
             GetEntityLeaderboardRequest(const GetEntityLeaderboardRequest& src) :
                 PlayFabRequestCommon(),
                 ChildName(src.ChildName),
+                CustomTags(src.CustomTags),
                 EntityType(src.EntityType),
                 MaxResults(src.MaxResults),
                 StartingPosition(src.StartingPosition),
@@ -577,6 +649,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["ChildName"], ChildName);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["EntityType"], EntityType);
                 FromJsonUtilP(input["MaxResults"], MaxResults);
                 FromJsonUtilP(input["StartingPosition"], StartingPosition);
@@ -588,6 +661,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_ChildName; ToJsonUtilS(ChildName, each_ChildName); output["ChildName"] = each_ChildName;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_EntityType; ToJsonUtilS(EntityType, each_EntityType); output["EntityType"] = each_EntityType;
                 Json::Value each_MaxResults; ToJsonUtilP(MaxResults, each_MaxResults); output["MaxResults"] = each_MaxResults;
                 Json::Value each_StartingPosition; ToJsonUtilP(StartingPosition, each_StartingPosition); output["StartingPosition"] = each_StartingPosition;
@@ -634,6 +708,7 @@ namespace PlayFabInternal
         struct GetLeaderboardAroundEntityRequest : public PlayFabRequestCommon
         {
             std::string ChildName;
+            std::map<std::string, std::string> CustomTags;
             Boxed<EntityKey> Entity;
             Uint32 Offset;
             std::string StatisticName;
@@ -642,6 +717,7 @@ namespace PlayFabInternal
             GetLeaderboardAroundEntityRequest() :
                 PlayFabRequestCommon(),
                 ChildName(),
+                CustomTags(),
                 Entity(),
                 Offset(),
                 StatisticName(),
@@ -651,6 +727,7 @@ namespace PlayFabInternal
             GetLeaderboardAroundEntityRequest(const GetLeaderboardAroundEntityRequest& src) :
                 PlayFabRequestCommon(),
                 ChildName(src.ChildName),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 Offset(src.Offset),
                 StatisticName(src.StatisticName),
@@ -662,6 +739,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["ChildName"], ChildName);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilP(input["Offset"], Offset);
                 FromJsonUtilS(input["StatisticName"], StatisticName);
@@ -672,6 +750,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_ChildName; ToJsonUtilS(ChildName, each_ChildName); output["ChildName"] = each_ChildName;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_Offset; ToJsonUtilP(Offset, each_Offset); output["Offset"] = each_Offset;
                 Json::Value each_StatisticName; ToJsonUtilS(StatisticName, each_StatisticName); output["StatisticName"] = each_StatisticName;
@@ -683,6 +762,7 @@ namespace PlayFabInternal
         struct GetLeaderboardForEntitiesRequest : public PlayFabRequestCommon
         {
             std::string ChildName;
+            std::map<std::string, std::string> CustomTags;
             std::list<std::string> Entities;
             std::string EntityType;
             std::string StatisticName;
@@ -691,6 +771,7 @@ namespace PlayFabInternal
             GetLeaderboardForEntitiesRequest() :
                 PlayFabRequestCommon(),
                 ChildName(),
+                CustomTags(),
                 Entities(),
                 EntityType(),
                 StatisticName(),
@@ -700,6 +781,7 @@ namespace PlayFabInternal
             GetLeaderboardForEntitiesRequest(const GetLeaderboardForEntitiesRequest& src) :
                 PlayFabRequestCommon(),
                 ChildName(src.ChildName),
+                CustomTags(src.CustomTags),
                 Entities(src.Entities),
                 EntityType(src.EntityType),
                 StatisticName(src.StatisticName),
@@ -711,6 +793,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["ChildName"], ChildName);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["Entities"], Entities);
                 FromJsonUtilS(input["EntityType"], EntityType);
                 FromJsonUtilS(input["StatisticName"], StatisticName);
@@ -721,6 +804,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_ChildName; ToJsonUtilS(ChildName, each_ChildName); output["ChildName"] = each_ChildName;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entities; ToJsonUtilS(Entities, each_Entities); output["Entities"] = each_Entities;
                 Json::Value each_EntityType; ToJsonUtilS(EntityType, each_EntityType); output["EntityType"] = each_EntityType;
                 Json::Value each_StatisticName; ToJsonUtilS(StatisticName, each_StatisticName); output["StatisticName"] = each_StatisticName;
@@ -731,15 +815,18 @@ namespace PlayFabInternal
 
         struct GetStatisticDefinitionRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string Name;
 
             GetStatisticDefinitionRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Name()
             {}
 
             GetStatisticDefinitionRequest(const GetStatisticDefinitionRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Name(src.Name)
             {}
 
@@ -747,12 +834,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["Name"], Name);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
                 return output;
             }
@@ -814,24 +903,29 @@ namespace PlayFabInternal
 
         struct GetStatisticDefinitionsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
 
             GetStatisticDefinitionsRequest() :
-                PlayFabRequestCommon()
+                PlayFabRequestCommon(),
+                CustomTags()
             {}
 
-            GetStatisticDefinitionsRequest(const GetStatisticDefinitionsRequest&) :
-                PlayFabRequestCommon()
+            GetStatisticDefinitionsRequest(const GetStatisticDefinitionsRequest& src) :
+                PlayFabRequestCommon(),
+                CustomTags(src.CustomTags)
             {}
 
             ~GetStatisticDefinitionsRequest() = default;
 
-            void FromJson(const Json::Value&) override
+            void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 return output;
             }
         };
@@ -921,15 +1015,18 @@ namespace PlayFabInternal
 
         struct IncrementStatisticVersionRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string Name;
 
             IncrementStatisticVersionRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Name()
             {}
 
             IncrementStatisticVersionRequest(const IncrementStatisticVersionRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Name(src.Name)
             {}
 
@@ -937,12 +1034,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["Name"], Name);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
                 return output;
             }
@@ -951,7 +1050,7 @@ namespace PlayFabInternal
         struct IncrementStatisticVersionResponse : public PlayFabResultCommon
         {
             Uint32 Version;
-            Uint32 VersionToBeDeleted;
+            Boxed<Uint32> VersionToBeDeleted;
 
             IncrementStatisticVersionResponse() :
                 PlayFabResultCommon(),
@@ -1031,91 +1130,9 @@ namespace PlayFabInternal
             }
         };
 
-        struct UpdateLeaderboardDefinition : public PlayFabBaseModel
-        {
-            std::list<std::string> ChildLeaderboardNames;
-            Boxed<Uint32> DynamicChildLeaderboardMaxSize;
-            bool ProvisionLeaderboard;
-
-            UpdateLeaderboardDefinition() :
-                PlayFabBaseModel(),
-                ChildLeaderboardNames(),
-                DynamicChildLeaderboardMaxSize(),
-                ProvisionLeaderboard()
-            {}
-
-            UpdateLeaderboardDefinition(const UpdateLeaderboardDefinition& src) :
-                PlayFabBaseModel(),
-                ChildLeaderboardNames(src.ChildLeaderboardNames),
-                DynamicChildLeaderboardMaxSize(src.DynamicChildLeaderboardMaxSize),
-                ProvisionLeaderboard(src.ProvisionLeaderboard)
-            {}
-
-            ~UpdateLeaderboardDefinition() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["ChildLeaderboardNames"], ChildLeaderboardNames);
-                FromJsonUtilP(input["DynamicChildLeaderboardMaxSize"], DynamicChildLeaderboardMaxSize);
-                FromJsonUtilP(input["ProvisionLeaderboard"], ProvisionLeaderboard);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_ChildLeaderboardNames; ToJsonUtilS(ChildLeaderboardNames, each_ChildLeaderboardNames); output["ChildLeaderboardNames"] = each_ChildLeaderboardNames;
-                Json::Value each_DynamicChildLeaderboardMaxSize; ToJsonUtilP(DynamicChildLeaderboardMaxSize, each_DynamicChildLeaderboardMaxSize); output["DynamicChildLeaderboardMaxSize"] = each_DynamicChildLeaderboardMaxSize;
-                Json::Value each_ProvisionLeaderboard; ToJsonUtilP(ProvisionLeaderboard, each_ProvisionLeaderboard); output["ProvisionLeaderboard"] = each_ProvisionLeaderboard;
-                return output;
-            }
-        };
-
-        struct UpdateStatisticDefinitionRequest : public PlayFabRequestCommon
-        {
-            Boxed<StatisticAggregationMethod> AggregationMethod;
-            Boxed<UpdateLeaderboardDefinition> LeaderboardDefinition;
-            std::string Name;
-            std::string NewName;
-
-            UpdateStatisticDefinitionRequest() :
-                PlayFabRequestCommon(),
-                AggregationMethod(),
-                LeaderboardDefinition(),
-                Name(),
-                NewName()
-            {}
-
-            UpdateStatisticDefinitionRequest(const UpdateStatisticDefinitionRequest& src) :
-                PlayFabRequestCommon(),
-                AggregationMethod(src.AggregationMethod),
-                LeaderboardDefinition(src.LeaderboardDefinition),
-                Name(src.Name),
-                NewName(src.NewName)
-            {}
-
-            ~UpdateStatisticDefinitionRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilE(input["AggregationMethod"], AggregationMethod);
-                FromJsonUtilO(input["LeaderboardDefinition"], LeaderboardDefinition);
-                FromJsonUtilS(input["Name"], Name);
-                FromJsonUtilS(input["NewName"], NewName);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_AggregationMethod; ToJsonUtilE(AggregationMethod, each_AggregationMethod); output["AggregationMethod"] = each_AggregationMethod;
-                Json::Value each_LeaderboardDefinition; ToJsonUtilO(LeaderboardDefinition, each_LeaderboardDefinition); output["LeaderboardDefinition"] = each_LeaderboardDefinition;
-                Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
-                Json::Value each_NewName; ToJsonUtilS(NewName, each_NewName); output["NewName"] = each_NewName;
-                return output;
-            }
-        };
-
         struct UpdateStatisticsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<EntityKey> Entity;
             std::string EntityLeaderboardMetadata;
             Boxed<Int32> ExpectedProfileVersion;
@@ -1124,6 +1141,7 @@ namespace PlayFabInternal
 
             UpdateStatisticsRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 EntityLeaderboardMetadata(),
                 ExpectedProfileVersion(),
@@ -1133,6 +1151,7 @@ namespace PlayFabInternal
 
             UpdateStatisticsRequest(const UpdateStatisticsRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 EntityLeaderboardMetadata(src.EntityLeaderboardMetadata),
                 ExpectedProfileVersion(src.ExpectedProfileVersion),
@@ -1144,6 +1163,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["EntityLeaderboardMetadata"], EntityLeaderboardMetadata);
                 FromJsonUtilP(input["ExpectedProfileVersion"], ExpectedProfileVersion);
@@ -1154,6 +1174,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_EntityLeaderboardMetadata; ToJsonUtilS(EntityLeaderboardMetadata, each_EntityLeaderboardMetadata); output["EntityLeaderboardMetadata"] = each_EntityLeaderboardMetadata;
                 Json::Value each_ExpectedProfileVersion; ToJsonUtilP(ExpectedProfileVersion, each_ExpectedProfileVersion); output["ExpectedProfileVersion"] = each_ExpectedProfileVersion;

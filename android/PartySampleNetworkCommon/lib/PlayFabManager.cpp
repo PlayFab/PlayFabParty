@@ -7,6 +7,8 @@
 #include "playfab/PlayFabAuthenticationApi.h"
 #include "playfab/PlayFabMultiplayerApi.h"
 #include "playfab/PlayFabDataApi.h"
+#include "playfab/PlayFabApiSettings.h"
+#include "playfab/PlayFabAuthenticationContext.h"
 
 using namespace PartySample;
 #ifdef USE_PUBLIC_PLAYFAB_SDK
@@ -33,9 +35,9 @@ void PlayFabManager::Initialize(
 }
 
 // Authenticate the user with playfab using the specified custom id and setting the display name to that id.
-void 
+void
 PlayFabManager::SignIn(
-    std::function<void(bool, std::string&)> callback, 
+    std::function<void(bool, std::string&)> callback,
     std::string userId
     )
 {
@@ -140,7 +142,7 @@ PlayFabManager::SignIn(
 }
 
 // Update the internal APIs
-void 
+void
 PlayFabManager::Tick()
 {
     PlayFabClientAPI::Update();
@@ -148,46 +150,42 @@ PlayFabManager::Tick()
     PlayFabDataAPI::Update();
 }
 
-void 
+void
 PlayFabManager::onSetDescriptorSuccess(
-    ExecuteCloudScriptResult& response, 
+    ExecuteCloudScriptResult& response,
     void* customData
     )
 {
     // Log success to standard output
-    DEBUGLOG("Success setting object\n");
+    DEBUGLOG("Success setting NetworkDescriptor with cloudscript\n");
 
     // Send a message to the chat window indicating succeess
-    std::string sender("System");
-    std::string message("Network data saved.");
-    Managers::Get<INetworkStateChangeManager>()->ProcessTextMessage(sender, message);
+    Managers::Get<INetworkStateChangeManager>()->ProcessStatusMessage("System", "Network data saved.");
 
     // Call the callback function.
     m_onCompletedSettingDescriptor();
 }
 
-void 
+void
 PlayFabManager::onSetDescriptorFailed(
-    const PlayFab::PlayFabError&, 
+    const PlayFab::PlayFabError&,
     void* customData
     )
 {
     // Log the failure to standard output.
-    DEBUGLOG("Fail setting object\n");
+    DEBUGLOG("Failed setting NetworkDescriptor with cloudscript\n");
 
     //Send a message to the chat window indicating failure.
-    std::string sender("System");
-    std::string message("Failed to set network.");
-    Managers::Get<INetworkStateChangeManager>()->ProcessTextMessage(sender, message);
+    Managers::Get<INetworkStateChangeManager>()->ProcessStatusMessage("System", "Failed to set network.");
 
     // Call the callback function.
     m_onCompletedSettingDescriptor();
 }
 
 // Static callback function to pass the response to the PlayFabManager class.
-void 
+void
 onSetDescriptorSuccessCallback(
-    ExecuteCloudScriptResult result, 
+    ExecuteCloudScriptResult result,
     void* customData
     )
 {
@@ -195,19 +193,19 @@ onSetDescriptorSuccessCallback(
 }
 
 // Static callback function to pass the response to the PlayFabManager class.
-void 
+void
 onSetDescriptorFailCallback(
-    const PlayFab::PlayFabError& error, 
+    const PlayFab::PlayFabError& error,
     void* customData
     )
 {
     Managers::Get<PlayFabManager>()->onSetDescriptorFailed(error, customData);
 }
 
-void 
+void
 PartySample::PlayFabManager::SetDescriptor(
-    std::string key, 
-    std::string descriptor, 
+    std::string key,
+    std::string descriptor,
     std::function<void()> onComplete
     )
 {
@@ -224,19 +222,15 @@ PartySample::PlayFabManager::SetDescriptor(
     request.FunctionParameter = param;
 
     // Put a message in the chat window indicating that the descriptor is being saved
-    char messageBuffer[500];
-    sprintf(messageBuffer, "Saving out network data: %s.", descriptor.c_str());
-    std::string sender("System");
-    std::string message(messageBuffer);
-    Managers::Get<INetworkStateChangeManager>()->ProcessTextMessage(sender, message);
+    Managers::Get<INetworkStateChangeManager>()->ProcessStatusMessage("System", "Saving out network data: " + descriptor + ".");
 
     // Execute the above cloud script.
     PlayFabClientAPI::ExecuteCloudScript(request, onSetDescriptorSuccessCallback, onSetDescriptorFailCallback);
 }
 
-void 
+void
 PartySample::PlayFabManager::onGetDescriptorSuccess(
-    ExecuteCloudScriptResult& result, 
+    ExecuteCloudScriptResult& result,
     void* customData
     )
 {
@@ -250,9 +244,7 @@ PartySample::PlayFabManager::onGetDescriptorSuccess(
         if (m_onCompletedGettingDescriptor != nullptr)
         {
             // Send an error message to the chat window.
-            std::string sender("System");
-            std::string message("No network id found.");
-            Managers::Get<INetworkStateChangeManager>()->ProcessTextMessage(sender, message);
+            Managers::Get<INetworkStateChangeManager>()->ProcessStatusMessage("System", "No network id found.");
 
             // Call the callback with an empty network descriptor to indicate an error.
             m_onCompletedGettingDescriptor(networkDescriptor);
@@ -266,9 +258,7 @@ PartySample::PlayFabManager::onGetDescriptorSuccess(
             if (m_onCompletedGettingDescriptor != nullptr)
             {
                 // Send an error message to the chat window.
-                std::string sender("System");
-                std::string message("No network id found.");
-                Managers::Get<INetworkStateChangeManager>()->ProcessTextMessage(sender, message);
+                Managers::Get<INetworkStateChangeManager>()->ProcessStatusMessage("System", "No network id found.");
 
                 // Call the callback with an empty network descriptor to indicate an error.
                 m_onCompletedGettingDescriptor(networkDescriptor);
@@ -280,14 +270,10 @@ PartySample::PlayFabManager::onGetDescriptorSuccess(
             {
                 // Get the network descriptor from the result data.
                 networkDescriptor = result.FunctionResult["network"]["Value"].asString();
-                DEBUGLOG("Success getting object: %s\n", networkDescriptor.c_str());
+                DEBUGLOG("Success getting NetworkDescriptor from cloudscript: %s\n", networkDescriptor.c_str());
 
                 // Send the network descriptor to the chat window.
-                char messageBuffer[500];
-                sprintf(messageBuffer, "Network found: %s.", networkDescriptor.c_str());
-                std::string sender("System");
-                std::string message(messageBuffer);
-                Managers::Get<INetworkStateChangeManager>()->ProcessTextMessage(sender, message);
+                Managers::Get<INetworkStateChangeManager>()->ProcessStatusMessage("System", "Network found: " + networkDescriptor + ".");
 
                 // Call the callback with the retrieved network descriptor.
                 m_onCompletedGettingDescriptor(networkDescriptor);
@@ -296,19 +282,17 @@ PartySample::PlayFabManager::onGetDescriptorSuccess(
     }
 }
 
-void  
+void
 PartySample::PlayFabManager::onGetDescriptorFail(
-    const PlayFab::PlayFabError& error, 
+    const PlayFab::PlayFabError& error,
     void* customData
     )
 {
     // Post a system message indicating failure to the chat window.
-    std::string sender("System");
-    std::string message("Failed to get network.");
-    Managers::Get<INetworkStateChangeManager>()->ProcessTextMessage(sender, message);
+    Managers::Get<INetworkStateChangeManager>()->ProcessStatusMessage("System", "Failed to get network.");
 
     // Log the failure.
-    DEBUGLOG("Fail setting object\n");
+    DEBUGLOG("Failed getting NetworkDescriptor from cloudscript\n");
 
     //Call the completion callback with an empty string to indicate failure.
     std::string result;
@@ -316,9 +300,9 @@ PartySample::PlayFabManager::onGetDescriptorFail(
 }
 
 // Static callback for getting the success callback for the network descriptor and passing it to the manager class.
-void 
-onGetObjectSuccessCallback(
-    ExecuteCloudScriptResult response, 
+void
+onGetNetworkDescriptorSuccessCallback(
+    ExecuteCloudScriptResult response,
     void* customData
     )
 {
@@ -326,18 +310,18 @@ onGetObjectSuccessCallback(
 }
 
 // Static callback to receive the failed callback for getting the network descriptor and passing it to the manager class.
-void 
-onGetObjectFailCallback(
-    const PlayFab::PlayFabError& error, 
+void
+onGetNetworkDescriptorFailCallback(
+    const PlayFab::PlayFabError& error,
     void* customData
     )
 {
     Managers::Get<PlayFabManager>()->onGetDescriptorFail(error, customData);
 }
 
-void 
+void
 PartySample::PlayFabManager::GetDescriptor(
-    std::string key, 
+    std::string key,
     std::function<void(std::string)> onComplete
     )
 {
@@ -354,5 +338,5 @@ PartySample::PlayFabManager::GetDescriptor(
     request.FunctionParameter = param;
 
     //Execute the cloud script.
-    PlayFabClientAPI::ExecuteCloudScript(request, onGetObjectSuccessCallback, onGetObjectFailCallback);
+    PlayFabClientAPI::ExecuteCloudScript(request, onGetNetworkDescriptorSuccessCallback, onGetNetworkDescriptorFailCallback);
 }

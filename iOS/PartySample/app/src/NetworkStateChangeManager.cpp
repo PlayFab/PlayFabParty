@@ -14,31 +14,43 @@ NetworkStateChangeManager::SetNetworkMessageHandler(
 }
 
 void
-NetworkStateChangeManager::onPlayerLeft(
-    PartyString playerId
+NetworkStateChangeManager::ProcessStatusMessage(
+    const std::string& system,
+    const std::string& message
     )
 {
-    std::string userName = GetUserName(playerId);
+    // Route status messages as fake text messages so they show up in the chat window.
     assert(m_handler != nullptr);
-    m_handler->OnPlayerLeft(userName);
-    m_userMap.erase(playerId);
+    m_handler->OnTextMessageReceived(system, message, false);
 }
 
 void
-NetworkStateChangeManager::ProcessEndpointMessage(
-    std::string &sender, 
-    std::string &message)
+NetworkStateChangeManager::ProcessPlayerJoined(
+    const std::string& playerEntityId,
+    const std::string& displayName
+    )
 {
-    m_userMap.emplace(sender, message);
+    m_userMap.emplace(playerEntityId, displayName);
     assert(m_handler != nullptr);
-    m_handler->OnPlayerJoin(message);
+    m_handler->OnPlayerJoin(displayName);
+}
+
+void
+NetworkStateChangeManager::ProcessPlayerLeft(
+    const std::string& playerEntityId
+    )
+{
+    std::string userName = GetUserName(playerEntityId);
+    assert(m_handler != nullptr);
+    m_handler->OnPlayerLeft(userName);
+    m_userMap.erase(playerEntityId);
 }
 
 // Called when a text chat message is sent to the chat control.
 void
 NetworkStateChangeManager::ProcessTextMessage(
-    std::string &sender, 
-    std::string &message
+    const std::string& sender,
+    const std::string& message
     )
 {
     assert(m_handler != nullptr);
@@ -49,8 +61,8 @@ NetworkStateChangeManager::ProcessTextMessage(
 // Called when a voice transcription is sent to the chat control.
 void
 NetworkStateChangeManager::ProcessVoiceMessage(
-    std::string &sender, 
-    std::string &message
+    const std::string& sender,
+    const std::string& message
     )
 {
     assert(m_handler != nullptr);
@@ -58,6 +70,25 @@ NetworkStateChangeManager::ProcessVoiceMessage(
     m_handler->OnTextMessageReceived(userName, message, true);
 }
 
+// Called when a local chat indicator changes
+void
+NetworkStateChangeManager::ProcessLocalChatIndicatorChange(
+    const std::string&,
+    Party::PartyLocalChatControlChatIndicator
+    )
+{
+    // noop. iOS doesn't currently use this for exposing chat indicator changes.
+}
+
+// Called when a remote chat indicator changes
+void
+NetworkStateChangeManager::ProcessRemoteChatIndicatorChange(
+    const std::string&,
+    Party::PartyChatControlChatIndicator
+    )
+{
+    // noop. iOS doesn't currently use this for exposing chat indicator changes.
+}
 
 std::map<const std::string, const std::string>*
 NetworkStateChangeManager::GetUserMap()

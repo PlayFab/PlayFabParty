@@ -1,4 +1,4 @@
-
+#include "pch.h"
 #include "LanguageOptions.h"
 
 // Supported languages:
@@ -6,7 +6,7 @@
 
 using namespace PartySample;
 
-const char* LanguageOptions::s_languageCodes[] = 
+const char* LanguageOptions::s_languageCodes[] =
 {
     "ar-EG",
     "ca-ES",
@@ -46,7 +46,7 @@ const int LanguageOptions::s_defaultLanguageIndex = 12;
 const char* LanguageOptions::s_languageNames[LanguageOptions::s_numberOfLanguages] =
 {
     "Arabic (Egypt)",
-    "Catalan (Spain)",
+    "Catalan",
     "Chinese (Mandarin, Simplified)",
     "Chinese (Cantonese, Traditional)",
     "Chinese (Taiwanese Mandarin)",

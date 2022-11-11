@@ -132,20 +132,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkPermissions() {
-        requestPermission(Manifest.permission.RECORD_AUDIO, AUDIO_PERMISSION_REQUEST_CODE);
+        requestPermission(new String[] {
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.MODIFY_AUDIO_SETTINGS },
+                AUDIO_PERMISSION_REQUEST_CODE
+        );
     }
 
-    public void requestPermission(String permission, int requestCode) {
-        if (!hasPermission(permission)) {
-            hasPermission = false;
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
-                Toast.makeText(this, "Please grant audio permission for app", Toast.LENGTH_LONG).show();
+    public void requestPermission(String[] permission, int requestCode ) {
+        hasPermission = true;
+        for (String p : permission) {
+            if (!hasPermission(p)) {
+                hasPermission = false;
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, p)) {
+                    Toast.makeText(this, "Missing Permission: " + p, Toast.LENGTH_SHORT).show();
+                }
             }
+        }
+
+        if (!hasPermission) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{permission},
+                    permission,
                     requestCode);
-        } else {
-            hasPermission = true;
         }
     }
 

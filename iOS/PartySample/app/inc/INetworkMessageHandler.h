@@ -34,7 +34,7 @@ public:
     virtual
     void
     OnPlayerJoin(
-         std::string &playerId
+         const std::string &playerId
          ) = 0;
     
     virtual
@@ -61,8 +61,8 @@ public:
     virtual
     void
     OnTextMessageReceived(
-        std::string &senderId,
-        std::string &message,
+        const std::string &senderId,
+        const std::string &message,
         bool isTranscript
         ) = 0;
 

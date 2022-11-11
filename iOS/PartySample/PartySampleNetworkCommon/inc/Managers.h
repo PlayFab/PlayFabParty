@@ -18,13 +18,13 @@ namespace PartySample
         // Initializes the main managers for networking.
         // Also aliases the implementation for the INetworkStateChangeManager
         // for internal use and external use.
-        template<class T>
+        template<class TNetworkStateChangeManager>
         static void Initialize()
         {
             RegisterNewManager<NetworkManager>();
             RegisterNewManager<PlayFabManager>();
-            RegisterNewManager<T>();
-            RegisterInterface<INetworkStateChangeManager, T>();
+            RegisterNewManager<TNetworkStateChangeManager>();
+            RegisterInterface<INetworkStateChangeManager, TNetworkStateChangeManager>();
         }
 
         // Creates a manager and adds it to local storage for easy access through Get.

@@ -4,30 +4,50 @@ public:
 
     NetworkStateChangeManager();
 
-    // Called when a chat control has been destroyed
-    void onPlayerLeft(
-        PartyString playerId
-        );
-
-    // Called when an endpoint message is received from another chat control.
-    // Used to send the user display name to other chat controls. Replaces the onPlayerJoin functionality.
+    // Called when a status message should be displayed to the user.
     void
-    ProcessEndpointMessage(
-        std::string& sender,
-        std::string& message
-        );
+    ProcessStatusMessage(
+        const std::string& system,
+        const std::string& message
+        ) override;
+
+    // Called when a player shares their display name with other players in the network.
+    void
+    ProcessPlayerJoined(
+        const std::string& playerEntityId,
+        const std::string& displayName
+        ) override;
+
+    // Called when a chat control has been destroyed
+    void ProcessPlayerLeft(
+        const std::string& playerEntityId
+        ) override;
 
     // Called when a text chat message is sent to the chat control.
     void ProcessTextMessage(
-        std::string& sender,
-        std::string &message
-        );
+        const std::string& sender,
+        const std::string& message
+        ) override;
 
     // Called when a voice transcription is sent to the chat control.
     void ProcessVoiceMessage(
-        std::string& sender,
-        std::string &message
-        );
+        const std::string& sender,
+        const std::string& message
+        ) override;
+
+    // Called when a local chat indicator changes
+    void
+    ProcessLocalChatIndicatorChange(
+        const std::string& playerEntityId,
+        Party::PartyLocalChatControlChatIndicator chatIndicator
+        ) override;
+
+    // Called when a remote chat indicator changes
+    void
+    ProcessRemoteChatIndicatorChange(
+        const std::string& playerEntityId,
+        Party::PartyChatControlChatIndicator chatIndicator
+        ) override;
 
     std::map<const std::string, const std::string>*
     GetUserMap();

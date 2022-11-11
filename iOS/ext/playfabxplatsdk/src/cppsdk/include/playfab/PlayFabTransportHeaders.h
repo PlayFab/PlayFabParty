@@ -6,11 +6,11 @@
 
 #include <playfab/PlayFabPlatformMacros.h>
 
-#if defined(PLAYFAB_PLATFORM_XBOX) || defined(BUMBLELION_UWP)
+#if defined(PLAYFAB_PLATFORM_XBOX)  || defined(PLAYFAB_PLATFORM_UWP)
 #include <playfab/PlayFabIXHR2HttpPlugin.h>
 #endif // PLAYFAB_PLATFORM_XBOX
 
-#if defined(PLAYFAB_PLATFORM_WINDOWS) && !defined(BUMBLELION_UWP)
+#if defined(PLAYFAB_PLATFORM_WINDOWS) && !defined(PLAYFAB_PLATFORM_UWP)
 #include <playfab/PlayFabWinHttpPlugin.h>
 #endif // PLAYFAB_PLATFORM_WINDOWS
 
@@ -18,9 +18,9 @@
 #include <playfab/PlayFabCurlHttpPlugin.h>
 #endif // PLAYFAB_PLATFORM_LINUX
 
-#ifdef PLAYFAB_PLATFORM_IOS
+#if defined(PLAYFAB_PLATFORM_IOS) || defined(PLAYFAB_PLATFORM_MACOS)
 #include <playfab/PlayFabIOSHttpPlugin.h>
-#endif // PLAYFAB_PLATFORM_IOS
+#endif // PLAYFAB_PLATFORM_IOS || PLAYFAB_PLATFORM_MACOS
 
 #ifdef PLAYFAB_PLATFORM_ANDROID
 #include <playfab/PlayFabAndroidHttpPlugin.h>

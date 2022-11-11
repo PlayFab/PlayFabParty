@@ -6,23 +6,28 @@
 
 namespace PartySample
 {
-    
     class INetworkStateChangeManager : public Manager
     {
     public:
-        // Called when a chat control has been destroyed
-        virtual void onPlayerLeft(PartyString playerId) = 0;
-        
-        // Called when an endpoint message is received from another chat control.
-        // Used to send the user display name to other chat controls. Replaces the onPlayerJoin functionality.
-        virtual void ProcessEndpointMessage(std::string& sender, std::string& message) = 0;
-        
-        // Called when a text chat message is sent to the chat control.
-        virtual void ProcessTextMessage(std::string& sender, std::string &message) = 0;
-        
-        // Called when a voice transcription is sent to the chat control.
-        virtual void ProcessVoiceMessage(std::string& sender, std::string &message) = 0;
-    };
-    
-}
+        // Called when a status message should be displayed to the user.
+        virtual void ProcessStatusMessage(const std::string& system, const std::string& message) = 0;
 
+        // Called when a player shares their display name with other players in the network.
+        virtual void ProcessPlayerJoined(const std::string& playerEntityId, const std::string& displayName) = 0;
+
+        // Called when a chat control has been destroyed
+        virtual void ProcessPlayerLeft(const std::string& playerEntityId) = 0;
+
+        // Called when a text chat message is sent to the chat control.
+        virtual void ProcessTextMessage(const std::string& sender, const std::string& message) = 0;
+
+        // Called when a voice transcription is sent to the chat control.
+        virtual void ProcessVoiceMessage(const std::string& sender, const std::string& message) = 0;
+
+        // Called when a local chat indicator changes
+        virtual void ProcessLocalChatIndicatorChange(const std::string& playerEntityId, Party::PartyLocalChatControlChatIndicator chatIndicator) = 0;
+
+        // Called when a remote chat indicator changes
+        virtual void ProcessRemoteChatIndicatorChange(const std::string& playerEntityId, Party::PartyChatControlChatIndicator chatIndicator) = 0;
+    };
+}

@@ -28,9 +28,9 @@ NetworkManager::~NetworkManager()
     DEBUGLOG("NetworkManager::~NetworkManager()\n");
 }
 
-void 
+void
 NetworkManager::SetLanguageCode(
-    const char* lang, 
+    const char* lang,
     const char* name
     )
 {
@@ -59,7 +59,7 @@ NetworkManager::SetLanguageCode(
     }
 }
 
-void 
+void
 NetworkManager::Initialize(
     const char* titleId
     )
@@ -104,7 +104,7 @@ NetworkManager::Initialize(
     }
 }
 
-void 
+void
 NetworkManager::Shutdown()
 {
     DEBUGLOG("NetworkManager::Shutdown()\n");
@@ -157,10 +157,10 @@ NetworkManager::SetPlayerVolume(
     }
 }
 
-void 
+void
 NetworkManager::CreateAndConnectToNetwork(
-    const char *networkId, 
-    std::function<void(std::string)> callback, 
+    const char* networkId,
+    std::function<void(std::string)> callback,
     std::function<void(PartyError)> errorCallback
     )
 {
@@ -181,7 +181,7 @@ NetworkManager::CreateAndConnectToNetwork(
 
     if (PARTY_FAILED(err))
     {
-        DEBUGLOG("GetUserIdentifier failed: %s\n", GetErrorMessage(err));
+        DEBUGLOG("GetEntityId failed: %s\n", GetErrorMessage(err));
         errorCallback(err);
         return;
     }
@@ -226,11 +226,11 @@ NetworkManager::CreateAndConnectToNetwork(
     }
 }
 
-void 
+void
 NetworkManager::ConnectToNetwork(
-    const char *networkId, 
-    const char* descriptor, 
-    std::function<void(void)> callback, 
+    const char* networkId,
+    const char* descriptor,
+    std::function<void(void)> callback,
     std::function<void(PartyError)> errorCallback
     )
 {
@@ -362,8 +362,8 @@ NetworkManager::CreateChatControlIfNecessary()
 
 bool
 NetworkManager::InternalConnectToNetwork(
-    const Party::PartyNetworkDescriptor& descriptor, 
-    const char *networkId,
+    const Party::PartyNetworkDescriptor& descriptor,
+    const char* networkId,
     std::function<void(PartyError)> errorCallback
     )
 {
@@ -439,9 +439,11 @@ NetworkManager::InternalConnectToNetwork(
     return true;
 }
 
-void 
+void
 NetworkManager::SendNetworkMessage(
-    const NetworkMessage & message
+    uint32_t targetCount,
+    PartyEndpoint** targets,
+    const NetworkMessage& message
     )
 {
     if (m_localEndpoint && m_state == NetworkManagerState::NetworkConnected)
@@ -463,8 +465,8 @@ NetworkManager::SendNetworkMessage(
 
         // Send out the message to all other peers
         PartyError err = m_localEndpoint->SendMessage(
-            0,                                      // endpoint count; 0 = broadcast
-            nullptr,                                // endpoint list
+            targetCount,                            // endpoint count; 0 = broadcast
+            targets,                                // endpoint list
             deliveryOptions,                        // send message options
             nullptr,                                // configuration
             1,                                      // buffer count
@@ -479,26 +481,37 @@ NetworkManager::SendNetworkMessage(
     }
 }
 
-void 
+void
+NetworkManager::BroadcastNetworkMessage(
+    const NetworkMessage& message
+    )
+{
+    SendNetworkMessage(0, nullptr, message);
+}
+
+void
 NetworkManager::SendTextAsVoice(
     std::string text
     )
 {
-    if (m_localChatControl != nullptr)
+    // Only synthesize TTS voice if we've got a local chat control
+    if (m_localChatControl == nullptr)
     {
-        DEBUGLOG("Requesting transcription of: %s\n", text.c_str());
+        DEBUGLOG("Info: Can't SynthesizeTextToSpeech. No local chat control.");
+        return;
+    }
 
-        // Synthesize the text to speech.
-        PartyError err = m_localChatControl->SynthesizeTextToSpeech(
-            PartySynthesizeTextToSpeechType::VoiceChat,
-            text.c_str(),                        // Text to synthesize
-            nullptr                                 // Async identifier
-        );
+    // Synthesize the text to speech.
+    DEBUGLOG("Synthesizing speech for text \"%s\"\n", text.c_str());
+    PartyError err = m_localChatControl->SynthesizeTextToSpeech(
+        PartySynthesizeTextToSpeechType::VoiceChat,
+        text.c_str(),                           // Text to synthesize
+        nullptr                                 // Async identifier
+    );
 
-        if (PARTY_FAILED(err))
-        {
-            DEBUGLOG("Failed to SynthesizeTextToSpeech: %s\n", GetErrorMessage(err));
-        }
+    if (PARTY_FAILED(err))
+    {
+        DEBUGLOG("Failed to SynthesizeTextToSpeech: %s\n", GetErrorMessage(err));
     }
 }
 
@@ -507,54 +520,57 @@ NetworkManager::SendTextMessage(
     PartyString chatText
     )
 {
+    // Only send the text message if we've got a local chat control to send it with
+    if (m_localChatControl == nullptr)
+    {
+        DEBUGLOG("Info: Can't SendText. No local chat control.");
+        return;
+    }
+
     // Convert the message into a raw data.
     Party::PartyDataBuffer dataBuffers[] = { NetworkMessage::PartyStringAsDataBuffer(chatText) };
 
+    // Get all of the chat controls from the Party Manager
     Party::PartyChatControlArray chatControls;
     uint32_t chatControlCount;
+    PartyError err = Party::PartyManager::GetSingleton().GetChatControls(&chatControlCount, &chatControls);
+    if (PARTY_FAILED(err))
+    {
+        DEBUGLOG("GetChatControls Failed! %s", GetErrorMessage(err));
+        return;
+    }
 
-    // Get all of the chat controls from the Party Manager
-    PartyError result = Party::PartyManager::GetSingleton().GetChatControls(&chatControlCount, &chatControls);
-    DEBUGLOG("Info: GetChatControls result: %d, count: %d", result, chatControlCount);
-
-    // Get the current users entity id.
-    std::string entityString = Managers::Get<PlayFabManager>()->EntityId();
-    PartyString entityId = entityString.c_str();
-
-    // Add all of the chat controls to a list except the local users chat control.
+    // Add all of the chat controls to a list except the local user's chat control.
     std::vector<PartyChatControl*> targetChatControls;
     for (uint32_t chatControlIndex = 0; chatControlIndex < chatControlCount; ++chatControlIndex)
     {
         PartyChatControl* chatControl = chatControls[chatControlIndex];
-        PartyString user = nullptr;
-        chatControl->GetEntityId(&user);
-        if (strcmp(user, entityId) != 0)
+        if (chatControl != m_localChatControl)
         {
-            targetChatControls.push_back(chatControls[chatControlIndex]);
+            targetChatControls.push_back(chatControl);
         }
     }
 
     // If the local user has a chat control, use it to send the data buffer to the retrieved chat controls.
-    if (m_localChatControl != nullptr)
-    {
-        result = m_localChatControl->SendText(
-            static_cast<uint32_t>(targetChatControls.size()),
-            targetChatControls.data(),
-            chatText,
-            _countof(dataBuffers),
-            dataBuffers
-            );
+    err = m_localChatControl->SendText(
+        static_cast<uint32_t>(targetChatControls.size()),
+        targetChatControls.data(),
+        chatText,
+        _countof(dataBuffers),
+        dataBuffers
+        );
 
-        DEBUGLOG("Info: SendText and the result is:%d", result);
+    if (PARTY_SUCCEEDED(err))
+    {
+        DEBUGLOG("Info: Sending text message to %zu/%u chat controls", targetChatControls.size(), chatControlCount);
     }
     else
     {
-        DEBUGLOG("Info: SendText NO local chat control");
+        DEBUGLOG("Info: Failed to send text message! %s", GetErrorMessage(err));
     }
-
 }
 
-void 
+void
 NetworkManager::LeaveNetwork(
     std::function<void(void)> callback
     )
@@ -562,7 +578,7 @@ NetworkManager::LeaveNetwork(
     DEBUGLOG("NetworkManager::LeaveNetwork()\n");
 
     // Mute the microphone to save on processing.
-    setAudioInputEnabled(false);
+    SetLocalPlayerMuted(true);
     m_isChatControlConnected = false;
     m_isTextToSpeechProfileSet = false;
     m_populateProfilesCompleted = false;
@@ -579,7 +595,6 @@ NetworkManager::LeaveNetwork(
         if (m_localChatControl != nullptr)
         {
             m_network->DisconnectChatControl(m_localChatControl, nullptr);
-            m_localChatControl = nullptr;
         }
 
         // Call leave on the Party APIs.
@@ -635,7 +650,7 @@ NetworkManager::DisconnectAudioInput()
 }
 
 // Convertss a State Change Result to a user friendly string message.
-std::string 
+std::string
 PartyStateChangeResultToReasonString(
     PartyStateChangeResult result
     )
@@ -662,7 +677,7 @@ PartyStateChangeResultToReasonString(
 }
 
 // Convertss an Audio Input State to a user friendly string message.
-std::string 
+std::string
 PartyAudioInputStateToString(
     PartyAudioInputState state
     )
@@ -681,7 +696,7 @@ PartyAudioInputStateToString(
 }
 
 // Convertss an Audio Output State to a user friendly string message.
-std::string 
+std::string
 PartyAudioOutputStateToString(
     PartyAudioOutputState state
     )
@@ -699,7 +714,7 @@ PartyAudioOutputStateToString(
 }
 
 // Convertss an Audio Device Selection Type to a user friendly string message.
-std::string 
+std::string
 PartyAudioDeviceSelectionTypeToString(
     PartyAudioDeviceSelectionType type
     )
@@ -715,7 +730,7 @@ PartyAudioDeviceSelectionTypeToString(
 }
 
 // Gets a string version of a PartyError from PartyManager
-PartyString 
+PartyString
 NetworkManager::GetErrorMessage(
     PartyError error
     )
@@ -733,7 +748,7 @@ NetworkManager::GetErrorMessage(
 }
 
 // Main state change handler for the network.
-void 
+void
 NetworkManager::DoWork()
 {
     std::unique_lock<std::mutex> lock(m_networkLock);
@@ -779,13 +794,13 @@ NetworkManager::DoWork()
             DEBUGLOG("PartyStateChange: PartyStateChangeType::CreateNewNetworkCompleted\n");
             auto result = static_cast<const PartyCreateNewNetworkCompletedStateChange*>(change);
 
-            DEBUGLOG("Created new network with: \n");
-            DEBUGLOG("    identifier: %s\n", result->networkDescriptor.networkIdentifier);
-            DEBUGLOG("    region    : %s\n", result->networkDescriptor.regionName);
-
             if (result->result == PartyStateChangeResult::Succeeded)
             {
                 DEBUGLOG("CreateNewNetworkCompleted:  SUCCESS\n");
+                DEBUGLOG("Created new network with: \n");
+                DEBUGLOG("    identifier: %s\n", result->networkDescriptor.networkIdentifier);
+                DEBUGLOG("    region    : %s\n", result->networkDescriptor.regionName);
+
                 m_state = NetworkManagerState::NetworkConnected;
                 if (m_onNetworkCreated)
                 {
@@ -838,10 +853,8 @@ NetworkManager::DoWork()
 
             if (result->result == PartyStateChangeResult::Succeeded)
             {
-                // Send a message to the chat indicating successs.
-                std::string sender("System");
-                std::string message("Connected to network.");
-                Managers::Get<INetworkStateChangeManager>()->ProcessTextMessage(sender, message);
+                // Send a success message to the UI
+                Managers::Get<INetworkStateChangeManager>()->ProcessStatusMessage("System", "Connected to network.");
 
                 DEBUGLOG("ConnectToNetworkCompleted:  SUCCESS\n");
 
@@ -849,7 +862,7 @@ NetworkManager::DoWork()
                 m_state = NetworkManagerState::NetworkConnected;
 
                 // If we muted the microphone, unmute it.
-                setAudioInputEnabled(true);
+                SetLocalPlayerMuted(false);
 
                 // Issue the callback for successfully connecting to a network.
                 if (m_onNetworkConnected)
@@ -859,10 +872,8 @@ NetworkManager::DoWork()
             }
             else
             {
-                // register an error to the chat window.
-                std::string sender("System");
-                std::string message("unable to connect to network.");
-                Managers::Get<INetworkStateChangeManager>()->ProcessTextMessage(sender, message);
+                // Send a failure message to the UI
+                Managers::Get<INetworkStateChangeManager>()->ProcessStatusMessage("System", "Unable to connect to network.");
 
                 // Log out the error.
                 DEBUGLOG("ConnectToNetworkCompleted:  FAIL:  %s\n", PartyStateChangeResultToReasonString(result->result).c_str());
@@ -902,28 +913,37 @@ NetworkManager::DoWork()
         }
         case PartyStateChangeType::EndpointCreated:
         {
-            // The user is connected to the network. We want to test we are on the endpoint and send our display name.
+            // Someone has successfully connected to the network with an endpoint.
+            // If it's a new remote user, we'll send them our display name.
             DEBUGLOG("PartyStateChange: PartyStateChangeType::EndpointCreated\n");
+
             auto result = static_cast<const PartyEndpointCreatedStateChange*>(change);
-            PartyString user = nullptr;
-            err = result->endpoint->GetEntityId(&user);
-            if (PARTY_FAILED(err))
+            PartyEndpoint* newEndpoint = result->endpoint;
+
+            if (newEndpoint != m_localEndpoint)
             {
-                DEBUGLOG("Unable to retrieve user id from endpoint: %s\n", GetErrorMessage(err));
+                PartyString remoteEntityId;
+                err = newEndpoint->GetEntityId(&remoteEntityId);
+                if (PARTY_SUCCEEDED(err))
+                {
+                    DEBUGLOG("Established endpoint with remote entity %s\n", remoteEntityId);
+                }
+                else
+                {
+                    DEBUGLOG("Unable to retrieve EntityId from remote endpoint: %s\n", GetErrorMessage(err));
+                    DEBUGLOG("Established endpoint with unknown entity\n");
+                }
+
+                // Send the current users display name to the other chat controls.
+                const std::string& displayName = Managers::Get<PlayFabManager>()->displayName();
+                PartyEndpoint* newRemoteEndpoint = result->endpoint;
+                SendNetworkMessage(1, &newRemoteEndpoint, NetworkMessage { NetworkMessageType::UserDisplayName, displayName });
             }
             else
             {
-                // Send the current users display name to the other chat controls.
-                std::string displayName = Managers::Get<PlayFabManager>()->displayName();
-                SendNetworkMessage(
-                    NetworkMessage(
-                        NetworkMessageType::UserDisplayName,
-                        displayName
-                    )
-                );
-
-                DEBUGLOG("Established endpoint with user %s\n", user);
+                DEBUGLOG("Established local endpoint\n");
             }
+
             break;
         }
         case PartyStateChangeType::EndpointDestroyed:
@@ -958,30 +978,34 @@ NetworkManager::DoWork()
         }
         case PartyStateChangeType::EndpointMessageReceived:
         {
-            // A user has sent their display name to us. We can register them as having joined the network with this information.
             DEBUGLOG("PartyStateChange: PartyStateChangeType::EndpointMessageReceived\n");
             auto result = static_cast<const PartyEndpointMessageReceivedStateChange*>(change);
 
             // Convert the data buffer into a network message
-            auto buffer = static_cast<PartyString>(result->messageBuffer);
-            auto packet = std::make_shared<NetworkMessage>(
-                std::vector<uint8_t>(buffer, buffer + result->messageSize)
-                );
+            auto messageBuffer = static_cast<const uint8_t*>(result->messageBuffer);
+            NetworkMessage packet { std::vector<uint8_t>(messageBuffer, messageBuffer + result->messageSize) };
 
-            PartyString sender = nullptr;
-            err = result->senderEndpoint->GetEntityId(&sender);
-
-            if (PARTY_SUCCEEDED(err))
+            if (packet.MessageType() == NetworkMessageType::UserDisplayName)
             {
-                // Send the relavent information to the manager in charge of responding to the display name.
-                std::string senderId(sender);
-                std::string message(packet->StringValue());
-                Managers::Get<INetworkStateChangeManager>()->ProcessEndpointMessage(senderId, message);
+                // A user has sent their display name to us. We can register them as having joined the network with this information.
+                PartyString senderEntityId;
+                err = result->senderEndpoint->GetEntityId(&senderEntityId);
+
+                if (PARTY_SUCCEEDED(err))
+                {
+                    std::string displayName(packet.StringValue());
+                    HandlePlayerJoined(senderEntityId, displayName);
+                }
+                else
+                {
+                    DEBUGLOG("GetEntityId failed: %s\n", GetErrorMessage(err));
+                }
             }
             else
             {
-                DEBUGLOG("GetUserIdentifier failed: %s\n", GetErrorMessage(err));
+                DEBUGLOG("Unexpected MessageType received over endpoint! MessageType=%i\n", packet.MessageType());
             }
+
             break;
         }
         case PartyStateChangeType::ChatTextReceived:
@@ -989,13 +1013,11 @@ NetworkManager::DoWork()
             DEBUGLOG("PartyStateChange: PartyStateChangeType::ChatTextReceived\n");
             auto result = static_cast<const PartyChatTextReceivedStateChange*>(change);
 
-            PartyString sender = nullptr;
-            err = result->senderChatControl->GetEntityId(&sender);
+            PartyString senderEntityId = nullptr;
+            err = result->senderChatControl->GetEntityId(&senderEntityId);
 
             if (PARTY_SUCCEEDED(err))
             {
-                std::string senderId(sender);
-
                 // If we have translations, find the translation for our language code.
                 std::string message = findExpectedTranslation(result->translations, result->translationCount);
 
@@ -1005,12 +1027,11 @@ NetworkManager::DoWork()
                     message = std::string(result->chatText);
                 }
 
-                // A text message has been received. Notify the relevant manager.
-                Managers::Get<INetworkStateChangeManager>()->ProcessTextMessage(senderId, message);
+                HandleIncomingTextMessage(senderEntityId, message);
             }
             else
             {
-                DEBUGLOG("GetUserIdentifier failed: %s\n", GetErrorMessage(err));
+                DEBUGLOG("GetEntityId failed: %s\n", GetErrorMessage(err));
             }
             break;
         }
@@ -1110,13 +1131,14 @@ NetworkManager::DoWork()
 
             if (PARTY_FAILED(err))
             {
-                DEBUGLOG("GetUserIdentifier failed: %s\n", GetErrorMessage(err));
+                DEBUGLOG("GetEntityId failed: %s\n", GetErrorMessage(err));
             }
             else
             {
                 DEBUGLOG("Destroyed ChatControl from %s\n", sender);
-                Managers::Get<INetworkStateChangeManager>()->onPlayerLeft(sender);
                 m_chatControls.erase(sender);
+
+                HandlePlayerLeft(sender);
             }
             break;
         }
@@ -1129,7 +1151,7 @@ NetworkManager::DoWork()
 
             if (PARTY_FAILED(err))
             {
-                DEBUGLOG("GetUserIdentifier failed: %s\n", GetErrorMessage(err));
+                DEBUGLOG("GetEntityId failed: %s\n", GetErrorMessage(err));
             }
             else
             {
@@ -1251,20 +1273,18 @@ NetworkManager::DoWork()
         {
             DEBUGLOG("PartyStateChange: PartyStateChangeType::VoiceChatTranscriptionReceived\n");
             auto result = static_cast<const PartyVoiceChatTranscriptionReceivedStateChange*>(change);
-            PartyString sender = nullptr;
+            PartyString senderEntityId = nullptr;
 
-            err = result->senderChatControl->GetEntityId(&sender);
+            err = result->senderChatControl->GetEntityId(&senderEntityId);
             if (PARTY_FAILED(err))
             {
-                DEBUGLOG("GetUserIdentifier failed: %s\n", GetErrorMessage(err));
+                DEBUGLOG("GetEntityId failed: %s\n", GetErrorMessage(err));
             }
             else
             {
                 // Only add the transcription if it is a final phrase, and not a prediction phrase.
                 if (result->type == PartyVoiceChatTranscriptionPhraseType::Final)
                 {
-                    std::string senderId(sender);
-
                     // If we have translations, find the translation for our language code.
                     std::string message = findExpectedTranslation(result->translations, result->translationCount);
 
@@ -1277,7 +1297,7 @@ NetworkManager::DoWork()
                     if (!message.empty())
                     {
                         // A voice transcription has been received. Notify the relevant manager.
-                        Managers::Get<INetworkStateChangeManager>()->ProcessVoiceMessage(senderId, message);
+                        HandleIncomingVoiceTranscription(senderEntityId, message);
                     }
                 }
             }
@@ -1381,11 +1401,13 @@ NetworkManager::DoWork()
             setTextToSpeechProfile();
         }
     }
+
+    ProcessChatIndicatorUpdates();
 }
 
-// Searches the list of locally stored chat controls for the specified peer id 
+// Searches the list of locally stored chat controls for the specified peer id
 // as key and returns the associated chat control, if any.
-PartyChatControl* 
+PartyChatControl*
 NetworkManager::GetChatControl(
     const std::string& peer
     )
@@ -1399,19 +1421,46 @@ NetworkManager::GetChatControl(
 }
 
 // Mutes or unmutes the local chat control if it exists.
-void 
-NetworkManager::setAudioInputEnabled(
-    bool enabled
+void
+NetworkManager::SetLocalPlayerMuted(
+    bool isMuted
     )
 {
     if (m_localChatControl != nullptr)
     {
-        m_localChatControl->SetAudioInputMuted(!enabled);
+        m_localChatControl->SetAudioInputMuted(isMuted);
+    }
+}
+
+// Mute or unmute a remote player
+void
+NetworkManager::SetRemotePlayerMuted(
+    const std::string& remotePlayerEntityId,
+    bool isMuted
+    )
+{
+    if (m_localChatControl == nullptr)
+    {
+        return;
+    }
+
+    PartyChatControl* remotePlayerChatControl = GetChatControl(remotePlayerEntityId);
+    if (remotePlayerChatControl == nullptr)
+    {
+        DEBUGLOG("Chat control not found for remote player %s", remotePlayerEntityId.c_str());
+        return;
+    }
+
+    PartyError err = m_localChatControl->SetIncomingAudioMuted(remotePlayerChatControl, isMuted);
+    if (PARTY_FAILED(err))
+    {
+        DEBUGLOG("Failed to %s remote player %s", isMuted ? "mute" : "unmute", remotePlayerEntityId.c_str());
+        return;
     }
 }
 
 // Returns if the chat control has passed the connected state change.
-bool 
+bool
 NetworkManager::getIsChatControlConnected()
 {
     return m_isChatControlConnected;
@@ -1426,7 +1475,7 @@ NetworkManager::getIsTextToSpeechProfileSet()
     return m_isTextToSpeechProfileSet;
 }
 
-// Used to set the text to speech profile after available 
+// Used to set the text to speech profile after available
 // profiles have been populated in the Chat Control.
 void
 NetworkManager::setTextToSpeechProfile()
@@ -1442,7 +1491,7 @@ NetworkManager::setTextToSpeechProfile()
     else
     {
         // Get the first text to speech profile that matches the language code.
-        PartyTextToSpeechProfile * textToSpeechProfile = nullptr;
+        PartyTextToSpeechProfile* textToSpeechProfile = nullptr;
         for (uint32_t i = 0; i < profileCount; ++i)
         {
             // Get the language code for the current profile.
@@ -1474,7 +1523,7 @@ NetworkManager::setTextToSpeechProfile()
                 DEBUGLOG("TextToSpeechProfile GetIdentifier failed: %s\n", GetErrorMessage(err));
             }
             else
-            { 
+            {
                 DEBUGLOG("Setting TTS Profile: %s\n", identifier);
 
                 //Set text to speech profile to enable text to speech messages.
@@ -1499,9 +1548,9 @@ NetworkManager::setTextToSpeechProfile()
 
 // This function compares the language code of the given translation
 // against the local language code, returning true if they match.
-// This is used as the predicate to find_if in 
+// This is used as the predicate to find_if in
 // NetworkManager::findExpectedTranslation.
-bool 
+bool
 NetworkManager::isTranslationInTheLocalLanguage(
     PartyTranslation translation
     )
@@ -1513,20 +1562,20 @@ NetworkManager::isTranslationInTheLocalLanguage(
 // Given a list of translations, finds the one that has a langauge code
 // that matches the currently set language code and returns the translated
 // string. If none is found, returns an empty string.
-std::string 
+std::string
 NetworkManager::findExpectedTranslation(
-    PartyTranslation * translations, 
+    PartyTranslation* translations,
     int translationCount
     )
 {
     std::string expectedTranslation;
 
     // Get the beginning and ending of the translation array
-    PartyTranslation *arrayBeginning = translations;
-    PartyTranslation *arrayEnding = translations + translationCount;
+    PartyTranslation* arrayBeginning = translations;
+    PartyTranslation* arrayEnding = translations + translationCount;
 
     // Use find_if to get the translation that matches our language code.
-    PartyTranslation *translationIterator = std::find_if(
+    PartyTranslation* translationIterator = std::find_if(
         arrayBeginning,
         arrayEnding,
         std::bind(&NetworkManager::isTranslationInTheLocalLanguage, this, std::placeholders::_1)
@@ -1539,4 +1588,161 @@ NetworkManager::findExpectedTranslation(
     }
 
     return expectedTranslation;
+}
+
+void NetworkManager::ProcessChatIndicatorUpdates()
+{
+    // PlayFab Party is responsive enough that a UI which can handle frequent updates can poll for the chat indicators
+    // every frame. Since this code is shared across a number of UI frameworks, we'll cache the chat indicators and only
+    // alert the UI when they've changed.
+
+    if (m_localChatControl == nullptr)
+    {
+        return;
+    }
+
+    Party::PartyChatControlArray chatControls;
+    uint32_t chatControlCount;
+    PartyError err = Party::PartyManager::GetSingleton().GetChatControls(&chatControlCount, &chatControls);
+    if (PARTY_FAILED(err))
+    {
+        DEBUGLOG("GetChatControls Failed! %s", GetErrorMessage(err));
+        return;
+    }
+
+    // Check for remote chat control indicator updates
+    for (uint32_t i = 0; i < chatControlCount; ++i)
+    {
+        PartyChatControl* chatControl = chatControls[i];
+        if (chatControl == m_localChatControl)
+        {
+            continue;
+        }
+
+        PartyChatControlChatIndicator chatIndicator;
+        err = m_localChatControl->GetChatIndicator(chatControl, &chatIndicator);
+        if (PARTY_FAILED(err))
+        {
+            DEBUGLOG("Failed to query for remote chat control's chat indicator! %s", GetErrorMessage(err));
+            continue;
+        }
+
+        PartyString remotePlayerEntityId;
+        err = chatControl->GetEntityId(&remotePlayerEntityId);
+        if (PARTY_FAILED(err))
+        {
+            DEBUGLOG("Failed to query for remote chat control's entity ID! %s", GetErrorMessage(err));
+            continue;
+        }
+
+        if (m_remoteChatControlIndicatorCache[chatControl] != chatIndicator)
+        {
+            HandleRemoteChatIndicatorUpdate(remotePlayerEntityId, chatIndicator);
+            m_remoteChatControlIndicatorCache[chatControl] = chatIndicator;
+        }
+    }
+
+    // Check for remote chat control indicator updates
+    PartyLocalChatControlChatIndicator localChatIndicator;
+    err = m_localChatControl->GetLocalChatIndicator(&localChatIndicator);
+    if (PARTY_SUCCEEDED(err))
+    {
+        PartyString localPlayerEntityId;
+        err = m_localChatControl->GetEntityId(&localPlayerEntityId);
+        if (PARTY_SUCCEEDED(err))
+        {
+            if (m_localChatControlIndicatorCache[m_localChatControl] != localChatIndicator)
+            {
+                HandleLocalChatIndicatorUpdate(localPlayerEntityId, localChatIndicator);
+                m_localChatControlIndicatorCache[m_localChatControl] = localChatIndicator;
+            }
+        }
+        else
+        {
+            DEBUGLOG("Failed to query for local chat control's entity ID! %s", GetErrorMessage(err));
+        }
+    }
+    else
+    {
+        DEBUGLOG("Failed to query for local chat control's chat indicator! %s", GetErrorMessage(err));
+    }
+}
+
+void NetworkManager::HandlePlayerJoined(
+    const std::string& newPlayerEntityId,
+    const std::string& newPlayerDisplayName
+    )
+{
+    // Ignore a player unexpectedly joining multiple times.
+    if (m_remotePlayers.find(newPlayerEntityId) != m_remotePlayers.end())
+    {
+        return;
+    }
+
+    m_remotePlayers.insert(newPlayerEntityId);
+    Managers::Get<INetworkStateChangeManager>()->ProcessPlayerJoined(newPlayerEntityId, newPlayerDisplayName);
+}
+
+void NetworkManager::HandleIncomingTextMessage(
+    const std::string& senderPlayerEntityId,
+    const std::string& message
+    )
+{
+    // Drop all text messages from players that haven't sent us their display name yet.
+    if (m_remotePlayers.find(senderPlayerEntityId) == m_remotePlayers.end())
+    {
+        return;
+    }
+
+    Managers::Get<INetworkStateChangeManager>()->ProcessTextMessage(senderPlayerEntityId, message);
+}
+
+void NetworkManager::HandleIncomingVoiceTranscription(
+    const std::string& senderPlayerEntityId,
+    const std::string& transcription
+    )
+{
+    // Drop all transcriptions from players that haven't sent us their display name yet.
+    if (m_remotePlayers.find(senderPlayerEntityId) == m_remotePlayers.end())
+    {
+        return;
+    }
+
+    Managers::Get<INetworkStateChangeManager>()->ProcessVoiceMessage(senderPlayerEntityId, transcription);
+}
+
+void NetworkManager::HandleLocalChatIndicatorUpdate(
+    const std::string& localPlayerEntityId,
+    Party::PartyLocalChatControlChatIndicator chatIndicator
+    )
+{
+    Managers::Get<INetworkStateChangeManager>()->ProcessLocalChatIndicatorChange(localPlayerEntityId, chatIndicator);
+}
+
+void NetworkManager::HandleRemoteChatIndicatorUpdate(
+    const std::string& remotePlayerEntityId,
+    Party::PartyChatControlChatIndicator chatIndicator
+    )
+{
+    // Drop all chat indicator updates from players that haven't sent us their display name yet.
+    if (m_remotePlayers.find(remotePlayerEntityId) == m_remotePlayers.end())
+    {
+        return;
+    }
+
+    Managers::Get<INetworkStateChangeManager>()->ProcessRemoteChatIndicatorChange(remotePlayerEntityId, chatIndicator);
+}
+
+void NetworkManager::HandlePlayerLeft(
+    const std::string& playerEntityId
+    )
+{
+    // If the player never shared their display name and never joined, ignore them leaving.
+    if (m_remotePlayers.find(playerEntityId) == m_remotePlayers.end())
+    {
+        return;
+    }
+
+    m_remotePlayers.erase(playerEntityId);
+    Managers::Get<INetworkStateChangeManager>()->ProcessPlayerLeft(playerEntityId);
 }

@@ -35,7 +35,7 @@ public:
         [m_eventHandler onJoinedNetwork];
     }
     
-    void OnPlayerJoin(std::string &playerId) override
+    void OnPlayerJoin(const std::string &playerId) override
     {
         [m_eventHandler onPlayerJoin:StringToNSString(playerId)];
     }
@@ -60,7 +60,7 @@ public:
         [m_eventHandler onPlayerLeft:StringToNSString(playerId)];
     }
     
-    void OnTextMessageReceived(std::string &senderId, std::string &message, bool isTranscript) override
+    void OnTextMessageReceived(const std::string &senderId, const std::string &message, bool isTranscript) override
     {
         [m_eventHandler onTextMessageReceived:StringToNSString(senderId) withText:StringToNSString(message) isTranscription:(BOOL)isTranscript];
     }
@@ -190,7 +190,7 @@ SimpleClientEventHandler* clientEventHandler;
     {
         return;
     }
-    
+
     m_impl->Initialize([pfTitle UTF8String]);
 }
 

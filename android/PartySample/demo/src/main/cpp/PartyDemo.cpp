@@ -366,12 +366,12 @@ GetPlayerState()
                 {
                     case Party::PartyChatControlChatIndicator::IncomingCommunicationsMuted:
                     case Party::PartyChatControlChatIndicator::IncomingVoiceDisabled:
+                    case Party::PartyChatControlChatIndicator::Silent:
                     case Party::PartyChatControlChatIndicator::NoRemoteInput:
                     case Party::PartyChatControlChatIndicator::RemoteAudioInputMuted:
-                    case Party::PartyChatControlChatIndicator::Silent:
                         DbgLog(
                             TAG,
-                            "PartyChatControlChatIndicator: %s IncomingCommunicationsMuted|IncomingVoiceDisabled|Silent",
+                            "PartyChatControlChatIndicator: %s IncomingCommunicationsMuted|IncomingVoiceDisabled|Silent|NoRemoteInput|RemoteAudioInputMuted",
                             userName.c_str());
                         OnPlayerStateChange(userName, "silent");
                         break;
@@ -555,7 +555,7 @@ extern "C"
         }
         else
         {
-            SendSysLogToUI("Please waiting for initialization done.");
+            SendSysLogToUI("Please wait for initialization to finish.");
             return false;
         }
     }
@@ -632,7 +632,7 @@ extern "C"
         }
         else
         {
-            SendSysLogToUI("Please waiting for initialization done.");
+            SendSysLogToUI("Please wait for initialization to finish.");
             return false;
         }
     }
@@ -651,7 +651,7 @@ extern "C"
             return joinNetwork(false);
         }
         else {
-            SendSysLogToUI("Please waiting for initialization done.");
+            SendSysLogToUI("Please wait for initialization to finish.");
             return false;
         }
     }
