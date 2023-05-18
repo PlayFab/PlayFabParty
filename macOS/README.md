@@ -1,4 +1,4 @@
-# PlayFab Party SDK for iOS
+# PlayFab Party SDK for macOS
 
 ## Logging
 
@@ -16,11 +16,11 @@ The logging is disabled by default, but can be enabled with "enabled" property s
 ```json
 {
     "enabled": false,
-    "bufferSize": 262144,
+    "bufferSize": 1048576,
     "maxNumberOfItemsInBatch": 500,
     "maxBatchWaitTimeInSeconds": 1,
     "readBufferWaitTimeInMilliseconds": 1,
-    "logFolder": "/app_sandbox_storage/Documents/",
+    "logFolder": "<any local path>",
     "logLevel": "VERBOSE",
     "xrnLogEnabled": false,
     "maxLogFileSizeInMegabytes": 100,
@@ -32,11 +32,7 @@ The logging is disabled by default, but can be enabled with "enabled" property s
 
 ### Instructions
 
-1. Connect the iOS device to a mac device.
-2. Enable **FileSharing** for your application, this can be done through the **Info.plist** file of your application.
-3. Open the finder application on a Mac, locate your connected iOS device section and select it.
-4. Click on the "Files" tab.
-4. Locate the installed application that uses PlayFab Party.
-5. Copy the `PlayFabPartyLogger.json` file into this application's folder.
-6. Run the application.
-7. The output log file is located in the same directory that you placed `PlayFabPartyLogger.json`.
+1. Enable **FileSharing** for your application, this can be done through the **Info.plist** file of your application.
+2. Copy the `PlayFabPartyLogger.json` file into any local directory of your device.
+3. Run the application.
+4. The path to log files is specified by "logFolder" property of `PlayFabPartyLogger.json`.
