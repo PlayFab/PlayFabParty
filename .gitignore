@@ -40,6 +40,9 @@ captures/
 # Gradle Build Files
 .cxx/
 
+# User Added Libraries
+android/bin/
+
 # Keystore files
 # Uncomment the following line if you do not want to check your keystore files in.
 #*.jks
