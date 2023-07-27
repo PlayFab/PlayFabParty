@@ -2,48 +2,115 @@ apply plugin: 'com.android.application'
 def libType
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 31
+    ndkVersion "22.1.7171670"
+
     defaultConfig {
         applicationId "com.microsoft.playfab.partysample"
-        minSdkVersion 19
-        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        targetSdkVersion 30
+        minSdkVersion 21
+
         externalNativeBuild {
             cmake {
                 cppFlags "-std=c++14 -fexceptions -Wall -Wextra -Werror"
-                abiFilters "arm64-v8a","armeabi-v7a","x86","x86_64"
+            }
+        }
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+        }
+    }
+
+    flavorDimensions "ABI"
+
+    productFlavors {
+        full {
+            dimension "ABI"
+            externalNativeBuild {
+                cmake {
+                    abiFilters "arm64-v8a", "armeabi-v7a", "x86", "x86_64"
+                }
+            }
+        }
+        arm7 {
+            dimension "ABI"
+            externalNativeBuild {
+                cmake {
+                    abiFilters "armeabi-v7a"
+                }
+            }
+        }
+        arm8 {
+            dimension "ABI"
+            externalNativeBuild {
+                cmake {
+                    abiFilters "arm64-v8a"
+                }
+            }
+        }
+        x86 {
+            dimension "ABI"
+            externalNativeBuild {
+                cmake {
+                    abiFilters "x86"
+                }
+            }
+        }
+        x86_64 {
+            dimension "ABI"
+            externalNativeBuild {
+                cmake {
+                    abiFilters "x86_64"
+                }
             }
         }
     }
+
     buildTypes {
         release {
-            libType = 'release'
+            debuggable true
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android.txt")
+            jniDebuggable true
+            signingConfig signingConfigs.debug
         }
         debug {
-            libType = 'debug'
+            debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            jniDebuggable true
         }
     }
-    externalNativeBuild {
-        cmake {
-            path file('./src/main/cpp/CMakeLists.txt')
-        }
-    }
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDir '.src/main/java'
-            res.srcDir './src/main/res'
+            java.srcDir 'src/main/java'
+            res.srcDir 'src/main/res'
         }
     }
+
     repositories {
         flatDir {
-            dirs = ['../../../../output/android/debug', '../../../../output/android/release']
+            dirs = 
+            [
+                '../../../../output/android/debug',
+                '../../../../output/android/release'
+            ]
         }
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
