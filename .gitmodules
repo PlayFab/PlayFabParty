@@ -1,0 +1,3 @@
+[submodule "external/XPlatCppSdk"]
+	path = external/XPlatCppSdk
+	url = https://github.com/PlayFab/XPlatCppSdk.git
