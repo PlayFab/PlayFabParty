@@ -11,11 +11,7 @@
 #include "playfab/PlayFabAuthenticationContext.h"
 
 using namespace PartySample;
-#ifdef USE_PUBLIC_PLAYFAB_SDK
 using namespace PlayFab;
-#else
-using namespace PlayFabInternal;
-#endif
 using namespace ClientModels;
 
 PlayFabManager::PlayFabManager()
@@ -31,7 +27,7 @@ void PlayFabManager::Initialize(
     )
 {
     // Set the title id to be used for all future calls.
-    PlayFabSettings::titleId = titleId;
+    PlayFabSettings::staticSettings->titleId = titleId;
 }
 
 // Authenticate the user with playfab using the specified custom id and setting the display name to that id.

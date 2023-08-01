@@ -39,6 +39,7 @@ captures/
 
 # Gradle Build Files
 .cxx/
+android/output/
 
 # User Added Libraries
 android/bin/
