@@ -1,1 +1,6 @@
-include ':demo'
+include ':PartySampleApp'
+
+def pathToRoot = "../../"
+
+include ":xplatcppsdk"
+project(":xplatcppsdk").projectDir = new File("${pathToRoot}/external/XPlatCppSdk/build/Android/XPlatCppSdk")
