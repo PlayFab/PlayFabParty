@@ -14,10 +14,12 @@ namespace PlayFabInternal
     class PlayFabEventAPI
     {
     public:
-        PlayFabEventAPI(); // Default constructor
+        PlayFabEventAPI(bool threadedEventPipeline=true);
 
-        // BUMBLELION: enable manual pumping of event pipeline
-        PlayFabEventAPI(bool threadedEventPipeline);
+        // BUMBLELION: Add a way for us to initialize a PlayFabEventAPI object using the same 
+        // PlayFabAuthenticationContext and PlayFabApiSettings objects as the other instanced API's in PlayFab
+        PlayFabEventAPI(const std::shared_ptr<PlayFabAuthenticationContext>& authenticationContext, bool threadedEventPipeline);
+        PlayFabEventAPI(const std::shared_ptr<PlayFabApiSettings>& apiSettings, const std::shared_ptr<PlayFabAuthenticationContext>& authenticationContext, bool threadedEventPipeline);
 
         std::shared_ptr<IPlayFabEventRouter> GetEventRouter() const;
 
@@ -30,7 +32,15 @@ namespace PlayFabInternal
 
         void EmitEvent(std::unique_ptr<const IPlayFabEvent> event, std::function<void(std::shared_ptr<const IPlayFabEvent>, std::shared_ptr<const IPlayFabEmitEventResponse>)> callback) const;
 
-        // BUMBLELION: enable manual pumping of event pipeline
+        // BUMBLELION: Add getters for the instanced PlayFabApiSettings and PlayFabAuthenticationContext objects used 
+        // in this PlayFabEventAPI so we can read/write titleId and entityToken
+        std::shared_ptr<PlayFabApiSettings> GetSettings() const;
+        std::shared_ptr<PlayFabAuthenticationContext> GetAuthenticationContext() const;
+
+        /// <summary>
+        /// Updates the underlying event router which in turn will update the eventpipeline.
+        /// This function must be called every game tick if threadedEventPipeline is set to false
+        /// </summary>
         void Update();
 
     private:

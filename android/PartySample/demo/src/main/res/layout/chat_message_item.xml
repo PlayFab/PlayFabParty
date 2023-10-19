@@ -8,7 +8,7 @@
     android:paddingLeft="8dp"
     android:paddingRight="8dp">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:background="@color/reb_black">
@@ -38,6 +38,6 @@
             app:layout_constraintTop_toBottomOf="@+id/nameTextView2"
             tools:ellipsize="marquee"
             tools:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxdsfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

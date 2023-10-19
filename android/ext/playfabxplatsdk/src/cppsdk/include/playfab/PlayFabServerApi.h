@@ -1,18 +1,29 @@
 #pragma once
 
-#ifdef ENABLE_PLAYFABSERVER_API
+#if defined(ENABLE_PLAYFABSERVER_API)
 
-#include <playfab/PlayFabCallRequestContainer.h>
 #include <playfab/PlayFabServerDataModels.h>
+#include <playfab/PlayFabError.h>
 
 namespace PlayFabInternal
 {
+    class CallRequestContainerBase;
+    class CallRequestContainer;
+
     /// <summary>
     /// Main interface for PlayFab Sdk, specifically all Server APIs
     /// </summary>
     class PlayFabServerAPI
     {
     public:
+        /// <summary>
+        /// Calls the Update function on your implementation of the IHttpPlugin to check for responses to HTTP requests.
+        /// All api's (Client, Server, Admin etc.) share the same IHttpPlugin.
+        /// This means that you only need to call Update() on one API to retrieve the responses for all APIs.
+        /// Additional calls to Update (on any API) during the same tick are unlikely to retrieve additional responses.
+        /// Call Update when your game ticks as follows:
+        ///     Server.Update();
+        /// </summary>
         static size_t Update();
         static void ForgetAllCredentials();
 
@@ -88,11 +99,15 @@ namespace PlayFabInternal
         static void GrantItemsToCharacter(ServerModels::GrantItemsToCharacterRequest& request, const ProcessApiCallback<ServerModels::GrantItemsToCharacterResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void GrantItemsToUser(ServerModels::GrantItemsToUserRequest& request, const ProcessApiCallback<ServerModels::GrantItemsToUserResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void GrantItemsToUsers(ServerModels::GrantItemsToUsersRequest& request, const ProcessApiCallback<ServerModels::GrantItemsToUsersResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
+        static void LinkPSNAccount(ServerModels::LinkPSNAccountRequest& request, const ProcessApiCallback<ServerModels::LinkPSNAccountResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void LinkServerCustomId(ServerModels::LinkServerCustomIdRequest& request, const ProcessApiCallback<ServerModels::LinkServerCustomIdResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void LinkXboxAccount(ServerModels::LinkXboxAccountRequest& request, const ProcessApiCallback<ServerModels::LinkXboxAccountResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void LoginWithServerCustomId(ServerModels::LoginWithServerCustomIdRequest& request, const ProcessApiCallback<ServerModels::ServerLoginResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
+        static void LoginWithSteamId(ServerModels::LoginWithSteamIdRequest& request, const ProcessApiCallback<ServerModels::ServerLoginResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void LoginWithXbox(ServerModels::LoginWithXboxRequest& request, const ProcessApiCallback<ServerModels::ServerLoginResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void LoginWithXboxId(ServerModels::LoginWithXboxIdRequest& request, const ProcessApiCallback<ServerModels::ServerLoginResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
+        // BUMBLELION: AuthenticateGameServerWithCustomId is a REST projection that the bumbleliondev team has added here by hand as a stop gap until the real REST projection is available
+        static void AuthenticateGameServerWithCustomId(ServerModels::AuthenticateGameServerWithCustomIdRequest& request, const ProcessApiCallback<ServerModels::AuthenticateCustomIdResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void ModifyItemUses(ServerModels::ModifyItemUsesRequest& request, const ProcessApiCallback<ServerModels::ModifyItemUsesResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void MoveItemToCharacterFromCharacter(ServerModels::MoveItemToCharacterFromCharacterRequest& request, const ProcessApiCallback<ServerModels::MoveItemToCharacterFromCharacterResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void MoveItemToCharacterFromUser(ServerModels::MoveItemToCharacterFromUserRequest& request, const ProcessApiCallback<ServerModels::MoveItemToCharacterFromUserResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
@@ -126,6 +141,7 @@ namespace PlayFabInternal
         static void SetTitleInternalData(ServerModels::SetTitleDataRequest& request, const ProcessApiCallback<ServerModels::SetTitleDataResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void SubtractCharacterVirtualCurrency(ServerModels::SubtractCharacterVirtualCurrencyRequest& request, const ProcessApiCallback<ServerModels::ModifyCharacterVirtualCurrencyResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void SubtractUserVirtualCurrency(ServerModels::SubtractUserVirtualCurrencyRequest& request, const ProcessApiCallback<ServerModels::ModifyUserVirtualCurrencyResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
+        static void UnlinkPSNAccount(ServerModels::UnlinkPSNAccountRequest& request, const ProcessApiCallback<ServerModels::UnlinkPSNAccountResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void UnlinkServerCustomId(ServerModels::UnlinkServerCustomIdRequest& request, const ProcessApiCallback<ServerModels::UnlinkServerCustomIdResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void UnlinkXboxAccount(ServerModels::UnlinkXboxAccountRequest& request, const ProcessApiCallback<ServerModels::UnlinkXboxAccountResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         static void UnlockContainerInstance(ServerModels::UnlockContainerInstanceRequest& request, const ProcessApiCallback<ServerModels::UnlockContainerItemResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
@@ -224,11 +240,14 @@ namespace PlayFabInternal
         static void OnGrantItemsToCharacterResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnGrantItemsToUserResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnGrantItemsToUsersResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
+        static void OnLinkPSNAccountResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnLinkServerCustomIdResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnLinkXboxAccountResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnLoginWithServerCustomIdResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
+        static void OnLoginWithSteamIdResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnLoginWithXboxResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnLoginWithXboxIdResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
+        static void OnAuthenticateGameServerWithCustomIdResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnModifyItemUsesResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnMoveItemToCharacterFromCharacterResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnMoveItemToCharacterFromUserResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
@@ -262,6 +281,7 @@ namespace PlayFabInternal
         static void OnSetTitleInternalDataResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnSubtractCharacterVirtualCurrencyResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnSubtractUserVirtualCurrencyResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
+        static void OnUnlinkPSNAccountResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnUnlinkServerCustomIdResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnUnlinkXboxAccountResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         static void OnUnlockContainerInstanceResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
@@ -289,4 +309,4 @@ namespace PlayFabInternal
     };
 }
 
-#endif
+#endif // #if defined(ENABLE_PLAYFABSERVER_API)

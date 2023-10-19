@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef DISABLE_PLAYFABENTITY_API
+#if !defined(DISABLE_PLAYFABENTITY_API)
 
 #include <playfab/PlayFabBaseModel.h>
 #include <playfab/PlayFabJsonHeaders.h>
@@ -20,19 +20,54 @@ namespace PlayFabInternal
 
         inline void ToJsonEnum(const OperationTypes input, Json::Value& output)
         {
-            if (input == OperationTypes::OperationTypesCreated) output = Json::Value("Created");
-            if (input == OperationTypes::OperationTypesUpdated) output = Json::Value("Updated");
-            if (input == OperationTypes::OperationTypesDeleted) output = Json::Value("Deleted");
-            if (input == OperationTypes::OperationTypesNone) output = Json::Value("None");
+            if (input == OperationTypes::OperationTypesCreated)
+            {
+                output = Json::Value("Created");
+                return;
+            }
+            if (input == OperationTypes::OperationTypesUpdated)
+            {
+                output = Json::Value("Updated");
+                return;
+            }
+            if (input == OperationTypes::OperationTypesDeleted)
+            {
+                output = Json::Value("Deleted");
+                return;
+            }
+            if (input == OperationTypes::OperationTypesNone)
+            {
+                output = Json::Value("None");
+                return;
+            }
         }
         inline void FromJsonEnum(const Json::Value& input, OperationTypes& output)
         {
-            if (!input.isString()) return;
+            if (!input.isString())
+            {
+                return;
+            }
             const std::string& inputStr = input.asString();
-            if (inputStr == "Created") output = OperationTypes::OperationTypesCreated;
-            if (inputStr == "Updated") output = OperationTypes::OperationTypesUpdated;
-            if (inputStr == "Deleted") output = OperationTypes::OperationTypesDeleted;
-            if (inputStr == "None") output = OperationTypes::OperationTypesNone;
+            if (inputStr == "Created")
+            {
+                output = OperationTypes::OperationTypesCreated;
+                return;
+            }
+            if (inputStr == "Updated")
+            {
+                output = OperationTypes::OperationTypesUpdated;
+                return;
+            }
+            if (inputStr == "Deleted")
+            {
+                output = OperationTypes::OperationTypesDeleted;
+                return;
+            }
+            if (inputStr == "None")
+            {
+                output = OperationTypes::OperationTypesNone;
+                return;
+            }
         }
 
         // Groups Classes
@@ -72,17 +107,20 @@ namespace PlayFabInternal
 
         struct AcceptGroupApplicationRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Entity;
             EntityKey Group;
 
             AcceptGroupApplicationRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 Group()
             {}
 
             AcceptGroupApplicationRequest(const AcceptGroupApplicationRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 Group(src.Group)
             {}
@@ -91,6 +129,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Group"], Group);
             }
@@ -98,6 +137,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 return output;
@@ -106,17 +146,20 @@ namespace PlayFabInternal
 
         struct AcceptGroupInvitationRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<EntityKey> Entity;
             EntityKey Group;
 
             AcceptGroupInvitationRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 Group()
             {}
 
             AcceptGroupInvitationRequest(const AcceptGroupInvitationRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 Group(src.Group)
             {}
@@ -125,6 +168,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Group"], Group);
             }
@@ -132,6 +176,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 return output;
@@ -140,12 +185,14 @@ namespace PlayFabInternal
 
         struct AddMembersRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Group;
             std::list<EntityKey> Members;
             std::string RoleId;
 
             AddMembersRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Group(),
                 Members(),
                 RoleId()
@@ -153,6 +200,7 @@ namespace PlayFabInternal
 
             AddMembersRequest(const AddMembersRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Group(src.Group),
                 Members(src.Members),
                 RoleId(src.RoleId)
@@ -162,6 +210,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Group"], Group);
                 FromJsonUtilO(input["Members"], Members);
                 FromJsonUtilS(input["RoleId"], RoleId);
@@ -170,6 +219,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 Json::Value each_Members; ToJsonUtilO(Members, each_Members); output["Members"] = each_Members;
                 Json::Value each_RoleId; ToJsonUtilS(RoleId, each_RoleId); output["RoleId"] = each_RoleId;
@@ -180,12 +230,14 @@ namespace PlayFabInternal
         struct ApplyToGroupRequest : public PlayFabRequestCommon
         {
             Boxed<bool> AutoAcceptOutstandingInvite;
+            std::map<std::string, std::string> CustomTags;
             Boxed<EntityKey> Entity;
             EntityKey Group;
 
             ApplyToGroupRequest() :
                 PlayFabRequestCommon(),
                 AutoAcceptOutstandingInvite(),
+                CustomTags(),
                 Entity(),
                 Group()
             {}
@@ -193,6 +245,7 @@ namespace PlayFabInternal
             ApplyToGroupRequest(const ApplyToGroupRequest& src) :
                 PlayFabRequestCommon(),
                 AutoAcceptOutstandingInvite(src.AutoAcceptOutstandingInvite),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 Group(src.Group)
             {}
@@ -202,6 +255,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["AutoAcceptOutstandingInvite"], AutoAcceptOutstandingInvite);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Group"], Group);
             }
@@ -210,6 +264,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_AutoAcceptOutstandingInvite; ToJsonUtilP(AutoAcceptOutstandingInvite, each_AutoAcceptOutstandingInvite); output["AutoAcceptOutstandingInvite"] = each_AutoAcceptOutstandingInvite;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 return output;
@@ -291,17 +346,20 @@ namespace PlayFabInternal
 
         struct BlockEntityRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Entity;
             EntityKey Group;
 
             BlockEntityRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 Group()
             {}
 
             BlockEntityRequest(const BlockEntityRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 Group(src.Group)
             {}
@@ -310,6 +368,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Group"], Group);
             }
@@ -317,6 +376,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 return output;
@@ -325,6 +385,7 @@ namespace PlayFabInternal
 
         struct ChangeMemberRoleRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             std::string DestinationRoleId;
             EntityKey Group;
             std::list<EntityKey> Members;
@@ -332,6 +393,7 @@ namespace PlayFabInternal
 
             ChangeMemberRoleRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 DestinationRoleId(),
                 Group(),
                 Members(),
@@ -340,6 +402,7 @@ namespace PlayFabInternal
 
             ChangeMemberRoleRequest(const ChangeMemberRoleRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 DestinationRoleId(src.DestinationRoleId),
                 Group(src.Group),
                 Members(src.Members),
@@ -350,6 +413,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilS(input["DestinationRoleId"], DestinationRoleId);
                 FromJsonUtilO(input["Group"], Group);
                 FromJsonUtilO(input["Members"], Members);
@@ -359,6 +423,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_DestinationRoleId; ToJsonUtilS(DestinationRoleId, each_DestinationRoleId); output["DestinationRoleId"] = each_DestinationRoleId;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 Json::Value each_Members; ToJsonUtilO(Members, each_Members); output["Members"] = each_Members;
@@ -369,17 +434,20 @@ namespace PlayFabInternal
 
         struct CreateGroupRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<EntityKey> Entity;
             std::string GroupName;
 
             CreateGroupRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 GroupName()
             {}
 
             CreateGroupRequest(const CreateGroupRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 GroupName(src.GroupName)
             {}
@@ -388,6 +456,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilS(input["GroupName"], GroupName);
             }
@@ -395,6 +464,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_GroupName; ToJsonUtilS(GroupName, each_GroupName); output["GroupName"] = each_GroupName;
                 return output;
@@ -462,12 +532,14 @@ namespace PlayFabInternal
 
         struct CreateGroupRoleRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Group;
             std::string RoleId;
             std::string RoleName;
 
             CreateGroupRoleRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Group(),
                 RoleId(),
                 RoleName()
@@ -475,6 +547,7 @@ namespace PlayFabInternal
 
             CreateGroupRoleRequest(const CreateGroupRoleRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Group(src.Group),
                 RoleId(src.RoleId),
                 RoleName(src.RoleName)
@@ -484,6 +557,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Group"], Group);
                 FromJsonUtilS(input["RoleId"], RoleId);
                 FromJsonUtilS(input["RoleName"], RoleName);
@@ -492,6 +566,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 Json::Value each_RoleId; ToJsonUtilS(RoleId, each_RoleId); output["RoleId"] = each_RoleId;
                 Json::Value each_RoleName; ToJsonUtilS(RoleName, each_RoleName); output["RoleName"] = each_RoleName;
@@ -540,15 +615,18 @@ namespace PlayFabInternal
 
         struct DeleteGroupRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Group;
 
             DeleteGroupRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Group()
             {}
 
             DeleteGroupRequest(const DeleteGroupRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Group(src.Group)
             {}
 
@@ -556,12 +634,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Group"], Group);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 return output;
             }
@@ -569,17 +649,20 @@ namespace PlayFabInternal
 
         struct DeleteRoleRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Group;
             std::string RoleId;
 
             DeleteRoleRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Group(),
                 RoleId()
             {}
 
             DeleteRoleRequest(const DeleteRoleRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Group(src.Group),
                 RoleId(src.RoleId)
             {}
@@ -588,6 +671,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Group"], Group);
                 FromJsonUtilS(input["RoleId"], RoleId);
             }
@@ -595,6 +679,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 Json::Value each_RoleId; ToJsonUtilS(RoleId, each_RoleId); output["RoleId"] = each_RoleId;
                 return output;
@@ -666,17 +751,20 @@ namespace PlayFabInternal
 
         struct GetGroupRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<EntityKey> Group;
             std::string GroupName;
 
             GetGroupRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Group(),
                 GroupName()
             {}
 
             GetGroupRequest(const GetGroupRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Group(src.Group),
                 GroupName(src.GroupName)
             {}
@@ -685,6 +773,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Group"], Group);
                 FromJsonUtilS(input["GroupName"], GroupName);
             }
@@ -692,6 +781,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 Json::Value each_GroupName; ToJsonUtilS(GroupName, each_GroupName); output["GroupName"] = each_GroupName;
                 return output;
@@ -960,6 +1050,7 @@ namespace PlayFabInternal
         struct InviteToGroupRequest : public PlayFabRequestCommon
         {
             Boxed<bool> AutoAcceptOutstandingApplication;
+            std::map<std::string, std::string> CustomTags;
             EntityKey Entity;
             EntityKey Group;
             std::string RoleId;
@@ -967,6 +1058,7 @@ namespace PlayFabInternal
             InviteToGroupRequest() :
                 PlayFabRequestCommon(),
                 AutoAcceptOutstandingApplication(),
+                CustomTags(),
                 Entity(),
                 Group(),
                 RoleId()
@@ -975,6 +1067,7 @@ namespace PlayFabInternal
             InviteToGroupRequest(const InviteToGroupRequest& src) :
                 PlayFabRequestCommon(),
                 AutoAcceptOutstandingApplication(src.AutoAcceptOutstandingApplication),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 Group(src.Group),
                 RoleId(src.RoleId)
@@ -985,6 +1078,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilP(input["AutoAcceptOutstandingApplication"], AutoAcceptOutstandingApplication);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Group"], Group);
                 FromJsonUtilS(input["RoleId"], RoleId);
@@ -994,6 +1088,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_AutoAcceptOutstandingApplication; ToJsonUtilP(AutoAcceptOutstandingApplication, each_AutoAcceptOutstandingApplication); output["AutoAcceptOutstandingApplication"] = each_AutoAcceptOutstandingApplication;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 Json::Value each_RoleId; ToJsonUtilS(RoleId, each_RoleId); output["RoleId"] = each_RoleId;
@@ -1052,12 +1147,14 @@ namespace PlayFabInternal
 
         struct IsMemberRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Entity;
             EntityKey Group;
             std::string RoleId;
 
             IsMemberRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 Group(),
                 RoleId()
@@ -1065,6 +1162,7 @@ namespace PlayFabInternal
 
             IsMemberRequest(const IsMemberRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 Group(src.Group),
                 RoleId(src.RoleId)
@@ -1074,6 +1172,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Group"], Group);
                 FromJsonUtilS(input["RoleId"], RoleId);
@@ -1082,6 +1181,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 Json::Value each_RoleId; ToJsonUtilS(RoleId, each_RoleId); output["RoleId"] = each_RoleId;
@@ -1120,15 +1220,18 @@ namespace PlayFabInternal
 
         struct ListGroupApplicationsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Group;
 
             ListGroupApplicationsRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Group()
             {}
 
             ListGroupApplicationsRequest(const ListGroupApplicationsRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Group(src.Group)
             {}
 
@@ -1136,12 +1239,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Group"], Group);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 return output;
             }
@@ -1178,15 +1283,18 @@ namespace PlayFabInternal
 
         struct ListGroupBlocksRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Group;
 
             ListGroupBlocksRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Group()
             {}
 
             ListGroupBlocksRequest(const ListGroupBlocksRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Group(src.Group)
             {}
 
@@ -1194,12 +1302,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Group"], Group);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 return output;
             }
@@ -1236,15 +1346,18 @@ namespace PlayFabInternal
 
         struct ListGroupInvitationsRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Group;
 
             ListGroupInvitationsRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Group()
             {}
 
             ListGroupInvitationsRequest(const ListGroupInvitationsRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Group(src.Group)
             {}
 
@@ -1252,12 +1365,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Group"], Group);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 return output;
             }
@@ -1294,15 +1409,18 @@ namespace PlayFabInternal
 
         struct ListGroupMembersRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Group;
 
             ListGroupMembersRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Group()
             {}
 
             ListGroupMembersRequest(const ListGroupMembersRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Group(src.Group)
             {}
 
@@ -1310,12 +1428,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Group"], Group);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 return output;
             }
@@ -1352,15 +1472,18 @@ namespace PlayFabInternal
 
         struct ListMembershipOpportunitiesRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<EntityKey> Entity;
 
             ListMembershipOpportunitiesRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity()
             {}
 
             ListMembershipOpportunitiesRequest(const ListMembershipOpportunitiesRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity)
             {}
 
@@ -1368,12 +1491,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 return output;
             }
@@ -1415,15 +1540,18 @@ namespace PlayFabInternal
 
         struct ListMembershipRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<EntityKey> Entity;
 
             ListMembershipRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity()
             {}
 
             ListMembershipRequest(const ListMembershipRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity)
             {}
 
@@ -1431,12 +1559,14 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
             }
 
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 return output;
             }
@@ -1473,17 +1603,20 @@ namespace PlayFabInternal
 
         struct RemoveGroupApplicationRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Entity;
             EntityKey Group;
 
             RemoveGroupApplicationRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 Group()
             {}
 
             RemoveGroupApplicationRequest(const RemoveGroupApplicationRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 Group(src.Group)
             {}
@@ -1492,6 +1625,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Group"], Group);
             }
@@ -1499,6 +1633,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 return output;
@@ -1507,17 +1642,20 @@ namespace PlayFabInternal
 
         struct RemoveGroupInvitationRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Entity;
             EntityKey Group;
 
             RemoveGroupInvitationRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 Group()
             {}
 
             RemoveGroupInvitationRequest(const RemoveGroupInvitationRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 Group(src.Group)
             {}
@@ -1526,6 +1664,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Group"], Group);
             }
@@ -1533,6 +1672,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 return output;
@@ -1541,12 +1681,14 @@ namespace PlayFabInternal
 
         struct RemoveMembersRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Group;
             std::list<EntityKey> Members;
             std::string RoleId;
 
             RemoveMembersRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Group(),
                 Members(),
                 RoleId()
@@ -1554,6 +1696,7 @@ namespace PlayFabInternal
 
             RemoveMembersRequest(const RemoveMembersRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Group(src.Group),
                 Members(src.Members),
                 RoleId(src.RoleId)
@@ -1563,6 +1706,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Group"], Group);
                 FromJsonUtilO(input["Members"], Members);
                 FromJsonUtilS(input["RoleId"], RoleId);
@@ -1571,6 +1715,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 Json::Value each_Members; ToJsonUtilO(Members, each_Members); output["Members"] = each_Members;
                 Json::Value each_RoleId; ToJsonUtilS(RoleId, each_RoleId); output["RoleId"] = each_RoleId;
@@ -1580,17 +1725,20 @@ namespace PlayFabInternal
 
         struct UnblockEntityRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             EntityKey Entity;
             EntityKey Group;
 
             UnblockEntityRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 Entity(),
                 Group()
             {}
 
             UnblockEntityRequest(const UnblockEntityRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 Entity(src.Entity),
                 Group(src.Group)
             {}
@@ -1599,6 +1747,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilO(input["Entity"], Entity);
                 FromJsonUtilO(input["Group"], Group);
             }
@@ -1606,6 +1755,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 return output;
@@ -1615,6 +1765,7 @@ namespace PlayFabInternal
         struct UpdateGroupRequest : public PlayFabRequestCommon
         {
             std::string AdminRoleId;
+            std::map<std::string, std::string> CustomTags;
             Boxed<Int32> ExpectedProfileVersion;
             EntityKey Group;
             std::string GroupName;
@@ -1623,6 +1774,7 @@ namespace PlayFabInternal
             UpdateGroupRequest() :
                 PlayFabRequestCommon(),
                 AdminRoleId(),
+                CustomTags(),
                 ExpectedProfileVersion(),
                 Group(),
                 GroupName(),
@@ -1632,6 +1784,7 @@ namespace PlayFabInternal
             UpdateGroupRequest(const UpdateGroupRequest& src) :
                 PlayFabRequestCommon(),
                 AdminRoleId(src.AdminRoleId),
+                CustomTags(src.CustomTags),
                 ExpectedProfileVersion(src.ExpectedProfileVersion),
                 Group(src.Group),
                 GroupName(src.GroupName),
@@ -1643,6 +1796,7 @@ namespace PlayFabInternal
             void FromJson(const Json::Value& input) override
             {
                 FromJsonUtilS(input["AdminRoleId"], AdminRoleId);
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["ExpectedProfileVersion"], ExpectedProfileVersion);
                 FromJsonUtilO(input["Group"], Group);
                 FromJsonUtilS(input["GroupName"], GroupName);
@@ -1653,6 +1807,7 @@ namespace PlayFabInternal
             {
                 Json::Value output;
                 Json::Value each_AdminRoleId; ToJsonUtilS(AdminRoleId, each_AdminRoleId); output["AdminRoleId"] = each_AdminRoleId;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ExpectedProfileVersion; ToJsonUtilP(ExpectedProfileVersion, each_ExpectedProfileVersion); output["ExpectedProfileVersion"] = each_ExpectedProfileVersion;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 Json::Value each_GroupName; ToJsonUtilS(GroupName, each_GroupName); output["GroupName"] = each_GroupName;
@@ -1702,6 +1857,7 @@ namespace PlayFabInternal
 
         struct UpdateGroupRoleRequest : public PlayFabRequestCommon
         {
+            std::map<std::string, std::string> CustomTags;
             Boxed<Int32> ExpectedProfileVersion;
             EntityKey Group;
             std::string RoleId;
@@ -1709,6 +1865,7 @@ namespace PlayFabInternal
 
             UpdateGroupRoleRequest() :
                 PlayFabRequestCommon(),
+                CustomTags(),
                 ExpectedProfileVersion(),
                 Group(),
                 RoleId(),
@@ -1717,6 +1874,7 @@ namespace PlayFabInternal
 
             UpdateGroupRoleRequest(const UpdateGroupRoleRequest& src) :
                 PlayFabRequestCommon(),
+                CustomTags(src.CustomTags),
                 ExpectedProfileVersion(src.ExpectedProfileVersion),
                 Group(src.Group),
                 RoleId(src.RoleId),
@@ -1727,6 +1885,7 @@ namespace PlayFabInternal
 
             void FromJson(const Json::Value& input) override
             {
+                FromJsonUtilS(input["CustomTags"], CustomTags);
                 FromJsonUtilP(input["ExpectedProfileVersion"], ExpectedProfileVersion);
                 FromJsonUtilO(input["Group"], Group);
                 FromJsonUtilS(input["RoleId"], RoleId);
@@ -1736,6 +1895,7 @@ namespace PlayFabInternal
             Json::Value ToJson() const override
             {
                 Json::Value output;
+                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
                 Json::Value each_ExpectedProfileVersion; ToJsonUtilP(ExpectedProfileVersion, each_ExpectedProfileVersion); output["ExpectedProfileVersion"] = each_ExpectedProfileVersion;
                 Json::Value each_Group; ToJsonUtilO(Group, each_Group); output["Group"] = each_Group;
                 Json::Value each_RoleId; ToJsonUtilS(RoleId, each_RoleId); output["RoleId"] = each_RoleId;

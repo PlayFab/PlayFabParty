@@ -1,39 +1,48 @@
 #pragma once
 
-#ifdef ENABLE_PLAYFABSERVER_API
+#if defined(ENABLE_PLAYFABSERVER_API)
 
-#include <playfab/PlayFabCallRequestContainer.h>
-#include <playfab/PlayFabApiSettings.h>
-#include <playfab/PlayFabAuthenticationContext.h>
 #include <playfab/PlayFabServerDataModels.h>
-#include <memory>
+#include <playfab/PlayFabError.h>
 
 namespace PlayFabInternal
 {
+    class CallRequestContainerBase;
+    class CallRequestContainer;
+    class PlayFabApiSettings;
+    class PlayFabAuthenticationContext;
+
     /// <summary>
     /// Main interface for PlayFab Sdk, specifically all Server APIs
     /// </summary>
     class PlayFabServerInstanceAPI
     {
     private:
-        std::shared_ptr<PlayFabApiSettings> settings;
-        std::shared_ptr<PlayFabAuthenticationContext> authContext;
+        std::shared_ptr<PlayFabApiSettings> m_settings;
+        std::shared_ptr<PlayFabAuthenticationContext> m_context;
 
     public:
         PlayFabServerInstanceAPI();
-        explicit PlayFabServerInstanceAPI(std::shared_ptr<PlayFabApiSettings> apiSettings);
-        explicit PlayFabServerInstanceAPI(std::shared_ptr<PlayFabAuthenticationContext> authenticationContext);
-        PlayFabServerInstanceAPI(std::shared_ptr<PlayFabApiSettings> apiSettings, std::shared_ptr<PlayFabAuthenticationContext> authenticationContext);
-        ~PlayFabServerInstanceAPI();
+        PlayFabServerInstanceAPI(const std::shared_ptr<PlayFabApiSettings>& apiSettings);
+        PlayFabServerInstanceAPI(const std::shared_ptr<PlayFabAuthenticationContext>& authenticationContext);
+        PlayFabServerInstanceAPI(const std::shared_ptr<PlayFabApiSettings>& apiSettings, const std::shared_ptr<PlayFabAuthenticationContext>& authenticationContext);
+
+        ~PlayFabServerInstanceAPI() = default;
         PlayFabServerInstanceAPI(const PlayFabServerInstanceAPI& source) = delete; // disable copy
         PlayFabServerInstanceAPI(PlayFabServerInstanceAPI&&) = delete; // disable move
         PlayFabServerInstanceAPI& operator=(const PlayFabServerInstanceAPI& source) = delete; // disable assignment
         PlayFabServerInstanceAPI& operator=(PlayFabServerInstanceAPI&& other) = delete; // disable move assignment
 
         std::shared_ptr<PlayFabApiSettings> GetSettings() const;
-        void SetSettings(std::shared_ptr<PlayFabApiSettings> apiSettings);
         std::shared_ptr<PlayFabAuthenticationContext> GetAuthenticationContext() const;
-        void SetAuthenticationContext(std::shared_ptr<PlayFabAuthenticationContext> authenticationContext);
+        /// <summary>
+        /// Calls the Update function on your implementation of the IHttpPlugin to check for responses to HTTP requests.
+        /// All api's (Client, Server, Admin etc.) share the same IHttpPlugin. 
+        /// This means that you only need to call Update() on one API to retrieve the responses for all APIs.
+        /// Additional calls to Update (on any API) during the same tick are unlikely to retrieve additional responses.
+        /// Call Update when your game ticks as follows:
+        ///     Server.Update();
+        /// </summary>
         size_t Update();
         void ForgetAllCredentials();
 
@@ -108,9 +117,11 @@ namespace PlayFabInternal
         void GrantItemsToCharacter(ServerModels::GrantItemsToCharacterRequest& request, const ProcessApiCallback<ServerModels::GrantItemsToCharacterResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         void GrantItemsToUser(ServerModels::GrantItemsToUserRequest& request, const ProcessApiCallback<ServerModels::GrantItemsToUserResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         void GrantItemsToUsers(ServerModels::GrantItemsToUsersRequest& request, const ProcessApiCallback<ServerModels::GrantItemsToUsersResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
+        void LinkPSNAccount(ServerModels::LinkPSNAccountRequest& request, const ProcessApiCallback<ServerModels::LinkPSNAccountResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         void LinkServerCustomId(ServerModels::LinkServerCustomIdRequest& request, const ProcessApiCallback<ServerModels::LinkServerCustomIdResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         void LinkXboxAccount(ServerModels::LinkXboxAccountRequest& request, const ProcessApiCallback<ServerModels::LinkXboxAccountResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         void LoginWithServerCustomId(ServerModels::LoginWithServerCustomIdRequest& request, const ProcessApiCallback<ServerModels::ServerLoginResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
+        void LoginWithSteamId(ServerModels::LoginWithSteamIdRequest& request, const ProcessApiCallback<ServerModels::ServerLoginResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         void LoginWithXbox(ServerModels::LoginWithXboxRequest& request, const ProcessApiCallback<ServerModels::ServerLoginResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         void LoginWithXboxId(ServerModels::LoginWithXboxIdRequest& request, const ProcessApiCallback<ServerModels::ServerLoginResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         void ModifyItemUses(ServerModels::ModifyItemUsesRequest& request, const ProcessApiCallback<ServerModels::ModifyItemUsesResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
@@ -146,6 +157,7 @@ namespace PlayFabInternal
         void SetTitleInternalData(ServerModels::SetTitleDataRequest& request, const ProcessApiCallback<ServerModels::SetTitleDataResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         void SubtractCharacterVirtualCurrency(ServerModels::SubtractCharacterVirtualCurrencyRequest& request, const ProcessApiCallback<ServerModels::ModifyCharacterVirtualCurrencyResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         void SubtractUserVirtualCurrency(ServerModels::SubtractUserVirtualCurrencyRequest& request, const ProcessApiCallback<ServerModels::ModifyUserVirtualCurrencyResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
+        void UnlinkPSNAccount(ServerModels::UnlinkPSNAccountRequest& request, const ProcessApiCallback<ServerModels::UnlinkPSNAccountResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         void UnlinkServerCustomId(ServerModels::UnlinkServerCustomIdRequest& request, const ProcessApiCallback<ServerModels::UnlinkServerCustomIdResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         void UnlinkXboxAccount(ServerModels::UnlinkXboxAccountRequest& request, const ProcessApiCallback<ServerModels::UnlinkXboxAccountResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
         void UnlockContainerInstance(ServerModels::UnlockContainerInstanceRequest& request, const ProcessApiCallback<ServerModels::UnlockContainerItemResult> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
@@ -240,9 +252,11 @@ namespace PlayFabInternal
         void OnGrantItemsToCharacterResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnGrantItemsToUserResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnGrantItemsToUsersResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
+        void OnLinkPSNAccountResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnLinkServerCustomIdResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnLinkXboxAccountResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnLoginWithServerCustomIdResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
+        void OnLoginWithSteamIdResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnLoginWithXboxResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnLoginWithXboxIdResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnModifyItemUsesResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
@@ -278,6 +292,7 @@ namespace PlayFabInternal
         void OnSetTitleInternalDataResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnSubtractCharacterVirtualCurrencyResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnSubtractUserVirtualCurrencyResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
+        void OnUnlinkPSNAccountResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnUnlinkServerCustomIdResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnUnlinkXboxAccountResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnUnlockContainerInstanceResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
@@ -300,9 +315,8 @@ namespace PlayFabInternal
         void OnWriteCharacterEventResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnWritePlayerEventResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnWriteTitleEventResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
+
         bool ValidateResult(PlayFabResultCommon& resultCommon, const CallRequestContainer& container);
-    private:
-        std::shared_ptr<PlayFabAuthenticationContext> GetOrCreateAuthenticationContext();
     };
 }
 

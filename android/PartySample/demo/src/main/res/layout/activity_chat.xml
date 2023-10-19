@@ -10,7 +10,7 @@
     android:orientation="vertical"
     tools:context=".ChatActivity">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/progressLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -41,7 +41,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/progressBar" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/pageContentLayout"
@@ -57,7 +57,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/msgRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                 android:focusableInTouchMode="true"
                 tools:listitem="@layout/chat_message_item">
 
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -196,7 +196,7 @@
                 android:entries="@array/languages"
                 android:spinnerMode="dropdown" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/memberRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -206,7 +206,7 @@
                 android:paddingRight="8dp"
                 tools:listitem="@layout/chat_member_item">
 
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
 
     </LinearLayout>

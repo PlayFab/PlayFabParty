@@ -11,6 +11,11 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <!-- Needed only if your app looks for Bluetooth devices. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
 
     <application
         android:allowBackup="true"
@@ -19,14 +24,14 @@
         android:roundIcon="@drawable/playfab_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:screenOrientation="landscape"
+        <activity android:screenOrientation="portrait"
             android:name=".ChatActivity">
         </activity>
-        <activity android:screenOrientation="landscape"
-            android:name=".MainActivity">
+        <activity android:screenOrientation="portrait"
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

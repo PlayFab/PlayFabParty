@@ -1,1 +1,1 @@
-put debug bins here
+Place `debug` binaries here.

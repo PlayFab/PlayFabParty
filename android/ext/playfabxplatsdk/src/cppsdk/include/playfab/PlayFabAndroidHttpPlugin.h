@@ -1,15 +1,19 @@
 #pragma once
 
+// BUMBLELION: We already have implemented JNI_OnLoad in Bumblelion.
+// Explicitly do not take the JNI_Onload code from beta SDK otherwise it will break the Bumblelion code base.
 #include <jni.h>
 #include <playfab/PlayFabCallRequestContainer.h>
 #include <playfab/PlayFabPluginManager.h>
 #include <thread>
 #include <mutex>
 #include <atomic>
+// BUMBLELION: Additional header required for our internal JNI_OnLoad implementation
 #include "PlayFabCallRequestContainerBase.h"
 
 namespace PlayFabInternal
 {
+    // BUMBLELION: We use okhttp3 instead of WinHttp like the SDK implementation
     /// <summary>
     /// PlayFabAndroidHttpPlugin is an https implementation to interact with PlayFab services using okhttp3 via JNI.
     /// </summary>
@@ -34,9 +38,8 @@ namespace PlayFabInternal
         bool CheckResponse(RequestTask& requestTask);
         void SetResponseAsBadRequest(RequestTask& requestTask);
 
-        virtual std::string GetUrl(RequestTask& requestTask) const;
-        virtual void SetPredefinedHeaders(RequestTask& requestTask);
-        virtual void SetHeader(RequestTask& requestTask, const char* name, const char* value);
+        virtual void SetPredefinedHeaders(const RequestTask& requestTask);
+        virtual void SetHeader(const RequestTask& requestTask, const char* name, const char* value);
         virtual bool GetBinaryPayload(RequestTask& requestTask, void*& payload, size_t& payloadSize) const;
         virtual void ProcessResponse(RequestTask& requestTask, const int httpCode);
         virtual void HandleResults(RequestTask& requestTask);
@@ -48,11 +51,11 @@ namespace PlayFabInternal
             virtual ~RequestTask();
 
             bool Initialize(std::unique_ptr<CallRequestContainerBase>& requestContainer);
-            
-            enum State:int
+
+            enum class State:int
             {
                 None = 0,
-                Pending = RequestTask::None,
+                Pending = (int)RequestTask::State::None,
                 Requesting,
                 Finished
             };
@@ -60,9 +63,13 @@ namespace PlayFabInternal
             {
                 return *dynamic_cast<CallRequestContainer*>(requestContainer.get());
             }
+            std::string GetRequestContainerUrl() const
+            {
+                return requestContainer->GetUrl();
+            }
             std::atomic<State> state;
             std::unique_ptr<CallRequestContainerBase> requestContainer;
-            RequestImpl* impl;
+            std::unique_ptr<PlayFabAndroidHttpPlugin::RequestImpl> impl;
         };
         std::unique_ptr<std::thread> workerThread;
         std::mutex httpRequestMutex;
@@ -70,6 +77,7 @@ namespace PlayFabInternal
         std::deque<std::shared_ptr<RequestTask>> pendingRequests;
         std::shared_ptr<RequestTask> requestingTask;
         std::deque<std::shared_ptr<RequestTask>> pendingResults;
+        // BUMBLELION: A member variable needed by Bumblelion's JNI
         jmethodID setHeaderMethodId;
     };
 }
