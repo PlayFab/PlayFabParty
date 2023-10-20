@@ -1,1 +1,1 @@
-put release bins here
+Place `release` binaries here.

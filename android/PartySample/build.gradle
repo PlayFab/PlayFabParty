@@ -1,10 +1,16 @@
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    
+
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        maven {
+            url "https://maven.google.com"
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.2'
@@ -18,8 +24,23 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        maven {
+            url "https://maven.google.com"
+        }
     }
+}
+
+ext.getTaskFlavorName = { taskPrefix, task ->
+
+    Pattern pattern
+    pattern = Pattern.compile(taskPrefix + "(\\w+)(Release|Debug)")
+
+    Matcher matcher = pattern.matcher( task.name )
+    if( matcher.find() )
+        return matcher.group(1)
+
+    return ""
 }
 
 task clean(type: Delete) {

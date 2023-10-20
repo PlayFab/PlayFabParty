@@ -1,1 +1,1 @@
-Copy libparty into this folder.
+Unzip the contents of the downloaded archive directly into `<REPO ROOT>/android/bin/release/`.

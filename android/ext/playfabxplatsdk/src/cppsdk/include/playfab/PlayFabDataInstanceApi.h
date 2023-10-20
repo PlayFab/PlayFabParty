@@ -1,39 +1,46 @@
 #pragma once
 
-#ifndef DISABLE_PLAYFABENTITY_API
+#if !defined(DISABLE_PLAYFABENTITY_API)
 
-#include <playfab/PlayFabCallRequestContainer.h>
-#include <playfab/PlayFabApiSettings.h>
-#include <playfab/PlayFabAuthenticationContext.h>
 #include <playfab/PlayFabDataDataModels.h>
-#include <memory>
+#include <playfab/PlayFabError.h>
 
 namespace PlayFabInternal
 {
+    class CallRequestContainerBase;
+    class CallRequestContainer;
+    class PlayFabApiSettings;
+    class PlayFabAuthenticationContext;
+
     /// <summary>
     /// Main interface for PlayFab Sdk, specifically all Data APIs
     /// </summary>
     class PlayFabDataInstanceAPI
     {
     private:
-        std::shared_ptr<PlayFabApiSettings> settings;
-        std::shared_ptr<PlayFabAuthenticationContext> authContext;
+        std::shared_ptr<PlayFabApiSettings> m_settings;
+        std::shared_ptr<PlayFabAuthenticationContext> m_context;
 
     public:
-        PlayFabDataInstanceAPI();
-        explicit PlayFabDataInstanceAPI(std::shared_ptr<PlayFabApiSettings> apiSettings);
-        explicit PlayFabDataInstanceAPI(std::shared_ptr<PlayFabAuthenticationContext> authenticationContext);
-        PlayFabDataInstanceAPI(std::shared_ptr<PlayFabApiSettings> apiSettings, std::shared_ptr<PlayFabAuthenticationContext> authenticationContext);
-        ~PlayFabDataInstanceAPI();
+        PlayFabDataInstanceAPI(const std::shared_ptr<PlayFabAuthenticationContext>& authenticationContext);
+        PlayFabDataInstanceAPI(const std::shared_ptr<PlayFabApiSettings>& apiSettings, const std::shared_ptr<PlayFabAuthenticationContext>& authenticationContext);
+
+        ~PlayFabDataInstanceAPI() = default;
         PlayFabDataInstanceAPI(const PlayFabDataInstanceAPI& source) = delete; // disable copy
         PlayFabDataInstanceAPI(PlayFabDataInstanceAPI&&) = delete; // disable move
         PlayFabDataInstanceAPI& operator=(const PlayFabDataInstanceAPI& source) = delete; // disable assignment
         PlayFabDataInstanceAPI& operator=(PlayFabDataInstanceAPI&& other) = delete; // disable move assignment
 
         std::shared_ptr<PlayFabApiSettings> GetSettings() const;
-        void SetSettings(std::shared_ptr<PlayFabApiSettings> apiSettings);
         std::shared_ptr<PlayFabAuthenticationContext> GetAuthenticationContext() const;
-        void SetAuthenticationContext(std::shared_ptr<PlayFabAuthenticationContext> authenticationContext);
+        /// <summary>
+        /// Calls the Update function on your implementation of the IHttpPlugin to check for responses to HTTP requests.
+        /// All api's (Client, Server, Admin etc.) share the same IHttpPlugin. 
+        /// This means that you only need to call Update() on one API to retrieve the responses for all APIs.
+        /// Additional calls to Update (on any API) during the same tick are unlikely to retrieve additional responses.
+        /// Call Update when your game ticks as follows:
+        ///     Data.Update();
+        /// </summary>
         size_t Update();
         void ForgetAllCredentials();
 
@@ -54,9 +61,8 @@ namespace PlayFabInternal
         void OnGetObjectsResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnInitiateFileUploadsResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
         void OnSetObjectsResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
+
         bool ValidateResult(PlayFabResultCommon& resultCommon, const CallRequestContainer& container);
-    private:
-        std::shared_ptr<PlayFabAuthenticationContext> GetOrCreateAuthenticationContext();
     };
 }
 

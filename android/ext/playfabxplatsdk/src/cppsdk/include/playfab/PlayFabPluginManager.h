@@ -38,7 +38,7 @@ namespace PlayFabInternal
 
         /// <summary>
         /// updates the process of making post requests.
-        /// This method can be used when plugin is not using a working thread and instead should execute 
+        /// This method can be used when plugin is not using a working thread and instead should execute
         /// its long-running operations via polling using this method.
         /// Returns number of currently pending post requests.
         /// </summary>
@@ -70,29 +70,36 @@ namespace PlayFabInternal
         PlayFabPluginManager& operator=(const PlayFabPluginManager&) = delete;
         PlayFabPluginManager& operator=(PlayFabPluginManager&&) = delete;
 
+        static const std::string defaultInstanceName;
+
         // Gets a plugin.
         // If a plugin with specified contract and optional instance name does not exist, it will create a new one.
         template <typename T>
-        static std::shared_ptr<T> GetPlugin(const PlayFabPluginContract contract, const std::string& instanceName = "")
+        static std::shared_ptr<T> GetPlugin(const PlayFabPluginContract contract, const std::string& instanceName = defaultInstanceName)
         {
             return std::static_pointer_cast<T>(GetInstance().GetPluginInternal(contract, instanceName));
         }
 
         // Sets a custom plugin.
         // If a plugin with specified contract and optional instance name already exists, it will be replaced with specified instance.
-        static void SetPlugin(std::shared_ptr<IPlayFabPlugin> plugin, const PlayFabPluginContract contract, const std::string& instanceName = "");
+        static void SetPlugin(const std::shared_ptr<IPlayFabPlugin>& plugin, const PlayFabPluginContract contract, const std::string& instanceName = defaultInstanceName);
+
+        // BUMBLELION: Add a method to reset static shared_ptr's to HTTP plugins held by PlayFab to that we can 
+        // deallocate our Bumblelion HTTP plugin on cleanup. If a plugin with specified contract and optional instance 
+        // name does not exists, nothing happens.
+        static void ResetPlugin(const PlayFabPluginContract contract, const std::string& instanceName = defaultInstanceName);
 
         // Gets a plugin.
         // If a plugin with specified contract and optional instance name does not exist, it will create a new one.
         template <typename T>
-        std::shared_ptr<T> GetPluginInstance(const PlayFabPluginContract contract, const std::string& instanceName = "")
+        std::shared_ptr<T> GetPluginInstance(const PlayFabPluginContract contract, const std::string& instanceName = defaultInstanceName)
         {
             return std::static_pointer_cast<T>(GetPluginInternal(contract, instanceName));
         }
 
         // Sets a custom plugin.
         // If a plugin with specified contract and optional instance name already exists, it will be replaced with specified instance.
-        void SetPluginInstance(std::shared_ptr<IPlayFabPlugin> plugin, const PlayFabPluginContract contract, const std::string& instanceName = "");
+        void SetPluginInstance(const std::shared_ptr<IPlayFabPlugin>& plugin, const PlayFabPluginContract contract, const std::string& instanceName = defaultInstanceName);
 
         // Sets a custom exception handler for any possible background thread exceptions
         void SetExceptionHandler(ExceptionCallback exceptionHandler);
@@ -101,14 +108,30 @@ namespace PlayFabInternal
         void HandleException(const std::exception);
 
     private:
-        std::shared_ptr<IPlayFabPlugin> GetPluginInternal(const PlayFabPluginContract contract, const std::string& instanceName);
-        void SetPluginInternal(std::shared_ptr<IPlayFabPlugin> plugin, const PlayFabPluginContract contract, const std::string& instanceName);
+        // BUMBLELION: Remove the const-ness of some fields so that entries can be erase()-ed from the STL vector they
+        // are stored in using the default move assignment operator.
+        struct PluginEntry
+        {
+            PlayFabPluginContract contract;
+            std::string name;
+            std::shared_ptr<IPlayFabPlugin> plugin;
+        };
+
+        std::shared_ptr<IPlayFabPlugin> GetPluginInternal(const PlayFabPluginContract contract, const std::string& instanceName = defaultInstanceName);
+        void SetPluginInternal(const std::shared_ptr<IPlayFabPlugin>& plugin, const PlayFabPluginContract contract, const std::string& instanceName = defaultInstanceName);
+        // BUMBLELION: Add an inverse to the SetPluginInternal method which allows us to remove an HTTP plugin from the list of entries
+        void ResetPluginInternal(const PlayFabPluginContract contract, const std::string& instanceName = defaultInstanceName);
+        PluginEntry& FindOrCreatePluginEntry(PlayFabPluginContract contract, const std::string& instanceName = defaultInstanceName);
 
         std::shared_ptr<IPlayFabPlugin> CreatePlayFabSerializerPlugin();
         std::shared_ptr<IPlayFabPlugin> CreatePlayFabTransportPlugin();
 
     private:
-        std::map<const std::pair<const PlayFabPluginContract, const std::string>, std::shared_ptr<IPlayFabPlugin>> plugins;
+        std::mutex pluginsMutex;
+        // BUMBLELION: Wrap this vector in a unique_ptr so that we have manual control over the lifetime of the vector.
+        // This is required as there is no guaranteed way of releasing heap memory allocated by the STL container
+        // otherwise (even constructing an empty vector preemptively allocates heap memory).
+        std::unique_ptr<std::vector<PluginEntry>> plugins;
         std::mutex userExceptionCallbackMutex;
         ExceptionCallback userExceptionCallback;
     };
