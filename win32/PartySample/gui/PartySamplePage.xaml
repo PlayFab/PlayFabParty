@@ -31,7 +31,8 @@
             <ComboBoxItem>Room_3</ComboBoxItem>
         </ComboBox>
         <ComboBox x:Name="LanguageDropDown" Width="415" Height="20" Margin="335,130,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" SelectedIndex="0">
-            <ComboBoxItem>English (United States)</ComboBoxItem>
+            <ComboBoxItem>en-us</ComboBoxItem>
+            <ComboBoxItem>fr-fr</ComboBoxItem>
         </ComboBox>
         <ListView x:Name="PlayerList" HorizontalAlignment="Left" Margin="340,168,0,0" VerticalAlignment="Top" Width="400" Height="200" Background="#20000000" BorderThickness="0">
             <ListView.Resources>

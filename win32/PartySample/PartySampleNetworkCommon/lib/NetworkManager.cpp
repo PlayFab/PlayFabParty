@@ -350,6 +350,8 @@ NetworkManager::CreateChatControlIfNecessary()
                 nullptr
         );
 
+        m_localChatControl->SetTranslationOptions(Party::PartySpeechToSpeechTranslationOptions::TranslateToLocalLanguage, 0, nullptr, nullptr);
+
         if (PARTY_FAILED(err))
         {
             DEBUGLOG("SetTextChatOptions failed: %s\n", GetErrorMessage(err));

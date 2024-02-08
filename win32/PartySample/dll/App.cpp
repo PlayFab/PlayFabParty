@@ -104,7 +104,8 @@ __declspec(dllexport)
 void
 __stdcall
 PartySampleApp_CreateAndJoinPartyNetwork(
-    const char* partyNetworkRoomId
+    const char* partyNetworkRoomId,
+    const char* lang
     )
 {
     std::lock_guard<std::mutex> g_appLock(g_appMutex);
@@ -156,6 +157,8 @@ PartySampleApp_CreateAndJoinPartyNetwork(
         g_joinNetworkInProgress = false;
     };
 
+    PartySample::Managers::Get<PartySample::NetworkManager>()->SetLanguageCode(lang, "lang");
+
     PartySample::Managers::Get<PartySample::NetworkManager>()->CreateAndConnectToNetwork(
         partyNetworkRoomId,
         OnCreatePartyNetworkSucceeded,
@@ -166,7 +169,8 @@ __declspec(dllexport)
 void
 __stdcall
 PartySampleApp_JoinPartyNetwork(
-    const char* partyNetworkRoomId
+    const char* partyNetworkRoomId,
+    const char* lang
     )
 {
     std::lock_guard<std::mutex> g_appLock(g_appMutex);
@@ -187,8 +191,9 @@ PartySampleApp_JoinPartyNetwork(
 
     // capture the room id so it can be logged later in the async callbacks
     const std::string roomId = partyNetworkRoomId;
+    const std::string language = lang;
 
-    auto OnDescriptorFetched = [roomId](std::string networkDescriptor)
+    auto OnDescriptorFetched = [roomId, language](std::string networkDescriptor)
     {
         QueueLog("Network", "Found network descriptor for \"%s\": \"%s\"", roomId.c_str(), networkDescriptor.c_str());
 
@@ -211,6 +216,8 @@ PartySampleApp_JoinPartyNetwork(
 
             g_joinNetworkInProgress = false;
         };
+
+        PartySample::Managers::Get<PartySample::NetworkManager>()->SetLanguageCode(language.c_str(), "lang");
 
         PartySample::Managers::Get<PartySample::NetworkManager>()->ConnectToNetwork(
             roomId.c_str(),
