@@ -37,6 +37,72 @@ AppThread()
     }
 }
 
+#include <windows.h>
+#include <iostream>
+
+// A function to copy text to the clipboard
+bool CopyTextToClipboard(const char* text)
+{
+    // Get the length of the text
+    size_t len = strlen(text);
+
+    // Allocate a global memory object for the text
+    HGLOBAL hglb = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(char));
+    if (hglb == NULL)
+        return false;
+
+    // Lock the handle and copy the text to the buffer
+    char* buffer = (char*)GlobalLock(hglb);
+    memcpy(buffer, text, len * sizeof(char));
+    buffer[len] = '\0'; // null terminator
+    GlobalUnlock(hglb);
+
+    // Open the clipboard and empty it
+    if (!OpenClipboard(NULL))
+        return false;
+    EmptyClipboard();
+
+    // Set the text as the clipboard data
+    if (SetClipboardData(CF_TEXT, hglb) == NULL)
+        return false;
+
+    // Close the clipboard
+    CloseClipboard();
+
+    // Success
+    return true;
+}
+
+// A function to paste text from the clipboard
+bool PasteTextFromClipboard(char* text, int size)
+{
+    // Open the clipboard
+    if (!OpenClipboard(NULL))
+        return false;
+
+    // Get the clipboard data as text
+    HGLOBAL hglb = GetClipboardData(CF_TEXT);
+    if (hglb == NULL)
+        return false;
+
+    // Lock the handle and get the text pointer
+    char* buffer = (char*)GlobalLock(hglb);
+    if (buffer == NULL)
+        return false;
+
+    // Copy the text to the output parameter
+    //(buffer, text, (int)size - 1);
+    strcpy_s(text, size, buffer);
+    //text[size - 1] = '\0'; // null terminator
+    GlobalUnlock(hglb);
+
+    // Close the clipboard
+    CloseClipboard();
+
+    // Success
+    return true;
+}
+
 __declspec(dllexport)
 void
 __stdcall
@@ -142,6 +208,8 @@ PartySampleApp_CreateAndJoinPartyNetwork(
             networkDescriptor,
             OnSetNetworkDescriptorCompleted);
 
+        CopyTextToClipboard(networkDescriptor.c_str());
+
         g_activePartyNetworkRoomId = roomId;
         g_joinNetworkInProgress = false;
     };
@@ -193,40 +261,44 @@ PartySampleApp_JoinPartyNetwork(
     const std::string roomId = partyNetworkRoomId;
     const std::string language = lang;
 
-    auto OnDescriptorFetched = [roomId, language](std::string networkDescriptor)
+    //auto OnDescriptorFetched = [roomId, language](std::string networkDescriptor)
+    //{
+    char buffer[512]{ '\0' };
+
+    PasteTextFromClipboard(buffer, 512);
+
+    QueueLog("Network", "Found network descriptor for \"%s\": \"%s\"", roomId.c_str(), buffer);
+
+    auto OnJoinPartyNetworkSucceeded = [roomId]()
     {
-        QueueLog("Network", "Found network descriptor for \"%s\": \"%s\"", roomId.c_str(), networkDescriptor.c_str());
+        QueueLog("Network", "PartyNetwork \"%s\" joined!", roomId.c_str());
 
-        auto OnJoinPartyNetworkSucceeded = [roomId]()
-        {
-            QueueLog("Network", "PartyNetwork \"%s\" joined!", roomId.c_str());
-
-            g_activePartyNetworkRoomId = roomId;
-            g_joinNetworkInProgress = false;
-        };
-
-        auto OnJoinPartyNetworkFailed = [roomId](PartyError error)
-        {
-            QueueLog(
-                "Network",
-                "Failed to join PartyNetwork for \"%s\"! err=0x%08x \"%s\"",
-                roomId.c_str(),
-                error,
-                GetPartyErrorMessage(error));
-
-            g_joinNetworkInProgress = false;
-        };
-
-        PartySample::Managers::Get<PartySample::NetworkManager>()->SetLanguageCode(language.c_str(), "lang");
-
-        PartySample::Managers::Get<PartySample::NetworkManager>()->ConnectToNetwork(
-            roomId.c_str(),
-            networkDescriptor.c_str(),
-            OnJoinPartyNetworkSucceeded,
-            OnJoinPartyNetworkFailed);
+        g_activePartyNetworkRoomId = roomId;
+        g_joinNetworkInProgress = false;
     };
 
-    PartySample::Managers::Get<PartySample::PlayFabManager>()->GetDescriptor(partyNetworkRoomId, OnDescriptorFetched);
+    auto OnJoinPartyNetworkFailed = [roomId](PartyError error)
+    {
+        QueueLog(
+            "Network",
+            "Failed to join PartyNetwork for \"%s\"! err=0x%08x \"%s\"",
+            roomId.c_str(),
+            error,
+            GetPartyErrorMessage(error));
+
+        g_joinNetworkInProgress = false;
+    };
+
+    PartySample::Managers::Get<PartySample::NetworkManager>()->SetLanguageCode(language.c_str(), "lang");
+
+    PartySample::Managers::Get<PartySample::NetworkManager>()->ConnectToNetwork(
+        roomId.c_str(),
+        buffer,
+        OnJoinPartyNetworkSucceeded,
+        OnJoinPartyNetworkFailed);
+    //};
+
+    //PartySample::Managers::Get<PartySample::PlayFabManager>()->GetDescriptor(partyNetworkRoomId, OnDescriptorFetched);
 }
 
 __declspec(dllexport)
