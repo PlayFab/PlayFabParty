@@ -10,3 +10,8 @@ Please download, unzip, and copy the corresponding asset folder for your platfor
 * Android - `/android/bin/release/`
 * Win32 - The win32 binaries are not included in the zip assets. They are available on download on [nuget](https://www.nuget.org/packages/Microsoft.PlayFab.PlayFabParty.Cpp.Windows).
 * Linux - `/x64/Release/libparty.so`
+
+
+## WSL Compatibility
+
+PlayFab Party for Linux is not intended to run on the Windows Subsystem for Linux (WSL). Please run on a dedicated Linux machine to take advantage of all Party features.
