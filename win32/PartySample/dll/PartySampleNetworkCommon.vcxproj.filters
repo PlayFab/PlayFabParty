@@ -1,30 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="..\..\PartySampleNetworkCommon\inc\INetworkStateChangeManager.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\PartySampleNetworkCommon\inc\LanguageOptions.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\PartySampleNetworkCommon\inc\Manager.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\PartySampleNetworkCommon\inc\Managers.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\PartySampleNetworkCommon\inc\NetworkManager.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\PartySampleNetworkCommon\inc\NetworkMessages.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\PartySampleNetworkCommon\inc\PlayFabManager.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\PartySampleNetworkCommon\lib\pch.h">
-      <Filter>lib</Filter>
-    </ClInclude>
+    <ClInclude Include="..\PartySampleNetworkCommon\inc\INetworkStateChangeManager.h" />
+    <ClInclude Include="..\PartySampleNetworkCommon\inc\DebugLog.h" />
+    <ClInclude Include="..\PartySampleNetworkCommon\inc\LanguageOptions.h" />
+    <ClInclude Include="..\PartySampleNetworkCommon\inc\Manager.h" />
+    <ClInclude Include="..\PartySampleNetworkCommon\inc\Managers.h" />
+    <ClInclude Include="..\PartySampleNetworkCommon\inc\NetworkManager.h" />
+    <ClInclude Include="..\PartySampleNetworkCommon\inc\NetworkMessages.h" />
+    <ClInclude Include="..\PartySampleNetworkCommon\inc\PlayFabManager.h" />
+    <ClInclude Include="..\PartySampleNetworkCommon\lib\pch.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="inc">
@@ -35,23 +20,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\PartySampleNetworkCommon\lib\LanguageOptions.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\PartySampleNetworkCommon\lib\Managers.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\PartySampleNetworkCommon\lib\NetworkManager.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\PartySampleNetworkCommon\lib\NetworkMessages.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\PartySampleNetworkCommon\lib\pch.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\PartySampleNetworkCommon\lib\PlayFabManager.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
+    <ClCompile Include="..\PartySampleNetworkCommon\lib\DebugLog.cpp" />
+    <ClCompile Include="..\PartySampleNetworkCommon\lib\LanguageOptions.cpp" />
+    <ClCompile Include="..\PartySampleNetworkCommon\lib\Managers.cpp" />
+    <ClCompile Include="..\PartySampleNetworkCommon\lib\NetworkManager.cpp" />
+    <ClCompile Include="..\PartySampleNetworkCommon\lib\NetworkMessages.cpp" />
+    <ClCompile Include="..\PartySampleNetworkCommon\lib\PlayFabManager.cpp" />
+    <ClCompile Include="..\PartySampleNetworkCommon\lib\pch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

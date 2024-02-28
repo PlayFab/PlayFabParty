@@ -333,16 +333,22 @@ namespace PartySample
         {
             ComboBoxItem selectedRoom = (ComboBoxItem)this.RoomDropDown.SelectedItem;
             string roomId = selectedRoom.Content.ToString();
+            ComboBoxItem lang = (ComboBoxItem)this.LanguageDropDown.SelectedItem;
+            string language = lang.Content.ToString();
+            LogNewMessage("Setting", $"Language: \"{language}\".");
             LogNewMessage("Network", $"Joining \"{roomId}\" PartyNetwork...");
-            PartySampleApp_JoinPartyNetwork(roomId);
+            PartySampleApp_JoinPartyNetwork(roomId, language);
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             ComboBoxItem selectedRoom = (ComboBoxItem)this.RoomDropDown.SelectedItem;
             string roomId = selectedRoom.Content.ToString();
+            ComboBoxItem lang = (ComboBoxItem)this.LanguageDropDown.SelectedItem;
+            string language = lang.Content.ToString();
+            LogNewMessage("Setting",$"Language: \"{language}\".");
             LogNewMessage("Network", $"Creating \"{roomId}\" PartyNetwork...");
-            PartySampleApp_CreateAndJoinPartyNetwork(roomId);
+            PartySampleApp_CreateAndJoinPartyNetwork(roomId, language);
         }
 
         private void LeaveButton_Click(object sender, RoutedEventArgs e)
@@ -376,10 +382,10 @@ namespace PartySample
         private static extern void PartySampleApp_PollLogQueue(LogCallback logCallback);
 
         [DllImport("PartySampleApp.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern void PartySampleApp_CreateAndJoinPartyNetwork(string partyNetworkRoomId);
+        private static extern void PartySampleApp_CreateAndJoinPartyNetwork(string partyNetworkRoomId, string language);
 
         [DllImport("PartySampleApp.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern void PartySampleApp_JoinPartyNetwork(string partyNetworkRoomId);
+        private static extern void PartySampleApp_JoinPartyNetwork(string partyNetworkRoomId, string language);
 
         [DllImport("PartySampleApp.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern void PartySampleApp_LeavePartyNetwork();
