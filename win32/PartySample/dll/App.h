@@ -33,14 +33,16 @@ extern "C"
     void
     __stdcall
     PartySampleApp_CreateAndJoinPartyNetwork(
-        const char* partyNetworkRoomId
+        const char* partyNetworkRoomId,
+        const char* language
         );
 
     __declspec(dllexport)
     void
     __stdcall
     PartySampleApp_JoinPartyNetwork(
-        const char* partyNetworkRoomId
+        const char* partyNetworkRoomId,
+        const char* language
         );
 
     __declspec(dllexport)
