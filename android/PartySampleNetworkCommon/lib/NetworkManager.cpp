@@ -169,10 +169,10 @@ NetworkManager::CreateAndConnectToNetwork(
     PartyNetworkConfiguration cfg = {};
 
     // Setup the network to allow the maximum number of single-device players of any device type
-    cfg.maxDeviceCount = c_maxNetworkConfigurationMaxDeviceCount;
+    cfg.maxDeviceCount = 29;
     cfg.maxDevicesPerUserCount = 1;
     cfg.maxEndpointsPerDeviceCount = 1;
-    cfg.maxUserCount = c_maxNetworkConfigurationMaxDeviceCount;
+    cfg.maxUserCount = 29;
     cfg.maxUsersPerDeviceCount = 1;
 
     //Get the uid from the local chat control
