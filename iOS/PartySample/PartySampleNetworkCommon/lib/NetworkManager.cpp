@@ -168,7 +168,7 @@ NetworkManager::CreateAndConnectToNetwork(
 
     PartyNetworkConfiguration cfg = {};
 
-    // Setup the network to allow the maximum number of single-device players of any device type
+    // Set up the network to allow 29 single-device players of any device type
     cfg.maxDeviceCount = 29;
     cfg.maxDevicesPerUserCount = 1;
     cfg.maxEndpointsPerDeviceCount = 1;
