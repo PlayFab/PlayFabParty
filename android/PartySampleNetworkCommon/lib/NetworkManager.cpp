@@ -166,13 +166,16 @@ NetworkManager::CreateAndConnectToNetwork(
 {
     DEBUGLOG("NetworkManager::CreateAndConnectToNetwork()\n");
 
+    // Arbitrarily support 16 max devices for the sample since this is usually the most that games need
+    constexpr uint8_t c_maxSampleNetworkDeviceCount = 16;
+    static_assert(c_maxSampleNetworkDeviceCount <= c_maxNetworkConfigurationMaxDeviceCount, "Must be less than or equal to c_maxNetworkConfigurationMaxDeviceCount.");
+
     PartyNetworkConfiguration cfg = {};
 
-    // Setup the network to allow the maximum number of single-device players of any device type
-    cfg.maxDeviceCount = c_maxNetworkConfigurationMaxDeviceCount;
+    cfg.maxDeviceCount = c_maxSampleNetworkDeviceCount;
     cfg.maxDevicesPerUserCount = 1;
     cfg.maxEndpointsPerDeviceCount = 1;
-    cfg.maxUserCount = c_maxNetworkConfigurationMaxDeviceCount;
+    cfg.maxUserCount = c_maxSampleNetworkDeviceCount;
     cfg.maxUsersPerDeviceCount = 1;
 
     //Get the uid from the local chat control
