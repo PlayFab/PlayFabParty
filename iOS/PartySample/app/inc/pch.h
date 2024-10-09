@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <cstdbool>
 #include <cstddef>
 #include <cstdint>
