@@ -1,7 +1,7 @@
+#include <assert.h>
 #include <cstdbool>
 #include <cstddef>
 #include <cstdint>
-#include <cassert>
 #include <map>
 #include <string>
 #include "PartyPal.h"
