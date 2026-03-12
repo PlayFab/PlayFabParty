@@ -26,6 +26,7 @@
 		D3F6F31322AF88820010B66F /* JoinViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = D3F6F31222AF88820010B66F /* JoinViewController.mm */; };
 		D3F6F31622AFAF710010B66F /* SelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F6F31522AFAF710010B66F /* SelectViewController.m */; };
 		D3F89B7C22DF075300302E99 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F89B7B22DF075300302E99 /* AVFoundation.framework */; };
+		TESTVIEW001 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTVIEW002 /* TestViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +97,8 @@
 		D3F6F31422AFAF710010B66F /* SelectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectViewController.h; sourceTree = "<group>"; };
 		D3F6F31522AFAF710010B66F /* SelectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectViewController.m; sourceTree = "<group>"; };
 		D3F89B7B22DF075300302E99 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		TESTVIEW002 /* TestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		TESTVIEW003 /* TestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +158,8 @@
 				D3F6F31222AF88820010B66F /* JoinViewController.mm */,
 				D3F6F31422AFAF710010B66F /* SelectViewController.h */,
 				D3F6F31522AFAF710010B66F /* SelectViewController.m */,
+				TESTVIEW003 /* TestViewController.h */,
+				TESTVIEW002 /* TestViewController.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -300,6 +305,7 @@
 				13CF09A32235DC0C00FB676F /* UserSelectViewController.mm in Sources */,
 				13630CB9222C79F7008E0A00 /* Config.cpp in Sources */,
 				135415CF222B9E5600A23E16 /* main.m in Sources */,
+				TESTVIEW001 /* TestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

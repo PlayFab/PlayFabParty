@@ -3,18 +3,18 @@ def libType
 
 android {
     compileSdkVersion 34
-    ndkVersion "21.1.6352462"
+    ndkVersion "27.2.12479018"
 
     defaultConfig {
         applicationId "com.microsoft.playfab.partysample"
-        minSdkVersion 21
+        minSdkVersion 27
         targetSdkVersion 34
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         externalNativeBuild {
             cmake {
-                cppFlags "-std=c++14 -fexceptions -Wall -Wextra -Werror"
+                cppFlags "-std=c++17 -fexceptions -Wall -Wextra "
             }
         }
     }
@@ -23,6 +23,7 @@ android {
             libType = 'release'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
         debug {
             libType = 'debug'

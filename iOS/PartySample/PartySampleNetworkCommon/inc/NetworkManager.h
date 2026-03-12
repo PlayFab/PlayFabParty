@@ -34,6 +34,9 @@ namespace PartySample
         // And sets up chat controls for when the user is connected to a network.
         void Initialize(const char* titleId);
 
+        // Initializes party manager only (without credentials) - for testing RegionsChanged event
+        PartyError InitializePartyManager(const char* titleId);
+
         // Creates a new network and registers it with the playfab title, storing connection information by keying off the network Id.
         void CreateAndConnectToNetwork(const char* networkId, std::function<void(std::string)> callback = nullptr, std::function<void(PartyError)> errorCallback = nullptr);
         // Connects the current user and chat control to the specified network descriptor using the network Id as an invite Id.

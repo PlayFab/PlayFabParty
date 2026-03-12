@@ -31,6 +31,7 @@
 @property (nonatomic)  NotificationReceiver *notificationReceiver;
 
 -(void) initialize:(NSString*)pfTitle;
+-(BOOL) initializePartyManager:(NSString*)pfTitle;
 -(void) setHandler:(id<ChatEventHandler>) messageHandler;
 -(void) signInLocalUser;
 

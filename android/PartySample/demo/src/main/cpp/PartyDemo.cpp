@@ -24,6 +24,9 @@ bool g_initializeCompleted = false;
 JavaVM* g_jvm;
 jobject g_javaNetworkManager ;
 
+// Forward declarations
+void OnDisconnect(bool disconnectWasExpected);
+
 PartyString
 GetErrorMessage(
     PartyError error
@@ -124,14 +127,14 @@ SendSysLogToUI(
     DbgLog(TAG, format, messageString.get());
 
     RunJavaMethod(
-        "addErrorMessage",
+        "logMessage",
         "(Ljava/lang/String;)V",
         [&messageString](
             JNIEnv* env,
             jmethodID jmethodId
             )
         {
-            DbgLog(TAG, "call addErrorMessage method");
+            DbgLog(TAG, "call logMessage method");
 
             env->CallVoidMethod(
                 g_javaNetworkManager,
@@ -295,6 +298,17 @@ SignInToPlayFab(TSignInCallback onComplete)
             }
         },
         g_customId);
+}
+
+// Simplified initialization for testing
+void
+InitializeManagers()
+{
+    if (!Managers::Get<NetworkStateChangeManager>())
+    {
+        Managers::Initialize<NetworkStateChangeManager>();
+        Managers::Get<NetworkManager>()->SetOnNetworkDestroyed(OnDisconnect);
+    }
 }
 
 void
@@ -466,6 +480,79 @@ extern "C"
     }
 
     JNIEXPORT jboolean JNICALL
+    Java_com_microsoft_playfab_partysample_sdk_NetworkManager_connectToPlayFab(
+        JNIEnv* env,
+        jobject thiz,
+        jstring userId
+        )
+    {
+        if (g_jvm == nullptr) {
+            env->GetJavaVM(&g_jvm);
+        }
+
+        if (g_javaNetworkManager == nullptr) {
+            g_javaNetworkManager = env->NewGlobalRef(thiz);
+        }
+
+        const char* userIdCStr = env->GetStringUTFChars(userId, NULL);
+        g_customId = reinterpret_cast<PartyString>(userIdCStr);
+        env->ReleaseStringUTFChars(userId, userIdCStr);
+
+        DbgLog(TAG, "ConnectToPlayFab with user: %s", g_customId.c_str());
+        
+        InitializeManagers();
+        
+        SignInToPlayFab([](bool success)
+        {
+            if (success)
+            {
+                SendSysLogToUI("[PlayFab] Login successful");
+                SendSysLogToUI("[PlayFab] EntityId: %s", Managers::Get<PlayFabManager>()->EntityId().c_str());
+            }
+            else
+            {
+                SendSysLogToUI("[PlayFab] Login failed (check WiFi)");
+            }
+        });
+
+        return true;
+    }
+
+    JNIEXPORT jboolean JNICALL
+    Java_com_microsoft_playfab_partysample_sdk_NetworkManager_initializePartyManager(
+        JNIEnv* env,
+        jobject thiz
+        )
+    {
+        if (g_jvm == nullptr) {
+            env->GetJavaVM(&g_jvm);
+        }
+
+        if (g_javaNetworkManager == nullptr) {
+            g_javaNetworkManager = env->NewGlobalRef(thiz);
+        }
+
+        DbgLog(TAG, "InitializePartyManager called");
+        
+        InitializeManagers();
+        g_isRunning = true;
+
+        // Call InitializePartyManager which only initializes PartyManager, doesn't require credentials
+        PartyError err = Managers::Get<NetworkManager>()->InitializePartyManager(g_playfabTitleId.c_str());
+        
+        if (PARTY_FAILED(err))
+        {
+            SendSysLogToUI("[Party] Initialize FAILED: %s", GetErrorMessage(err));
+            return false;
+        }
+
+        SendSysLogToUI("[Party] PartyManager initialized");
+        SendSysLogToUI("[Party] Waiting for RegionsChanged...");
+        
+        return true;
+    }
+
+    JNIEXPORT jboolean JNICALL
     Java_com_microsoft_playfab_partysample_sdk_NetworkManager_initialize(
         JNIEnv* env,
         jobject thiz,
@@ -487,15 +574,32 @@ extern "C"
         g_isRunning = true;
         Managers::Initialize<NetworkStateChangeManager>();
         Managers::Get<NetworkManager>()->SetOnNetworkDestroyed(OnDisconnect);
+        
+        // FOR TESTING: Initialize PartyManager immediately (without creating local user)
+        // This triggers RegionsChanged event and works regardless of WiFi state
+        PartyError err = Managers::Get<NetworkManager>()->InitializePartyManager(g_playfabTitleId.c_str());
+        if (PARTY_FAILED(err))
+        {
+            SendSysLogToUI("InitializePartyManager failed: %s", GetErrorMessage(err));
+        }
+        else
+        {
+            SendSysLogToUI("PartyManager initialized - watching for RegionsChanged");
+        }
+        
+        // Attempt PlayFab SignIn for network features (runs async)
+        // When successful, this will create the local user
         SignInToPlayFab([](bool success)
         {
             if (success)
             {
+                SendSysLogToUI("PlayFab Sign-In succeeded");
+                // Now create local user with valid credentials
                 InitializePlayFabParty();
             }
             else
             {
-                SendSysLogToUI("Failed PlayFab Sign-In!");
+                SendSysLogToUI("Failed PlayFab Sign-In - network features unavailable");
             }
         });
 
@@ -674,8 +778,8 @@ extern "C"
     {
         if (g_isRunning)
         {
-            Managers::Get<PlayFabManager>()->Tick();
             Managers::Get<NetworkManager>()->DoWork();
+            Managers::Get<PlayFabManager>()->Tick();
             GetPlayerState();
         }
 

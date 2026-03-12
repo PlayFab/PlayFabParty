@@ -59,6 +59,37 @@ NetworkManager::SetLanguageCode(
     }
 }
 
+PartyError
+NetworkManager::InitializePartyManager(
+    const char* titleId
+    )
+{
+    DEBUGLOG("NetworkManager::InitializePartyManager()\n");
+
+    auto& partyManager = PartyManager::GetSingleton();
+
+    //Only initialize the party manager once.
+    if (m_partyInitialized == false)
+    {
+        // Initialize PlayFab Party
+        PartyError err = partyManager.Initialize(titleId);
+        if (PARTY_FAILED(err))
+        {
+            DEBUGLOG("InitializePartyManager failed: %s\n", GetErrorMessage(err));
+            return err;
+        }
+
+        m_partyInitialized = true;
+        DEBUGLOG("PartyManager initialized successfully\n");
+    }
+    else
+    {
+        DEBUGLOG("PartyManager already initialized\n");
+    }
+
+    return c_partyErrorSuccess;
+}
+
 void
 NetworkManager::Initialize(
     const char* titleId
@@ -89,17 +120,26 @@ NetworkManager::Initialize(
         PartyString entityId = Managers::Get<PlayFabManager>()->EntityId().c_str();
         PartyString entityToken = Managers::Get<PlayFabManager>()->EntityToken().c_str();
 
-        // Create a local user object
-        err = partyManager.CreateLocalUser(
-            entityId,                                   // User id
-            entityToken,                                // User entity token
-            &m_localUser                                // OUT local user object
-        );
-
-        if (PARTY_FAILED(err))
+        // Only create local user if we have valid credentials
+        if (entityId != nullptr && strlen(entityId) > 0 && 
+            entityToken != nullptr && strlen(entityToken) > 0)
         {
-            DEBUGLOG("CreateLocalUser failed: %s\n", GetErrorMessage(err));
-            return;
+            // Create a local user object
+            err = partyManager.CreateLocalUser(
+                entityId,                                   // User id
+                entityToken,                                // User entity token
+                &m_localUser                                // OUT local user object
+            );
+
+            if (PARTY_FAILED(err))
+            {
+                DEBUGLOG("CreateLocalUser failed: %s\n", GetErrorMessage(err));
+                return;
+            }
+        }
+        else
+        {
+            DEBUGLOG("Skipping CreateLocalUser - no valid credentials yet\n");
         }
     }
 }
@@ -755,12 +795,13 @@ void
 NetworkManager::DoWork()
 {
     std::unique_lock<std::mutex> lock(m_networkLock);
-    if (m_state == NetworkManagerState::Initialize)
-    {
-        // Network isn't ready to receive state changes yet.
-        return;
-    }
-
+    // Allow processing state changes even in Initialize state to capture RegionsChanged
+    // if (m_state == NetworkManagerState::Initialize)
+    // {
+    //     // Network isn't ready to receive state changes yet.
+    //     return;
+    // }
+    DEBUGLOG("-------->>>>> Ready to receive state changes <<<<<---------");
     PartyStateChangeArray changes;
     uint32_t count;
 
@@ -785,6 +826,7 @@ NetworkManager::DoWork()
         case PartyStateChangeType::RegionsChanged:
         {
             DEBUGLOG("Region changed \n");
+            DEBUGLOG("=== RegionsChanged EVENT CAPTURED ===\n");
             break;
         }
         case PartyStateChangeType::DestroyLocalUserCompleted:

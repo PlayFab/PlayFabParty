@@ -59,6 +59,34 @@ NetworkManager::SetLanguageCode(
     }
 }
 
+PartyError
+NetworkManager::InitializePartyManager(
+    const char* titleId
+    )
+{
+    DEBUGLOG("NetworkManager::InitializePartyManager()\n");
+
+    auto& partyManager = PartyManager::GetSingleton();
+    PartyError err;
+
+    //Only initialize the party manager once.
+    if (m_partyInitialized == false)
+    {
+        // Initialize PlayFab Party
+        err = partyManager.Initialize(titleId);
+        if (PARTY_FAILED(err))
+        {
+            DEBUGLOG("InitializePartyManager failed: %s\n", GetErrorMessage(err));
+            return err;
+        }
+
+        m_partyInitialized = true;
+        DEBUGLOG("PartyManager initialized successfully\n");
+    }
+
+    return c_partyErrorSuccess;
+}
+
 void
 NetworkManager::Initialize(
     const char* titleId
@@ -88,6 +116,14 @@ NetworkManager::Initialize(
     {
         PartyString entityId = Managers::Get<PlayFabManager>()->EntityId().c_str();
         PartyString entityToken = Managers::Get<PlayFabManager>()->EntityToken().c_str();
+
+        // Validate credentials before creating local user
+        if (entityId == nullptr || strlen(entityId) == 0 || 
+            entityToken == nullptr || strlen(entityToken) == 0)
+        {
+            DEBUGLOG("CreateLocalUser skipped: Invalid credentials (entityId or entityToken is empty)\n");
+            return;
+        }
 
         // Create a local user object
         err = partyManager.CreateLocalUser(
@@ -755,12 +791,7 @@ void
 NetworkManager::DoWork()
 {
     std::unique_lock<std::mutex> lock(m_networkLock);
-    if (m_state == NetworkManagerState::Initialize)
-    {
-        // Network isn't ready to receive state changes yet.
-        return;
-    }
-
+    
     PartyStateChangeArray changes;
     uint32_t count;
 
@@ -785,6 +816,7 @@ NetworkManager::DoWork()
         case PartyStateChangeType::RegionsChanged:
         {
             DEBUGLOG("Region changed \n");
+            DEBUGLOG("=== RegionsChanged EVENT CAPTURED ===\n");
             break;
         }
         case PartyStateChangeType::DestroyLocalUserCompleted:

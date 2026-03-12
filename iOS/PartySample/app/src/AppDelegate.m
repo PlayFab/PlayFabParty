@@ -7,6 +7,8 @@
 //--------------------------------------------------------------------------------------
 
 #import "AppDelegate.h"
+#import "TestViewController.h"
+#import "SimpleClient.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +19,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    // Initialize global Party SDK resources
+    [SimpleClient globalInitialize];
+    
+    // Create window and set up TestViewController as root
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    TestViewController *testVC = [[TestViewController alloc] init];
+    self.window.rootViewController = testVC;
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -48,6 +60,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
+    [SimpleClient globalShutdown];
 }
 
 @end

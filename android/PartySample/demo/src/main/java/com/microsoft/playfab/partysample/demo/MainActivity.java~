@@ -1,0 +1,529 @@
+
+package com.microsoft.playfab.partysample.demo;
+
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.preference.PreferenceManager;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.content.SharedPreferences;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import android.util.Log;
+
+public class MainActivity extends AppCompatActivity {
+
+    static final int AUDIO_PERMISSION_REQUEST_CODE = 10;
+
+    // ===== Config auto-import (SAF -> copy into app internal storage) =====
+    static final int REQ_IMPORT_CONFIG_JSON = 2001;
+    public static final String cCachedPlayFabTitleIDKey = "cached_playfab_title_id";
+
+    // Stored config location info
+    public static final String cCachedConfigUriKey = "cached_config_uri";
+    public static final String cCachedConfigImportedPathKey = "cached_config_imported_path";
+    private static final String IMPORTED_CONFIG_FILENAME = "PlayFabPartyLogger.json";
+
+    // ===== Export logs to Downloads (SAF create document) =====
+    static final int REQ_EXPORT_LOGS_ZIP = 3001;
+    private static final String TEMP_EXPORT_ZIP_NAME = "PlayFabPartyLogs_export.zip";
+    private File pendingExportZip = null;
+
+    // ===== NEW: Export-only mode (called from ChatActivity) =====
+    public static final String EXTRA_EXPORT_LOGS_ONLY = "export_logs_only";
+    private boolean exportOnlyMode = false;
+
+    private boolean hasPermission;
+    EditText titleIdEditText;
+    TextView titleIdWarningTextView;
+    ArrayList<Button> buttons;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        exportOnlyMode = getIntent().getBooleanExtra(EXTRA_EXPORT_LOGS_ONLY, false);
+
+        if (exportOnlyMode) {
+            // No need to inflate UI; we only need to launch the export flow.
+            // Keep the activity alive to receive onActivityResult, then finish.
+            exportLogsToDownloads();
+            return;
+        }
+
+        setContentView(R.layout.activity_main);
+
+        loadButtons();
+        configureTitleIDEditor();
+        tryLoadCachedTitleID();
+
+        checkPermissions();
+
+        // Auto-import config JSON at app start (no button needed)
+        ensureConfigImportedOnStartup();
+
+        // Optional: Export Logs button in MainActivity (Java 7 compatible)
+        Button exportBtn = findViewById(R.id.btnExportLogs);
+        if (exportBtn != null) {
+            exportBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    exportLogsToDownloads();
+                }
+            });
+        }
+    }
+
+    // =========================
+    // Title ID logic
+    // =========================
+
+    private void configureTitleIDEditor() {
+        titleIdEditText = (EditText)findViewById(R.id.editText_TitleID);
+        titleIdWarningTextView = (TextView)findViewById(R.id.textView_TitleIDWarning);
+        titleIdEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() == 0) {
+                    onInvalidTitleID();
+                } else {
+                    cacheTitleID(s.toString());
+                    onValidTitleID();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+    }
+
+    private void cacheTitleID(String s) {
+        SharedPreferences.Editor prefEditor =
+                PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit();
+        prefEditor.putString(cCachedPlayFabTitleIDKey, s);
+        prefEditor.apply();
+    }
+
+    private void onInvalidTitleID() {
+        titleIdWarningTextView.setText("PlayFab title ID must be populated");
+        enableButtons(false);
+    }
+
+    private void onValidTitleID() {
+        titleIdWarningTextView.setText("");
+        enableButtons(true);
+    }
+
+    private void tryLoadCachedTitleID() {
+        SharedPreferences myPreferences =
+                PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+
+        String titleID = myPreferences.getString(cCachedPlayFabTitleIDKey, "");
+        if (titleID.length() > 0) {
+            titleIdEditText.getText().clear();
+            titleIdEditText.getText().append(titleID);
+            onValidTitleID();
+        } else if (titleIdEditText.getText().length() > 0) {
+            cacheTitleID(titleIdEditText.getText().toString());
+            onValidTitleID();
+        } else {
+            onInvalidTitleID();
+        }
+    }
+
+    private void loadButtons() {
+        buttons = new ArrayList<>();
+        buttons.add((Button)findViewById(R.id.btnUser1));
+        buttons.add((Button)findViewById(R.id.btnUser2));
+        buttons.add((Button)findViewById(R.id.btnUser3));
+        buttons.add((Button)findViewById(R.id.btnUser4));
+    }
+
+    private void enableButtons(Boolean enable) {
+        for (Button btn : buttons) {
+            btn.setEnabled(enable);
+            if (enable) {
+                btn.getBackground().setAlpha(255);
+            } else {
+                btn.getBackground().setAlpha(50);
+            }
+        }
+    }
+
+    // =========================
+    // Launch ChatActivity
+    // =========================
+
+    public void onBtnUserClicked(View view) {
+        if (!hasPermission) {
+            Toast.makeText(this, "Please grant audio permission for app", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Button button = (Button)view;
+
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra("name", button.getText());
+        intent.putExtra(cCachedPlayFabTitleIDKey, titleIdEditText.getText().toString());
+
+        // Optional: pass imported config path so ChatActivity/native can use it
+        intent.putExtra("imported_config_path", getImportedConfigPathIfAny());
+
+        startActivity(intent);
+    }
+
+    // =========================
+    // Permissions
+    // =========================
+
+    public void checkPermissions() {
+        // NOTE: READ/WRITE_EXTERNAL_STORAGE removed - not needed for SAF import/export.
+        requestPermission(new String[] {
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.BLUETOOTH_SCAN,
+                Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.MODIFY_AUDIO_SETTINGS
+        }, AUDIO_PERMISSION_REQUEST_CODE);
+    }
+
+    public void requestPermission(String[] permission, int requestCode ) {
+        hasPermission = true;
+        for (String p : permission) {
+            if (!hasPermission(p)) {
+                hasPermission = false;
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, p)) {
+                    Toast.makeText(this, "Missing Permission: " + p, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
+        if (!hasPermission) {
+            ActivityCompat.requestPermissions(this, permission, requestCode);
+        }
+    }
+
+    public boolean hasPermission(String permission) {
+        return ContextCompat.checkSelfPermission(this, permission)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == AUDIO_PERMISSION_REQUEST_CODE) {
+            hasPermission = true;
+            for (int r : grantResults) {
+                if (r != PackageManager.PERMISSION_GRANTED) {
+                    hasPermission = false;
+                    break;
+                }
+            }
+        }
+    }
+
+    // ============================================================
+    // (A) AUTO-IMPORT CONFIG JSON ON STARTUP (SAF -> app storage)
+    // ============================================================
+
+    private void ensureConfigImportedOnStartup() {
+        // 1) If already imported and exists, done.
+        String importedPath = getImportedConfigPathIfAny();
+        if (importedPath != null && !importedPath.isEmpty()) {
+            File f = new File(importedPath);
+            if (f.exists()) return;
+        }
+
+        // 2) If we have a saved URI from earlier, try re-import automatically.
+        Uri savedUri = getSavedConfigUriIfAny();
+        if (savedUri != null) {
+            try {
+                String newPath = importConfigIntoAppStorage(savedUri);
+                cacheConfigUriAndPath(savedUri, newPath);
+                Toast.makeText(this, "Config loaded automatically.", Toast.LENGTH_SHORT).show();
+                return;
+            } catch (Exception ignored) {
+                // permission revoked or file moved; fall through to picker
+            }
+        }
+
+        // 3) First run / missing: launch picker automatically.
+        Toast.makeText(this, "Select your config JSON (Downloads/Documents) once.", Toast.LENGTH_LONG).show();
+        pickConfigJson();
+    }
+
+    private void pickConfigJson() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        // If your picker shows nothing, change to "*/*" to be more permissive.
+        intent.setType("application/json");
+        startActivityForResult(intent, REQ_IMPORT_CONFIG_JSON);
+    }
+
+    private String importConfigIntoAppStorage(Uri uri) throws Exception {
+        File dest = new File(getFilesDir(), IMPORTED_CONFIG_FILENAME);
+
+        try (InputStream in = getContentResolver().openInputStream(uri);
+             OutputStream out = new FileOutputStream(dest)) {
+
+            if (in == null) throw new FileNotFoundException("Unable to open input stream.");
+
+            byte[] buffer = new byte[4096];
+            int read;
+            while ((read = in.read(buffer)) != -1) {
+                out.write(buffer, 0, read);
+            }
+            out.flush();
+        }
+
+        return dest.getAbsolutePath();
+    }
+
+    private void cacheConfigUriAndPath(Uri uri, String importedPath) {
+        SharedPreferences.Editor prefEditor =
+                PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit();
+        prefEditor.putString(cCachedConfigUriKey, uri.toString());
+        prefEditor.putString(cCachedConfigImportedPathKey, importedPath);
+        prefEditor.apply();
+    }
+
+    private String getImportedConfigPathIfAny() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        return prefs.getString(cCachedConfigImportedPathKey, "");
+    }
+
+    private Uri getSavedConfigUriIfAny() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        String uriStr = prefs.getString(cCachedConfigUriKey, "");
+        if (uriStr == null || uriStr.isEmpty()) return null;
+        try {
+            return Uri.parse(uriStr);
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
+
+    // ============================================================
+    // (B) EXPORT LOGS TO DOWNLOADS (ZIP -> SAF Save As...)
+    // ============================================================
+
+    private void exportLogsToDownloads() {
+        try {
+            // Create a temp zip in cache
+            pendingExportZip = new File(getCacheDir(), TEMP_EXPORT_ZIP_NAME);
+
+            // Log directories (adjust if your logger uses different folders)
+            File internalLogDir = new File(getFilesDir(), "log");
+            File externalLogDir = (getExternalFilesDir(null) != null)
+                    ? new File(getExternalFilesDir(null), "log")
+                    : null;
+
+
+            Log.d("EXPORT", "Internal log dir: " + internalLogDir.getAbsolutePath());
+            Log.d("EXPORT", "Exists: " + internalLogDir.exists());
+
+            if (internalLogDir.exists()) {
+                File[] files = internalLogDir.listFiles();
+                Log.d("EXPORT", "Internal log count: " + (files == null ? -1 : files.length));
+            }
+
+
+            boolean anyLogs =
+                    (internalLogDir.exists() && internalLogDir.isDirectory()
+                            && internalLogDir.listFiles() != null && internalLogDir.listFiles().length > 0)
+                            || (externalLogDir != null && externalLogDir.exists() && externalLogDir.isDirectory()
+                            && externalLogDir.listFiles() != null && externalLogDir.listFiles().length > 0);
+
+            if (!anyLogs) {
+                Toast.makeText(this, "No logs found to export.", Toast.LENGTH_SHORT).show();
+                pendingExportZip = null;
+                if (exportOnlyMode) finish();
+                return;
+            }
+
+            // Build zip
+            createZipFromLogDirs(pendingExportZip, internalLogDir, externalLogDir);
+
+            // Launch Save dialog (user can choose Downloads)
+            String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+            String defaultName = "PlayFabPartyLogs_" + timestamp + ".zip";
+
+            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("application/zip");
+            intent.putExtra(Intent.EXTRA_TITLE, defaultName);
+
+            startActivityForResult(intent, REQ_EXPORT_LOGS_ZIP);
+
+        } catch (Exception e) {
+            pendingExportZip = null;
+            Toast.makeText(this, "Export prep failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+            if (exportOnlyMode) finish();
+        }
+    }
+
+    private void createZipFromLogDirs(File zipFile, File internalLogDir, File externalLogDir) throws Exception {
+        if (zipFile.exists()) zipFile.delete();
+
+        try (ZipOutputStream zos = new ZipOutputStream(
+                new BufferedOutputStream(new FileOutputStream(zipFile)))) {
+
+            if (internalLogDir != null && internalLogDir.exists()) {
+                zipDirectoryRecursive(zos, internalLogDir, "internal_log/");
+            }
+            if (externalLogDir != null && externalLogDir.exists()) {
+                zipDirectoryRecursive(zos, externalLogDir, "external_log/");
+            }
+        }
+    }
+
+    private void zipDirectoryRecursive(ZipOutputStream zos, File dir, String basePathInZip) throws Exception {
+        File[] files = dir.listFiles();
+        if (files == null) return;
+
+        for (File f : files) {
+            if (f.isDirectory()) {
+                zipDirectoryRecursive(zos, f, basePathInZip + f.getName() + "/");
+            } else {
+                zipOneFile(zos, f, basePathInZip + f.getName());
+            }
+        }
+    }
+
+    private void zipOneFile(ZipOutputStream zos, File file, String entryName) throws Exception {
+        ZipEntry entry = new ZipEntry(entryName);
+        entry.setTime(file.lastModified());
+        zos.putNextEntry(entry);
+
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
+            byte[] buffer = new byte[8192];
+            int read;
+            while ((read = bis.read(buffer)) != -1) {
+                zos.write(buffer, 0, read);
+            }
+        }
+
+        zos.closeEntry();
+    }
+
+    private void writeTempZipToUri(Uri destUri) throws Exception {
+        if (pendingExportZip == null || !pendingExportZip.exists()) {
+            throw new FileNotFoundException("Temp export zip missing.");
+        }
+
+        try (InputStream in = new BufferedInputStream(new FileInputStream(pendingExportZip));
+             OutputStream out = new BufferedOutputStream(getContentResolver().openOutputStream(destUri))) {
+
+            if (out == null) throw new FileNotFoundException("Unable to open output stream.");
+
+            byte[] buffer = new byte[8192];
+            int read;
+            while ((read = in.read(buffer)) != -1) {
+                out.write(buffer, 0, read);
+            }
+            out.flush();
+        } finally {
+            // Cleanup temp zip
+            pendingExportZip.delete();
+            pendingExportZip = null;
+        }
+    }
+
+    // ============================================================
+    // Activity result handling (IMPORT + EXPORT)
+    // ============================================================
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // ---- Config import result ----
+        if (requestCode == REQ_IMPORT_CONFIG_JSON) {
+            if (resultCode != Activity.RESULT_OK || data == null || data.getData() == null) {
+                Toast.makeText(this, "Config not selected. App may not find config.", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            Uri uri = data.getData();
+
+            // Best-effort persist read permission
+            final int takeFlags = data.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
+            try {
+                getContentResolver().takePersistableUriPermission(uri, takeFlags);
+            } catch (SecurityException ignored) { }
+
+            try {
+                String importedPath = importConfigIntoAppStorage(uri);
+                cacheConfigUriAndPath(uri, importedPath);
+                Toast.makeText(this, "Imported config into app storage.", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(this, "Import failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        // ---- Logs export result ----
+        if (requestCode == REQ_EXPORT_LOGS_ZIP) {
+            if (resultCode != Activity.RESULT_OK || data == null || data.getData() == null) {
+                // User canceled save dialog
+                if (pendingExportZip != null) {
+                    pendingExportZip.delete();
+                    pendingExportZip = null;
+                }
+                Toast.makeText(this, "Export canceled.", Toast.LENGTH_SHORT).show();
+                if (exportOnlyMode) finish();
+                return;
+            }
+
+            Uri destUri = data.getData();
+            try {
+                writeTempZipToUri(destUri);
+                Toast.makeText(this, "Logs exported successfully.", Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                Toast.makeText(this, "Export failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            } finally {
+                if (exportOnlyMode) finish();
+            }
+        }
+    }
+}

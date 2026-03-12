@@ -17,6 +17,8 @@
 class SimpleClientImpl
 {
 public:
+    SimpleClientImpl() : m_messageHandler(nullptr) {}
+    
     // callback for Network Manager's SetOnNetworkDestroyed method
     void
     OnDisconnect(
@@ -25,6 +27,11 @@ public:
 
     void
     Initialize(
+        const char* pfTitle
+        );
+
+    bool
+    InitializePartyManager(
         const char* pfTitle
         );
 

@@ -194,6 +194,16 @@ SimpleClientEventHandler* clientEventHandler;
     m_impl->Initialize([pfTitle UTF8String]);
 }
 
+-(BOOL)initializePartyManager:(NSString *)pfTitle
+{
+    if (nullptr == m_impl)
+    {
+        return NO;
+    }
+    
+    return m_impl->InitializePartyManager([pfTitle UTF8String]) ? YES : NO;
+}
+
 -(void)setHandler:(id<ChatEventHandler>) handler
 {
     _chatEventHandler = handler;

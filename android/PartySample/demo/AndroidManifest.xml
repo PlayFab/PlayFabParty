@@ -25,9 +25,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:screenOrientation="portrait"
-            android:name=".ChatActivity">
-        </activity>
-        <activity android:screenOrientation="portrait"
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

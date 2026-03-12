@@ -1,0 +1,15 @@
+{
+    "enabled": true,
+    "bufferSize": 4096,
+    "maxNumberOfItemsInBatch": 5,
+    "maxBatchWaitTimeInSeconds": 3,
+    "readBufferWaitTimeInMilliseconds": 10,
+    "logFolder": "log/",
+    "logLevel": "VERBOSE",
+    "xrnLogEnabled": true,
+    "consoleEnabled": false,
+    "maxLogFileSizeInMegabytes": 100,
+    "logAreaFlags_ApiInOut": -1,
+    "logAreaFlags_FnInOut": -1,
+    "logAreaFlags_Log": -1
+}

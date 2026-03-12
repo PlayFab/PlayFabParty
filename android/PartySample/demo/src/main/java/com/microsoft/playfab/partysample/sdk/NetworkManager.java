@@ -2,6 +2,7 @@ package com.microsoft.playfab.partysample.sdk;
 
 import android.util.Log;
 import android.widget.Toast;
+import com.microsoft.playfab.partysample.demo.MainActivity;
 
 public class NetworkManager {
     static {
@@ -9,8 +10,8 @@ public class NetworkManager {
     }
 
     private MessageManager messageManager;
-
     private static NetworkManager networkManager;
+    private static MainActivity mainActivity;  // Reference to MainActivity for logging
 
     private NetworkManager() {
     }
@@ -22,7 +23,15 @@ public class NetworkManager {
         return networkManager;
     }
 
+    public static void setMainActivity(MainActivity activity) {
+        mainActivity = activity;
+    }
+
     public native boolean initialize(String name);
+
+    public native boolean connectToPlayFab(String userId);
+
+    public native boolean initializePartyManager();
 
     public native boolean createAndConnectToNetwork(String type, String languageCode);
 
@@ -79,6 +88,20 @@ public class NetworkManager {
     }
     public void resetMessage() {
         getMessageManager().sendResetMessage("Left");
+        // Also log to MainActivity if available
+        logToMainActivity("Left");
+    }
+
+    // Called from native code to log messages
+    public void logMessage(String message) {
+        Log.d(getClass().getSimpleName(), message);
+        logToMainActivity(message);
+    }
+
+    private void logToMainActivity(String message) {
+        if (mainActivity != null) {
+            mainActivity.addLog(message);
+        }
     }
 
     public void addErrorMessage(String message) {

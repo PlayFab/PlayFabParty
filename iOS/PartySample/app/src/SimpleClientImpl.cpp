@@ -82,6 +82,27 @@ SimpleClientImpl::Initialize(const char* pfTitle)
     Managers::Get<NetworkManager>()->SetOnNetworkDestroyed(std::bind(&SimpleClientImpl::OnDisconnect, this, std::placeholders::_1));
 }
 
+bool
+SimpleClientImpl::InitializePartyManager(const char* pfTitle)
+{
+    g_isRunning = true;
+    g_pfTitle = pfTitle;
+    
+    // Initialize managers if not already done
+    Managers::Initialize<NetworkStateChangeManager>();
+    Managers::Get<NetworkManager>()->SetOnNetworkDestroyed(std::bind(&SimpleClientImpl::OnDisconnect, this, std::placeholders::_1));
+    
+    PartyError error = Managers::Get<NetworkManager>()->InitializePartyManager(g_pfTitle.c_str());
+    if (PARTY_FAILED(error))
+    {
+        SendSysLogToUI(FormatMessage("InitializePartyManager failed: %s", GetErrorMessage(error)));
+        return false;
+    }
+    
+    SendSysLogToUI(FormatMessage("InitializePartyManager succeeded"));
+    return true;
+}
+
 void
 SimpleClientImpl::SetNetworkMessageHandler(
     INetworkMessageHandler* messageHandler
@@ -96,12 +117,18 @@ SimpleClientImpl::SignInLocalUser()
 {
     SendSysLogToUI(FormatMessage("SignInLocalUser g_pfTitle: %s", g_pfTitle.c_str()));
     Managers::Get<PlayFabManager>()->Initialize(g_pfTitle.c_str());
-    m_messageHandler->OnStartLoading();
+    if (m_messageHandler != nullptr)
+    {
+        m_messageHandler->OnStartLoading();
+    }
     Managers::Get<PlayFabManager>()->SignIn(
         [this](bool isSucceeded, std::string message)
         {
             this->SendSysLogToUI(this->FormatMessage("SignIn: %s", isSucceeded ? "OK" : message.c_str()));
-            m_messageHandler->OnEndLoading();
+            if (m_messageHandler != nullptr)
+            {
+                m_messageHandler->OnEndLoading();
+            }
             if (isSucceeded)
             {
                 std::map<const std::string, const std::string>* map = Managers::Get<NetworkStateChangeManager>()->GetUserMap();
@@ -111,7 +138,10 @@ SimpleClientImpl::SignInLocalUser()
         },
         Config::GetSelectedName());
     std::string userName = Config::GetSelectedName();
-    m_messageHandler->OnPlayerJoin(userName);
+    if (m_messageHandler != nullptr)
+    {
+        m_messageHandler->OnPlayerJoin(userName);
+    }
 }
 
 void
@@ -123,7 +153,10 @@ SimpleClientImpl::CreateNetwork(
     {
         SendSysLogToUI(FormatMessage("CreateNetwork g_pfTitle: %s", g_pfTitle.c_str()));
         Managers::Get<NetworkManager>()->Initialize(g_pfTitle.c_str());
-        m_messageHandler->OnStartLoading();
+        if (m_messageHandler != nullptr)
+        {
+            m_messageHandler->OnStartLoading();
+        }
         Managers::Get<NetworkManager>()->CreateAndConnectToNetwork(
             networkId.c_str(),
             [this, networkId](std::string message)
@@ -136,15 +169,24 @@ SimpleClientImpl::CreateNetwork(
                     [this, message](void)
                     {
                         g_networkDescriptor = message;
-                        m_messageHandler->OnEndLoading();
+                        if (m_messageHandler != nullptr)
+                        {
+                            m_messageHandler->OnEndLoading();
+                        }
                         this->SendSysLogToUI(this->FormatMessage("set network descriptor succeeded"));
                         std::string l_message = message;
-                        m_messageHandler->OnNetworkCreated(l_message);
+                        if (m_messageHandler != nullptr)
+                        {
+                            m_messageHandler->OnNetworkCreated(l_message);
+                        }
                     });
             },
             [this](PartyError error)
             {
-                m_messageHandler->OnEndLoading();
+                if (m_messageHandler != nullptr)
+                {
+                    m_messageHandler->OnEndLoading();
+                }
                 this->SendSysLogToUI(this->FormatMessage("create network failed: %s", GetErrorMessage(error)));
             });
     }
@@ -160,14 +202,20 @@ SimpleClientImpl::JoinNetwork(
         g_networkName = networkId;
         SendSysLogToUI(FormatMessage("JoinNetwork g_pfTitle: %s", g_pfTitle.c_str()));
         Managers::Get<NetworkManager>()->Initialize(g_pfTitle.c_str());
-        m_messageHandler->OnStartLoading();
+        if (m_messageHandler != nullptr)
+        {
+            m_messageHandler->OnStartLoading();
+        }
         Managers::Get<PlayFabManager>()->GetDescriptor(
             networkId.c_str(),
             [this, networkId](std::string message)
             {
                 this->SendSysLogToUI(this->FormatMessage("OnGetDescriptorForConnectTo : %s", message.c_str()));
                 g_networkDescriptor = message;
-                m_messageHandler->OnGetDescriptorCompleted(networkId, message);
+                if (m_messageHandler != nullptr)
+                {
+                    m_messageHandler->OnGetDescriptorCompleted(networkId, message);
+                }
             });
     }
 }
@@ -180,13 +228,19 @@ SimpleClientImpl::ConnectToNetwork(
     )
 {
     Managers::Get<NetworkManager>()->Initialize(g_pfTitle.c_str());
-    m_messageHandler->OnStartLoading();
+    if (m_messageHandler != nullptr)
+    {
+        m_messageHandler->OnStartLoading();
+    }
     Managers::Get<NetworkManager>()->ConnectToNetwork(
         networkId.c_str(),
         message.c_str(),
         [this, rejoining](void)
         {
-            m_messageHandler->OnEndLoading();
+            if (m_messageHandler != nullptr)
+            {
+                m_messageHandler->OnEndLoading();
+            }
             g_reconnectsRemaining = 0;
             g_reconnecting = false;
             if (rejoining)
@@ -197,11 +251,17 @@ SimpleClientImpl::ConnectToNetwork(
             {
                 this->SendSysLogToUI(this->FormatMessage("OnConnectToNetwork succeeded"));
             }
-            m_messageHandler->OnJoinedNetwork();
+            if (m_messageHandler != nullptr)
+            {
+                m_messageHandler->OnJoinedNetwork();
+            }
         },
         [this, rejoining](PartyError error)
         {
-            m_messageHandler->OnEndLoading();
+            if (m_messageHandler != nullptr)
+            {
+                m_messageHandler->OnEndLoading();
+            }
             if (!rejoining || g_reconnectsRemaining == 0)
             {
                 this->SendSysLogToUI(this->FormatMessage("OnConnectToNetworkFailed: %s", GetErrorMessage(error)));
@@ -230,6 +290,14 @@ SimpleClientImpl::SendSysLogToUI(
     std::string message
     )
 {
+    // Check if message handler is set before using it
+    if (m_messageHandler == nullptr)
+    {
+        // Log to console if no handler is set
+        printf("[System] %s\n", message.c_str());
+        return;
+    }
+    
     std::string senderId = "System";
     m_messageHandler->OnTextMessageReceived(senderId, message, false);
 }
@@ -362,6 +430,11 @@ SimpleClientImpl::Tick()
 
 void
 SimpleClientImpl::GetPlayerState() {
+    if (m_messageHandler == nullptr)
+    {
+        return;
+    }
+    
     m_messageHandler->OnPlayerStatusUpdateStart();
     
     std::shared_ptr<NetworkManager> manager = Managers::Get<NetworkManager>();

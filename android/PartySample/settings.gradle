@@ -1,1 +1,3 @@
 include ':demo'
+include ':libparty'
+project(':libparty').projectDir = new File('../../../build/android/libparty')
