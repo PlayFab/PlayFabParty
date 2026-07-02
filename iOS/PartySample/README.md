@@ -1,5 +1,9 @@
 # PartySample
 
+> [!WARNING]
+> - Sample configuration for the PlayFab.C SDK and Unified SDK is currently unsupported.
+> - The last known working SDK version is the XplatCppSdk v1.10.14 or earlier.
+
 PartySample is a sample iOS application with PlayFabParty framework integrated into it. Its purpose is to demonstrate the main functional capabilities provided by PlayFabParty API.
 
 _Note: a registered PlayFab title is required to use PartySample app. Please refer to corresponding documentation._
