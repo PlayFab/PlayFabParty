@@ -77,6 +77,8 @@ else
 $playfabPartyWppProvider = "provider={4E8F98A2-3DC0-4DD8-BB6F-7335068650A5} keywords=0xFFFFFFFFDCB48F9F level=5"
 # XNUP WPP - No verbose traces
 $xnupWppProvider = "provider={48EA4DB0-8D7E-419B-B465-E5B572F30305} keywords=0xFFFFFFFFFFFFFF9F level=5"
+# XNetworking GRTS - No verbose traces
+$xnetworkingGrtsWppProvider = "provider={4E5392BB-E4E5-46E3-B30A-05B4FE132CAF} keywords=0xFFFFFFFFFFFFFFDF level=5"
 if ($IncludeTransport)
 {
     # XRN WPP
@@ -118,7 +120,7 @@ else
     $captureString = "capture=no"
     $osNetworkingProviders = ""
 }
-$providersString = @($playfabPartyWppProvider, $xnupWppProvider, $xrnWppProvider, $osNetworkingProviders) -Join " "
+$providersString = @($playfabPartyWppProvider, $xnupWppProvider, $xrnWppProvider, $xnetworkingGrtsWppProvider, $osNetworkingProviders) -Join " "
 
 # Attempt to determine if the netsh trace start command supports the
 # 'bufferSize' parameter on this system by looking for the "bufferSize=" string
@@ -167,7 +169,7 @@ if ($LASTEXITCODE -eq 0)
         else
         {
             Write-Error "Trace file $traceFileName was not successfully written!"
-        }            
+        }
     }
     else
     {
