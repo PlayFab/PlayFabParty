@@ -147,7 +147,6 @@ PlayFabManager::Tick()
 {
     PlayFabClientAPI::Update();
     PlayFabMultiplayerAPI::Update();
-    PlayFabDataAPI::Update();
 }
 
 void
