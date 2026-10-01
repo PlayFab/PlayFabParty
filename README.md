@@ -51,6 +51,9 @@ Instructions for enabling logging on each platform:
 
 PlayFab Party for Linux is not intended to run on the Windows Subsystem for Linux (WSL), as it does not have built-in support for system sound. As a result, chat features will not function properly. Please run it on a dedicated Linux machine to take advantage of all Party features.
 
+## Android Compatibility
+Apps building on the Android platform must ensure that BLUETOOTH_CONNECT is present in the app manifest so Party can monitor and connect to avaliable Bluetooth devices.
+
 ## Android Logging
 
 When logs do not appear in Device Explorer, you may need to close and reopen Android Studio so the application can refresh and properly display the files.
